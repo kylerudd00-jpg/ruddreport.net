@@ -120,3 +120,105 @@ html, body {
     gap: 32px;
   }
 }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 200;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--accent);
+  transition: all 0.3s;
+}
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(3,6,8,0.97);
+  z-index: 150;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  backdrop-filter: blur(20px);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Orbitron', monospace;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--silver);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--accent); }
+.mobile-menu-close {
+  position: absolute;
+  top: 24px; right: 24px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-status { display: none; }
+  .hamburger { display: flex; }
+}
+body.light-mode {
+  --bg-primary: #f0f4f8;
+  --bg-secondary: #e2e8f0;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --accent: #0077cc;
+  --accent-dim: #0055aa;
+  --accent-glow: rgba(0, 119, 204, 0.1);
+  --accent-glow-strong: rgba(0, 119, 204, 0.25);
+  --silver: #1a2535;
+  --silver-dim: #4a5568;
+  --text-primary: #1a2535;
+  --text-secondary: #2d3748;
+  --text-muted: #718096;
+  --border: rgba(0, 119, 204, 0.15);
+  --border-bright: rgba(0, 119, 204, 0.5);
+  --grid-color: rgba(0, 119, 204, 0.06);
+}
+
+body.light-mode body::before {
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding: 6px 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
