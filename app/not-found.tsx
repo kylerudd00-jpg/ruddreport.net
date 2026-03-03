@@ -31,7 +31,7 @@ export default function NotFound() {
         <div className="label">// Access Denied — Page Not Found</div>
         <div className="title">This Page Is Classified</div>
         <p className="message">Either this page doesn't exist, was redacted by a three-letter agency, or you've stumbled into a part of the internet that isn't cleared for public release.</p>
-        <p className="submessage">// We're going to need you to act like you never saw this ッ </p>
+        <p className="submessage">// We're going to need you to act like you never saw thisッ </p>
         <a href="/" className="btn">↩ Return To Base</a>
         <div className="classified">CLASSIFIED — EYES ONLY — DO NOT DISTRIBUTE</div>
       </div>

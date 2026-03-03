@@ -23,8 +23,6 @@ export default function Home() {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
     }, { threshold: 0.1 });
     reveals.forEach(r => observer.observe(r));
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') document.body.classList.add('light-mode');
     return () => document.removeEventListener('mousemove', onMove);
   }, []);
 
@@ -47,6 +45,13 @@ export default function Home() {
         .signal-bar { display: flex; align-items: flex-end; gap: 3px; height: 16px; }
         .signal-bar span { width: 3px; background: var(--accent); border-radius: 1px; animation: signalPulse 1.5s ease-in-out infinite; }
         .signal-bar span:nth-child(1) { height: 4px; } .signal-bar span:nth-child(2) { height: 7px; animation-delay: 0.15s; } .signal-bar span:nth-child(3) { height: 11px; animation-delay: 0.3s; } .signal-bar span:nth-child(4) { height: 16px; animation-delay: 0.45s; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 200; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--accent); transition: all 0.3s; }
+        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; backdrop-filter: blur(20px); }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: var(--silver); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .mobile-menu a:hover { color: var(--accent); }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; color: var(--text-muted); cursor: pointer; text-transform: uppercase; background: none; border: none; }
         .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 40px 80px; overflow: hidden; z-index: 3; }
         .hero-bg-glow { position: absolute; top: -200px; left: -200px; width: 800px; height: 800px; background: radial-gradient(circle, rgba(30,158,255,0.08) 0%, transparent 70%); pointer-events: none; animation: drift 8s ease-in-out infinite alternate; }
         .hero-bg-glow2 { position: absolute; bottom: -300px; right: -200px; width: 1000px; height: 700px; background: radial-gradient(circle, rgba(30,158,255,0.05) 0%, transparent 70%); pointer-events: none; animation: drift2 10s ease-in-out infinite alternate; }
@@ -58,7 +63,7 @@ export default function Home() {
         .hero-title .accent-word { color: transparent; -webkit-text-stroke: 1px var(--accent); text-shadow: 0 0 40px rgba(30,158,255,0.3); display: block; }
         .hero-subtitle { margin-top: 28px; font-size: 16px; font-weight: 300; color: var(--text-secondary); letter-spacing: 1px; max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
         .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards; }
-        .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); border: 1px solid var(--border); padding: 6px 14px; text-transform: uppercase; transition: all 0.3s; cursor: default; }
+        .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); border: 1px solid var(--border); padding: 6px 14px; text-transform: uppercase; transition: all 0.3s; cursor: default; text-decoration: none; display: inline-block; }
         .hero-tag:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-glow); }
         .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 1s ease 1.4s forwards; }
         .hero-scroll-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; }
@@ -98,7 +103,7 @@ export default function Home() {
         .intel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .topics-section { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
         .topics-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; }
-        .topic-card { padding: 40px 24px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden; }
+        .topic-card { padding: 40px 24px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden; text-decoration: none; display: block; }
         .topic-card::before { content: ''; position: absolute; inset: 0; background: var(--accent-glow); opacity: 0; transition: opacity 0.4s; }
         .topic-card:hover::before { opacity: 1; }
         .topic-card:hover { border-color: var(--border-bright); }
@@ -127,12 +132,18 @@ export default function Home() {
         .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; } .reveal-delay-4 { transition-delay: 0.4s; }
         .reveal-delay-5 { transition-delay: 0.5s; } .reveal-delay-6 { transition-delay: 0.6s; }
+        @media (max-width: 768px) {
+          nav { padding: 0 16px; }
+          .nav-links { display: none; }
+          .nav-status { display: none; }
+          .hamburger { display: flex; }
+        }
       `}</style>
 
       <div className="cursor" ref={cursorRef} />
       <div className="cursor-ring" ref={ringRef} />
 
- <nav>
+      <nav>
         <a href="/" className="nav-logo">
           <div className="nav-logo-text">
             The Rudd Report
@@ -140,12 +151,17 @@ export default function Home() {
           </div>
         </a>
         <ul className="nav-links">
-          <li><a href="#">Cybersecurity</a></li>
-          <li><a href="#">Intelligence</a></li>
-          <li><a href="#">Geopolitics</a></li>
-          <li><a href="#">National Security</a></li>
+          <li><a href="/cybersecurity">Cybersecurity</a></li>
+          <li><a href="/intelligence">Intelligence</a></li>
+          <li><a href="/geopolitics">Geopolitics</a></li>
+          <li><a href="/national-security">National Security</a></li>
           <li><a href="/about">About</a></li>
         </ul>
+        <div className="nav-status">
+          <div className="status-dot" />
+          <span>LIVE</span>
+          <div className="signal-bar"><span /><span /><span /><span /></div>
+        </div>
         <div className="hamburger" onClick={() => document.getElementById('mobileMenu')?.classList.toggle('open')}>
           <span /><span /><span />
         </div>
@@ -154,13 +170,14 @@ export default function Home() {
       <div className="mobile-menu" id="mobileMenu">
         <button className="mobile-menu-close" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>✕ Close</button>
         <a href="/" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Home</a>
-        <a href="#" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Cybersecurity</a>
-        <a href="#" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Intelligence</a>
-        <a href="#" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Geopolitics</a>
-        <a href="#" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>National Security</a>
+        <a href="/cybersecurity" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Cybersecurity</a>
+        <a href="/intelligence" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Intelligence</a>
+        <a href="/geopolitics" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Geopolitics</a>
+        <a href="/national-security" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>National Security</a>
         <a href="/about" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>About</a>
         <a href="/contact" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Contact</a>
       </div>
+
       <section className="hero">
         <div className="hero-bg-glow" />
         <div className="hero-bg-glow2" />
@@ -175,8 +192,8 @@ export default function Home() {
           </h1>
           <p className="hero-subtitle">Unclassified intelligence. Strategic analysis on cybersecurity, national security, geopolitics, and the forces reshaping the global order.</p>
           <div className="hero-tags">
-            {['Cybersecurity','Intelligence','Geopolitics','National Security','Economic Security','Strategic Affairs'].map(t => (
-              <div className="hero-tag" key={t}>{t}</div>
+            {[{label:'Cybersecurity',href:'/cybersecurity'},{label:'Intelligence',href:'/intelligence'},{label:'Geopolitics',href:'/geopolitics'},{label:'National Security',href:'/national-security'},{label:'Economic Security',href:'/economic-security'},{label:'Strategic Affairs',href:'#'}].map(t => (
+              <a className="hero-tag" key={t.label} href={t.href}>{t.label}</a>
             ))}
           </div>
         </div>
@@ -202,7 +219,7 @@ export default function Home() {
             <a href="#" className="section-link">View All Reports →</a>
           </div>
           <div className="featured-grid">
-            <a href="#" className="article-card featured reveal">
+            <a href="/geopolitics" className="article-card featured reveal">
               <div>
                 <div className="card-meta"><div className="card-category">Geopolitics</div><div className="card-date">FEB 23, 2026</div></div>
                 <div className="card-title">Why Semiconductor Supply Chains Define Modern Power</div>
@@ -226,13 +243,13 @@ export default function Home() {
                 <div className="visual-label">// STRATEGIC MAPPING ACTIVE</div>
               </div>
             </a>
-            <a href="#" className="article-card reveal reveal-delay-1">
+            <a href="/intelligence" className="article-card reveal reveal-delay-1">
               <div className="card-meta"><div className="card-category">Intelligence</div><div className="card-date">FEB 20, 2026</div></div>
               <div className="card-title">The Intelligence Failure That Wasn't</div>
               <div className="card-excerpt">Not all strategic surprises are intelligence failures. Sometimes they are policy failures dressed up as analytical gaps.</div>
               <div className="card-footer"><div className="card-read">Read Analysis →</div><div className="card-threat threat-med">■ MED RELEVANCE</div></div>
             </a>
-            <a href="#" className="article-card reveal reveal-delay-2">
+            <a href="/cybersecurity" className="article-card reveal reveal-delay-2">
               <div className="card-meta"><div className="card-category">Cybersecurity</div><div className="card-date">FEB 17, 2026</div></div>
               <div className="card-title">Critical Infrastructure: The Next Battlespace</div>
               <div className="card-excerpt">State-sponsored threat actors are no longer probing — they are pre-positioning inside critical infrastructure for future conflict escalation.</div>
@@ -250,12 +267,19 @@ export default function Home() {
             <div><div className="section-label">// Coverage Areas</div><div className="section-title">Intelligence Domains</div></div>
           </div>
           <div className="topics-grid">
-            {[{icon:'🔐',name:'Cybersecurity',count:'12'},{icon:'🕵️',name:'Intelligence',count:'8'},{icon:'🌐',name:'Geopolitics',count:'15'},{icon:'🛡️',name:'Natl. Security',count:'10'},{icon:'📊',name:'Econ. Security',count:'6'},{icon:'⚔️',name:'Strategy',count:'9'}].map((t,i) => (
-              <div className={`topic-card reveal reveal-delay-${i+1}`} key={t.name}>
+            {[
+              {icon:'🔐',name:'Cybersecurity',count:'12',href:'/cybersecurity'},
+              {icon:'🕵️',name:'Intelligence',count:'8',href:'/intelligence'},
+              {icon:'🌐',name:'Geopolitics',count:'15',href:'/geopolitics'},
+              {icon:'🛡️',name:'Natl. Security',count:'10',href:'/national-security'},
+              {icon:'📊',name:'Econ. Security',count:'6',href:'/economic-security'},
+              {icon:'⚔️',name:'Strategy',count:'9',href:'#'}
+            ].map((t,i) => (
+              <a href={t.href} className={`topic-card reveal reveal-delay-${i+1}`} key={t.name}>
                 <span className="topic-icon">{t.icon}</span>
                 <div className="topic-name">{t.name}</div>
                 <div className="topic-count">// {t.count} REPORTS</div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -270,19 +294,19 @@ export default function Home() {
             <a href="#" className="section-link">Full Archive →</a>
           </div>
           <div className="intel-grid">
-            <a href="#" className="article-card reveal reveal-delay-1">
+            <a href="/national-security" className="article-card reveal reveal-delay-1">
               <div className="card-meta"><div className="card-category">Natl. Security</div><div className="card-date">FEB 14, 2026</div></div>
               <div className="card-title">The AUKUS Equation: Submarines, Strategy & the Indo-Pacific</div>
               <div className="card-excerpt">How the trilateral security pact is reshaping alliance architecture across the Pacific theater.</div>
               <div className="card-footer"><div className="card-read">Read →</div><div className="card-threat threat-med">■ MED</div></div>
             </a>
-            <a href="#" className="article-card reveal reveal-delay-2">
+            <a href="/cybersecurity" className="article-card reveal reveal-delay-2">
               <div className="card-meta"><div className="card-category">Cybersecurity</div><div className="card-date">FEB 11, 2026</div></div>
               <div className="card-title">Zero-Day Diplomacy: When Exploits Become Leverage</div>
               <div className="card-excerpt">Nation-states are stockpiling software vulnerabilities as strategic assets in a new form of coercive diplomacy.</div>
               <div className="card-footer"><div className="card-read">Read →</div><div className="card-threat threat-high">■ HIGH</div></div>
             </a>
-            <a href="#" className="article-card reveal reveal-delay-3">
+            <a href="/economic-security" className="article-card reveal reveal-delay-3">
               <div className="card-meta"><div className="card-category">Econ. Security</div><div className="card-date">FEB 8, 2026</div></div>
               <div className="card-title">Dollar Dominance Under Pressure: BRICS & the Reserve Currency Question</div>
               <div className="card-excerpt">The structural challenge to USD hegemony is real — but premature obituaries miss the full picture.</div>
@@ -302,15 +326,31 @@ export default function Home() {
             </div>
             <div>
               <div className="footer-col-title">Coverage</div>
-              <ul className="footer-links">{['Cybersecurity','Intelligence','Geopolitics','National Security','Economic Security'].map(l=><li key={l}><a href="#">{l}</a></li>)}</ul>
+              <ul className="footer-links">
+                <li><a href="/cybersecurity">Cybersecurity</a></li>
+                <li><a href="/intelligence">Intelligence</a></li>
+                <li><a href="/geopolitics">Geopolitics</a></li>
+                <li><a href="/national-security">National Security</a></li>
+                <li><a href="/economic-security">Economic Security</a></li>
+              </ul>
             </div>
             <div>
               <div className="footer-col-title">Navigate</div>
-              <ul className="footer-links">{['Home','All Reports','About','Contact'].map(l=><li key={l}><a href="#">{l}</a></li>)}</ul>
+              <ul className="footer-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">All Reports</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+              </ul>
             </div>
             <div>
               <div className="footer-col-title">Connect</div>
-              <ul className="footer-links">{['Twitter / X','LinkedIn','RSS Feed','Newsletter'].map(l=><li key={l}><a href="#">{l}</a></li>)}</ul>
+              <ul className="footer-links">
+                <li><a href="https://x.com/KyleRudd44" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
+                <li><a href="https://www.linkedin.com/in/kyle-rudd-68209b252/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="#">RSS Feed</a></li>
+                <li><a href="#">Newsletter</a></li>
+              </ul>
             </div>
           </div>
           <div className="footer-bottom">
