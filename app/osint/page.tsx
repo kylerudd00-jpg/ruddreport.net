@@ -179,7 +179,13 @@ export default function OSINTHub() {
               <p className="tool-desc">Check if a username exists across developer communities, gaming networks, forums, and more — all checked simultaneously.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
-
+<a href="/osint/metadata" className="tool-card live">
+  <span className="tool-icon">📷</span>
+  <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+  <div className="tool-name">Metadata Extractor</div>
+  <p className="tool-desc">Upload any photo and reveal hidden EXIF data — GPS coordinates, device model, serial numbers, timestamps, and more. Runs entirely in your browser.</p>
+  <div className="tool-action">Launch Tool →</div>
+</a>
             <a href="#" className="tool-card coming">
               <span className="tool-icon">🏢</span>
               <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
