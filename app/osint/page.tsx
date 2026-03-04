@@ -1,5 +1,4 @@
 'use client';
-import { useState, useEffect } from 'react';
 
 export default function OSINTHub() {
   return (
@@ -48,10 +47,8 @@ export default function OSINTHub() {
         .tool-card:hover::before { transform: scaleY(1); }
         .tool-card.live { border-color: rgba(0,255,136,0.2); }
         .tool-card.live::before { background: #00ff88; }
-        .tool-card.live:hover { border-color: rgba(0,255,136,0.4); }
-        .tool-card.coming { opacity: 0.5; cursor: default; }
-        .tool-card.coming:hover { transform: none; background: #0a1520; }
-        .tool-card.coming::before { display: none; }
+        .tool-card.live:hover { border-color: rgba(0,255,136,0.4); background: #0a1f18; }
+        .tool-card.coming { opacity: 0.45; cursor: default; pointer-events: none; }
         .tool-icon { font-size: 32px; margin-bottom: 16px; display: block; }
         .tool-status { display: inline-flex; align-items: center; gap: 6px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
         .tool-status.live { color: #00ff88; }
@@ -67,7 +64,6 @@ export default function OSINTHub() {
         .tool-card.coming .tool-action { color: #3d5870; }
 
         .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(30,158,255,0.2), transparent); }
-
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
@@ -128,7 +124,7 @@ export default function OSINTHub() {
             <p className="hero-sub">A curated toolkit for open-source intelligence gathering, corporate investigations, and real-time situational awareness. Built for analysts, researchers, and anyone who needs to know what's really going on.</p>
             <div className="hero-stats">
               <div className="hero-stat">
-                <div className="hero-stat-num">2</div>
+                <div className="hero-stat-num">3</div>
                 <div className="hero-stat-label">// Live Tools</div>
               </div>
               <div className="hero-stat">
@@ -158,45 +154,69 @@ export default function OSINTHub() {
               <div className="tool-action">Launch Feed →</div>
             </a>
 
-            <a href="#" className="tool-card live">
-              <span className="tool-icon">🏢</span>
+            <a href="/osint/whois" className="tool-card live">
+              <span className="tool-icon">🌐</span>
               <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Shell Company Investigator</div>
-              <p className="tool-desc">Trace corporate structures, identify beneficial owners, and map shell company networks. Built for financial intelligence and sanctions research.</p>
+              <div className="tool-name">WHOIS Lookup</div>
+              <p className="tool-desc">Full domain registration intelligence — ownership, registrar, nameservers, DNSSEC status, and contact records for any domain worldwide.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
 
-            <div className="tool-card coming">
+            <a href="/osint/ip" className="tool-card live">
+              <span className="tool-icon">📍</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">IP Geolocation</div>
+              <p className="tool-desc">Identify the geographic location, ISP, ASN, and network details behind any IP address. Detect proxies, VPNs, and Tor exit nodes.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/username" className="tool-card live">
+              <span className="tool-icon">👤</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Username Hunter</div>
+              <p className="tool-desc">Check if a username exists across 20+ platforms simultaneously — Twitter, GitHub, Reddit, Instagram, TikTok, and more.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="#" className="tool-card coming">
+              <span className="tool-icon">🏢</span>
+              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
+              <div className="tool-name">Shell Company Investigator</div>
+              <p className="tool-desc">Trace corporate structures, identify beneficial owners, and map shell company networks. Built for financial intelligence and sanctions research.</p>
+              <div className="tool-action">// In Development</div>
+            </a>
+
+            <a href="#" className="tool-card coming">
               <span className="tool-icon">🗺️</span>
               <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
               <div className="tool-name">Conflict Tracker</div>
               <p className="tool-desc">Interactive map of active conflict zones, troop movements, and geopolitical flashpoints — updated from open-source reporting.</p>
               <div className="tool-action">// In Development</div>
-            </div>
+            </a>
 
-            <div className="tool-card coming">
-              <span className="tool-icon">🔍</span>
-              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
-              <div className="tool-name">Entity Search</div>
-              <p className="tool-desc">Search individuals, organizations, and assets across open databases, sanctions lists, and public records simultaneously.</p>
-              <div className="tool-action">// In Development</div>
-            </div>
-
-            <div className="tool-card coming">
+            <a href="#" className="tool-card coming">
               <span className="tool-icon">💰</span>
               <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
               <div className="tool-name">Sanctions Monitor</div>
               <p className="tool-desc">Cross-reference entities against OFAC, UN, EU, and UK sanctions lists in real time. Essential for compliance and intelligence work.</p>
               <div className="tool-action">// In Development</div>
-            </div>
+            </a>
 
-            <div className="tool-card coming">
-              <span className="tool-icon">🌐</span>
+            <a href="#" className="tool-card coming">
+              <span className="tool-icon">🔍</span>
               <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
-              <div className="tool-name">Domain Intelligence</div>
-              <p className="tool-desc">Investigate web infrastructure — WHOIS, DNS records, hosting history, and associated entities for any domain or IP address.</p>
+              <div className="tool-name">Entity Search</div>
+              <p className="tool-desc">Search individuals, organizations, and assets across open databases, sanctions lists, and public records simultaneously.</p>
               <div className="tool-action">// In Development</div>
-            </div>
+            </a>
+
+            <a href="#" className="tool-card coming">
+              <span className="tool-icon">🔐</span>
+              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
+              <div className="tool-name">SSL Certificate Inspector</div>
+              <p className="tool-desc">Reveal subdomains, organization info, and certificate history for any domain. Useful for infrastructure mapping and recon.</p>
+              <div className="tool-action">// In Development</div>
+            </a>
 
           </div>
         </div>
