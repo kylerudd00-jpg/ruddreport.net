@@ -148,11 +148,12 @@ export default function Home() {
           </div>
         </a>
         <ul className="nav-links">
-          <li><a href="/cybersecurity">Cybersecurity</a></li>
-          <li><a href="/intelligence">Intelligence</a></li>
-          <li><a href="/geopolitics">Geopolitics</a></li>
-          <li><a href="/national-security">National Security</a></li>
-          <li><a href="/about">About</a></li>
+         <li><a href="/cybersecurity">Cybersecurity</a></li>
+<li><a href="/intelligence">Intelligence</a></li>
+<li><a href="/geopolitics">Geopolitics</a></li>
+<li><a href="/national-security">National Security</a></li>
+<li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+<li><a href="/about">About</a></li>
         </ul>
 <div className="nav-status">
           <div className="status-dot" />
@@ -172,7 +173,8 @@ export default function Home() {
         <a href="/geopolitics" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Geopolitics</a>
         <a href="/national-security" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>National Security</a>
         <a href="/about" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>About</a>
-        <a href="/contact" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Contact</a>
+<a href="/osint" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>OSINT Hub</a>
+<a href="/contact" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Contact</a>
       </div>
 
       <section className="hero">

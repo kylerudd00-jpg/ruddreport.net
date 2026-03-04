@@ -1,42 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-type FeedItem = {
-  title: string;
-  link: string;
-  pubDate: string;
-  source: string;
-  category: string;
-};
-
-export default function OSINT() {
-  const [items, setItems] = useState<FeedItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('All');
-  const [lastUpdated, setLastUpdated] = useState('');
-
-  useEffect(() => {
-    fetchFeeds();
-    const interval = setInterval(fetchFeeds, 5 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const fetchFeeds = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/osint');
-      const data = await res.json();
-      setItems(data.items || []);
-      setLastUpdated(new Date().toUTCString().slice(0, 25));
-    } catch (e) {
-      console.error(e);
-    }
-    setLoading(false);
-  };
-
-  const categories = ['All', 'Cyber', 'Geopolitics', 'Global'];
-  const filtered = filter === 'All' ? items : items.filter(i => i.category === filter);
-
+export default function OSINTHub() {
   return (
     <>
       <style>{`
@@ -56,64 +21,69 @@ export default function OSINT() {
         .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .osint-header { padding: 40px 40px 0; max-width: 1400px; margin: 0 auto; }
-        .osint-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
-        .osint-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
-        .osint-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .osint-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
-        .osint-subtitle { font-size: 14px; color: #3d5870; font-family: 'Share Tech Mono', monospace; letter-spacing: 2px; }
-        .osint-statusbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1400px; margin: 20px auto 0; border: 1px solid rgba(30,158,255,0.12); background: rgba(10,21,32,0.8); }
-        .status-left { display: flex; align-items: center; gap: 24px; }
-        .status-live { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #00ff88; text-transform: uppercase; }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: pulse 2s infinite; }
-        .status-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
-        .status-updated { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
-        .refresh-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.3); padding: 6px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
-        .refresh-btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
-        .osint-filters { display: flex; align-items: center; gap: 2px; padding: 20px 40px 0; max-width: 1400px; margin: 0 auto; }
-        .filter-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
-        .filter-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
-        .filter-btn.active { color: #1e9eff; border-color: #1e9eff; background: rgba(30,158,255,0.08); }
-        .osint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 20px 40px 80px; max-width: 1400px; margin: 0 auto; }
-        .feed-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px; text-decoration: none; display: block; transition: all 0.3s; overflow: hidden; }
-        .feed-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #1e9eff, transparent); transform: scaleX(0); transition: transform 0.4s; }
-        .feed-card:hover { background: #0f1e2e; border-color: rgba(30,158,255,0.3); transform: translateY(-1px); }
-        .feed-card:hover::before { transform: scaleX(1); }
-        .feed-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .feed-source { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.2); padding: 2px 8px; background: rgba(30,158,255,0.06); }
-        .feed-cat-cyber { color: #ff3a3a; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
-        .feed-cat-geopolitics { color: #ffaa00; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
-        .feed-cat-global { color: #00ff88; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
-        .feed-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #d8e8f5; line-height: 1.3; margin-bottom: 12px; transition: color 0.3s; }
-        .feed-card:hover .feed-title { color: #1e9eff; }
-        .feed-date { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
-        .feed-arrow { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #1e9eff; margin-top: 16px; display: block; }
-        .loading-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 40px; gap: 20px; }
-        .loading-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; animation: blink 1.5s infinite; }
-        .loading-bars { display: flex; gap: 4px; align-items: flex-end; height: 30px; }
-        .loading-bars span { width: 4px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
-        .loading-bars span:nth-child(1) { animation-delay: 0s; }
-        .loading-bars span:nth-child(2) { animation-delay: 0.15s; }
-        .loading-bars span:nth-child(3) { animation-delay: 0.3s; }
-        .loading-bars span:nth-child(4) { animation-delay: 0.45s; }
-        .loading-bars span:nth-child(5) { animation-delay: 0.6s; }
-        .no-results { text-align: center; padding: 80px 40px; font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; }
-        .footer-bottom { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+
+        .hero { padding: 80px 40px 60px; border-bottom: 1px solid rgba(30,158,255,0.12); position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,255,136,0.05) 0%, transparent 70%); pointer-events: none; }
+        .hero-inner { max-width: 1200px; margin: 0 auto; }
+        .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .hero-eyebrow-line { width: 40px; height: 1px; background: #00ff88; box-shadow: 0 0 8px #00ff88; }
+        .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #00ff88; text-transform: uppercase; }
+        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(32px, 5vw, 64px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; line-height: 1.05; margin-bottom: 16px; }
+        .hero-title span { color: #00ff88; }
+        .hero-sub { font-size: 16px; font-weight: 300; color: #7a9bb5; line-height: 1.8; max-width: 600px; margin-bottom: 32px; }
+        .hero-stats { display: flex; gap: 40px; }
+        .hero-stat { display: flex; flex-direction: column; gap: 4px; }
+        .hero-stat-num { font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 700; color: #00ff88; }
+        .hero-stat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+
+        .section { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
+        .section-header { margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #00ff88; text-transform: uppercase; margin-bottom: 8px; }
+        .section-title { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; }
+
+        .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .tool-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 32px; text-decoration: none; display: block; transition: all 0.3s; overflow: hidden; }
+        .tool-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: #1e9eff; transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom; }
+        .tool-card:hover { background: #0f1e2e; border-color: rgba(30,158,255,0.3); transform: translateX(4px); }
+        .tool-card:hover::before { transform: scaleY(1); }
+        .tool-card.live { border-color: rgba(0,255,136,0.2); }
+        .tool-card.live::before { background: #00ff88; }
+        .tool-card.live:hover { border-color: rgba(0,255,136,0.4); }
+        .tool-card.coming { opacity: 0.5; cursor: default; }
+        .tool-card.coming:hover { transform: none; background: #0a1520; }
+        .tool-card.coming::before { display: none; }
+        .tool-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+        .tool-status { display: inline-flex; align-items: center; gap: 6px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+        .tool-status.live { color: #00ff88; }
+        .tool-status.soon { color: #3d5870; }
+        .tool-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+        .tool-status.live .tool-status-dot { box-shadow: 0 0 6px #00ff88; animation: pulse 2s infinite; }
+        .tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #d8e8f5; margin-bottom: 10px; transition: color 0.3s; }
+        .tool-card:hover .tool-name { color: #1e9eff; }
+        .tool-card.live:hover .tool-name { color: #00ff88; }
+        .tool-desc { font-size: 13px; font-weight: 300; color: #7a9bb5; line-height: 1.7; margin-bottom: 20px; }
+        .tool-action { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
+        .tool-card.live .tool-action { color: #00ff88; }
+        .tool-card.coming .tool-action { color: #3d5870; }
+
+        .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(30,158,255,0.2), transparent); }
+
+        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
         .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
+
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        @keyframes loadBar { 0%, 100% { height: 8px; } 50% { height: 30px; } }
+
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
-          .osint-header { padding: 30px 20px 0; }
-          .osint-statusbar { padding: 12px 20px; flex-direction: column; gap: 12px; align-items: flex-start; margin: 16px 20px 0; }
-          .osint-filters { padding: 16px 20px 0; flex-wrap: wrap; }
-          .osint-grid { grid-template-columns: 1fr; padding: 16px 20px 60px; }
+          .hero { padding: 40px 20px; }
+          .hero-stats { gap: 24px; flex-wrap: wrap; }
+          .section { padding: 40px 20px; }
+          .tools-grid { grid-template-columns: 1fr; }
           footer { padding: 30px 20px; }
           .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
         }
@@ -129,71 +99,109 @@ export default function OSINT() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint">OSINT Feed</a></li>
+            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
-          <div className="hamburger" onClick={() => document.getElementById('osintMobileMenu')?.classList.toggle('open')}>
+          <div className="hamburger" onClick={() => document.getElementById('osintHubMenu')?.classList.toggle('open')}>
             <span /><span /><span />
           </div>
         </nav>
 
-        <div className="mobile-menu" id="osintMobileMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('osintMobileMenu')?.classList.remove('open')}>✕ Close</button>
+        <div className="mobile-menu" id="osintHubMenu">
+          <button className="mobile-menu-close" onClick={() => document.getElementById('osintHubMenu')?.classList.remove('open')}>✕ Close</button>
           <a href="/">Home</a>
           <a href="/cybersecurity">Cybersecurity</a>
           <a href="/intelligence">Intelligence</a>
           <a href="/geopolitics">Geopolitics</a>
           <a href="/national-security">National Security</a>
-          <a href="/osint">OSINT Feed</a>
+          <a href="/osint">OSINT Hub</a>
           <a href="/about">About</a>
         </div>
 
-        <div className="osint-header">
-          <div className="osint-eyebrow">
-            <div className="osint-eyebrow-line" />
-            <div className="osint-eyebrow-text">// Live Intelligence Feed</div>
+        <div className="hero">
+          <div className="hero-inner">
+            <div className="hero-eyebrow">
+              <div className="hero-eyebrow-line" />
+              <div className="hero-eyebrow-text">// Open Source Intelligence</div>
+            </div>
+            <div className="hero-title">OSINT <span>Hub</span></div>
+            <p className="hero-sub">A curated toolkit for open-source intelligence gathering, corporate investigations, and real-time situational awareness. Built for analysts, researchers, and anyone who needs to know what's really going on.</p>
+            <div className="hero-stats">
+              <div className="hero-stat">
+                <div className="hero-stat-num">2</div>
+                <div className="hero-stat-label">// Live Tools</div>
+              </div>
+              <div className="hero-stat">
+                <div className="hero-stat-num">4+</div>
+                <div className="hero-stat-label">// Coming Soon</div>
+              </div>
+              <div className="hero-stat">
+                <div className="hero-stat-num">6</div>
+                <div className="hero-stat-label">// News Sources</div>
+              </div>
+            </div>
           </div>
-          <div className="osint-title">OSINT Monitor</div>
-          <div className="osint-subtitle">// Real-time open source intelligence — updated every 5 minutes</div>
         </div>
 
-        <div className="osint-statusbar">
-          <div className="status-left">
-            <div className="status-live"><div className="status-dot" /> Live</div>
-            <div className="status-count">// {filtered.length} items loaded</div>
-            {lastUpdated && <div className="status-updated">Last updated: {lastUpdated} UTC</div>}
+        <div className="section">
+          <div className="section-header">
+            <div className="section-label">// Active Tools</div>
+            <div className="section-title">Intelligence Toolkit</div>
           </div>
-          <button className="refresh-btn" onClick={fetchFeeds}>↺ Refresh</button>
+          <div className="tools-grid">
+
+            <a href="/osint/feed" className="tool-card live">
+              <span className="tool-icon">📡</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Live Intel Feed</div>
+              <p className="tool-desc">Real-time news aggregation from premier intelligence and security sources — BBC, Krebs, The Record, Foreign Policy, and more. Updated every 5 minutes.</p>
+              <div className="tool-action">Launch Feed →</div>
+            </a>
+
+            <a href="#" className="tool-card live">
+              <span className="tool-icon">🏢</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Shell Company Investigator</div>
+              <p className="tool-desc">Trace corporate structures, identify beneficial owners, and map shell company networks. Built for financial intelligence and sanctions research.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <div className="tool-card coming">
+              <span className="tool-icon">🗺️</span>
+              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
+              <div className="tool-name">Conflict Tracker</div>
+              <p className="tool-desc">Interactive map of active conflict zones, troop movements, and geopolitical flashpoints — updated from open-source reporting.</p>
+              <div className="tool-action">// In Development</div>
+            </div>
+
+            <div className="tool-card coming">
+              <span className="tool-icon">🔍</span>
+              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
+              <div className="tool-name">Entity Search</div>
+              <p className="tool-desc">Search individuals, organizations, and assets across open databases, sanctions lists, and public records simultaneously.</p>
+              <div className="tool-action">// In Development</div>
+            </div>
+
+            <div className="tool-card coming">
+              <span className="tool-icon">💰</span>
+              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
+              <div className="tool-name">Sanctions Monitor</div>
+              <p className="tool-desc">Cross-reference entities against OFAC, UN, EU, and UK sanctions lists in real time. Essential for compliance and intelligence work.</p>
+              <div className="tool-action">// In Development</div>
+            </div>
+
+            <div className="tool-card coming">
+              <span className="tool-icon">🌐</span>
+              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
+              <div className="tool-name">Domain Intelligence</div>
+              <p className="tool-desc">Investigate web infrastructure — WHOIS, DNS records, hosting history, and associated entities for any domain or IP address.</p>
+              <div className="tool-action">// In Development</div>
+            </div>
+
+          </div>
         </div>
 
-        <div className="osint-filters">
-          {categories.map(c => (
-            <button key={c} className={`filter-btn ${filter === c ? 'active' : ''}`} onClick={() => setFilter(c)}>{c}</button>
-          ))}
-        </div>
-
-        {loading ? (
-          <div className="loading-wrap">
-            <div className="loading-bars"><span/><span/><span/><span/><span/></div>
-            <div className="loading-text">// Acquiring intelligence feed...</div>
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="no-results">// No items found in this category</div>
-        ) : (
-          <div className="osint-grid">
-            {filtered.map((item, i) => (
-              <a href={item.link} target="_blank" rel="noopener noreferrer" className="feed-card" key={i}>
-                <div className="feed-card-top">
-                  <div className="feed-source">{item.source}</div>
-                  <div className={`feed-cat-${item.category.toLowerCase()}`}>■ {item.category.toUpperCase()}</div>
-                </div>
-                <div className="feed-title">{item.title}</div>
-                <div className="feed-date">{item.pubDate}</div>
-                <div className="feed-arrow">Read Source →</div>
-              </a>
-            ))}
-          </div>
-        )}
+        <div className="divider" />
 
         <footer>
           <div className="footer-bottom">
