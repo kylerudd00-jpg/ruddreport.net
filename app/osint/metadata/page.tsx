@@ -24,7 +24,7 @@ export default function MetadataExtractor() {
 
     try {
       const exifr = (await import('exifr')).default;
-      const data = await exifr.parse(file, { tiff: true, exif: true, gps: true, iptc: true, xmp: true, all: true });
+      const data = await exifr.parse(file, { tiff: true, exif: true, gps: true, iptc: true, xmp: true });
 
       setResult({
         filename: file.name,
