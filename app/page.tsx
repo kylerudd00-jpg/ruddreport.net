@@ -33,15 +33,12 @@ export default function Home() {
         .cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(30,158,255,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: width 0.3s, height 0.3s; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); animation: fadeDown 0.8s ease forwards; }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 15px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; line-height: 1.2; }
-        .nav-logo-text span { display: block; font-size: 8px; font-weight: 400; letter-spacing: 4px; color: var(--accent); font-family: 'Share Tech Mono', monospace; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; line-height: 1.2; }        .nav-logo-text span { display: none; }        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; position: relative; }
         .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; }
         .nav-links a:hover { color: var(--accent); }
         .nav-links a:hover::after { transform: scaleX(1); }
-        .nav-status { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: pulse 2s infinite; }
+        .nav-status { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; }        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: pulse 2s infinite; }
         .signal-bar { display: flex; align-items: flex-end; gap: 3px; height: 16px; }
         .signal-bar span { width: 3px; background: var(--accent); border-radius: 1px; animation: signalPulse 1.5s ease-in-out infinite; }
         .signal-bar span:nth-child(1) { height: 4px; } .signal-bar span:nth-child(2) { height: 7px; animation-delay: 0.15s; } .signal-bar span:nth-child(3) { height: 11px; animation-delay: 0.3s; } .signal-bar span:nth-child(4) { height: 16px; animation-delay: 0.45s; }
@@ -59,8 +56,8 @@ export default function Home() {
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
         .hero-eyebrow-line { width: 60px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
         .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(48px, 8vw, 96px); font-weight: 900; line-height: 1.05; color: var(--silver); text-transform: uppercase; letter-spacing: 2px; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; }
-        .hero-title .accent-word { color: transparent; -webkit-text-stroke: 1px var(--accent); text-shadow: 0 0 40px rgba(30,158,255,0.3); display: block; }
+        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(48px, 8vw, 96px); font-weight: 900; line-height: 1.05; color: var(--silver); text-transform: uppercase; letter-spacing: 2px; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; position: relative; z-index: 5; }
+        .hero-title .accent-word { color: var(--accent); text-shadow: 0 0 40px rgba(30,158,255,0.3); display: block; }
         .hero-subtitle { margin-top: 28px; font-size: 16px; font-weight: 300; color: var(--text-secondary); letter-spacing: 1px; max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
         .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards; }
         .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); border: 1px solid var(--border); padding: 6px 14px; text-transform: uppercase; transition: all 0.3s; cursor: default; text-decoration: none; display: inline-block; }
@@ -157,9 +154,9 @@ export default function Home() {
           <li><a href="/national-security">National Security</a></li>
           <li><a href="/about">About</a></li>
         </ul>
-        <div className="nav-status">
+<div className="nav-status">
           <div className="status-dot" />
-          <span>LIVE</span>
+
           <div className="signal-bar"><span /><span /><span /><span /></div>
         </div>
         <div className="hamburger" onClick={() => document.getElementById('mobileMenu')?.classList.toggle('open')}>
@@ -179,8 +176,7 @@ export default function Home() {
       </div>
 
       <section className="hero">
-        <div className="hero-bg-glow" />
-        <div className="hero-bg-glow2" />
+
         <div className="hero-inner">
           <div className="hero-eyebrow">
             <div className="hero-eyebrow-line" />
