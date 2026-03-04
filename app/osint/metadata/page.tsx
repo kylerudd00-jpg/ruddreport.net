@@ -121,7 +121,7 @@ export default function MetadataExtractor() {
 
   const intel = result?.raw ? extract(result.raw) : null;
   const hasGPS = intel?.location?.lat && intel?.location?.lon;
-  const mapsUrl = hasGPS ? `https://www.google.com/maps?q=${intel.location.lat},${intel.location.lon}` : null;
+  const mapsUrl = hasGPS && intel?.location ? `https://www.google.com/maps?q=${intel.location.lat},${intel.location.lon}` : null;
 
   const cameraFields = intel ? Object.entries(intel.camera).filter(([, v]) => v !== null) : [];
   const identityFields = intel ? Object.entries(intel.identity).filter(([, v]) => v !== null) : [];
