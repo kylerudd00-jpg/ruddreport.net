@@ -327,16 +327,16 @@ export default function MetadataExtractor() {
                 </div>
               ) : (
                 <>
-                  {hasGPS && (
-                    <div className="gps-alert">
-                      <div>
-                        <div className="gps-alert-label">// GPS Location Detected</div>
-                        <div className="gps-alert-coords">{intel.location.lat.toFixed(6)}°, {intel.location.lon.toFixed(6)}°</div>
-                        {intel.location.altitude && <div className="gps-alt">Altitude: {intel.location.altitude.toFixed(1)}m</div>}
-                      </div>
-                      <a href={mapsUrl!} target="_blank" rel="noopener noreferrer" className="gps-link">📍 View on Map →</a>
-                    </div>
-                  )}
+                {hasGPS && intel?.location && (
+  <div className="gps-alert">
+    <div>
+      <div className="gps-alert-label">// GPS Location Detected</div>
+      <div className="gps-alert-coords">{intel.location.lat!.toFixed(6)}°, {intel.location.lon!.toFixed(6)}°</div>
+      {intel.location.altitude && <div className="gps-alt">Altitude: {intel.location.altitude.toFixed(1)}m</div>}
+    </div>
+    <a href={mapsUrl!} target="_blank" rel="noopener noreferrer" className="gps-link">📍 View on Map →</a>
+  </div>
+)}
 
                   <div className="intel-grid">
                     {intel.device && (
@@ -418,3 +418,4 @@ export default function MetadataExtractor() {
     </>
   );
 }
+
