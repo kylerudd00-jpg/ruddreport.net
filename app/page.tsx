@@ -60,8 +60,8 @@ export default function Home() {
         .hero-title .accent-word { color: var(--accent); text-shadow: 0 0 40px rgba(30,158,255,0.3); display: block; }
         .hero-subtitle { margin-top: 28px; font-size: 16px; font-weight: 300; color: var(--text-secondary); letter-spacing: 1px; max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
         .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards; }
-        .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); border: 1px solid var(--border); padding: 6px 14px; text-transform: uppercase; transition: all 0.3s; cursor: default; text-decoration: none; display: inline-block; }
-        .hero-tag:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-glow); }
+       .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #c0cfe0; border: 1px solid rgba(30,158,255,0.4); padding: 8px 18px; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; background: rgba(30,158,255,0.06); }
+.hero-tag:hover { color: #ffffff; border-color: #1e9eff; background: rgba(30,158,255,0.18); box-shadow: 0 0 20px rgba(30,158,255,0.2); transform: translateY(-2px); }
         .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 1s ease 1.4s forwards; }
         .hero-scroll-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; }
         .hero-scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollLine 2s ease-in-out infinite; }
@@ -188,7 +188,7 @@ export default function Home() {
           </h1>
           <p className="hero-subtitle">Unclassified intelligence. Strategic analysis on cybersecurity, national security, geopolitics, and the forces reshaping the global order.</p>
           <div className="hero-tags">
-            {[{label:'Cybersecurity',href:'/cybersecurity'},{label:'Intelligence',href:'/intelligence'},{label:'Geopolitics',href:'/geopolitics'},{label:'National Security',href:'/national-security'},{label:'Economic Security',href:'/economic-security'},{label:'Strategic Affairs',href:'#'}].map(t => (
+            {[{label:'Cybersecurity',href:'/cybersecurity'},{label:'Intelligence',href:'/intelligence'},{label:'Geopolitics',href:'/geopolitics'},{label:'National Security',href:'/national-security'},{label:'Economic Security',href:'/economic-security'}].map(t => (
               <a className="hero-tag" key={t.label} href={t.href}>{t.label}</a>
             ))}
           </div>
@@ -215,7 +215,7 @@ export default function Home() {
             <a href="#" className="section-link">View All Reports →</a>
           </div>
           <div className="featured-grid">
-            <a href="/geopolitics" className="article-card featured reveal">
+            <a href="/blog/what-is-swift" className="article-card featured reveal">
               <div>
                 <div className="card-meta"><div className="card-category">Geopolitics</div><div className="card-date">FEB 23, 2026</div></div>
                 <div className="card-title">Why Semiconductor Supply Chains Define Modern Power</div>
@@ -269,7 +269,6 @@ export default function Home() {
               {icon:'🌐',name:'Geopolitics',count:'15',href:'/geopolitics'},
               {icon:'🛡️',name:'Natl. Security',count:'10',href:'/national-security'},
               {icon:'📊',name:'Econ. Security',count:'6',href:'/economic-security'},
-              {icon:'⚔️',name:'Strategy',count:'9',href:'#'}
             ].map((t,i) => (
               <a href={t.href} className={`topic-card reveal reveal-delay-${i+1}`} key={t.name}>
                 <span className="topic-icon">{t.icon}</span>
@@ -302,7 +301,7 @@ export default function Home() {
               <div className="card-excerpt">Nation-states are stockpiling software vulnerabilities as strategic assets in a new form of coercive diplomacy.</div>
               <div className="card-footer"><div className="card-read">Read →</div><div className="card-threat threat-high">■ HIGH</div></div>
             </a>
-            <a href="/economic-security" className="article-card reveal reveal-delay-3">
+            <a href="/blog/what-is-swift" className="article-card reveal reveal-delay-3">
               <div className="card-meta"><div className="card-category">Econ. Security</div><div className="card-date">FEB 8, 2026</div></div>
               <div className="card-title">Dollar Dominance Under Pressure: BRICS & the Reserve Currency Question</div>
               <div className="card-excerpt">The structural challenge to USD hegemony is real — but premature obituaries miss the full picture.</div>
