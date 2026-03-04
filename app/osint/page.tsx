@@ -20,7 +20,6 @@ export default function OSINTHub() {
         .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-
         .hero { padding: 80px 40px 60px; border-bottom: 1px solid rgba(30,158,255,0.12); position: relative; overflow: hidden; }
         .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,255,136,0.05) 0%, transparent 70%); pointer-events: none; }
         .hero-inner { max-width: 1200px; margin: 0 auto; }
@@ -34,12 +33,10 @@ export default function OSINTHub() {
         .hero-stat { display: flex; flex-direction: column; gap: 4px; }
         .hero-stat-num { font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 700; color: #00ff88; }
         .hero-stat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
-
         .section { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
         .section-header { margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .section-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #00ff88; text-transform: uppercase; margin-bottom: 8px; }
         .section-title { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; }
-
         .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .tool-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 32px; text-decoration: none; display: block; transition: all 0.3s; overflow: hidden; }
         .tool-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: #1e9eff; transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom; }
@@ -62,16 +59,13 @@ export default function OSINTHub() {
         .tool-action { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
         .tool-card.live .tool-action { color: #00ff88; }
         .tool-card.coming .tool-action { color: #3d5870; }
-
         .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(30,158,255,0.2), transparent); }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
         .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
-
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
@@ -124,7 +118,7 @@ export default function OSINTHub() {
             <p className="hero-sub">A curated toolkit for open-source intelligence gathering, corporate investigations, and real-time situational awareness. Built for analysts, researchers, and anyone who needs to know what's really going on.</p>
             <div className="hero-stats">
               <div className="hero-stat">
-                <div className="hero-stat-num">3</div>
+                <div className="hero-stat-num">5</div>
                 <div className="hero-stat-label">// Live Tools</div>
               </div>
               <div className="hero-stat">
@@ -162,11 +156,19 @@ export default function OSINTHub() {
               <div className="tool-action">Launch Tool →</div>
             </a>
 
+            <a href="/osint/dns" className="tool-card live">
+              <span className="tool-icon">🔬</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">DNS Intelligence</div>
+              <p className="tool-desc">Reveal the full infrastructure behind any domain — email providers, DNS hosts, third-party services, SPF/DMARC security posture, and all DNS records decoded.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
             <a href="/osint/ip" className="tool-card live">
               <span className="tool-icon">📍</span>
               <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
               <div className="tool-name">IP Geolocation</div>
-              <p className="tool-desc">Identify the geographic location, ISP, ASN, and network details behind any IP address. Detect proxies, VPNs, and Tor exit nodes.</p>
+              <p className="tool-desc">Identify the geographic location, ISP, ASN, and network details behind any IP address. Drop a pin on the map for any target worldwide.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
 
@@ -174,7 +176,7 @@ export default function OSINTHub() {
               <span className="tool-icon">👤</span>
               <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
               <div className="tool-name">Username Hunter</div>
-              <p className="tool-desc">Check if a username exists across 20+ platforms simultaneously — Twitter, GitHub, Reddit, Instagram, TikTok, and more.</p>
+              <p className="tool-desc">Check if a username exists across developer communities, gaming networks, forums, and more — all checked simultaneously.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
 
@@ -207,14 +209,6 @@ export default function OSINTHub() {
               <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
               <div className="tool-name">Entity Search</div>
               <p className="tool-desc">Search individuals, organizations, and assets across open databases, sanctions lists, and public records simultaneously.</p>
-              <div className="tool-action">// In Development</div>
-            </a>
-
-            <a href="#" className="tool-card coming">
-              <span className="tool-icon">🔐</span>
-              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
-              <div className="tool-name">SSL Certificate Inspector</div>
-              <p className="tool-desc">Reveal subdomains, organization info, and certificate history for any domain. Useful for infrastructure mapping and recon.</p>
               <div className="tool-action">// In Development</div>
             </a>
 
