@@ -492,7 +492,7 @@ export default function PolymarketTracker() {
                       {pinned ? 'Pinned' : 'Pin'}
                     </button>
                     <div className="card-category">
-                      {signal === 'Movers' ? 'Momentum' : (m?.events?.[0]?.slug ? 'Event' : 'Live')}
+                      {sort === 'Movers' ? 'Momentum' : (m?.events?.[0]?.slug ? 'Event' : 'Live')}
                     </div>
                   </div>
                 </div>
