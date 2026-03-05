@@ -154,7 +154,7 @@ export default function CorporateInvestigator() {
 
     const nodeG = g.append('g').selectAll('g').data(nodes).join('g')
       .attr('cursor', (d: any) => d.entity ? 'pointer' : 'default')
-      .call(d3.drag<SVGGElement,any>()
+      .call(d3.drag<d3.BaseType, any>()
         .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
         .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
         .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }))
