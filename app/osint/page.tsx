@@ -186,14 +186,13 @@ export default function OSINTHub() {
   <p className="tool-desc">Upload any photo and reveal hidden EXIF data — GPS coordinates, device model, serial numbers, timestamps, and more. Runs entirely in your browser.</p>
   <div className="tool-action">Launch Tool →</div>
 </a>
-            <a href="#" className="tool-card coming">
-              <span className="tool-icon">🏢</span>
-              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
-              <div className="tool-name">Shell Company Investigator</div>
-              <p className="tool-desc">Trace corporate structures, identify beneficial owners, and map shell company networks. Built for financial intelligence and sanctions research.</p>
-              <div className="tool-action">// In Development</div>
-            </a>
-
+        <a href="/osint/corporate" className="tool-card live">
+  <span className="tool-icon">🏢</span>
+  <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+  <div className="tool-name">Corporate Investigator</div>
+  <p className="tool-desc">Search 200M+ companies across 140 jurisdictions. Trace corporate structures, registered agents, and incorporation records across known shell company havens.</p>
+  <div className="tool-action">Launch Tool →</div>
+</a>
             <a href="#" className="tool-card coming">
               <span className="tool-icon">🗺️</span>
               <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
@@ -202,13 +201,13 @@ export default function OSINTHub() {
               <div className="tool-action">// In Development</div>
             </a>
 
-            <a href="#" className="tool-card coming">
-              <span className="tool-icon">💰</span>
-              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
-              <div className="tool-name">Sanctions Monitor</div>
-              <p className="tool-desc">Cross-reference entities against OFAC, UN, EU, and UK sanctions lists in real time. Essential for compliance and intelligence work.</p>
-              <div className="tool-action">// In Development</div>
-            </a>
+<a href="/osint/sanctions" className="tool-card live">
+  <span className="tool-icon">💰</span>
+  <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+  <div className="tool-name">Sanctions Monitor</div>
+  <p className="tool-desc">Cross-reference entities against OFAC, UN, EU, UK, INTERPOL, and 100+ watchlists simultaneously. Essential for compliance and intelligence work.</p>
+  <div className="tool-action">Launch Tool →</div>
+</a>
 
             <a href="#" className="tool-card coming">
               <span className="tool-icon">🔍</span>
