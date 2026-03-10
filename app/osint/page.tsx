@@ -118,7 +118,7 @@ export default function OSINTHub() {
             <p className="hero-sub">A curated toolkit for open-source intelligence gathering, corporate investigations, and real-time situational awareness. Built for analysts, researchers, and anyone who needs to know what's really going on.</p>
             <div className="hero-stats">
               <div className="hero-stat">
-                <div className="hero-stat-num">5</div>
+                <div className="hero-stat-num">6</div>
                 <div className="hero-stat-label">// Live Tools</div>
               </div>
               <div className="hero-stat">
@@ -208,7 +208,13 @@ export default function OSINTHub() {
   <p className="tool-desc">Cross-reference entities against OFAC, UN, EU, UK, INTERPOL, and 100+ watchlists simultaneously. Essential for compliance and intelligence work.</p>
   <div className="tool-action">Launch Tool →</div>
 </a>
-
+<a href="/osint/polymarket" className="tool-card live">
+              <span className="tool-icon">📊</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Polymarket Tracker</div>
+              <p className="tool-desc">Track real-time prediction market odds on geopolitical events, elections, and global conflicts. Monitor market movements and sentiment shifts as they happen.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
             <a href="#" className="tool-card coming">
               <span className="tool-icon">🔍</span>
               <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>

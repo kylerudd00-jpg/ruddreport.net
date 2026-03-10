@@ -13,7 +13,7 @@ export default function WHOISLookup() {
     setError('');
     setResult(null);
     try {
-      const clean = domain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+      const clean = domain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
       const res = await fetch(`https://rdap.org/domain/${clean}`);
       if (!res.ok) throw new Error('Not found');
       const data = await res.json();

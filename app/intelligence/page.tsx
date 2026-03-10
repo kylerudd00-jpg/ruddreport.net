@@ -1,6 +1,6 @@
 'use client';
 
-function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, articles }: any) {
+export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, articles }: any) {
   return (
     <>
       <style>{`

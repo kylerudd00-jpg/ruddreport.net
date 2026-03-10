@@ -407,7 +407,23 @@ export default function PolymarketTracker() {
               <div className="tool-eyebrow-text">// OSINT Hub — Market Intelligence</div>
             </div>
             <div className="tool-title">Polymarket Tracker</div>
-            <p className="tool-desc">Prediction markets are a public signal stream. When odds and volume spike, someone is paying to be right—often before headlines catch up. This tracker surfaces probability swings and conviction so you can cross-check against real-world indicators.</p>
+<p className="tool-desc">Prediction markets are a public signal stream. When odds and volume spike, someone is paying to be right—often before headlines catch up. This tracker surfaces probability swings and conviction so you can cross-check against real-world indicators.</p>
+          </div>
+          <div style={{ maxWidth: 1100, margin: '24px auto 0', display: 'flex', gap: 12 }}>
+            <a href="/osint/polymarket/account" style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: 11,
+              letterSpacing: 3,
+              color: '#030608',
+              background: '#00ff88',
+              border: 'none',
+              padding: '12px 24px',
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              display: 'inline-block',
+            }}>
+              Account Tracker →
+            </a>
           </div>
         </div>
 
@@ -492,7 +508,7 @@ export default function PolymarketTracker() {
                       {pinned ? 'Pinned' : 'Pin'}
                     </button>
                     <div className="card-category">
-                      {sort === 'Movers' ? 'Momentum' : (m?.events?.[0]?.slug ? 'Event' : 'Live')}
+                      {signal === 'Movers' ? 'Momentum' : (m?.events?.[0]?.slug ? 'Event' : 'Live')}
                     </div>
                   </div>
                 </div>
