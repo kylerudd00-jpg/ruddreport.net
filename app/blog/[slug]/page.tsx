@@ -115,21 +115,20 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
           <div className="article-meta">
             <div className="article-category">{article.category}</div>
             <div className="article-date">{article.date}</div>
-            <div className={`threat-${article.threat}`}>■ {article.threat.toUpperCase()} RELEVANCE</div>
+            <div className={`threat-${article.relevance.toLowerCase()}`}>■ {article.relevance} RELEVANCE</div>
           </div>
           <h1 className="article-title">{article.title}</h1>
           <div className="article-excerpt">{article.excerpt}</div>
         </div>
 
-        <div className="article-body">
-          {article.content.map((section, i) => (
-            <div className="article-section" key={i}>
-              {section.heading && <div className="article-heading">{section.heading}</div>}
-              <p className="article-paragraph">{section.body}</p>
-            </div>
-          ))}
-          <div className="article-divider" />
-        </div>
+<div className="article-body">
+  {article.content.split('\n\n').map((block, i) => {
+    if (block.startsWith('## ')) {
+      return <div className="article-heading" key={i}>{block.slice(3)}</div>;
+    }
+    return <p className="article-paragraph" key={i}>{block}</p>;
+  })}
+</div>
 
         <div className="article-footer">
           <div className="article-author">Analysis by <span>Kyle Rudd</span> — The Rudd Report</div>

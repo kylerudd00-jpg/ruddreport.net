@@ -4,26 +4,32 @@ import { useState } from 'react';
 const PLATFORMS = [
   { name: 'GitHub', url: 'https://github.com/{}', category: 'Dev' },
   { name: 'GitLab', url: 'https://gitlab.com/{}', category: 'Dev' },
-  { name: 'Reddit', url: 'https://www.reddit.com/user/{}', category: 'Forums' },
+  { name: 'Reddit', url: 'https://reddit.com/user/{}', category: 'Social' },
+  { name: 'Twitter / X', url: 'https://x.com/{}', category: 'Social' },
+  { name: 'TikTok', url: 'https://tiktok.com/@{}', category: 'Social' },
+  { name: 'YouTube', url: 'https://youtube.com/@{}', category: 'Social' },
+  { name: 'Twitch', url: 'https://twitch.tv/{}', category: 'Social' },
+  { name: 'Snapchat', url: 'https://snapchat.com/add/{}', category: 'Social' },
+  { name: 'LinkedIn', url: 'https://linkedin.com/in/{}', category: 'Social' },
+  { name: 'Pinterest', url: 'https://pinterest.com/{}', category: 'Social' },
+  { name: 'Tumblr', url: 'https://{}.tumblr.com', category: 'Social' },
+  { name: 'Medium', url: 'https://medium.com/@{}', category: 'Social' },
+  { name: 'Substack', url: 'https://{}.substack.com', category: 'Social' },
+  { name: 'Telegram', url: 'https://t.me/{}', category: 'Social' },
+  { name: 'Spotify', url: 'https://open.spotify.com/user/{}', category: 'Social' },
+  { name: 'SoundCloud', url: 'https://soundcloud.com/{}', category: 'Social' },
+  { name: 'Vimeo', url: 'https://vimeo.com/{}', category: 'Social' },
+  { name: 'Patreon', url: 'https://patreon.com/{}', category: 'Social' },
+  { name: 'Steam', url: 'https://steamcommunity.com/id/{}', category: 'Gaming' },
+  { name: 'Roblox', url: 'https://roblox.com/user.aspx?username={}', category: 'Gaming' },
+  { name: 'Minecraft', url: 'https://namemc.com/profile/{}', category: 'Gaming' },
+  { name: 'Lichess', url: 'https://lichess.org/@/{}', category: 'Gaming' },
+  { name: 'Chess.com', url: 'https://chess.com/member/{}', category: 'Gaming' },
   { name: 'Dev.to', url: 'https://dev.to/{}', category: 'Dev' },
-  { name: 'Replit', url: 'https://replit.com/@{}', category: 'Dev' },
-  { name: 'CodePen', url: 'https://codepen.io/{}', category: 'Dev' },
-  { name: 'NPM', url: 'https://npmjs.com/~{}', category: 'Dev' },
-  { name: 'Kaggle', url: 'https://kaggle.com/{}', category: 'Dev' },
+  { name: 'Hashnode', url: 'https://hashnode.com/@{}', category: 'Dev' },
   { name: 'Hugging Face', url: 'https://huggingface.co/{}', category: 'Dev' },
   { name: 'Keybase', url: 'https://keybase.io/{}', category: 'Dev' },
-  { name: 'Twitch', url: 'https://twitch.tv/{}', category: 'Gaming' },
-  { name: 'Chess.com', url: 'https://chess.com/member/{}', category: 'Gaming' },
-  { name: 'Lichess', url: 'https://lichess.org/@/{}', category: 'Gaming' },
-  { name: 'Minecraft', url: 'https://namemc.com/profile/{}', category: 'Gaming' },
-  { name: 'Roblox', url: 'https://www.roblox.com/user.aspx?username={}', category: 'Gaming' },
-  { name: 'Medium', url: 'https://medium.com/@{}', category: 'Forums' },
-  { name: 'Hashnode', url: 'https://hashnode.com/@{}', category: 'Forums' },
-  { name: 'Gravatar', url: 'https://gravatar.com/{}', category: 'Forums' },
-  { name: 'Patreon', url: 'https://patreon.com/{}', category: 'Social' },
-  { name: 'Vimeo', url: 'https://vimeo.com/{}', category: 'Social' },
-  { name: 'SoundCloud', url: 'https://soundcloud.com/{}', category: 'Social' },
-  { name: 'Bandcamp', url: 'https://{}.bandcamp.com', category: 'Social' },
+  { name: 'NPM', url: 'https://npmjs.com/~{}', category: 'Dev' },
 ];
 
 type Result = {
@@ -58,7 +64,7 @@ export default function UsernameHunter() {
       PLATFORMS.map(async (p, i) => {
         const url = p.url.replace('{}', username.trim());
         try {
-          const res = await fetch(`/api/username?url=${encodeURIComponent(url)}&platform=${encodeURIComponent(p.name.toLowerCase())}`);
+const res = await fetch(`/api/username?username=${encodeURIComponent(username.trim())}&platform=${encodeURIComponent(p.name.toLowerCase())}`);
           const data = await res.json();
           updated[i] = { ...updated[i], status: data.found ? 'found' : 'not_found' };
         } catch {
@@ -216,7 +222,7 @@ export default function UsernameHunter() {
             <div className="status-bar">
               <div>
                 {scanning
-                  ? <div className="status-scanning">// Scanning platforms...</div>
+                  ? <div className="status-scanning">// Scanning ...</div>
                   : <div className="status-done">// Scan complete — {foundCount} profile{foundCount !== 1 ? 's' : ''} found</div>
                 }
               </div>

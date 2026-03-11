@@ -55,7 +55,7 @@ That is the operating doctrine of Volt Typhoon, a Chinese state-sponsored hackin
 ## Living Off the Land
 
 Volt Typhoon's defining characteristic is what security researchers call "living off the land" — a technique where attackers avoid deploying custom malware and instead use the legitimate tools already present in a target's environment. Windows built-in utilities. Standard network diagnostic commands. Credentials harvested from inside the network itself.
-ss
+
 The advantage is near-invisibility. Traditional cybersecurity defenses look for malicious software signatures, unusual programs, foreign code. When an attacker uses the same tools a system administrator would use on a Tuesday afternoon, those defenses generate no alerts. The attacker blends into the noise of normal operations.
 
 Volt Typhoon has been observed inside U.S. networks for at least five years. The FBI, NSA, and CISA issued a joint advisory in 2023 confirming the group had successfully infiltrated communications infrastructure, energy systems, water utilities, and transportation networks across the continental United States and its territories — including Guam, which would be a critical logistics hub in any Pacific military conflict.

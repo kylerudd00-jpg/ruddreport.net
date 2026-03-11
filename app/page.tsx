@@ -1,76 +1,95 @@
 ﻿'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { ARTICLES, type Article } from '@/lib/articles';
+
+const CATEGORIES = ['All', 'Cybersecurity', 'Intelligence', 'Geopolitics', 'National Security', 'Economic Security'] as const;
+
+function getFeatured(): Article[] {
+  const featured = ARTICLES.filter(a => a.featured);
+  return featured.length > 0 ? featured : ARTICLES.slice(0, 1);
+}
+
+function getLatest(count = 3): Article[] {
+  return [...ARTICLES].sort((a, b) => b.date.localeCompare(a.date)).slice(0, count);
+}
+
+function getByCategory(cat: string): Article[] {
+  if (cat === 'All') return [...ARTICLES].sort((a, b) => b.date.localeCompare(a.date));
+  return ARTICLES.filter(a => a.category === cat).sort((a, b) => b.date.localeCompare(a.date));
+}
 
 export default function Home() {
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [activeCategory, setActiveCategory] = useState('All');
+  const featured = getFeatured();
+  const currentFeatured = featured.length > 0 ? featured[featuredIndex % featured.length] : null;
+  const filteredArticles = getByCategory(activeCategory);
+  const latest = getLatest(3);
 
+  // Auto-rotate featured every 6 seconds
   useEffect(() => {
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    const onMove = (e: MouseEvent) => {
-      mx = e.clientX; my = e.clientY;
-      if (cursorRef.current) { cursorRef.current.style.left = mx - 4 + 'px'; cursorRef.current.style.top = my - 4 + 'px'; }
-    };
-    const animateRing = () => {
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      if (ringRef.current) { ringRef.current.style.left = rx - 16 + 'px'; ringRef.current.style.top = ry - 16 + 'px'; }
-      requestAnimationFrame(animateRing);
-    };
-    animateRing();
-    document.addEventListener('mousemove', onMove);
+    if (featured.length <= 1) return;
+    const t = setInterval(() => setFeaturedIndex(i => i + 1), 6000);
+    return () => clearInterval(t);
+  }, [featured.length]);
+
+  // Scroll reveal
+  useEffect(() => {
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
     }, { threshold: 0.1 });
     reveals.forEach(r => observer.observe(r));
-    return () => document.removeEventListener('mousemove', onMove);
+    return () => observer.disconnect();
   }, []);
+
+  const relevanceColor = (r: string) => r === 'HIGH' ? '#ff3a3a' : r === 'MED' ? '#ffaa00' : '#00ff88';
 
   return (
     <>
       <style>{`
-        .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; box-shadow: 0 0 10px var(--accent); }
-        .cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(30,158,255,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transition: width 0.3s, height 0.3s; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); animation: fadeDown 0.8s ease forwards; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        :root { --accent: #1e9eff; --accent-dim: rgba(30,158,255,0.25); --accent-glow: rgba(30,158,255,0.06); --border: rgba(30,158,255,0.12); --border-bright: rgba(30,158,255,0.35); --bg: #030608; --bg-card: #070d12; --bg-card-hover: #0a1520; --bg-secondary: #070d12; --silver: #c0cfe0; --text-primary: #d8e8f5; --text-secondary: #7a9bb5; --text-muted: #3d5870; --red: #ff3a3a; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { background: var(--bg); color: var(--text-primary); font-family: 'Barlow', sans-serif; }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; line-height: 1.2; }        .nav-logo-text span { display: none; }        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; position: relative; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; }
+        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #fff; text-transform: uppercase; }
+        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: var(--accent); }
-        .nav-links a:hover::after { transform: scaleX(1); }
-        .nav-status { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; }        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: pulse 2s infinite; }
+        .nav-status { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: pulse 2s infinite; }
         .signal-bar { display: flex; align-items: flex-end; gap: 3px; height: 16px; }
         .signal-bar span { width: 3px; background: var(--accent); border-radius: 1px; animation: signalPulse 1.5s ease-in-out infinite; }
         .signal-bar span:nth-child(1) { height: 4px; } .signal-bar span:nth-child(2) { height: 7px; animation-delay: 0.15s; } .signal-bar span:nth-child(3) { height: 11px; animation-delay: 0.3s; } .signal-bar span:nth-child(4) { height: 16px; animation-delay: 0.45s; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 200; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: var(--accent); transition: all 0.3s; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; backdrop-filter: blur(20px); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--accent); }
+        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: var(--silver); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .mobile-menu a:hover { color: var(--accent); }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; color: var(--text-muted); cursor: pointer; text-transform: uppercase; background: none; border: none; }
-        .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 40px 80px; overflow: hidden; z-index: 3; }
+        .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 40px 80px; overflow: hidden; }
         .hero-bg-glow { position: absolute; top: -200px; left: -200px; width: 800px; height: 800px; background: radial-gradient(circle, rgba(30,158,255,0.08) 0%, transparent 70%); pointer-events: none; animation: drift 8s ease-in-out infinite alternate; }
-        .hero-bg-glow2 { position: absolute; bottom: -300px; right: -200px; width: 1000px; height: 700px; background: radial-gradient(circle, rgba(30,158,255,0.05) 0%, transparent 70%); pointer-events: none; animation: drift2 10s ease-in-out infinite alternate; }
         .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
         .hero-eyebrow-line { width: 60px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
         .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(48px, 8vw, 96px); font-weight: 900; line-height: 1.05; color: var(--silver); text-transform: uppercase; letter-spacing: 2px; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; position: relative; z-index: 5; }
+        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(48px, 8vw, 96px); font-weight: 900; line-height: 1.05; color: var(--silver); text-transform: uppercase; letter-spacing: 2px; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; }
         .hero-title .accent-word { color: var(--accent); text-shadow: 0 0 40px rgba(30,158,255,0.3); display: block; }
-        .hero-subtitle { margin-top: 28px; font-size: 16px; font-weight: 300; color: var(--text-secondary); letter-spacing: 1px; max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
+        .hero-subtitle { margin-top: 28px; font-size: 16px; font-weight: 300; color: var(--text-secondary); max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
         .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards; }
-       .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #c0cfe0; border: 1px solid rgba(30,158,255,0.4); padding: 8px 18px; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; background: rgba(30,158,255,0.06); }
-.hero-tag:hover { color: #ffffff; border-color: #1e9eff; background: rgba(30,158,255,0.18); box-shadow: 0 0 20px rgba(30,158,255,0.2); transform: translateY(-2px); }
+        .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #c0cfe0; border: 1px solid rgba(30,158,255,0.4); padding: 8px 18px; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; background: rgba(30,158,255,0.06); cursor: pointer; }
+        .hero-tag:hover, .hero-tag.active { color: #fff; border-color: #1e9eff; background: rgba(30,158,255,0.18); box-shadow: 0 0 20px rgba(30,158,255,0.2); }
         .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 1s ease 1.4s forwards; }
         .hero-scroll-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; }
         .hero-scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollLine 2s ease-in-out infinite; }
-        .ticker-wrap { position: relative; z-index: 3; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(7,13,18,0.9); padding: 10px 0; overflow: hidden; }
+        .ticker-wrap { position: relative; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(7,13,18,0.9); padding: 10px 0; overflow: hidden; }
         .ticker-label { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); display: flex; align-items: center; padding: 0 20px; font-family: 'Orbitron', monospace; font-size: 9px; font-weight: 700; letter-spacing: 3px; color: #000; z-index: 2; text-transform: uppercase; }
         .ticker-track { display: flex; animation: ticker 30s linear infinite; padding-left: 160px; }
         .ticker-item { white-space: nowrap; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-secondary); letter-spacing: 1px; padding: 0 40px; display: flex; align-items: center; gap: 12px; }
         .ticker-item::after { content: '//'; color: var(--accent); opacity: 0.5; }
-        section { position: relative; z-index: 3; padding: 100px 40px; }
+        section { padding: 100px 40px; }
         .section-inner { max-width: 1200px; margin: 0 auto; }
         .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 60px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
         .section-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
@@ -80,36 +99,40 @@ export default function Home() {
         .featured-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
         .article-card { position: relative; background: var(--bg-card); border: 1px solid var(--border); padding: 36px; overflow: hidden; text-decoration: none; display: block; transition: all 0.4s ease; cursor: pointer; }
         .article-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); transform: scaleX(0); transition: transform 0.5s ease; }
-        .article-card:hover { background: var(--bg-card-hover); border-color: var(--border-bright); transform: translateY(-2px); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px var(--accent-glow); }
+        .article-card:hover { background: var(--bg-card-hover); border-color: var(--border-bright); transform: translateY(-2px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
         .article-card:hover::before { transform: scaleX(1); }
-        .article-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 60px; }
-        .card-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+        .article-card.featured-card { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 60px; }
+        .card-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
         .card-category { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-dim); padding: 3px 10px; background: var(--accent-glow); }
         .card-date { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--text-muted); }
         .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1.2; letter-spacing: 0.5px; margin-bottom: 16px; transition: color 0.3s; }
         .article-card:hover .card-title { color: var(--accent); }
-        .article-card.featured .card-title { font-size: 42px; line-height: 1.1; }
+        .featured-card .card-title { font-size: 42px; line-height: 1.1; }
         .card-excerpt { font-size: 14px; font-weight: 300; color: var(--text-secondary); line-height: 1.8; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
         .card-read { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
-        .threat-high { color: var(--red); } .threat-med { color: #ffaa00; } .threat-low { color: #00ff88; }
         .featured-visual { position: relative; height: 300px; border: 1px solid var(--border); overflow: hidden; background: var(--bg-secondary); }
         .featured-visual-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
         .globe-svg { width: 200px; height: 200px; opacity: 0.6; animation: rotateSlow 20s linear infinite; }
         .visual-label { position: absolute; bottom: 16px; left: 16px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+        .rotate-dots { display: flex; gap: 8px; margin-top: 16px; }
+        .rotate-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(30,158,255,0.2); cursor: pointer; transition: background 0.3s; border: 1px solid rgba(30,158,255,0.3); }
+        .rotate-dot.active { background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
         .intel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .topics-section { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .topics-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; }
+        .topics-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
         .topic-card { padding: 40px 24px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden; text-decoration: none; display: block; }
-        .topic-card::before { content: ''; position: absolute; inset: 0; background: var(--accent-glow); opacity: 0; transition: opacity 0.4s; }
-        .topic-card:hover::before { opacity: 1; }
-        .topic-card:hover { border-color: var(--border-bright); }
+        .topic-card:hover { border-color: var(--border-bright); background: rgba(30,158,255,0.04); }
         .topic-icon { font-size: 24px; margin-bottom: 16px; display: block; filter: grayscale(1) brightness(0.7); transition: filter 0.4s; }
         .topic-card:hover .topic-icon { filter: none; }
         .topic-name { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 3px; color: var(--text-secondary); text-transform: uppercase; transition: color 0.4s; }
         .topic-card:hover .topic-name { color: var(--accent); }
         .topic-count { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 8px; letter-spacing: 2px; }
-        footer { position: relative; z-index: 3; border-top: 1px solid var(--border); padding: 60px 40px 40px; background: var(--bg-secondary); }
+        .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-dim), transparent); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; } .reveal-delay-3 { transition-delay: 0.3s; }
+        footer { border-top: 1px solid var(--border); padding: 60px 40px 40px; background: var(--bg-secondary); }
         .footer-inner { max-width: 1200px; margin: 0 auto; }
         .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 40px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
         .footer-brand-name { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: var(--silver); letter-spacing: 3px; margin-bottom: 4px; }
@@ -123,37 +146,47 @@ export default function Home() {
         .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); }
         .footer-copy span { color: var(--accent); }
         .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: var(--text-muted); border: 1px solid var(--border); padding: 5px 14px; text-transform: uppercase; }
-        .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-dim), transparent); position: relative; z-index: 3; }
-        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; } .reveal-delay-4 { transition-delay: 0.4s; }
-        .reveal-delay-5 { transition-delay: 0.5s; } .reveal-delay-6 { transition-delay: 0.6s; }
+        .no-articles { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--text-muted); text-align: center; padding: 60px 20px; border: 1px solid var(--border); grid-column: 1 / -1; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes drift { from { transform: translate(0, 0); } to { transform: translate(40px, 30px); } }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes signalPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes scrollLine { 0%, 100% { opacity: 1; transform: scaleY(1); } 50% { opacity: 0.3; transform: scaleY(0.5); } }
+        @media (max-width: 1024px) {
+          .featured-card { grid-template-columns: 1fr !important; }
+          .featured-visual { display: none; }
+          .intel-grid { grid-template-columns: 1fr 1fr; }
+          .topics-grid { grid-template-columns: repeat(3, 1fr); }
+          .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .nav-status { display: none; }
+          .nav-links, .nav-status { display: none; }
           .hamburger { display: flex; }
+          .hero { padding: 100px 20px 60px; }
+          section { padding: 60px 20px; }
+          .featured-grid, .intel-grid { grid-template-columns: 1fr; }
+          .topics-grid { grid-template-columns: repeat(2, 1fr); }
+          .footer-top { grid-template-columns: 1fr; gap: 32px; }
+          footer { padding: 40px 20px; }
+          .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
         }
       `}</style>
-      <nav>
-        <a href="/" className="nav-logo">
-          <div className="nav-logo-text">
-            The Rudd Report
-            <span>Intelligence · Analysis · Strategy</span>
-          </div>
-        </a>
-        <ul className="nav-links">
-         <li><a href="/cybersecurity">Cybersecurity</a></li>
-<li><a href="/intelligence">Intelligence</a></li>
-<li><a href="/geopolitics">Geopolitics</a></li>
-<li><a href="/national-security">National Security</a></li>
-<li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
-<li><a href="/about">About</a></li>
-        </ul>
-<div className="nav-status">
-          <div className="status-dot" />
 
+      <nav>
+        <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
+        <ul className="nav-links">
+          <li><a href="/cybersecurity">Cybersecurity</a></li>
+          <li><a href="/intelligence">Intelligence</a></li>
+          <li><a href="/geopolitics">Geopolitics</a></li>
+          <li><a href="/national-security">National Security</a></li>
+          <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+        <div className="nav-status">
+          <div className="status-dot" />
           <div className="signal-bar"><span /><span /><span /><span /></div>
         </div>
         <div className="hamburger" onClick={() => document.getElementById('mobileMenu')?.classList.toggle('open')}>
@@ -163,18 +196,18 @@ export default function Home() {
 
       <div className="mobile-menu" id="mobileMenu">
         <button className="mobile-menu-close" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>✕ Close</button>
-        <a href="/" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Home</a>
-        <a href="/cybersecurity" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Cybersecurity</a>
-        <a href="/intelligence" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Intelligence</a>
-        <a href="/geopolitics" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Geopolitics</a>
-        <a href="/national-security" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>National Security</a>
-        <a href="/about" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>About</a>
-<a href="/osint" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>OSINT Hub</a>
-<a href="/contact" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>Contact</a>
+        <a href="/">Home</a>
+        <a href="/cybersecurity">Cybersecurity</a>
+        <a href="/intelligence">Intelligence</a>
+        <a href="/geopolitics">Geopolitics</a>
+        <a href="/national-security">National Security</a>
+        <a href="/osint">OSINT Hub</a>
+        <a href="/about">About</a>
       </div>
 
+      {/* HERO */}
       <section className="hero">
-
+        <div className="hero-bg-glow" />
         <div className="hero-inner">
           <div className="hero-eyebrow">
             <div className="hero-eyebrow-line" />
@@ -186,8 +219,17 @@ export default function Home() {
           </h1>
           <p className="hero-subtitle">Unclassified intelligence. Strategic analysis on cybersecurity, national security, geopolitics, and the forces reshaping the global order.</p>
           <div className="hero-tags">
-            {[{label:'Cybersecurity',href:'/cybersecurity'},{label:'Intelligence',href:'/intelligence'},{label:'Geopolitics',href:'/geopolitics'},{label:'National Security',href:'/national-security'},{label:'Economic Security',href:'/economic-security'}].map(t => (
-              <a className="hero-tag" key={t.label} href={t.href}>{t.label}</a>
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                className={`hero-tag ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => {
+                  setActiveCategory(cat);
+                  document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                {cat}
+              </button>
             ))}
           </div>
         </div>
@@ -197,28 +239,53 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TICKER */}
       <div className="ticker-wrap">
         <div className="ticker-label">INTEL FEED</div>
         <div className="ticker-track">
-          {['Semiconductor Supply Chain Risk Assessment','Five Eyes Intelligence Sharing Update','Cyber Threat Actor: APT41 Campaign Analysis','South China Sea: Strategic Update','Critical Infrastructure Vulnerability Report','Economic Coercion: New Vectors Identified','NATO Eastern Flank: Force Posture Review','Semiconductor Supply Chain Risk Assessment','Five Eyes Intelligence Sharing Update','Cyber Threat Actor: APT41 Campaign Analysis','South China Sea: Strategic Update','Critical Infrastructure Vulnerability Report','Economic Coercion: New Vectors Identified','NATO Eastern Flank: Force Posture Review'].map((item, i) => <div className="ticker-item" key={i}>{item}</div>)}
+          {[...ARTICLES, ...ARTICLES].map((a, i) => (
+            <div className="ticker-item" key={i}>{a.title}</div>
+          ))}
         </div>
       </div>
 
       <div className="divider" />
 
+      {/* FEATURED */}
       <section>
         <div className="section-inner">
           <div className="section-header reveal">
-            <div><div className="section-label">// Latest Intelligence</div><div className="section-title">Featured Analysis</div></div>
-            <a href="#" className="section-link">View All Reports →</a>
+            <div>
+              <div className="section-label">// Latest Intelligence</div>
+              <div className="section-title">Featured Analysis</div>
+            </div>
+            <a href="/articles" className="section-link">View All Reports →</a>
           </div>
           <div className="featured-grid">
-            <a href="/blog/what-is-swift" className="article-card featured reveal">
+            {!currentFeatured ? (
+              <div className="no-articles">// No reports published yet</div>
+            ) : (
+            <a href={`/articles/${currentFeatured.slug}`} className="article-card featured-card reveal">
               <div>
-                <div className="card-meta"><div className="card-category">Geopolitics</div><div className="card-date">FEB 23, 2026</div></div>
-                <div className="card-title">Why Semiconductor Supply Chains Define Modern Power</div>
-                <div className="card-excerpt">Semiconductors are the backbone of modern national security. The global supply chain has become the most critical geopolitical battleground of the 21st century.</div>
-                <div className="card-footer"><div className="card-read">Read Analysis →</div><div className="card-threat threat-high">■ HIGH RELEVANCE</div></div>
+                <div className="card-meta">
+                  <div className="card-category">{currentFeatured.category}</div>
+                  <div className="card-date">{currentFeatured.date}</div>
+                </div>
+                <div className="card-title">{currentFeatured.title}</div>
+                <div className="card-excerpt">{currentFeatured.excerpt}</div>
+                <div className="card-footer">
+                  <div className="card-read">Read Analysis →</div>
+                  <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '10px', color: relevanceColor(currentFeatured.relevance), letterSpacing: '2px' }}>
+                    ■ {currentFeatured.relevance} RELEVANCE
+                  </div>
+                </div>
+                {featured.length > 1 && (
+                  <div className="rotate-dots" onClick={e => e.preventDefault()}>
+                    {featured.map((_, i) => (
+                      <div key={i} className={`rotate-dot ${i === featuredIndex % featured.length ? 'active' : ''}`} onClick={() => setFeaturedIndex(i)} />
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="featured-visual">
                 <div className="featured-visual-inner">
@@ -234,44 +301,24 @@ export default function Home() {
                     <line x1="140" y1="80" x2="120" y2="130" stroke="#ff3a3a" strokeWidth="0.5" opacity="0.5" strokeDasharray="2 2"/>
                   </svg>
                 </div>
-                <div className="visual-label">// STRATEGIC MAPPING ACTIVE</div>
+                <div className="visual-label">// Strategic Mapping Active</div>
               </div>
             </a>
-            <a href="/intelligence" className="article-card reveal reveal-delay-1">
-              <div className="card-meta"><div className="card-category">Intelligence</div><div className="card-date">FEB 20, 2026</div></div>
-              <div className="card-title">The Intelligence Failure That Wasn't</div>
-              <div className="card-excerpt">Not all strategic surprises are intelligence failures. Sometimes they are policy failures dressed up as analytical gaps.</div>
-              <div className="card-footer"><div className="card-read">Read Analysis →</div><div className="card-threat threat-med">■ MED RELEVANCE</div></div>
-            </a>
-            <a href="/cybersecurity" className="article-card reveal reveal-delay-2">
-              <div className="card-meta"><div className="card-category">Cybersecurity</div><div className="card-date">FEB 17, 2026</div></div>
-              <div className="card-title">Critical Infrastructure: The Next Battlespace</div>
-              <div className="card-excerpt">State-sponsored threat actors are no longer probing — they are pre-positioning inside critical infrastructure for future conflict escalation.</div>
-              <div className="card-footer"><div className="card-read">Read Analysis →</div><div className="card-threat threat-high">■ HIGH RELEVANCE</div></div>
-            </a>
-          </div>
-        </div>
-      </section>
 
-      <div className="divider" />
-
-      <section className="topics-section">
-        <div className="section-inner">
-          <div className="section-header reveal">
-            <div><div className="section-label">// Coverage Areas</div><div className="section-title">Intelligence Domains</div></div>
-          </div>
-          <div className="topics-grid">
-            {[
-              {icon:'🔐',name:'Cybersecurity',count:'12',href:'/cybersecurity'},
-              {icon:'🕵️',name:'Intelligence',count:'8',href:'/intelligence'},
-              {icon:'🌐',name:'Geopolitics',count:'15',href:'/geopolitics'},
-              {icon:'🛡️',name:'Natl. Security',count:'10',href:'/national-security'},
-              {icon:'📊',name:'Econ. Security',count:'6',href:'/economic-security'},
-            ].map((t,i) => (
-              <a href={t.href} className={`topic-card reveal reveal-delay-${i+1}`} key={t.name}>
-                <span className="topic-icon">{t.icon}</span>
-                <div className="topic-name">{t.name}</div>
-                <div className="topic-count">// {t.count} REPORTS</div>
+            )}
+            {/* Two latest non-featured articles */}
+            {currentFeatured && latest.filter(a => a.slug !== currentFeatured.slug).slice(0, 2).map((a, i) => (
+              <a key={a.slug} href={`/articles/${a.slug}`} className={`article-card reveal reveal-delay-${i + 1}`}>
+                <div className="card-meta">
+                  <div className="card-category">{a.category}</div>
+                  <div className="card-date">{a.date}</div>
+                </div>
+                <div className="card-title">{a.title}</div>
+                <div className="card-excerpt">{a.excerpt}</div>
+                <div className="card-footer">
+                  <div className="card-read">Read Analysis →</div>
+                  <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
+                </div>
               </a>
             ))}
           </div>
@@ -280,31 +327,66 @@ export default function Home() {
 
       <div className="divider" />
 
-      <section>
+      {/* TOPICS */}
+      <section className="topics-section">
         <div className="section-inner">
           <div className="section-header reveal">
-            <div><div className="section-label">// Recent Dispatches</div><div className="section-title">Latest Reports</div></div>
-            <a href="#" className="section-link">Full Archive →</a>
+            <div><div className="section-label">// Coverage Areas</div><div className="section-title">Intelligence Domains</div></div>
+          </div>
+          <div className="topics-grid">
+            {[
+              { icon: '🔐', name: 'Cybersecurity', href: '/cybersecurity' },
+              { icon: '🕵️', name: 'Intelligence', href: '/intelligence' },
+              { icon: '🌐', name: 'Geopolitics', href: '/geopolitics' },
+              { icon: '🛡️', name: 'National Security', href: '/national-security' },
+              { icon: '📊', name: 'Economic Security', href: '/economic-security' },
+            ].map((t, i) => (
+              <a href={t.href} className={`topic-card reveal reveal-delay-${i + 1}`} key={t.name}>
+                <span className="topic-icon">{t.icon}</span>
+                <div className="topic-name">{t.name}</div>
+                <div className="topic-count">// {ARTICLES.filter(a => a.category === t.name).length} REPORTS</div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="divider" />
+
+      {/* ARTICLES — filtered by category tag */}
+      <section id="articles-section">
+        <div className="section-inner">
+          <div className="section-header reveal">
+            <div>
+              <div className="section-label">// {activeCategory === 'All' ? 'Recent Dispatches' : activeCategory}</div>
+              <div className="section-title">{activeCategory === 'All' ? 'Latest Reports' : `${activeCategory} Reports`}</div>
+            </div>
+            <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+              {CATEGORIES.map(cat => (
+                <button key={cat} onClick={() => setActiveCategory(cat)}
+                  style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '2px', padding: '6px 14px', border: `1px solid ${activeCategory === cat ? '#1e9eff' : 'rgba(30,158,255,0.15)'}`, background: activeCategory === cat ? 'rgba(30,158,255,0.1)' : 'none', color: activeCategory === cat ? '#1e9eff' : '#3d5870', cursor: 'pointer', textTransform: 'uppercase', transition: 'all 0.2s' }}>
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="intel-grid">
-            <a href="/national-security" className="article-card reveal reveal-delay-1">
-              <div className="card-meta"><div className="card-category">Natl. Security</div><div className="card-date">FEB 14, 2026</div></div>
-              <div className="card-title">The AUKUS Equation: Submarines, Strategy & the Indo-Pacific</div>
-              <div className="card-excerpt">How the trilateral security pact is reshaping alliance architecture across the Pacific theater.</div>
-              <div className="card-footer"><div className="card-read">Read →</div><div className="card-threat threat-med">■ MED</div></div>
-            </a>
-            <a href="/cybersecurity" className="article-card reveal reveal-delay-2">
-              <div className="card-meta"><div className="card-category">Cybersecurity</div><div className="card-date">FEB 11, 2026</div></div>
-              <div className="card-title">Zero-Day Diplomacy: When Exploits Become Leverage</div>
-              <div className="card-excerpt">Nation-states are stockpiling software vulnerabilities as strategic assets in a new form of coercive diplomacy.</div>
-              <div className="card-footer"><div className="card-read">Read →</div><div className="card-threat threat-high">■ HIGH</div></div>
-            </a>
-            <a href="/blog/what-is-swift" className="article-card reveal reveal-delay-3">
-              <div className="card-meta"><div className="card-category">Econ. Security</div><div className="card-date">FEB 8, 2026</div></div>
-              <div className="card-title">Dollar Dominance Under Pressure: BRICS & the Reserve Currency Question</div>
-              <div className="card-excerpt">The structural challenge to USD hegemony is real — but premature obituaries miss the full picture.</div>
-              <div className="card-footer"><div className="card-read">Read →</div><div className="card-threat threat-low">■ LOW</div></div>
-            </a>
+            {filteredArticles.length === 0 ? (
+              <div className="no-articles">// No reports in this category yet</div>
+            ) : filteredArticles.map((a, i) => (
+              <a key={a.slug} href={`/articles/${a.slug}`} className={`article-card reveal reveal-delay-${(i % 3) + 1}`}>
+                <div className="card-meta">
+                  <div className="card-category">{a.category}</div>
+                  <div className="card-date">{a.date}</div>
+                </div>
+                <div className="card-title">{a.title}</div>
+                <div className="card-excerpt">{a.excerpt}</div>
+                <div className="card-footer">
+                  <div className="card-read">Read →</div>
+                  <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </section>
@@ -331,7 +413,7 @@ export default function Home() {
               <div className="footer-col-title">Navigate</div>
               <ul className="footer-links">
                 <li><a href="/">Home</a></li>
-                <li><a href="#">All Reports</a></li>
+                <li><a href="/articles">All Reports</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/contact">Contact</a></li>
               </ul>

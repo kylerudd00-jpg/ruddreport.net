@@ -1,67 +1,273 @@
 import { NextResponse } from 'next/server';
 
+const HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+};
+
+async function get(url: string, headers: Record<string, string> = {}, timeout = 8000) {
+  return fetch(url, {
+    headers: { ...HEADERS, ...headers },
+    redirect: 'follow',
+    signal: AbortSignal.timeout(timeout),
+  });
+}
+
+async function checkGitHub(u: string) {
+  const r = await get(`https://api.github.com/users/${u}`, { Accept: 'application/vnd.github+json' });
+  return r.status === 200;
+}
+
+async function checkReddit(u: string) {
+  const r = await get(`https://www.reddit.com/user/${u}/about.json`, { Accept: 'application/json' });
+  if (r.status !== 200) return false;
+  const d = await r.json();
+  return !!d?.data?.name;
+}
+
+async function checkTwitch(u: string) {
+  const r = await get(`https://api.twitch.tv/kraken/users?login=${u}`, {
+    Accept: 'application/vnd.twitchtv.v5+json',
+    'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+  });
+  if (r.status !== 200) return false;
+  const d = await r.json();
+  return Array.isArray(d?.users) && d.users.length > 0;
+}
+
+async function checkGitLab(u: string) {
+  const r = await get(`https://gitlab.com/api/v4/users?username=${u}`, { Accept: 'application/json' });
+  if (r.status !== 200) return false;
+  const d = await r.json();
+  return Array.isArray(d) && d.length > 0;
+}
+
+async function checkLichess(u: string) {
+  const r = await get(`https://lichess.org/api/user/${u}`, { Accept: 'application/json' });
+  return r.status === 200;
+}
+
+async function checkChessCom(u: string) {
+  const r = await get(`https://api.chess.com/pub/player/${u.toLowerCase()}`, { Accept: 'application/json' });
+  return r.status === 200;
+}
+
+async function checkRoblox(u: string) {
+  const r = await fetch('https://users.roblox.com/v1/usernames/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ usernames: [u], excludeBannedUsers: false }),
+    signal: AbortSignal.timeout(8000),
+  });
+  if (r.status !== 200) return false;
+  const d = await r.json();
+  return Array.isArray(d?.data) && d.data.length > 0;
+}
+
+async function checkMinecraft(u: string) {
+  const r = await get(`https://api.mojang.com/users/profiles/minecraft/${u}`, { Accept: 'application/json' });
+  return r.status === 200;
+}
+
+async function checkNPM(u: string) {
+  const r = await get(`https://registry.npmjs.org/-/user/org.couchdb.user:${u}`, { Accept: 'application/json' });
+  return r.status === 200;
+}
+
+async function checkKeybase(u: string) {
+  const r = await get(`https://keybase.io/_/api/1.0/user/lookup.json?username=${u}`, { Accept: 'application/json' });
+  if (r.status !== 200) return false;
+  const d = await r.json();
+  return d?.status?.code === 0 && !!d?.them;
+}
+
+async function checkHuggingFace(u: string) {
+  const r = await get(`https://huggingface.co/api/users/${u}`, { Accept: 'application/json' });
+  return r.status === 200;
+}
+
+async function checkDevTo(u: string) {
+  const r = await get(`https://dev.to/api/users/by_username?url=${u}`, { Accept: 'application/json' });
+  return r.status === 200;
+}
+
+async function checkHashnode(u: string) {
+  const r = await fetch('https://api.hashnode.com/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query: `{ user(username: "${u}") { username } }` }),
+    signal: AbortSignal.timeout(8000),
+  });
+  if (r.status !== 200) return false;
+  const d = await r.json();
+  return !!d?.data?.user?.username;
+}
+
+async function checkSteam(u: string) {
+  const r = await get(`https://steamcommunity.com/id/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.includes('The specified profile could not be found') && !html.includes('error_ctn');
+}
+
+async function checkTwitter(u: string) {
+  const r = await get(`https://cdn.syndication.twimg.com/widgets/followbutton/info.json?screen_names=${u}`, {
+    Accept: 'application/json',
+  });
+  if (r.status !== 200) return false;
+  const d = await r.json();
+  return Array.isArray(d) && d.length > 0;
+}
+
+async function checkTikTok(u: string) {
+  const r = await get(`https://www.tiktok.com/@${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.includes("Couldn't find this account") && !html.includes('user-not-found');
+}
+
+async function checkSnapchat(u: string) {
+  const r = await get(`https://www.snapchat.com/add/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('page not found') && !html.toLowerCase().includes('sorry, we couldn');
+}
+
+async function checkLinkedIn(u: string) {
+  const r = await get(`https://www.linkedin.com/in/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('page not found') && !html.toLowerCase().includes('this profile is not available');
+}
+
+async function checkYouTube(u: string) {
+  const r = await get(`https://www.youtube.com/@${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.includes('404') && html.includes('channelId');
+}
+
+async function checkPinterest(u: string) {
+  const r = await get(`https://www.pinterest.com/${u}/`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes("sorry! we couldn") && !html.toLowerCase().includes('page not found');
+}
+
+async function checkTumblr(u: string) {
+  const r = await get(`https://${u}.tumblr.com/`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes("there's nothing here") && !html.toLowerCase().includes('not found');
+}
+
+async function checkMedium(u: string) {
+  const r = await get(`https://medium.com/@${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('page not found') && !html.toLowerCase().includes('this page is not available');
+}
+
+async function checkSubstack(u: string) {
+  const r = await get(`https://${u}.substack.com/`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('not found');
+}
+
+async function checkPatreon(u: string) {
+  const r = await get(`https://www.patreon.com/api/campaigns?filter[vanity]=${u}`, { Accept: 'application/json' });
+  if (r.status !== 200) return false;
+  const d = await r.json();
+  return Array.isArray(d?.data) && d.data.length > 0;
+}
+
+async function checkSoundCloud(u: string) {
+  const r = await get(`https://soundcloud.com/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes("we can't find that user") && !html.toLowerCase().includes('page not found');
+}
+
+async function checkVimeo(u: string) {
+  const r = await get(`https://vimeo.com/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('page not found');
+}
+
+async function checkSpotify(u: string) {
+  const r = await get(`https://open.spotify.com/user/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('page not found') && !html.toLowerCase().includes('not found');
+}
+
+async function checkTelegram(u: string) {
+  const r = await get(`https://t.me/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return html.toLowerCase().includes('tgme_page_title');
+}
+
+const CHECKERS: Record<string, (u: string) => Promise<boolean>> = {
+  'github': checkGitHub,
+  'reddit': checkReddit,
+  'twitter / x': checkTwitter,
+  'instagram': async () => false, // blocks all server fetches
+  'tiktok': checkTikTok,
+  'youtube': checkYouTube,
+  'twitch': checkTwitch,
+  'snapchat': checkSnapchat,
+  'linkedin': checkLinkedIn,
+  'pinterest': checkPinterest,
+  'tumblr': checkTumblr,
+  'medium': checkMedium,
+  'substack': checkSubstack,
+  'telegram': checkTelegram,
+  'spotify': checkSpotify,
+  'soundcloud': checkSoundCloud,
+  'vimeo': checkVimeo,
+  'patreon': checkPatreon,
+  'gitlab': checkGitLab,
+  'dev.to': checkDevTo,
+  'hashnode': checkHashnode,
+  'hugging face': checkHuggingFace,
+  'keybase': checkKeybase,
+  'npm': checkNPM,
+  'lichess': checkLichess,
+  'chess.com': checkChessCom,
+  'steam': checkSteam,
+  'roblox': checkRoblox,
+  'minecraft': checkMinecraft,
+};
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const url = searchParams.get('url');
-  const platform = searchParams.get('platform') || '';
-  if (!url) return NextResponse.json({ found: false });
+  const username = searchParams.get('username') || '';
+  const platform = (searchParams.get('platform') || '').toLowerCase();
+
+  if (!username || !platform) return NextResponse.json({ found: false });
+
+  const checker = CHECKERS[platform];
+  if (!checker) return NextResponse.json({ found: false });
 
   try {
-    const res = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      },
-      redirect: 'follow',
-      signal: AbortSignal.timeout(8000),
-    });
-
-    if (res.status === 404 || res.status === 410 || res.status === 403) {
-      return NextResponse.json({ found: false });
-    }
-    if (res.status !== 200) {
-      return NextResponse.json({ found: false });
-    }
-
-    const html = (await res.text()).toLowerCase();
-
-    const notFoundPatterns: Record<string, string[]> = {
-      reddit: ['sorry, nobody on reddit goes by that name'],
-      github: ['not found'],
-      twitch: ['sorry. unless you\'ve got a time machine', 'isn\'t available'],
-      medium: ['this page is not available', '404'],
-      lichess: ['no such user', 'this player does not exist'],
-      hashnode: ['page not found', 'doesn\'t exist'],
-      kaggle: ['page not found', '404'],
-      bandcamp: ['sorry, that something isn\'t here', 'the address you requested does not exist'],
-      namemc: ['unknown player', 'player not found'],
-      gravatar: ['has not created a gravatar profile'],
-      keybase: ['not a keybase user', 'page not found'],
-      soundcloud: ['page not found', 'we can\'t find that user'],
-      vimeo: ['page not found', 'this page is not found'],
-      patreon: ['page not found', '404'],
-      npm: ['not found'],
-      replit: ['page not found', '404'],
-      codepen: ['not found', '404'],
-      huggingface: ['not found', '404'],
-      roblox: ['page not found', '404'],
-      gitlab: ['page not found', 'not found'],
-      'dev.to': ['page not found', '404'],
-      'chess.com': ['page not found', 'member not found'],
-      minecraft: ['unknown player', 'not found'],
-    };
-
-    const key = platform.toLowerCase();
-    const patterns = notFoundPatterns[key];
-    if (patterns) {
-      const notFound = patterns.some(p => html.includes(p));
-      if (notFound) return NextResponse.json({ found: false });
-      return NextResponse.json({ found: true });
-    }
-
-    return NextResponse.json({ found: true });
-
+    const found = await checker(username);
+    return NextResponse.json({ found });
   } catch {
     return NextResponse.json({ found: false });
   }
