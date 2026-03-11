@@ -1450,7 +1450,7 @@ useEffect(() => {
         .news-loading { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-align: center; padding: 20px 0; animation: blink 1s infinite; }
 
         /* BOTTOM SECTION */
-        .bottom-section { max-width: 1500px; margin: 2px auto 0; padding: 0 40px 80px; display: grid; grid-template-columns: 1fr 1fr 340px; gap: 2px; }
+        .bottom-section { max-width: 1500px; margin: 2px auto 0; padding: 0 40px 80px; display: grid; grid-template-columns: 1fr 340px; gap: 2px; }
 
         /* GLOBAL NEWS FEED */
         .global-feed { border: 1px solid rgba(30,158,255,0.08); background: #070d12; }
@@ -1685,32 +1685,7 @@ useEffect(() => {
             )}
           </div>
 
-          {/* Emerging threats / GDELT spikes */}
-          <div className="spikes-panel">
-            <div className="panel-header">
-              <div>
-                <div className="panel-title">Emerging Threats</div>
-                <div className="panel-subtitle">// GDELT-flagged activity spikes</div>
-              </div>
-              <button className="page-btn" onClick={fetchSpikes}>↺ Refresh</button>
-            </div>
-            {spikesLoading ? (
-              <div className="news-loading" style={{ padding: 30 }}>// Scanning for spikes...</div>
-            ) : spikes.length === 0 ? (
-              <div className="news-empty" style={{ padding: 30 }}>// No new threats flagged</div>
-            ) : spikes.map((s, i) => (
-              <div key={i} className="spike-item">
-                <div>
-                  <div className="spike-country">{s.country}</div>
-                  <div className="spike-count">{s.count} articles · last 48h</div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-                  <span className="spike-trend">{s.trend}</span>
-                  <span className="spike-badge">Monitor</span>
-                </div>
-              </div>
-            ))}
-          </div>
+          
 
           {/* ACLED stats */}
           <div className="stats-panel">
