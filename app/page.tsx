@@ -136,10 +136,6 @@ export default function Home() {
           .hamburger { display: flex; }
         }
       `}</style>
-
-      <div className="cursor" ref={cursorRef} />
-      <div className="cursor-ring" ref={ringRef} />
-
       <nav>
         <a href="/" className="nav-logo">
           <div className="nav-logo-text">

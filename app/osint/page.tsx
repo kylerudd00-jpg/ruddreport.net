@@ -193,13 +193,13 @@ export default function OSINTHub() {
   <p className="tool-desc">Search 200M+ companies across 140 jurisdictions. Trace corporate structures, registered agents, and incorporation records across known shell company havens.</p>
   <div className="tool-action">Launch Tool →</div>
 </a>
-            <a href="#" className="tool-card coming">
-              <span className="tool-icon">🗺️</span>
-              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
-              <div className="tool-name">Conflict Tracker</div>
-              <p className="tool-desc">Interactive map of active conflict zones, troop movements, and geopolitical flashpoints — updated from open-source reporting.</p>
-              <div className="tool-action">// In Development</div>
-            </a>
+           <a href="/osint/conflict" className="tool-card live">
+  <span className="tool-icon">🗺️</span>
+  <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+  <div className="tool-name">Conflict Tracker</div>
+  <p className="tool-desc">Real-time mapping of active conflict zones, insurgencies, and geopolitical flashpoints — with live GDELT news and ACLED incident data.</p>
+  <div className="tool-action">Launch Tool →</div>
+</a>
 
 <a href="/osint/sanctions" className="tool-card live">
   <span className="tool-icon">💰</span>
