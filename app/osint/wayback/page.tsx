@@ -126,14 +126,17 @@ export default function WaybackMachine() {
         .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @keyframes loadBar { 0%, 100% { height: 4px; } 50% { height: 20px; } }
+        .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
+          .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .search-wrap { padding: 24px 20px; }
           .search-box { flex-direction: column; }
           .results { padding: 0 20px 60px; }
+          .snapshot-table th, .snapshot-table td { padding: 10px 12px; font-size: 10px; }
           footer { padding: 30px 20px; }
           .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
         }
@@ -215,6 +218,7 @@ export default function WaybackMachine() {
                   <span>{snapshots.length}</span> snapshots found for <span>{targetUrl}</span>
                 </div>
               </div>
+              <div className="table-scroll">
               <table className="snapshot-table">
                 <thead>
                   <tr>
@@ -239,6 +243,7 @@ export default function WaybackMachine() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </>
           )}
         </div>

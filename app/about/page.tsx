@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 
 export default function About() {
   return (
@@ -36,32 +35,24 @@ export default function About() {
         .page-wrap { padding-top: 70px; min-height: 100vh; }
 
         .hero { position: relative; padding: 80px 40px 60px; overflow: hidden; border-bottom: 1px solid var(--border); }
-        .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(30,158,255,0.07) 0%, transparent 70%); pointer-events: none; }
-        .hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .hero-left {}
+        .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(30,158,255,0.06) 0%, transparent 70%); pointer-events: none; }
+        .hero-inner { max-width: 1200px; margin: 0 auto; }
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
         .hero-eyebrow-line { width: 60px; height: 1px; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
         .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(32px, 5vw, 64px); font-weight: 900; color: var(--silver); text-transform: uppercase; letter-spacing: 2px; line-height: 1.05; margin-bottom: 8px; }
+        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(36px, 5vw, 68px); font-weight: 900; color: var(--silver); text-transform: uppercase; letter-spacing: 2px; line-height: 1.05; margin-bottom: 8px; }
         .hero-title span { color: transparent; -webkit-text-stroke: 1px var(--accent); }
-        .hero-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 28px; }
-        .hero-bio { font-size: 16px; font-weight: 300; color: var(--text-secondary); line-height: 1.9; margin-bottom: 36px; }
-        .hero-socials { display: flex; gap: 12px; }
-        .social-btn { padding: 12px 24px; border: 1px solid var(--border); font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--text-secondary); text-decoration: none; text-transform: uppercase; transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
+        .hero-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 24px; }
+        .hero-bio { font-size: 15px; font-weight: 300; color: var(--text-secondary); line-height: 1.9; margin-bottom: 28px; }
+        .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+        .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--text-muted); border: 1px solid rgba(30,158,255,0.15); padding: 5px 12px; text-transform: uppercase; }
+        .hero-socials { display: flex; gap: 10px; }
+        .social-btn { padding: 11px 22px; border: 1px solid var(--border); font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--text-secondary); text-decoration: none; text-transform: uppercase; transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
         .social-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
         .social-btn.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
         .social-btn.primary:hover { background: transparent; color: var(--accent); }
 
-        .hero-right { position: relative; }
-        .photo-frame { position: relative; }
-        .photo-frame::before { content: ''; position: absolute; top: -8px; left: -8px; right: 8px; bottom: 8px; border: 1px solid var(--accent-dim); z-index: 0; }
-        .photo-frame::after { content: ''; position: absolute; top: 8px; left: 8px; right: -8px; bottom: -8px; border: 1px solid rgba(30,158,255,0.15); z-index: 0; }
-        .photo-img { position: relative; z-index: 1; width: 100%; aspect-ratio: 1; object-fit: cover; object-position: top; filter: grayscale(20%) contrast(1.05); display: block; }
-        .photo-label { position: absolute; bottom: -1px; left: -1px; right: -1px; background: rgba(3,6,8,0.85); border-top: 1px solid var(--accent-dim); padding: 12px 16px; z-index: 2; display: flex; justify-content: space-between; align-items: center; }
-        .photo-label-name { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; color: var(--silver); letter-spacing: 2px; text-transform: uppercase; }
-        .photo-label-id { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--accent); letter-spacing: 3px; }
-        .scan-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.4; animation: scanDown 4s ease-in-out infinite; z-index: 3; }
-        @keyframes scanDown { 0% { top: 0; opacity: 0.4; } 100% { top: 100%; opacity: 0; } }
+        @keyframes scanDown { 0% { top: 0; opacity: 0.35; } 100% { top: 100%; opacity: 0; } }
 
         .credentials { padding: 80px 40px; border-bottom: 1px solid var(--border); }
         .credentials-inner { max-width: 1200px; margin: 0 auto; }
@@ -110,8 +101,7 @@ export default function About() {
           .nav-status { display: none; }
           .hamburger { display: flex; }
           .hero { padding: 40px 20px; }
-          .hero-inner { grid-template-columns: 1fr; gap: 40px; }
-          .hero-right { order: -1; max-width: 280px; margin: 0 auto; }
+          .hero-inner { grid-template-columns: 1fr; }
           .credentials { padding: 60px 20px; }
           .cred-grid { grid-template-columns: 1fr; }
           .mission { padding: 60px 20px; }
@@ -170,19 +160,16 @@ export default function About() {
               <p className="hero-bio">
                 From the halls of Cambridge to the corridors of the Department of Homeland Security, Kyle Rudd has spent his early career at the intersection of intelligence, cybersecurity, and national security policy — building a rare analytical perspective grounded in both academic rigor and operational experience.
               </p>
+              <div className="hero-tags">
+                <span className="hero-tag">DHS Intern</span>
+                <span className="hero-tag">Cambridge Scholar</span>
+                <span className="hero-tag">ODNI IC-CAE</span>
+                <span className="hero-tag">IR + Economics</span>
+                <span className="hero-tag">Intelligence Studies</span>
+              </div>
               <div className="hero-socials">
                 <a href="https://www.linkedin.com/in/kyle-rudd-68209b252/" target="_blank" rel="noopener noreferrer" className="social-btn primary">↗ LinkedIn</a>
                 <a href="https://x.com/KyleRudd44" target="_blank" rel="noopener noreferrer" className="social-btn">↗ X / Twitter</a>
-              </div>
-            </div>
-            <div className="hero-right">
-              <div className="photo-frame">
-                <div className="scan-line" />
-                <Image src="/kyleheadshot.jpg" alt="Kyle Rudd" width={500} height={500} className="photo-img" />
-                <div className="photo-label">
-                  <div className="photo-label-name">Kyle Rudd</div>
-                  <div className="photo-label-id">// ANALYST — CLEARED FOR PUBLICATION</div>
-                </div>
               </div>
             </div>
           </div>

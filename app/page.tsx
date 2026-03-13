@@ -175,9 +175,12 @@ export default function Home() {
           .nav-links, .nav-status { display: none; }
           .hamburger { display: flex; }
           .hero { padding: 100px 20px 60px; }
+          .hero-tags { gap: 8px; }
           section { padding: 60px 20px; }
+          .section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
           .featured-grid, .intel-grid { grid-template-columns: 1fr; }
           .topics-grid { grid-template-columns: repeat(2, 1fr); }
+          .search-bar-wrap { margin-bottom: 16px; }
           .footer-top { grid-template-columns: 1fr; gap: 32px; }
           footer { padding: 40px 20px; }
           .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }

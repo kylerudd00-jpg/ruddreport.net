@@ -144,9 +144,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
-          .article-header { padding: 100px 20px 40px; }
-          .article-body { padding: 40px 20px 60px; }
-          .related { padding: 40px 20px 60px; }
+          .article-header { padding: 90px 20px 32px; }
+          .article-excerpt { font-size: 15px; }
+          .article-body { padding: 32px 20px 48px; }
+          .article-body-inner { grid-template-columns: 1fr; }
+          .toc-sidebar { position: static; background: rgba(10,21,32,0.5); border: 1px solid rgba(30,158,255,0.1); padding: 16px; margin-bottom: 32px; order: -1; }
+          .content-h2 { font-size: 17px; }
+          .content-p { font-size: 15px; }
+          .related { padding: 32px 20px 48px; }
+          .related-grid { grid-template-columns: 1fr; }
           footer { padding: 30px 20px; }
           .footer-inner { flex-direction: column; gap: 10px; }
         }

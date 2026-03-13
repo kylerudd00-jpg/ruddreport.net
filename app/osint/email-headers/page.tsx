@@ -188,8 +188,11 @@ export default function EmailHeaderAnalyzer() {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
+          .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .input-wrap { padding: 24px 20px; }
+          .btn-row { flex-direction: column; }
+          .analyze-btn, .reset-btn { width: 100%; text-align: center; }
           .results-wrap { padding: 0 20px 60px; }
           .auth-grid { grid-template-columns: 1fr; }
           .summary-grid { grid-template-columns: 1fr; }

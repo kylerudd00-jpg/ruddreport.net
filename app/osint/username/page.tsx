@@ -183,6 +183,7 @@ export default function UsernameHunter() {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
+          .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .search-wrap { padding: 24px 20px; }
           .search-box { flex-direction: column; }

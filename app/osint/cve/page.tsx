@@ -175,9 +175,11 @@ export default function CVESearch() {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
+          .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .search-wrap { padding: 24px 20px; }
           .search-box { flex-direction: column; }
+          .mode-toggle { flex-wrap: wrap; }
           .results-wrap { padding: 0 20px 60px; }
           .cve-card { padding: 20px; }
           .cve-header { flex-direction: column; }

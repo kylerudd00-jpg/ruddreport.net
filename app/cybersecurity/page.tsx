@@ -67,13 +67,17 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
+          .nav-logo-text { font-size: 16px; letter-spacing: 2px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
           .hero { padding: 40px 20px; }
-          .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+          .hero-inner { grid-template-columns: 1fr; gap: 32px; }
           .hero-icon-box { display: none; }
+          .hero-title { font-size: 36px; }
+          .hero-note { font-size: 13px; }
           .articles { padding: 40px 20px; }
           .articles-grid { grid-template-columns: 1fr; }
+          .article-card { padding: 24px; }
           footer { padding: 30px 20px; }
           .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
         }

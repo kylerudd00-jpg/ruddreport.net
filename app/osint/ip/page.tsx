@@ -158,11 +158,13 @@ export default function IPGeo() {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
+          .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .search-wrap { padding: 24px 20px; }
           .search-box { flex-direction: column; }
           .results { padding: 0 20px 60px; }
           .result-grid { grid-template-columns: 1fr; }
+          .result-header { flex-direction: column; align-items: flex-start; gap: 8px; }
           .result-field { border-right: none; }
           .map-wrap { height: 280px; }
           footer { padding: 30px 20px; }

@@ -111,10 +111,12 @@ export default function UrlTracer() {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
+          .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .search-wrap { padding: 24px 20px; }
           .search-box { flex-direction: column; }
           .results-wrap { padding: 0 20px 60px; }
+          .summary-banner { flex-direction: column; align-items: flex-start; gap: 16px; }
           .hop-row { grid-template-columns: 28px 1fr; }
           .hop-code { display: none; }
           footer { padding: 30px 20px; }
