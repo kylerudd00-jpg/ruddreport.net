@@ -1,10 +1,40 @@
 import { getArticleBySlug, getReadingTime, getTableOfContents, getRelatedArticles, ARTICLES } from '@/lib/articles';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import ShareButtons from './ShareButtons';
 import ArticleNav from './ArticleNav';
 
 export async function generateStaticParams() {
   return ARTICLES.map(a => ({ slug: a.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
+  if (!article) return {};
+  const url = `https://ruddreport.net/articles/${article.slug}`;
+  return {
+    title: `${article.title} | The Rudd Report`,
+    description: article.excerpt,
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      url,
+      siteName: 'The Rudd Report',
+      type: 'article',
+      publishedTime: article.date,
+      authors: ['Kyle Rudd'],
+      tags: [article.category],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.excerpt,
+      site: '@KyleRudd44',
+      creator: '@KyleRudd44',
+    },
+    alternates: { canonical: url },
+  };
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {

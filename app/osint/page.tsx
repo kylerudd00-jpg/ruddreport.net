@@ -118,12 +118,12 @@ export default function OSINTHub() {
             <p className="hero-sub">A curated toolkit for open-source intelligence gathering, corporate investigations, and real-time situational awareness. Built for analysts, researchers, and anyone who needs to know what's really going on.</p>
             <div className="hero-stats">
               <div className="hero-stat">
-                <div className="hero-stat-num">13</div>
+                <div className="hero-stat-num">17</div>
                 <div className="hero-stat-label">// Live Tools</div>
               </div>
               <div className="hero-stat">
-                <div className="hero-stat-num">1+</div>
-                <div className="hero-stat-label">// Coming Soon</div>
+                <div className="hero-stat-num">Free</div>
+                <div className="hero-stat-label">// No Sign-Up</div>
               </div>
               <div className="hero-stat">
                 <div className="hero-stat-num">6</div>
@@ -239,12 +239,36 @@ export default function OSINTHub() {
               <div className="tool-action">Launch Tool →</div>
             </a>
 
-            <a href="#" className="tool-card coming">
+            <a href="/osint/entity" className="tool-card live">
               <span className="tool-icon">🔍</span>
-              <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
               <div className="tool-name">Entity Search</div>
-              <p className="tool-desc">Search individuals, organizations, and assets across open databases, sanctions lists, and public records simultaneously.</p>
-              <div className="tool-action">// In Development</div>
+              <p className="tool-desc">Search any person, organization, or topic. Pulls a Wikipedia profile and surfaces quick-launch links to cross-reference across news archives, corporate registries, sanctions databases, and court records.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/cve" className="tool-card live">
+              <span className="tool-icon">⚠️</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">CVE Search</div>
+              <p className="tool-desc">Search the NIST National Vulnerability Database by CVE ID or keyword. Shows CVSS severity scores, attack vectors, affected weaknesses, and official references. Essential for cyber threat research.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/url" className="tool-card live">
+              <span className="tool-icon">🔗</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">URL Redirect Tracer</div>
+              <p className="tool-desc">Trace the complete redirect chain of any URL — shortened links, tracking hops, affiliate redirects, and obfuscated destinations. See every step between the link and where you actually land.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/email-headers" className="tool-card live">
+              <span className="tool-icon">📧</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Email Header Analyzer</div>
+              <p className="tool-desc">Paste raw email headers to reveal the full routing path, originating IP, and authentication results (SPF / DKIM / DMARC). Detect spoofed senders and trace phishing emails to their source.</p>
+              <div className="tool-action">Launch Tool →</div>
             </a>
 
           </div>

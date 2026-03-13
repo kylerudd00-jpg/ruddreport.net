@@ -7,6 +7,15 @@ export default function SubdomainScanner() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  const copyAll = () => {
+    const text = filtered.map((s: any) => s.name).join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   const scan = async () => {
     if (!domain.trim()) return;
@@ -68,8 +77,12 @@ export default function SubdomainScanner() {
         .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
         .results-meta { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
         .results-meta span { color: #00ff88; }
+        .results-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .filter-box { background: #0a1520; border: 1px solid rgba(0,255,136,0.2); padding: 10px 14px; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #d8e8f5; letter-spacing: 1px; outline: none; width: 240px; }
         .filter-box::placeholder { color: #3d5870; }
+        .copy-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(0,255,136,0.15); padding: 10px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
+        .copy-btn:hover { color: #00ff88; border-color: rgba(0,255,136,0.4); }
+        .copy-btn.copied { color: #00ff88; border-color: #00ff88; }
         .subdomain-table { width: 100%; border-collapse: collapse; }
         .subdomain-table th { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(30,158,255,0.12); background: rgba(30,158,255,0.03); }
         .subdomain-table td { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; padding: 10px 16px; border-bottom: 1px solid rgba(30,158,255,0.05); letter-spacing: 0.5px; word-break: break-all; }
@@ -186,12 +199,17 @@ export default function SubdomainScanner() {
                   <span>{result.total > result.count ? `${result.count} of ${result.total}` : result.count}</span> subdomains found for <span>{result.domain}</span>
                   {filter && filtered.length < result.count && <> — showing <span>{filtered.length}</span> filtered</>}
                 </div>
-                <input
-                  className="filter-box"
-                  placeholder="// filter results..."
-                  value={filter}
-                  onChange={e => setFilter(e.target.value)}
-                />
+                <div className="results-actions">
+                  <input
+                    className="filter-box"
+                    placeholder="// filter results..."
+                    value={filter}
+                    onChange={e => setFilter(e.target.value)}
+                  />
+                  <button className={`copy-btn${copied ? ' copied' : ''}`} onClick={copyAll}>
+                    {copied ? '✓ Copied' : 'Copy All'}
+                  </button>
+                </div>
               </div>
               <table className="subdomain-table">
                 <thead>

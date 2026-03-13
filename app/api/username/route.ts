@@ -294,13 +294,6 @@ async function checkOsu(u: string) {
   return !html.toLowerCase().includes('user not found') && !html.toLowerCase().includes('page not found');
 }
 
-async function check500px(u: string) {
-  const r = await get(`https://500px.com/p/${u}`, { Accept: 'text/html' });
-  if (r.status === 404) return false;
-  if (r.status !== 200) return false;
-  const html = await r.text();
-  return !html.toLowerCase().includes('page not found') && !html.toLowerCase().includes('not found');
-}
 
 const CHECKERS: Record<string, (u: string) => Promise<boolean>> = {
   'github': checkGitHub,
@@ -342,7 +335,6 @@ const CHECKERS: Record<string, (u: string) => Promise<boolean>> = {
   'replit': checkReplit,
   'hacker news': checkHackerNews,
   'lobste.rs': checkLobsters,
-  '500px': check500px,
 };
 
 export async function GET(request: Request) {

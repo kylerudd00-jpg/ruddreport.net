@@ -5,17 +5,17 @@ const PLATFORMS = [
   // Social
   { name: 'Reddit', url: 'https://reddit.com/user/{}', category: 'Social' },
   { name: 'Twitter / X', url: 'https://x.com/{}', category: 'Social' },
-  { name: 'TikTok', url: 'https://tiktok.com/@{}', category: 'Social' },
+  { name: 'TikTok', url: 'https://tiktok.com/@{}', category: 'Social', checkable: false },
   { name: 'YouTube', url: 'https://youtube.com/@{}', category: 'Social' },
   { name: 'Twitch', url: 'https://twitch.tv/{}', category: 'Social' },
   { name: 'Snapchat', url: 'https://snapchat.com/add/{}', category: 'Social' },
-  { name: 'LinkedIn', url: 'https://linkedin.com/in/{}', category: 'Social' },
-  { name: 'Pinterest', url: 'https://pinterest.com/{}', category: 'Social' },
+  { name: 'LinkedIn', url: 'https://linkedin.com/in/{}', category: 'Social', checkable: false },
+  { name: 'Pinterest', url: 'https://pinterest.com/{}', category: 'Social', checkable: false },
   { name: 'Tumblr', url: 'https://{}.tumblr.com', category: 'Social' },
   { name: 'Medium', url: 'https://medium.com/@{}', category: 'Social' },
   { name: 'Substack', url: 'https://{}.substack.com', category: 'Social' },
   { name: 'Telegram', url: 'https://t.me/{}', category: 'Social' },
-  { name: 'Spotify', url: 'https://open.spotify.com/user/{}', category: 'Social' },
+  { name: 'Spotify', url: 'https://open.spotify.com/user/{}', category: 'Social', checkable: false },
   { name: 'SoundCloud', url: 'https://soundcloud.com/{}', category: 'Social' },
   { name: 'Vimeo', url: 'https://vimeo.com/{}', category: 'Social' },
   { name: 'Patreon', url: 'https://patreon.com/{}', category: 'Social' },
@@ -24,7 +24,6 @@ const PLATFORMS = [
   { name: 'Letterboxd', url: 'https://letterboxd.com/{}', category: 'Social' },
   { name: 'Bandcamp', url: 'https://{}.bandcamp.com', category: 'Social' },
   { name: 'Behance', url: 'https://www.behance.net/{}', category: 'Social' },
-  { name: '500px', url: 'https://500px.com/p/{}', category: 'Social' },
   // Dev
   { name: 'GitHub', url: 'https://github.com/{}', category: 'Dev' },
   { name: 'GitLab', url: 'https://gitlab.com/{}', category: 'Dev' },
@@ -51,7 +50,7 @@ type Result = {
   platform: string;
   url: string;
   category: string;
-  status: 'found' | 'not_found' | 'checking';
+  status: 'found' | 'not_found' | 'checking' | 'manual';
 };
 
 export default function UsernameHunter() {
@@ -59,6 +58,16 @@ export default function UsernameHunter() {
   const [results, setResults] = useState<Result[]>([]);
   const [scanning, setScanning] = useState(false);
   const [filter, setFilter] = useState('All');
+  const [copied, setCopied] = useState(false);
+
+  const copyFound = () => {
+    const found = results.filter(r => r.status === 'found');
+    const text = found.map(r => `${r.platform}: ${r.url}`).join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   const scan = async () => {
     if (!username.trim()) return;
@@ -69,7 +78,7 @@ export default function UsernameHunter() {
       platform: p.name,
       url: p.url.replace('{}', username.trim()),
       category: p.category,
-      status: 'checking',
+      status: p.checkable === false ? 'manual' : 'checking',
     }));
     setResults(initial);
 
@@ -77,9 +86,9 @@ export default function UsernameHunter() {
 
     await Promise.all(
       PLATFORMS.map(async (p, i) => {
-        const url = p.url.replace('{}', username.trim());
+        if (p.checkable === false) return;
         try {
-const res = await fetch(`/api/username?username=${encodeURIComponent(username.trim())}&platform=${encodeURIComponent(p.name.toLowerCase())}`);
+          const res = await fetch(`/api/username?username=${encodeURIComponent(username.trim())}&platform=${encodeURIComponent(p.name.toLowerCase())}`);
           const data = await res.json();
           updated[i] = { ...updated[i], status: data.found ? 'found' : 'not_found' };
         } catch {
@@ -95,6 +104,7 @@ const res = await fetch(`/api/username?username=${encodeURIComponent(username.tr
   const categories = ['All', 'Social', 'Dev', 'Gaming', 'Forums'];
   const filtered = filter === 'All' ? results : results.filter(r => r.category === filter);
   const foundCount = results.filter(r => r.status === 'found').length;
+  const checkableCount = PLATFORMS.filter(p => p.checkable !== false).length;
 
   return (
     <>
@@ -136,6 +146,9 @@ const res = await fetch(`/api/username?username=${encodeURIComponent(username.tr
         .status-scanning { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; animation: blink 1s infinite; }
         .status-done { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #00ff88; text-transform: uppercase; }
         .status-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .copy-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(0,255,136,0.15); padding: 6px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .copy-btn:hover { color: #00ff88; border-color: rgba(0,255,136,0.4); }
+        .copy-btn.copied { color: #00ff88; border-color: #00ff88; }
         .filters { display: flex; gap: 2px; padding: 20px 40px 0; max-width: 1100px; margin: 0 auto; }
         .filter-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .filter-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
@@ -146,6 +159,8 @@ const res = await fetch(`/api/username?username=${encodeURIComponent(username.tr
         .result-card.found::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #00ff88; }
         .result-card.not_found { opacity: 0.3; }
         .result-card.checking { opacity: 0.6; }
+        .result-card.manual { border-color: rgba(255,170,0,0.2); background: #12100a; }
+        .result-card.manual::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #ffaa00; }
         .card-top { display: flex; align-items: center; justify-content: space-between; }
         .card-platform { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; }
         .card-category { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.1); padding: 2px 6px; }
@@ -153,8 +168,11 @@ const res = await fetch(`/api/username?username=${encodeURIComponent(username.tr
         .card-status.found { color: #00ff88; }
         .card-status.not_found { color: #3d5870; }
         .card-status.checking { color: #1e9eff; animation: blink 1s infinite; }
+        .card-status.manual { color: #ffaa00; }
         .card-link { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #00ff88; text-decoration: none; transition: color 0.3s; margin-top: 4px; }
         .card-link:hover { color: #4dffaa; }
+        .card-link-manual { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #ffaa00; text-decoration: none; transition: color 0.3s; margin-top: 4px; }
+        .card-link-manual:hover { color: #ffd04d; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
@@ -213,7 +231,7 @@ const res = await fetch(`/api/username?username=${encodeURIComponent(username.tr
               <div className="tool-eyebrow-text">// OSINT Hub — Identity Intelligence</div>
             </div>
             <div className="tool-title">Username Hunter</div>
-            <p className="tool-desc">Check if a username exists across {PLATFORMS.length} platforms simultaneously — social media, developer communities, gaming networks, forums, and more. Results update in real time as each platform is checked.</p>
+            <p className="tool-desc">Check if a username exists across {PLATFORMS.length} platforms simultaneously — social media, developer communities, gaming networks, forums, and more. Results update in real time. Platforms that block automated checks are flagged for manual verification.</p>
           </div>
         </div>
 
@@ -241,11 +259,18 @@ const res = await fetch(`/api/username?username=${encodeURIComponent(username.tr
                   : <div className="status-done">// Scan complete — {foundCount} profile{foundCount !== 1 ? 's' : ''} found</div>
                 }
               </div>
-              <div className="status-count">
-                {results.filter(r => r.status === 'checking').length > 0
-                  ? `${results.filter(r => r.status === 'checking').length} remaining...`
-                  : `${PLATFORMS.length} platforms checked`
-                }
+              <div style={{display:'flex', alignItems:'center', gap:'16px'}}>
+                <div className="status-count">
+                  {results.filter(r => r.status === 'checking').length > 0
+                    ? `${results.filter(r => r.status === 'checking').length} remaining...`
+                    : `${checkableCount} platforms checked`
+                  }
+                </div>
+                {!scanning && foundCount > 0 && (
+                  <button className={`copy-btn${copied ? ' copied' : ''}`} onClick={copyFound}>
+                    {copied ? '✓ Copied' : `Copy ${foundCount} Found`}
+                  </button>
+                )}
               </div>
             </div>
 
@@ -266,10 +291,16 @@ const res = await fetch(`/api/username?username=${encodeURIComponent(username.tr
                     {r.status === 'found' && '✓ Found'}
                     {r.status === 'not_found' && '✗ Not Found'}
                     {r.status === 'checking' && '// Checking...'}
+                    {r.status === 'manual' && '⚠ Manual Check'}
                   </div>
                   {r.status === 'found' && (
                     <a href={r.url} target="_blank" rel="noopener noreferrer" className="card-link">
                       View Profile →
+                    </a>
+                  )}
+                  {r.status === 'manual' && (
+                    <a href={r.url} target="_blank" rel="noopener noreferrer" className="card-link-manual">
+                      Verify Manually →
                     </a>
                   )}
                 </div>

@@ -21,9 +21,12 @@ function getByCategory(cat: string): Article[] {
 export default function Home() {
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const featured = getFeatured();
   const currentFeatured = featured.length > 0 ? featured[featuredIndex % featured.length] : null;
-  const filteredArticles = getByCategory(activeCategory);
+  const filteredArticles = getByCategory(activeCategory).filter(a =>
+    !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()) || a.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   const latest = getLatest(3);
 
   // Auto-rotate featured every 6 seconds
@@ -147,6 +150,12 @@ export default function Home() {
         .footer-copy span { color: var(--accent); }
         .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: var(--text-muted); border: 1px solid var(--border); padding: 5px 14px; text-transform: uppercase; }
         .no-articles { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--text-muted); text-align: center; padding: 60px 20px; border: 1px solid var(--border); grid-column: 1 / -1; }
+        .search-bar-wrap { margin-bottom: 24px; }
+        .search-bar { display: flex; border: 1px solid var(--border); background: var(--bg-card); }
+        .search-bar-input { flex: 1; background: none; border: none; outline: none; padding: 12px 16px; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-primary); letter-spacing: 1px; }
+        .search-bar-input::placeholder { color: var(--text-muted); }
+        .search-bar-clear { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); background: none; border: none; padding: 12px 16px; cursor: pointer; text-transform: uppercase; transition: color 0.2s; }
+        .search-bar-clear:hover { color: var(--accent); }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes drift { from { transform: translate(0, 0); } to { transform: translate(40px, 30px); } }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -355,12 +364,12 @@ export default function Home() {
 
       <div className="divider" />
 
-      {/* ARTICLES — filtered by category tag */}
+      {/* ARTICLES — filtered by category tag + search */}
       <section id="articles-section">
         <div className="section-inner">
           <div className="section-header reveal">
             <div>
-              <div className="section-label">// {activeCategory === 'All' ? 'Recent Dispatches' : activeCategory}</div>
+              <div className="section-label">// {searchQuery ? `Search: "${searchQuery}"` : activeCategory === 'All' ? 'Recent Dispatches' : activeCategory}</div>
               <div className="section-title">{activeCategory === 'All' ? 'Latest Reports' : `${activeCategory} Reports`}</div>
             </div>
             <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
@@ -372,9 +381,22 @@ export default function Home() {
               ))}
             </div>
           </div>
+          <div className="search-bar-wrap">
+            <div className="search-bar">
+              <input
+                className="search-bar-input"
+                placeholder="// Search reports by title or topic..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button className="search-bar-clear" onClick={() => setSearchQuery('')}>✕ Clear</button>
+              )}
+            </div>
+          </div>
           <div className="intel-grid">
             {filteredArticles.length === 0 ? (
-              <div className="no-articles">// No reports in this category yet</div>
+              <div className="no-articles">{searchQuery ? `// No reports matching "${searchQuery}"` : '// No reports in this category yet'}</div>
             ) : filteredArticles.map((a, i) => (
               <a key={a.slug} href={`/articles/${a.slug}`} className={`article-card reveal reveal-delay-${(i % 3) + 1}`}>
                 <div className="card-meta">
