@@ -12,8 +12,7 @@ export default function About() {
 
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 15px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; line-height: 1.2; }
-        .nav-logo-text span { display: block; font-size: 8px; font-weight: 400; letter-spacing: 4px; color: var(--accent); font-family: 'Share Tech Mono', monospace; }
+        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; position: relative; }
         .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; }
@@ -127,17 +126,14 @@ export default function About() {
       <div className="page-wrap">
         <nav>
           <a href="/" className="nav-logo">
-            <div className="nav-logo-text">
-              The Rudd Report
-              <span>Intelligence · Analysis · Strategy</span>
-            </div>
+            <div className="nav-logo-text">The Rudd Report</div>
           </a>
           <ul className="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="#">Cybersecurity</a></li>
-            <li><a href="#">Intelligence</a></li>
-            <li><a href="#">Geopolitics</a></li>
-            <li><a href="#">National Security</a></li>
+            <li><a href="/cybersecurity">Cybersecurity</a></li>
+            <li><a href="/intelligence">Intelligence</a></li>
+            <li><a href="/geopolitics">Geopolitics</a></li>
+            <li><a href="/national-security">National Security</a></li>
+            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
             <li><a href="/about" className="active">About</a></li>
           </ul>
           <div className="nav-status">
@@ -153,10 +149,11 @@ export default function About() {
         <div className="mobile-menu" id="mobileMenuAbout">
           <button className="mobile-menu-close" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>✕ Close</button>
           <a href="/" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Home</a>
-          <a href="#" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Cybersecurity</a>
-          <a href="#" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Intelligence</a>
-          <a href="#" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Geopolitics</a>
-          <a href="#" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>National Security</a>
+          <a href="/cybersecurity" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Cybersecurity</a>
+          <a href="/intelligence" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Intelligence</a>
+          <a href="/geopolitics" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Geopolitics</a>
+          <a href="/national-security" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>National Security</a>
+          <a href="/osint" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')} style={{color:'#00ff88'}}>OSINT Hub</a>
           <a href="/about" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>About</a>
           <a href="/contact" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Contact</a>
         </div>

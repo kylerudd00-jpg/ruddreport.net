@@ -10,8 +10,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
         html, body { margin: 0; padding: 0; background: var(--bg-primary, #030608); color: var(--text-primary, #d8e8f5); font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 15px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; line-height: 1.2; }
-        .nav-logo-text span { display: block; font-size: 8px; font-weight: 400; letter-spacing: 4px; color: #1e9eff; font-family: 'Share Tech Mono', monospace; }
+        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; position: relative; }
         .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: #1e9eff; transform: scaleX(0); transition: transform 0.3s; }
@@ -68,7 +67,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
-          .nav-links, .nav-status { display: none; }
+          .nav-links { display: none; }
           .hamburger { display: flex; }
           .hero { padding: 40px 20px; }
           .hero-inner { grid-template-columns: 1fr; gap: 40px; }
@@ -82,16 +81,16 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
       <div className="page-wrap">
         <nav>
           <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report<span>Intelligence · Analysis · Strategy</span></div>
+            <div className="nav-logo-text">The Rudd Report</div>
           </a>
           <ul className="nav-links">
             <li><a href="/cybersecurity">Cybersecurity</a></li>
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
+            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
-          <div className="nav-status"><div className="status-dot" /><span>LIVE</span></div>
           <div className="hamburger" onClick={() => document.getElementById('catMobileMenu')?.classList.toggle('open')}>
             <span /><span /><span />
           </div>
@@ -103,6 +102,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
           <a href="/intelligence" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>Intelligence</a>
           <a href="/geopolitics" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>Geopolitics</a>
           <a href="/national-security" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>National Security</a>
+          <a href="/osint" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')} style={{color:'#00ff88'}}>OSINT Hub</a>
           <a href="/about" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>About</a>
           <a href="/contact" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>Contact</a>
         </div>

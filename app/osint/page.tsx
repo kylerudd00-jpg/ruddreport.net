@@ -118,11 +118,11 @@ export default function OSINTHub() {
             <p className="hero-sub">A curated toolkit for open-source intelligence gathering, corporate investigations, and real-time situational awareness. Built for analysts, researchers, and anyone who needs to know what's really going on.</p>
             <div className="hero-stats">
               <div className="hero-stat">
-                <div className="hero-stat-num">6</div>
+                <div className="hero-stat-num">13</div>
                 <div className="hero-stat-label">// Live Tools</div>
               </div>
               <div className="hero-stat">
-                <div className="hero-stat-num">4+</div>
+                <div className="hero-stat-num">1+</div>
                 <div className="hero-stat-label">// Coming Soon</div>
               </div>
               <div className="hero-stat">
@@ -215,6 +215,30 @@ export default function OSINTHub() {
               <p className="tool-desc">Track real-time prediction market odds on geopolitical events, elections, and global conflicts. Monitor market movements and sentiment shifts as they happen.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
+            <a href="/osint/subdomains" className="tool-card live">
+              <span className="tool-icon">🔎</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Subdomain Scanner</div>
+              <p className="tool-desc">Enumerate every subdomain of a target domain using certificate transparency logs. Exposes dev environments, admin panels, APIs, and forgotten infrastructure.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/wayback" className="tool-card live">
+              <span className="tool-icon">🕰️</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Wayback Machine</div>
+              <p className="tool-desc">Query the Internet Archive for historical snapshots of any URL. Recover deleted content, track website changes over time, and verify what was published — and when.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/hash" className="tool-card live">
+              <span className="tool-icon">🔐</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Hash Analyzer</div>
+              <p className="tool-desc">Identify unknown cryptographic hashes by format (MD5, SHA-1, bcrypt, and more), or check if a password has appeared in known data breaches — fully privacy-safe via k-anonymity.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
             <a href="#" className="tool-card coming">
               <span className="tool-icon">🔍</span>
               <div className="tool-status soon"><div className="tool-status-dot" /> Coming Soon</div>
