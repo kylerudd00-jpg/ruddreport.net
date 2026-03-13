@@ -1,4 +1,5 @@
 'use client';
+import { getArticlesByCategory } from '@/lib/articles';
 
 function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, articles }: any) {
   return (
@@ -124,13 +125,13 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
           </div>
           <div className="articles-grid">
             {articles.map((a: any, i: number) => (
-              <a href="#" className="article-card" key={i}>
+              <a href={`/articles/${a.slug}`} className="article-card" key={i}>
                 <div className="card-meta"><div className="card-category">{a.category}</div><div className="card-date">{a.date}</div></div>
                 <div className="card-title">{a.title}</div>
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div className="card-read">Read Analysis →</div>
-                  <div className={`threat-${a.threat}`}>■ {a.threat.toUpperCase()} RELEVANCE</div>
+                  <div className={`threat-${a.relevance.toLowerCase()}`}>■ {a.relevance} RELEVANCE</div>
                 </div>
               </a>
             ))}
@@ -149,10 +150,6 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
 }
 
 export default function Cybersecurity() {
-  const articles = [
-    { category: 'Cybersecurity', date: 'FEB 17, 2026', title: 'Critical Infrastructure: The Next Battlespace', excerpt: 'State-sponsored threat actors are no longer probing — they are pre-positioning inside critical infrastructure for future conflict escalation.', threat: 'high' },
-    { category: 'Cybersecurity', date: 'FEB 11, 2026', title: 'Zero-Day Diplomacy: When Exploits Become Leverage', excerpt: 'Nation-states are stockpiling software vulnerabilities as strategic assets in a new form of coercive diplomacy.', threat: 'high' },
-    { category: 'Cybersecurity', date: 'FEB 4, 2026', title: 'The Ransomware Economy: How Criminal Networks Finance State Actors', excerpt: 'The line between cybercriminal and state-sponsored actor has never been blurrier — and that ambiguity is a feature, not a bug.', threat: 'med' },
-  ];
+  const articles = getArticlesByCategory('Cybersecurity');
   return <CategoryPage category="Cybersecurity" eyebrow="// Domain: Cyber Operations" tagline="CYBER THREAT ANALYSIS" blurb="Cybersecurity is no longer just an IT problem — it is a national security imperative. From critical infrastructure attacks to zero-day diplomacy, the digital domain has become the most active and ambiguous theater of modern conflict." personalNote="My work at the Department of Homeland Security and the University of Cambridge gave me a front-row seat to how states, criminal networks, and intelligence agencies interact in cyberspace. This section covers what I believe matters most." icon="🔐" articles={articles} />;
 }

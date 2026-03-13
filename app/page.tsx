@@ -178,6 +178,7 @@ export default function Home() {
       <nav>
         <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
         <ul className="nav-links">
+          <li><a href="/articles">All Reports</a></li>
           <li><a href="/cybersecurity">Cybersecurity</a></li>
           <li><a href="/intelligence">Intelligence</a></li>
           <li><a href="/geopolitics">Geopolitics</a></li>
@@ -197,6 +198,7 @@ export default function Home() {
       <div className="mobile-menu" id="mobileMenu">
         <button className="mobile-menu-close" onClick={() => document.getElementById('mobileMenu')?.classList.remove('open')}>✕ Close</button>
         <a href="/">Home</a>
+        <a href="/articles">All Reports</a>
         <a href="/cybersecurity">Cybersecurity</a>
         <a href="/intelligence">Intelligence</a>
         <a href="/geopolitics">Geopolitics</a>

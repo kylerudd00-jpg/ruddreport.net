@@ -1,4 +1,5 @@
 'use client';
+import { getArticlesByCategory } from '@/lib/articles';
 
 export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, articles }: any) {
   return (
@@ -124,13 +125,13 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
           </div>
           <div className="articles-grid">
             {articles.map((a: any, i: number) => (
-              <a href="#" className="article-card" key={i}>
+              <a href={`/articles/${a.slug}`} className="article-card" key={i}>
                 <div className="card-meta"><div className="card-category">{a.category}</div><div className="card-date">{a.date}</div></div>
                 <div className="card-title">{a.title}</div>
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div className="card-read">Read Analysis →</div>
-                  <div className={`threat-${a.threat}`}>■ {a.threat.toUpperCase()} RELEVANCE</div>
+                  <div className={`threat-${a.relevance.toLowerCase()}`}>■ {a.relevance} RELEVANCE</div>
                 </div>
               </a>
             ))}
@@ -149,10 +150,6 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
 }
 
 export default function NationalSecurity() {
-  const articles = [
-    { category: 'Natl. Security', date: 'FEB 14, 2026', title: 'The AUKUS Equation: Submarines, Strategy & the Indo-Pacific', excerpt: 'How the trilateral security pact is reshaping alliance architecture across the Pacific theater.', threat: 'med' },
-    { category: 'Natl. Security', date: 'FEB 1, 2026', title: 'Border Security in the Age of Hybrid Threats', excerpt: 'The border is no longer just a physical line — it is a digital, financial, and intelligence frontier that demands a new kind of defense.', threat: 'high' },
-    { category: 'Natl. Security', date: 'JAN 22, 2026', title: 'The National Security State: Reform or Reinforce?', excerpt: 'Decades after 9/11 reshaped U.S. national security architecture, a new generation of policymakers is asking hard questions about what comes next.', threat: 'low' },
-  ];
+  const articles = getArticlesByCategory('National Security');
   return <CategoryPage category="National Security" eyebrow="// Domain: Defense & Security" tagline="NATIONAL SECURITY ANALYSIS" blurb="National security sits at the intersection of military strategy, intelligence, diplomacy, and domestic policy. Protecting the homeland in the 21st century requires understanding threats that are increasingly hybrid, diffuse, and digital." personalNote="My internship with the Department of Homeland Security gave me direct exposure to how national security policy translates into operational reality. This section examines the decisions, doctrines, and dilemmas that define American security." icon="🛡️" articles={articles} />;
 }

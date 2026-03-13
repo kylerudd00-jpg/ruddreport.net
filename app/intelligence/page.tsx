@@ -1,4 +1,5 @@
 'use client';
+import { getArticlesByCategory } from '@/lib/articles';
 
 export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, articles }: any) {
   return (
@@ -124,13 +125,13 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
           </div>
           <div className="articles-grid">
             {articles.map((a: any, i: number) => (
-              <a href="#" className="article-card" key={i}>
+              <a href={`/articles/${a.slug}`} className="article-card" key={i}>
                 <div className="card-meta"><div className="card-category">{a.category}</div><div className="card-date">{a.date}</div></div>
                 <div className="card-title">{a.title}</div>
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div className="card-read">Read Analysis →</div>
-                  <div className={`threat-${a.threat}`}>■ {a.threat.toUpperCase()} RELEVANCE</div>
+                  <div className={`threat-${a.relevance.toLowerCase()}`}>■ {a.relevance} RELEVANCE</div>
                 </div>
               </a>
             ))}
@@ -149,10 +150,6 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
 }
 
 export default function Intelligence() {
-  const articles = [
-    { category: 'Intelligence', date: 'FEB 20, 2026', title: 'The Intelligence Failure That Wasn\'t', excerpt: 'Not all strategic surprises are intelligence failures. Sometimes they are policy failures dressed up as analytical gaps.', threat: 'med' },
-    { category: 'Intelligence', date: 'FEB 6, 2026', title: 'Five Eyes at a Crossroads: Alliance Cohesion in the Age of Digital Espionage', excerpt: 'The Five Eyes intelligence alliance faces new stress tests as cyber threats blur the line between espionage and warfare.', threat: 'high' },
-    { category: 'Intelligence', date: 'JAN 28, 2026', title: 'Open Source Intelligence: The Democratization of Spycraft', excerpt: 'OSINT has transformed from a niche tradecraft into a mainstream analytical tool — with profound implications for state and non-state actors alike.', threat: 'low' },
-  ];
+  const articles = getArticlesByCategory('Intelligence');
   return <CategoryPage category="Intelligence" eyebrow="// Domain: Intelligence Studies" tagline="INTELLIGENCE ANALYSIS" blurb="Intelligence is the art of knowing what matters before it matters. From collection to dissemination, the intelligence cycle shapes the decisions of presidents, generals, and policymakers — often invisibly." personalNote="As an IC-CAE Scholar and Cambridge researcher focused on U.S.–UK intelligence-sharing frameworks, I bring an analytical lens shaped by both academic study and exposure to real intelligence community priorities." icon="🕵️" articles={articles} />;
 }

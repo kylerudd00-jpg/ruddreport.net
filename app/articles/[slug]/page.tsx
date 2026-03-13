@@ -1,21 +1,35 @@
-import { getArticleBySlug, ARTICLES } from '@/lib/articles';
+import { getArticleBySlug, getReadingTime, getTableOfContents, getRelatedArticles, ARTICLES } from '@/lib/articles';
 import { notFound } from 'next/navigation';
+import ShareButtons from './ShareButtons';
+import ArticleNav from './ArticleNav';
 
 export async function generateStaticParams() {
   return ARTICLES.map(a => ({ slug: a.slug }));
 }
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const article = getArticleBySlug(params.slug);
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
   if (!article) notFound();
 
-  const relevanceColor = article.relevance === 'HIGH' ? '#ff3a3a' : article.relevance === 'MED' ? '#ffaa00' : '#00ff88';
+  const readingTime = getReadingTime(article.content);
+  const toc = getTableOfContents(article.content);
+  const related = getRelatedArticles(slug);
+  const relevanceColor =
+    article.relevance === 'HIGH' ? '#ff3a3a' : article.relevance === 'MED' ? '#ffaa00' : '#00ff88';
 
-  const paragraphs = article.content.split('\n\n').map((block, i) => {
+  // Build content blocks with anchor IDs on headings
+  const blocks = article.content.split('\n\n').map((block, i) => {
     if (block.startsWith('## ')) {
-      return <h2 key={i} style={{ fontFamily: "'Orbitron', monospace", fontSize: '18px', fontWeight: 700, color: '#c0cfe0', letterSpacing: '2px', textTransform: 'uppercase', margin: '48px 0 20px', paddingBottom: '12px', borderBottom: '1px solid rgba(30,158,255,0.15)' }}>{block.slice(3)}</h2>;
+      const text = block.slice(3).trim();
+      const id = text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '')
+        .trim()
+        .replace(/\s+/g, '-');
+      return { type: 'heading' as const, text, id, key: i };
     }
-    return <p key={i} style={{ fontSize: '16px', fontWeight: 300, color: '#a0b8cc', lineHeight: 1.9, marginBottom: '24px' }}>{block}</p>;
+    return { type: 'paragraph' as const, text: block, key: i };
   });
 
   return (
@@ -24,6 +38,8 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
+
+        /* NAV */
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #fff; text-transform: uppercase; }
@@ -36,70 +52,175 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+
+        /* HEADER */
+        .article-header { padding: 120px 40px 60px; border-bottom: 1px solid rgba(30,158,255,0.12); background: linear-gradient(180deg, rgba(30,158,255,0.04) 0%, transparent 100%); }
+        .article-header-inner { max-width: 860px; margin: 0 auto; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; display: inline-block; margin-bottom: 32px; transition: color 0.3s; }
+        .back-link:hover { color: #1e9eff; }
+        .article-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+        .meta-category { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 3px 10px; text-transform: uppercase; }
+        .meta-date { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .meta-time { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .meta-sep { color: #1e2a35; }
+        .article-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: #c0cfe0; line-height: 1.1; margin-bottom: 24px; letter-spacing: 0.5px; }
+        .article-excerpt { font-size: 18px; font-weight: 300; color: #7a9bb5; line-height: 1.7; border-left: 2px solid #1e9eff; padding-left: 20px; }
+
+        /* BODY LAYOUT */
+        .article-body { padding: 60px 40px 80px; }
+        .article-body-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 240px; gap: 60px; align-items: start; }
+
+        /* ARTICLE CONTENT */
+        .article-content { min-width: 0; }
+        .content-h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; letter-spacing: 1px; margin: 48px 0 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.12); scroll-margin-top: 90px; }
+        .content-p { font-size: 16px; font-weight: 300; color: #a0b8cc; line-height: 1.95; margin-bottom: 22px; }
+
+        /* SHARE + FOOTER */
+        .article-sign-off { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(30,158,255,0.12); font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+
+        /* RELATED ARTICLES */
+        .related { max-width: 1200px; margin: 0 auto; padding: 60px 40px 100px; border-top: 1px solid rgba(30,158,255,0.08); }
+        .related-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+        .related-label::after { content: ''; flex: 1; height: 1px; background: rgba(30,158,255,0.1); }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; }
+        .related-card { display: block; text-decoration: none; background: rgba(10,21,32,0.5); border: 1px solid rgba(30,158,255,0.1); padding: 24px; transition: all 0.3s; }
+        .related-card:hover { border-color: rgba(30,158,255,0.3); background: rgba(10,21,32,0.8); }
+        .related-card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+        .related-card-cat { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
+        .related-card-date { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #3d5870; }
+        .related-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #c0cfe0; line-height: 1.2; margin-bottom: 8px; transition: color 0.3s; }
+        .related-card:hover .related-card-title { color: #fff; }
+        .related-card-excerpt { font-size: 13px; font-weight: 300; color: #7a9bb5; line-height: 1.65; }
+
+        /* TOC SIDEBAR */
+        .toc-sidebar { position: sticky; top: 90px; }
+        .toc-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .toc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+        .toc-item a { display: block; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #3d5870; text-decoration: none; padding: 6px 0 6px 12px; border-left: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; line-height: 1.5; }
+        .toc-item a:hover { color: #1e9eff; border-left-color: rgba(30,158,255,0.5); padding-left: 16px; }
+
+        /* FOOTER */
+        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy span { color: #1e9eff; }
+        .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
+
+        @media (max-width: 1024px) {
+          .article-body-inner { grid-template-columns: 1fr; }
+          .toc-sidebar { position: static; background: rgba(10,21,32,0.5); border: 1px solid rgba(30,158,255,0.1); padding: 20px; margin-bottom: 40px; order: -1; }
+        }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
-          .article-body { padding: 40px 20px 80px !important; }
-          .article-header { padding: 100px 20px 40px !important; }
+          .article-header { padding: 100px 20px 40px; }
+          .article-body { padding: 40px 20px 60px; }
+          .related { padding: 40px 20px 60px; }
+          footer { padding: 30px 20px; }
+          .footer-inner { flex-direction: column; gap: 10px; }
         }
       `}</style>
 
-      <nav>
-        <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-        <ul className="nav-links">
-          <li><a href="/cybersecurity">Cybersecurity</a></li>
-          <li><a href="/intelligence">Intelligence</a></li>
-          <li><a href="/geopolitics">Geopolitics</a></li>
-          <li><a href="/national-security">National Security</a></li>
-          <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
-          <li><a href="/about">About</a></li>
-        </ul>
-        <div className="hamburger" onClick={() => document.getElementById('articleMenu')?.classList.toggle('open')}>
-          <span /><span /><span />
-        </div>
-      </nav>
+      {/* NAV */}
+      <ArticleNav />
 
-      <div className="mobile-menu" id="articleMenu">
-        <button className="mobile-menu-close" onClick={() => document.getElementById('articleMenu')?.classList.remove('open')}>✕ Close</button>
-        <a href="/">Home</a>
-        <a href="/cybersecurity">Cybersecurity</a>
-        <a href="/intelligence">Intelligence</a>
-        <a href="/geopolitics">Geopolitics</a>
-        <a href="/national-security">National Security</a>
-        <a href="/osint">OSINT Hub</a>
-        <a href="/about">About</a>
-      </div>
-
-      {/* Header */}
-      <div className="article-header" style={{ padding: '120px 40px 60px', borderBottom: '1px solid rgba(30,158,255,0.12)', background: 'linear-gradient(180deg, rgba(30,158,255,0.04) 0%, transparent 100%)' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <a href="/" style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '10px', letterSpacing: '3px', color: '#3d5870', textDecoration: 'none', textTransform: 'uppercase', display: 'inline-block', marginBottom: '32px' }}>← Back to Home</a>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-            <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#1e9eff', border: '1px solid rgba(30,158,255,0.3)', padding: '3px 10px', textTransform: 'uppercase' }}>{article.category}</span>
-            <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: '#3d5870' }}>{article.date}</span>
-            <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: relevanceColor }}>■ {article.relevance} RELEVANCE</span>
+      {/* HEADER */}
+      <div className="article-header">
+        <div className="article-header-inner">
+          <a href="/articles" className="back-link">← All Reports</a>
+          <div className="article-meta">
+            <span className="meta-category">{article.category}</span>
+            <span className="meta-date">{article.date}</span>
+            <span className="meta-sep">·</span>
+            <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: relevanceColor }}>
+              ■ {article.relevance} RELEVANCE
+            </span>
+            <span className="meta-sep">·</span>
+            <span className="meta-time">{readingTime} MIN READ</span>
           </div>
-          <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 700, color: '#c0cfe0', lineHeight: 1.1, marginBottom: '24px', letterSpacing: '0.5px' }}>{article.title}</h1>
-          <p style={{ fontSize: '18px', fontWeight: 300, color: '#7a9bb5', lineHeight: 1.7, borderLeft: '2px solid #1e9eff', paddingLeft: '20px' }}>{article.excerpt}</p>
+          <h1 className="article-title">{article.title}</h1>
+          <p className="article-excerpt">{article.excerpt}</p>
         </div>
       </div>
 
-      {/* Body */}
-      <div className="article-body" style={{ padding: '60px 40px 120px' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          {paragraphs}
+      {/* BODY */}
+      <div className="article-body">
+        <div className="article-body-inner">
+          {/* MAIN CONTENT */}
+          <div className="article-content">
+            {blocks.map(block =>
+              block.type === 'heading' ? (
+                <h2 key={block.key} id={block.id} className="content-h2">
+                  {block.text}
+                </h2>
+              ) : (
+                <p key={block.key} className="content-p">
+                  {block.text}
+                </p>
+              ),
+            )}
 
-          <div style={{ marginTop: '80px', paddingTop: '40px', borderTop: '1px solid rgba(30,158,255,0.12)', fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase' }}>
-            The Rudd Report — Unclassified // For Public Release
+            {/* SHARE BUTTONS */}
+            <div style={{ marginTop: '48px' }}>
+              <ShareButtons title={article.title} slug={article.slug} />
+            </div>
+
+            {/* SIGN-OFF */}
+            <div className="article-sign-off">
+              Analysis by Kyle Rudd — The Rudd Report // Unclassified // For Public Release
+            </div>
+          </div>
+
+          {/* TOC SIDEBAR */}
+          {toc.length > 0 && (
+            <aside className="toc-sidebar">
+              <div className="toc-label">Contents</div>
+              <ul className="toc-list">
+                {toc.map(item => (
+                  <li key={item.id} className="toc-item">
+                    <a href={`#${item.id}`}>{item.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          )}
+        </div>
+      </div>
+
+      {/* RELATED ARTICLES */}
+      {related.length > 0 && (
+        <div className="related">
+          <div className="related-label">Related Reports</div>
+          <div className="related-grid">
+            {related.map(r => {
+              const rColor =
+                r.relevance === 'HIGH' ? '#ff3a3a' : r.relevance === 'MED' ? '#ffaa00' : '#00ff88';
+              return (
+                <a key={r.slug} href={`/articles/${r.slug}`} className="related-card">
+                  <div className="related-card-meta">
+                    <span className="related-card-cat">{r.category}</span>
+                    <span style={{ color: '#1e2a35' }}>·</span>
+                    <span className="related-card-date">{r.date}</span>
+                    <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '8px', letterSpacing: '2px', color: rColor }}>
+                      ■ {r.relevance}
+                    </span>
+                  </div>
+                  <div className="related-card-title">{r.title}</div>
+                  <div className="related-card-excerpt">{r.excerpt}</div>
+                </a>
+              );
+            })}
           </div>
         </div>
-      </div>
+      )}
 
-      <footer style={{ borderTop: '1px solid rgba(30,158,255,0.12)', padding: '40px', background: '#070d12' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-          <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '10px', letterSpacing: '2px', color: '#3d5870' }}>© 2026 <span style={{ color: '#1e9eff' }}>The Rudd Report</span> — All Rights Reserved</div>
-          <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '4px', color: '#3d5870', border: '1px solid rgba(30,158,255,0.12)', padding: '5px 14px', textTransform: 'uppercase' }}>UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+      <footer>
+        <div className="footer-inner">
+          <div className="footer-copy">
+            © 2026 <span>The Rudd Report</span> — All Rights Reserved
+          </div>
+          <div className="footer-classify">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
         </div>
       </footer>
     </>

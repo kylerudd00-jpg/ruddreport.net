@@ -1,4 +1,5 @@
 'use client';
+import { getArticlesByCategory } from '@/lib/articles';
 
 export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, articles }: any) {
   return (
@@ -124,13 +125,13 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
           </div>
           <div className="articles-grid">
             {articles.map((a: any, i: number) => (
-              <a href="#" className="article-card" key={i}>
+              <a href={`/articles/${a.slug}`} className="article-card" key={i}>
                 <div className="card-meta"><div className="card-category">{a.category}</div><div className="card-date">{a.date}</div></div>
                 <div className="card-title">{a.title}</div>
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div className="card-read">Read Analysis →</div>
-                  <div className={`threat-${a.threat}`}>■ {a.threat.toUpperCase()} RELEVANCE</div>
+                  <div className={`threat-${a.relevance.toLowerCase()}`}>■ {a.relevance} RELEVANCE</div>
                 </div>
               </a>
             ))}
@@ -150,10 +151,6 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
 
 
 export default function Geopolitics() {
-  const articles = [
-    { category: 'Geopolitics', date: 'FEB 23, 2026', title: 'Why Semiconductor Supply Chains Define Modern Power', excerpt: 'The global semiconductor supply chain has become the most critical geopolitical battleground of the 21st century — and the West is only beginning to understand what\'s at stake.', threat: 'high' },
-    { category: 'Geopolitics', date: 'FEB 9, 2026', title: 'The Indo-Pacific Chessboard: How America\'s Allies Are Hedging', excerpt: 'From Tokyo to Canberra, U.S. allies are quietly recalibrating their strategic postures — balancing dependence on Washington with economic ties to Beijing.', threat: 'high' },
-    { category: 'Geopolitics', date: 'JAN 31, 2026', title: 'Arctic Sovereignty: The Next Great Power Frontier', excerpt: 'As ice retreats, a new theater of strategic competition is opening — one that involves Russia, China, NATO, and vast untapped resources.', threat: 'med' },
-  ];
+  const articles = getArticlesByCategory('Geopolitics');
   return <CategoryPage category="Geopolitics" eyebrow="// Domain: Global Affairs" tagline="GEOPOLITICAL ANALYSIS" blurb="Geopolitics is the study of how geography, power, and interest shape the international order. In an era of great power competition, understanding these dynamics is not optional — it is essential." personalNote="My dual major in International Relations and Economics gives me a framework for analyzing both the strategic and structural forces driving geopolitical change. This section cuts through headlines to explain what's actually happening — and why it matters." icon="🌐" articles={articles} />;
 }

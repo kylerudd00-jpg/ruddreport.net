@@ -1,4 +1,5 @@
 'use client';
+import { getArticlesByCategory } from '@/lib/articles';
 
 function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, articles }: any) {
   return (
@@ -124,13 +125,13 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
           </div>
           <div className="articles-grid">
             {articles.map((a: any, i: number) => (
-              <a href="#" className="article-card" key={i}>
+              <a href={`/articles/${a.slug}`} className="article-card" key={i}>
                 <div className="card-meta"><div className="card-category">{a.category}</div><div className="card-date">{a.date}</div></div>
                 <div className="card-title">{a.title}</div>
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div className="card-read">Read Analysis →</div>
-                  <div className={`threat-${a.threat}`}>■ {a.threat.toUpperCase()} RELEVANCE</div>
+                  <div className={`threat-${a.relevance.toLowerCase()}`}>■ {a.relevance} RELEVANCE</div>
                 </div>
               </a>
             ))}
@@ -149,10 +150,6 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
 }
 
 export default function EconomicSecurity() {
-  const articles = [
-    { category: 'Econ. Security', date: 'FEB 8, 2026', title: 'Dollar Dominance Under Pressure: BRICS & the Reserve Currency Question', excerpt: 'The structural challenge to USD hegemony is real — but premature obituaries miss the full picture.', threat: 'low' },
-    { category: 'Econ. Security', date: 'JAN 27, 2026', title: 'Sanctions as Strategy: The Limits of Economic Warfare', excerpt: 'Economic sanctions have become Washington\'s go-to geopolitical tool. But their effectiveness is increasingly contested — and their unintended consequences, severe.', threat: 'med' },
-    { category: 'Econ. Security', date: 'JAN 15, 2026', title: 'China\'s Debt Diplomacy: Belt, Road, and Leverage', excerpt: 'Behind the infrastructure loans lies a strategic architecture designed to create dependency, extract concessions, and expand influence.', threat: 'high' },
-  ];
+  const articles = getArticlesByCategory('Economic Security');
   return <CategoryPage category="Economic Security" eyebrow="// Domain: Economic Intelligence" tagline="ECONOMIC SECURITY ANALYSIS" blurb="Economic security is national security. Trade policy, sanctions, currency warfare, and supply chain dependencies are now as strategically significant as military force — and far less understood." personalNote="My Economics major grounds my analysis of how financial systems, trade dependencies, and resource competition shape strategic outcomes. This section connects economic data to geopolitical consequence." icon="📊" articles={articles} />;
 }
