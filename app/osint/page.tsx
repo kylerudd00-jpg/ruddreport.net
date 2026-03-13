@@ -176,7 +176,7 @@ export default function OSINTHub() {
               <span className="tool-icon">👤</span>
               <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
               <div className="tool-name">Username Hunter</div>
-              <p className="tool-desc">Check if a username exists across developer communities, gaming networks, forums, and more — all checked simultaneously.</p>
+              <p className="tool-desc">Check if a username exists across 39 platforms simultaneously — social media, developer communities, gaming networks, and forums. Results update in real time.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
 <a href="/osint/metadata" className="tool-card live">

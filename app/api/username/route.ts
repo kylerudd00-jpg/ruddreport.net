@@ -223,6 +223,85 @@ async function checkTelegram(u: string) {
   return html.toLowerCase().includes('tgme_page_title');
 }
 
+async function checkBluesky(u: string) {
+  for (const handle of [u, `${u}.bsky.social`]) {
+    const r = await get(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(handle)}`, { Accept: 'application/json' });
+    if (r.status === 200) return true;
+  }
+  return false;
+}
+
+async function checkLastFm(u: string) {
+  const r = await get(`https://www.last.fm/user/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('user not found') && !html.toLowerCase().includes('page not found');
+}
+
+async function checkLetterboxd(u: string) {
+  const r = await get(`https://letterboxd.com/${u}/`, { Accept: 'text/html' });
+  return r.status === 200;
+}
+
+async function checkBandcamp(u: string) {
+  const r = await get(`https://${u}.bandcamp.com`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('sorry, that something') && !html.toLowerCase().includes('error');
+}
+
+async function checkBehance(u: string) {
+  const r = await get(`https://www.behance.net/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('page not found');
+}
+
+async function checkCodepen(u: string) {
+  const r = await get(`https://codepen.io/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  return r.status === 200;
+}
+
+async function checkReplit(u: string) {
+  const r = await get(`https://replit.com/@${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('not found');
+}
+
+async function checkHackerNews(u: string) {
+  const r = await get(`https://hacker-news.firebaseio.com/v0/user/${u}.json`, { Accept: 'application/json' });
+  if (r.status !== 200) return false;
+  const d = await r.json();
+  return d !== null && !!d?.id;
+}
+
+async function checkLobsters(u: string) {
+  const r = await get(`https://lobste.rs/u/${u}.json`, { Accept: 'application/json' });
+  return r.status === 200;
+}
+
+async function checkOsu(u: string) {
+  const r = await get(`https://osu.ppy.sh/users/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('user not found') && !html.toLowerCase().includes('page not found');
+}
+
+async function check500px(u: string) {
+  const r = await get(`https://500px.com/p/${u}`, { Accept: 'text/html' });
+  if (r.status === 404) return false;
+  if (r.status !== 200) return false;
+  const html = await r.text();
+  return !html.toLowerCase().includes('page not found') && !html.toLowerCase().includes('not found');
+}
+
 const CHECKERS: Record<string, (u: string) => Promise<boolean>> = {
   'github': checkGitHub,
   'reddit': checkReddit,
@@ -253,6 +332,17 @@ const CHECKERS: Record<string, (u: string) => Promise<boolean>> = {
   'steam': checkSteam,
   'roblox': checkRoblox,
   'minecraft': checkMinecraft,
+  'osu!': checkOsu,
+  'bluesky': checkBluesky,
+  'last.fm': checkLastFm,
+  'letterboxd': checkLetterboxd,
+  'bandcamp': checkBandcamp,
+  'behance': checkBehance,
+  'codepen': checkCodepen,
+  'replit': checkReplit,
+  'hacker news': checkHackerNews,
+  'lobste.rs': checkLobsters,
+  '500px': check500px,
 };
 
 export async function GET(request: Request) {

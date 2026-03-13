@@ -2,8 +2,7 @@
 import { useState } from 'react';
 
 const PLATFORMS = [
-  { name: 'GitHub', url: 'https://github.com/{}', category: 'Dev' },
-  { name: 'GitLab', url: 'https://gitlab.com/{}', category: 'Dev' },
+  // Social
   { name: 'Reddit', url: 'https://reddit.com/user/{}', category: 'Social' },
   { name: 'Twitter / X', url: 'https://x.com/{}', category: 'Social' },
   { name: 'TikTok', url: 'https://tiktok.com/@{}', category: 'Social' },
@@ -20,16 +19,32 @@ const PLATFORMS = [
   { name: 'SoundCloud', url: 'https://soundcloud.com/{}', category: 'Social' },
   { name: 'Vimeo', url: 'https://vimeo.com/{}', category: 'Social' },
   { name: 'Patreon', url: 'https://patreon.com/{}', category: 'Social' },
-  { name: 'Steam', url: 'https://steamcommunity.com/id/{}', category: 'Gaming' },
-  { name: 'Roblox', url: 'https://roblox.com/user.aspx?username={}', category: 'Gaming' },
-  { name: 'Minecraft', url: 'https://namemc.com/profile/{}', category: 'Gaming' },
-  { name: 'Lichess', url: 'https://lichess.org/@/{}', category: 'Gaming' },
-  { name: 'Chess.com', url: 'https://chess.com/member/{}', category: 'Gaming' },
+  { name: 'Bluesky', url: 'https://bsky.app/profile/{}', category: 'Social' },
+  { name: 'Last.fm', url: 'https://www.last.fm/user/{}', category: 'Social' },
+  { name: 'Letterboxd', url: 'https://letterboxd.com/{}', category: 'Social' },
+  { name: 'Bandcamp', url: 'https://{}.bandcamp.com', category: 'Social' },
+  { name: 'Behance', url: 'https://www.behance.net/{}', category: 'Social' },
+  { name: '500px', url: 'https://500px.com/p/{}', category: 'Social' },
+  // Dev
+  { name: 'GitHub', url: 'https://github.com/{}', category: 'Dev' },
+  { name: 'GitLab', url: 'https://gitlab.com/{}', category: 'Dev' },
   { name: 'Dev.to', url: 'https://dev.to/{}', category: 'Dev' },
   { name: 'Hashnode', url: 'https://hashnode.com/@{}', category: 'Dev' },
   { name: 'Hugging Face', url: 'https://huggingface.co/{}', category: 'Dev' },
   { name: 'Keybase', url: 'https://keybase.io/{}', category: 'Dev' },
   { name: 'NPM', url: 'https://npmjs.com/~{}', category: 'Dev' },
+  { name: 'Codepen', url: 'https://codepen.io/{}', category: 'Dev' },
+  { name: 'Replit', url: 'https://replit.com/@{}', category: 'Dev' },
+  // Forums
+  { name: 'Hacker News', url: 'https://news.ycombinator.com/user?id={}', category: 'Forums' },
+  { name: 'Lobste.rs', url: 'https://lobste.rs/u/{}', category: 'Forums' },
+  // Gaming
+  { name: 'Steam', url: 'https://steamcommunity.com/id/{}', category: 'Gaming' },
+  { name: 'Roblox', url: 'https://roblox.com/user.aspx?username={}', category: 'Gaming' },
+  { name: 'Minecraft', url: 'https://namemc.com/profile/{}', category: 'Gaming' },
+  { name: 'Lichess', url: 'https://lichess.org/@/{}', category: 'Gaming' },
+  { name: 'Chess.com', url: 'https://chess.com/member/{}', category: 'Gaming' },
+  { name: 'osu!', url: 'https://osu.ppy.sh/users/{}', category: 'Gaming' },
 ];
 
 type Result = {
@@ -198,7 +213,7 @@ const res = await fetch(`/api/username?username=${encodeURIComponent(username.tr
               <div className="tool-eyebrow-text">// OSINT Hub — Identity Intelligence</div>
             </div>
             <div className="tool-title">Username Hunter</div>
-            <p className="tool-desc">Check if a username exists across {PLATFORMS.length} platforms simultaneously — developer communities, gaming networks, forums, and more.</p>
+            <p className="tool-desc">Check if a username exists across {PLATFORMS.length} platforms simultaneously — social media, developer communities, gaming networks, forums, and more. Results update in real time as each platform is checked.</p>
           </div>
         </div>
 
