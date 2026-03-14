@@ -1,5 +1,6 @@
 ﻿'use client';
 import { useEffect, useRef, useState } from 'react';
+import { Lock, Eye, Globe, Shield, TrendingUp } from 'lucide-react';
 import { ARTICLES, type Article } from '@/lib/articles';
 
 const CATEGORIES = ['All', 'Cybersecurity', 'Intelligence', 'Geopolitics', 'National Security', 'Economic Security'] as const;
@@ -46,7 +47,7 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const relevanceColor = (r: string) => r === 'HIGH' ? '#ff3a3a' : r === 'MED' ? '#ffaa00' : '#00ff88';
+  const relevanceColor = (r: string) => r === 'HIGH' ? '#ff3a3a' : r === 'MED' ? '#ffaa00' : '#1e9eff';
 
   return (
     <>
@@ -62,7 +63,7 @@ export default function Home() {
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: var(--accent); }
         .nav-status { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: pulse 2s infinite; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; animation: pulse 2s infinite; }
         .signal-bar { display: flex; align-items: flex-end; gap: 3px; height: 16px; }
         .signal-bar span { width: 3px; background: var(--accent); border-radius: 1px; animation: signalPulse 1.5s ease-in-out infinite; }
         .signal-bar span:nth-child(1) { height: 4px; } .signal-bar span:nth-child(2) { height: 7px; animation-delay: 0.15s; } .signal-bar span:nth-child(3) { height: 11px; animation-delay: 0.3s; } .signal-bar span:nth-child(4) { height: 16px; animation-delay: 0.45s; }
@@ -105,6 +106,12 @@ export default function Home() {
         .article-card:hover { background: var(--bg-card-hover); border-color: var(--border-bright); transform: translateY(-2px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
         .article-card:hover::before { transform: scaleX(1); }
         .article-card.featured-card { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 60px; }
+
+        .featured-visual { position: relative; height: 300px; border: 1px solid var(--border); overflow: hidden; background: radial-gradient(ellipse at center, rgba(30,158,255,0.06) 0%, rgba(7,13,18,0.0) 70%), var(--bg-secondary); }
+        .featured-visual::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(30,158,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(30,158,255,0.04) 1px, transparent 1px); background-size: 30px 30px; pointer-events: none; }
+        .featured-visual-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+        .globe-svg { width: 200px; height: 200px; opacity: 0.6; animation: rotateSlow 20s linear infinite; }
+        .visual-label { position: absolute; bottom: 16px; left: 16px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; z-index: 2; opacity: 0.6; }
         .card-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
         .card-category { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-dim); padding: 3px 10px; background: var(--accent-glow); }
         .card-date { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--text-muted); }
@@ -114,23 +121,32 @@ export default function Home() {
         .card-excerpt { font-size: 14px; font-weight: 300; color: var(--text-secondary); line-height: 1.8; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
         .card-read { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
-        .featured-visual { position: relative; height: 300px; border: 1px solid var(--border); overflow: hidden; background: var(--bg-secondary); }
-        .featured-visual-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-        .globe-svg { width: 200px; height: 200px; opacity: 0.6; animation: rotateSlow 20s linear infinite; }
-        .visual-label { position: absolute; bottom: 16px; left: 16px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+        .visual-label { position: absolute; bottom: 16px; left: 16px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; z-index: 2; opacity: 0.6; }
         .rotate-dots { display: flex; gap: 8px; margin-top: 16px; }
         .rotate-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(30,158,255,0.2); cursor: pointer; transition: background 0.3s; border: 1px solid rgba(30,158,255,0.3); }
         .rotate-dot.active { background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
         .intel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .topics-section { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .topics-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
-        .topic-card { padding: 40px 24px; border: 1px solid var(--border); text-align: center; cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden; text-decoration: none; display: block; }
-        .topic-card:hover { border-color: var(--border-bright); background: rgba(30,158,255,0.04); }
-        .topic-icon { font-size: 24px; margin-bottom: 16px; display: block; filter: grayscale(1) brightness(0.7); transition: filter 0.4s; }
-        .topic-card:hover .topic-icon { filter: none; }
-        .topic-name { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 3px; color: var(--text-secondary); text-transform: uppercase; transition: color 0.4s; }
+        .topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .topic-card { position: relative; background: var(--bg-card); border: 1px solid var(--border); padding: 36px; overflow: hidden; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; min-height: 220px; transition: all 0.4s ease; }
+        .topic-card:first-child { grid-column: span 2; min-height: 260px; }
+        .topic-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); transform: scaleX(0); transition: transform 0.5s ease; }
+        .topic-card:hover { background: var(--bg-card-hover); border-color: var(--border-bright); transform: translateY(-2px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .topic-card:hover::before { transform: scaleX(1); }
+        .topic-ghost { position: absolute; bottom: -10px; right: 16px; font-family: 'Orbitron', monospace; font-weight: 900; font-size: 120px; color: var(--accent); opacity: 0.04; line-height: 1; pointer-events: none; transition: opacity 0.4s; user-select: none; }
+        .topic-card:first-child .topic-ghost { font-size: 160px; }
+        .topic-card:hover .topic-ghost { opacity: 0.07; }
+        .topic-top { display: flex; align-items: center; justify-content: space-between; }
+        .topic-index { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; }
+        .topic-icon { color: var(--text-muted); transition: color 0.4s; }
+        .topic-card:hover .topic-icon { color: var(--accent); }
+        .topic-name { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 700; color: var(--silver); text-transform: uppercase; letter-spacing: 1px; line-height: 1.1; margin-top: 20px; transition: color 0.4s; }
+        .topic-card:first-child .topic-name { font-size: 48px; }
         .topic-card:hover .topic-name { color: var(--accent); }
-        .topic-count { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 8px; letter-spacing: 2px; }
+        .topic-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
+        .topic-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); }
+        .topic-enter { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; transition: letter-spacing 0.3s; }
+        .topic-card:hover .topic-enter { letter-spacing: 5px; }
         .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-dim), transparent); }
         .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -179,7 +195,13 @@ export default function Home() {
           section { padding: 60px 20px; }
           .section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
           .featured-grid, .intel-grid { grid-template-columns: 1fr; }
-          .topics-grid { grid-template-columns: repeat(2, 1fr); }
+          .topics-grid { grid-template-columns: 1fr 1fr !important; }
+          .topic-card:first-child { grid-column: span 2; min-height: 200px !important; }
+          .topic-card { padding: 24px 20px !important; min-height: 160px !important; }
+          .topic-name { font-size: 22px !important; }
+          .topic-card:first-child .topic-name { font-size: 30px !important; }
+          .topic-ghost { font-size: 80px !important; }
+          .topic-card:first-child .topic-ghost { font-size: 100px !important; }
           .search-bar-wrap { margin-bottom: 16px; }
           .footer-top { grid-template-columns: 1fr; gap: 32px; }
           footer { padding: 40px 20px; }
@@ -195,11 +217,10 @@ export default function Home() {
           <li><a href="/intelligence">Intelligence</a></li>
           <li><a href="/geopolitics">Geopolitics</a></li>
           <li><a href="/national-security">National Security</a></li>
-          <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
+          <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
           <li><a href="/about">About</a></li>
         </ul>
         <div className="nav-status">
-          <div className="status-dot" />
           <div className="signal-bar"><span /><span /><span /><span /></div>
         </div>
         <div className="hamburger" onClick={() => document.getElementById('mobileMenu')?.classList.toggle('open')}>
@@ -304,15 +325,39 @@ export default function Home() {
               <div className="featured-visual">
                 <div className="featured-visual-inner">
                   <svg className="globe-svg" viewBox="0 0 200 200" fill="none">
-                    <circle cx="100" cy="100" r="80" stroke="#1e9eff" strokeWidth="0.5" strokeDasharray="4 4"/>
-                    <ellipse cx="100" cy="100" rx="40" ry="80" stroke="#1e9eff" strokeWidth="0.5" strokeDasharray="3 3"/>
-                    <ellipse cx="100" cy="100" rx="80" ry="30" stroke="#1e9eff" strokeWidth="0.5" strokeDasharray="3 3"/>
-                    <circle cx="100" cy="100" r="2" fill="#1e9eff"/>
-                    <circle cx="60" cy="70" r="3" fill="#1e9eff" opacity="0.8"/>
-                    <circle cx="140" cy="80" r="3" fill="#1e9eff" opacity="0.8"/>
-                    <circle cx="120" cy="130" r="2" fill="#ff3a3a" opacity="0.8"/>
-                    <line x1="60" y1="70" x2="140" y2="80" stroke="#1e9eff" strokeWidth="0.5" opacity="0.5" strokeDasharray="2 2"/>
-                    <line x1="140" y1="80" x2="120" y2="130" stroke="#ff3a3a" strokeWidth="0.5" opacity="0.5" strokeDasharray="2 2"/>
+                    {/* Outer glow ring */}
+                    <circle cx="100" cy="100" r="82" stroke="#1e9eff" strokeWidth="0.3" opacity="0.15"/>
+                    {/* Main sphere */}
+                    <circle cx="100" cy="100" r="80" stroke="#1e9eff" strokeWidth="0.75" strokeDasharray="4 4"/>
+                    {/* Longitude lines */}
+                    <ellipse cx="100" cy="100" rx="80" ry="27" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="3 4" opacity="0.5"/>
+                    <ellipse cx="100" cy="100" rx="80" ry="55" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="3 4" opacity="0.4"/>
+                    {/* Latitude lines */}
+                    <ellipse cx="100" cy="100" rx="30" ry="80" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="3 3" opacity="0.5"/>
+                    <ellipse cx="100" cy="100" rx="62" ry="80" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="3 3" opacity="0.4"/>
+                    {/* Equator — solid */}
+                    <ellipse cx="100" cy="100" rx="80" ry="18" stroke="#1e9eff" strokeWidth="0.6" opacity="0.35"/>
+                    {/* Poles */}
+                    <line x1="100" y1="20" x2="100" y2="180" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="2 4" opacity="0.25"/>
+                    {/* Node points */}
+                    <circle cx="58" cy="68" r="3" fill="#1e9eff" opacity="0.9"/>
+                    <circle cx="142" cy="78" r="3" fill="#1e9eff" opacity="0.9"/>
+                    <circle cx="118" cy="132" r="2.5" fill="#ff3a3a" opacity="0.9"/>
+                    <circle cx="75" cy="118" r="2" fill="#1e9eff" opacity="0.7"/>
+                    <circle cx="148" cy="108" r="2" fill="#1e9eff" opacity="0.7"/>
+                    <circle cx="90" cy="52" r="2" fill="#ffaa00" opacity="0.8"/>
+                    {/* Connection lines */}
+                    <line x1="58" y1="68" x2="142" y2="78" stroke="#1e9eff" strokeWidth="0.5" opacity="0.4" strokeDasharray="2 3"/>
+                    <line x1="142" y1="78" x2="118" y2="132" stroke="#ff3a3a" strokeWidth="0.5" opacity="0.4" strokeDasharray="2 3"/>
+                    <line x1="58" y1="68" x2="75" y2="118" stroke="#1e9eff" strokeWidth="0.5" opacity="0.3" strokeDasharray="2 3"/>
+                    <line x1="142" y1="78" x2="148" y2="108" stroke="#1e9eff" strokeWidth="0.5" opacity="0.3" strokeDasharray="2 3"/>
+                    <line x1="90" y1="52" x2="58" y2="68" stroke="#ffaa00" strokeWidth="0.5" opacity="0.3" strokeDasharray="2 3"/>
+                    {/* Pulse rings on red node */}
+                    <circle cx="118" cy="132" r="6" stroke="#ff3a3a" strokeWidth="0.5" opacity="0.4"/>
+                    <circle cx="118" cy="132" r="10" stroke="#ff3a3a" strokeWidth="0.3" opacity="0.2"/>
+                    {/* Center cross */}
+                    <line x1="96" y1="100" x2="104" y2="100" stroke="#1e9eff" strokeWidth="0.75" opacity="0.6"/>
+                    <line x1="100" y1="96" x2="100" y2="104" stroke="#1e9eff" strokeWidth="0.75" opacity="0.6"/>
                   </svg>
                 </div>
                 <div className="visual-label">// Strategic Mapping Active</div>
@@ -342,25 +387,32 @@ export default function Home() {
       <div className="divider" />
 
       {/* TOPICS */}
-      <section className="topics-section">
-        <div className="section-inner">
-          <div className="section-header reveal">
-            <div><div className="section-label">// Coverage Areas</div><div className="section-title">Intelligence Domains</div></div>
-          </div>
+      <section className="topics-section" style={{padding: 0}}>
+        <div className="section-inner" style={{maxWidth:'100%', padding: 0}}>
           <div className="topics-grid">
             {[
-              { icon: '🔐', name: 'Cybersecurity', href: '/cybersecurity' },
-              { icon: '🕵️', name: 'Intelligence', href: '/intelligence' },
-              { icon: '🌐', name: 'Geopolitics', href: '/geopolitics' },
-              { icon: '🛡️', name: 'National Security', href: '/national-security' },
-              { icon: '📊', name: 'Economic Security', href: '/economic-security' },
-            ].map((t, i) => (
-              <a href={t.href} className={`topic-card reveal reveal-delay-${i + 1}`} key={t.name}>
-                <span className="topic-icon">{t.icon}</span>
-                <div className="topic-name">{t.name}</div>
-                <div className="topic-count">// {ARTICLES.filter(a => a.category === t.name).length} REPORTS</div>
-              </a>
-            ))}
+              { Icon: Lock, name: 'Cybersecurity', ghost: '01', href: '/cybersecurity' },
+              { Icon: Eye, name: 'Intelligence', ghost: '02', href: '/intelligence' },
+              { Icon: Globe, name: 'Geopolitics', ghost: '03', href: '/geopolitics' },
+              { Icon: Shield, name: 'National Security', ghost: '04', href: '/national-security' },
+              { Icon: TrendingUp, name: 'Economic Security', ghost: '05', href: '/economic-security' },
+            ].map((t, i) => {
+              const count = ARTICLES.filter(a => a.category === t.name).length;
+              return (
+                <a href={t.href} className={`topic-card reveal reveal-delay-${i + 1}`} key={t.name}>
+                  <div className="topic-ghost">{t.ghost}</div>
+                  <div className="topic-top">
+                    <div className="topic-index">DOMAIN_{t.ghost}</div>
+                    <div className="topic-icon"><t.Icon size={i === 0 ? 26 : 20} strokeWidth={1.5} /></div>
+                  </div>
+                  <div className="topic-name">{t.name}</div>
+                  <div className="topic-bottom">
+                    <div className="topic-count">{String(count).padStart(2, '0')} Reports</div>
+                    <div className="topic-enter">Enter →</div>
+                  </div>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -378,7 +430,7 @@ export default function Home() {
             <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
               {CATEGORIES.map(cat => (
                 <button key={cat} onClick={() => setActiveCategory(cat)}
-                  style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '2px', padding: '6px 14px', border: `1px solid ${activeCategory === cat ? '#1e9eff' : 'rgba(30,158,255,0.15)'}`, background: activeCategory === cat ? 'rgba(30,158,255,0.1)' : 'none', color: activeCategory === cat ? '#1e9eff' : '#3d5870', cursor: 'pointer', textTransform: 'uppercase', transition: 'all 0.2s' }}>
+                  className={`cat-filter-btn${activeCategory === cat ? ' cat-filter-btn--active' : ''}`}>
                   {cat}
                 </button>
               ))}

@@ -280,7 +280,7 @@ export default function PolymarketTracker() {
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
 
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
@@ -294,13 +294,13 @@ export default function PolymarketTracker() {
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
         .search-input::placeholder { color: #3d5870; }
-        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
 
         .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1100px; margin: 0 auto; border: 1px solid rgba(30,158,255,0.1); background: rgba(10,21,32,0.8); }
         .status-scanning { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; animation: blink 1s infinite; }
-        .status-done { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #00ff88; text-transform: uppercase; }
+        .status-done { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
         .status-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .status-chip { color: #1e9eff; }
 
@@ -309,13 +309,13 @@ export default function PolymarketTracker() {
         .filter-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .filter-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
         .filter-btn.active { color: #1e9eff; border-color: #1e9eff; background: rgba(30,158,255,0.08); }
-        .filter-btn.hot.active { color: #00ff88; border-color: rgba(0,255,136,0.7); background: rgba(0,255,136,0.08); }
+        .filter-btn.hot.active { color: #1e9eff; border-color: rgba(30,158,255,0.7); background: rgba(30,158,255,0.08); }
 
         .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 20px 40px 80px; max-width: 1100px; margin: 0 auto; }
 
         .result-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: all 0.3s; position: relative; overflow: hidden; min-height: 150px; }
-        .result-card.up { border-color: rgba(0,255,136,0.25); background: #0a1f18; }
-        .result-card.up::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #00ff88; }
+        .result-card.up { border-color: rgba(30,158,255,0.25); background: #0a1f18; }
+        .result-card.up::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #1e9eff; }
         .result-card.down { border-color: rgba(30,158,255,0.22); background: #07131c; }
         .result-card.flat { border-color: rgba(30,158,255,0.10); }
         .result-card.loading { opacity: 0.65; }
@@ -326,22 +326,22 @@ export default function PolymarketTracker() {
         .card-category { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.1); padding: 2px 6px; white-space: nowrap; height: fit-content; }
         .pin-btn { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.12); padding: 2px 6px; background: none; color: #3d5870; cursor: pointer; }
         .pin-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.35); }
-        .pin-btn.active { color: #00ff88; border-color: rgba(0,255,136,0.55); background: rgba(0,255,136,0.06); }
+        .pin-btn.active { color: #1e9eff; border-color: rgba(30,158,255,0.55); background: rgba(30,158,255,0.06); }
 
         .card-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2px; }
         .metric { border: 1px solid rgba(30,158,255,0.10); background: rgba(3,6,8,0.25); padding: 10px 10px; }
         .metric-label { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
         .metric-value { margin-top: 6px; font-family: 'Orbitron', monospace; font-size: 16px; letter-spacing: 1px; color: #d8e8f5; }
-        .metric-value.green { color: #00ff88; }
+        .metric-value.green { color: #1e9eff; }
         .metric-value.blue { color: #1e9eff; }
 
         .card-status { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
-        .card-status.up { color: #00ff88; }
+        .card-status.up { color: #1e9eff; }
         .card-status.down { color: #1e9eff; }
         .card-status.flat { color: #3d5870; }
         .card-status.loading { color: #1e9eff; animation: blink 1s infinite; }
 
-        .card-link { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #00ff88; text-decoration: none; transition: color 0.3s; margin-top: 2px; }
+        .card-link { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #1e9eff; text-decoration: none; transition: color 0.3s; margin-top: 2px; }
         .card-link:hover { color: #4dffaa; }
 
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
@@ -378,7 +378,7 @@ export default function PolymarketTracker() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('polyMenu')?.classList.toggle('open')}>
@@ -415,7 +415,7 @@ export default function PolymarketTracker() {
               fontSize: 11,
               letterSpacing: 3,
               color: '#030608',
-              background: '#00ff88',
+              background: '#1e9eff',
               border: 'none',
               padding: '12px 24px',
               textDecoration: 'none',

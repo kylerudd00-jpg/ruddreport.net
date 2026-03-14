@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useCallback } from 'react';
+import { Camera, MapPin } from 'lucide-react';
 
 export default function MetadataExtractor() {
   const [result, setResult] = useState<any>(null);
@@ -157,7 +158,7 @@ export default function MetadataExtractor() {
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
@@ -170,7 +171,7 @@ export default function MetadataExtractor() {
         .upload-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .drop-zone { border: 2px dashed rgba(30,158,255,0.3); background: #0a1520; padding: 60px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; cursor: pointer; transition: all 0.3s; text-align: center; }
         .drop-zone:hover, .drop-zone.dragging { border-color: #1e9eff; background: #0f1e2e; }
-        .drop-icon { font-size: 48px; }
+        .drop-icon { color: #1e9eff; opacity: 0.6; }
         .drop-title { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; }
         .drop-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
         .drop-formats { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.2); padding: 4px 14px; text-transform: uppercase; }
@@ -189,10 +190,10 @@ export default function MetadataExtractor() {
         .gps-link:hover { background: rgba(255,58,58,0.1); }
         .intel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 2px; }
         .intel-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 24px; }
-        .intel-card.highlight { border-color: rgba(0,255,136,0.2); background: #0a1f18; }
+        .intel-card.highlight { border-color: rgba(30,158,255,0.2); background: #0a1f18; }
         .intel-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
         .intel-value { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; line-height: 1.3; }
-        .intel-value.green { color: #00ff88; }
+        .intel-value.green { color: #1e9eff; }
         .intel-value.blue { color: #1e9eff; }
         .intel-value.orange { color: #ffaa00; }
         .section-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); margin-bottom: 2px; }
@@ -248,7 +249,7 @@ export default function MetadataExtractor() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('metaMenu')?.classList.toggle('open')}>
@@ -291,7 +292,7 @@ export default function MetadataExtractor() {
             onDragLeave={() => setDragging(false)}
             onDrop={onDrop}
           >
-            <div className="drop-icon">📷</div>
+            <div className="drop-icon"><Camera size={48} strokeWidth={1} /></div>
             <div className="drop-title">Drop Image Here or Click to Upload</div>
             <div className="drop-sub">// Your image never leaves your device</div>
             <div className="drop-formats">JPEG · PNG · TIFF · HEIC · WebP · RAW</div>
@@ -334,7 +335,7 @@ export default function MetadataExtractor() {
       <div className="gps-alert-coords">{intel.location.lat!.toFixed(6)}°, {intel.location.lon!.toFixed(6)}°</div>
       {intel.location.altitude && <div className="gps-alt">Altitude: {intel.location.altitude.toFixed(1)}m</div>}
     </div>
-    <a href={mapsUrl!} target="_blank" rel="noopener noreferrer" className="gps-link">📍 View on Map →</a>
+    <a href={mapsUrl!} target="_blank" rel="noopener noreferrer" className="gps-link" style={{display:'inline-flex',alignItems:'center',gap:'6px'}}><MapPin size={14} strokeWidth={1.5} /> View on Map →</a>
   </div>
 )}
 

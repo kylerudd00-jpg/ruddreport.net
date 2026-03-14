@@ -54,7 +54,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
         .article-date { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
         .threat-high { color: #ff3a3a; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
         .threat-med { color: #ffaa00; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
-        .threat-low { color: #00ff88; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
+        .threat-low { color: #1e9eff; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
         .article-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: #d8e8f5; line-height: 1.1; margin-bottom: 20px; }
         .article-excerpt { font-size: 18px; font-weight: 300; color: #7a9bb5; line-height: 1.8; padding: 20px 24px; border-left: 3px solid #1e9eff; background: rgba(30,158,255,0.04); }
         .article-body { max-width: 900px; margin: 0 auto; padding: 60px 40px 100px; }

@@ -1,4 +1,5 @@
 'use client';
+import { Lock, Eye, Globe } from 'lucide-react';
 
 
 export default function About() {
@@ -20,7 +21,7 @@ export default function About() {
         .nav-links a.active { color: var(--accent); }
         .nav-links a.active::after { transform: scaleX(1); }
         .nav-status { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: pulse 2s infinite; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; animation: pulse 2s infinite; }
         .signal-bar { display: flex; align-items: flex-end; gap: 3px; height: 16px; }
         .signal-bar span { width: 3px; background: var(--accent); border-radius: 1px; animation: signalPulse 1.5s ease-in-out infinite; }
         .signal-bar span:nth-child(1) { height: 4px; } .signal-bar span:nth-child(2) { height: 7px; animation-delay: 0.15s; } .signal-bar span:nth-child(3) { height: 11px; animation-delay: 0.3s; } .signal-bar span:nth-child(4) { height: 16px; animation-delay: 0.45s; }
@@ -82,7 +83,7 @@ export default function About() {
         .focus-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); transform: scaleX(0); transition: transform 0.4s; }
         .focus-card:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
         .focus-card:hover::after { transform: scaleX(1); }
-        .focus-icon { font-size: 28px; margin-bottom: 16px; display: block; }
+        .focus-icon { margin-bottom: 16px; display: block; color: #1e9eff; opacity: 0.7; }
         .focus-name { font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 700; color: var(--silver); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
         .focus-desc { font-size: 13px; font-weight: 300; color: var(--text-muted); line-height: 1.7; }
 
@@ -123,11 +124,10 @@ export default function About() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about" className="active">About</a></li>
           </ul>
           <div className="nav-status">
-            <div className="status-dot" />
             <span>LIVE</span>
             <div className="signal-bar"><span /><span /><span /><span /></div>
           </div>
@@ -143,7 +143,7 @@ export default function About() {
           <a href="/intelligence" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Intelligence</a>
           <a href="/geopolitics" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Geopolitics</a>
           <a href="/national-security" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>National Security</a>
-          <a href="/osint" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')} style={{color:'#00ff88'}}>OSINT Hub</a>
+          <a href="/osint" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')} style={{color:'#1e9eff'}}>OSINT Hub</a>
           <a href="/about" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>About</a>
           <a href="/contact" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Contact</a>
         </div>
@@ -229,17 +229,17 @@ export default function About() {
             <div className="section-title">Research Domains</div>
             <div className="focus-grid">
               <div className="focus-card">
-                <span className="focus-icon">🔐</span>
+                <span className="focus-icon"><Lock size={28} strokeWidth={1.5} /></span>
                 <div className="focus-name">Cybersecurity</div>
                 <div className="focus-desc">State-sponsored threat actors, critical infrastructure vulnerabilities, zero-day diplomacy, and the evolving landscape of offensive cyber operations.</div>
               </div>
               <div className="focus-card">
-                <span className="focus-icon">🕵️</span>
+                <span className="focus-icon"><Eye size={28} strokeWidth={1.5} /></span>
                 <div className="focus-name">Intelligence</div>
                 <div className="focus-desc">Intelligence-sharing frameworks, Five Eyes coordination, IC reform, and the analytical tradecraft behind operationally relevant assessment.</div>
               </div>
               <div className="focus-card">
-                <span className="focus-icon">🌐</span>
+                <span className="focus-icon"><Globe size={28} strokeWidth={1.5} /></span>
                 <div className="focus-name">U.S. Foreign Policy</div>
                 <div className="focus-desc">Alliance architecture, strategic competition with China and Russia, economic coercion, and the geopolitical forces reshaping the post-unipolar world.</div>
               </div>

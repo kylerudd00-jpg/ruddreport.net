@@ -46,7 +46,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const toc = getTableOfContents(article.content);
   const related = getRelatedArticles(slug);
   const relevanceColor =
-    article.relevance === 'HIGH' ? '#ff3a3a' : article.relevance === 'MED' ? '#ffaa00' : '#00ff88';
+    article.relevance === 'HIGH' ? '#ff3a3a' : article.relevance === 'MED' ? '#ffaa00' : '#1e9eff';
 
   // Build content blocks with anchor IDs on headings
   const blocks = article.content.split('\n\n').map((block, i) => {
@@ -231,7 +231,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="related-grid">
             {related.map(r => {
               const rColor =
-                r.relevance === 'HIGH' ? '#ff3a3a' : r.relevance === 'MED' ? '#ffaa00' : '#00ff88';
+                r.relevance === 'HIGH' ? '#ff3a3a' : r.relevance === 'MED' ? '#ffaa00' : '#1e9eff';
               return (
                 <a key={r.slug} href={`/articles/${r.slug}`} className="related-card">
                   <div className="related-card-meta">

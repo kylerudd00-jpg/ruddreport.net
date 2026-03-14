@@ -1,5 +1,6 @@
 'use client';
 import { getArticlesByCategory } from '@/lib/articles';
+import { Eye } from 'lucide-react';
 
 export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, articles }: any) {
   return (
@@ -17,7 +18,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
         .nav-links a:hover { color: #1e9eff; }
         .nav-links a:hover::after { transform: scaleX(1); }
         .nav-status { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #3d5870; letter-spacing: 2px; }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: pulse 2s infinite; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; animation: pulse 2s infinite; }
         .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
         .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; backdrop-filter: blur(20px); }
@@ -36,7 +37,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
         .hero-tagline { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 28px; }
         .hero-blurb { font-size: 16px; font-weight: 300; color: #7a9bb5; line-height: 1.9; margin-bottom: 24px; }
         .hero-note { font-size: 14px; font-weight: 300; line-height: 1.8; padding: 20px 24px; border-left: 2px solid #1e9eff; background: rgba(30,158,255,0.04); font-style: italic; color: #3d5870; }
-        .hero-icon-box { display: flex; align-items: center; justify-content: center; font-size: 120px; opacity: 0.15; }
+        .hero-icon-box { display: flex; align-items: center; justify-content: center; opacity: 0.1; color: #1e9eff; }
         .articles { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
         .articles-header { margin-bottom: 48px; padding-bottom: 20px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .articles-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 8px; }
@@ -56,7 +57,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
         .card-read { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
         .threat-high { color: #ff3a3a; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
         .threat-med { color: #ffaa00; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
-        .threat-low { color: #00ff88; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
+        .threat-low { color: #1e9eff; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
         .coming-soon { text-align: center; padding: 60px 40px; border: 1px dashed rgba(30,158,255,0.2); margin-top: 2px; }
         .coming-soon-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 80px; }
@@ -92,7 +93,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('catMobileMenu')?.classList.toggle('open')}>
@@ -106,7 +107,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
           <a href="/intelligence" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>Intelligence</a>
           <a href="/geopolitics" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>Geopolitics</a>
           <a href="/national-security" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>National Security</a>
-          <a href="/osint" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')} style={{color:'#00ff88'}}>OSINT Hub</a>
+          <a href="/osint" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')} style={{color:'#1e9eff'}}>OSINT Hub</a>
           <a href="/about" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>About</a>
           <a href="/contact" onClick={() => document.getElementById('catMobileMenu')?.classList.remove('open')}>Contact</a>
         </div>
@@ -155,5 +156,5 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
 
 export default function Intelligence() {
   const articles = getArticlesByCategory('Intelligence');
-  return <CategoryPage category="Intelligence" eyebrow="// Domain: Intelligence Studies" tagline="INTELLIGENCE ANALYSIS" blurb="Intelligence is the art of knowing what matters before it matters. From collection to dissemination, the intelligence cycle shapes the decisions of presidents, generals, and policymakers — often invisibly." personalNote="As an IC-CAE Scholar and Cambridge researcher focused on U.S.–UK intelligence-sharing frameworks, I bring an analytical lens shaped by both academic study and exposure to real intelligence community priorities." icon="🕵️" articles={articles} />;
+  return <CategoryPage category="Intelligence" eyebrow="// Domain: Intelligence Studies" tagline="INTELLIGENCE ANALYSIS" blurb="Intelligence is the art of knowing what matters before it matters. From collection to dissemination, the intelligence cycle shapes the decisions of presidents, generals, and policymakers — often invisibly." personalNote="As an IC-CAE Scholar and Cambridge researcher focused on U.S.–UK intelligence-sharing frameworks, I bring an analytical lens shaped by both academic study and exposure to real intelligence community priorities." icon={<Eye size={120} strokeWidth={0.75} />} articles={articles} />;
 }

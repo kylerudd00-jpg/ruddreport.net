@@ -4,7 +4,7 @@ import { useState } from 'react';
 type Hop = { url: string; status: number; kind: 'redirect' | 'final' | 'error' };
 
 function statusColor(s: number) {
-  if (s >= 200 && s < 300) return '#00ff88';
+  if (s >= 200 && s < 300) return '#1e9eff';
   if (s >= 300 && s < 400) return '#ffaa00';
   if (s >= 400) return '#ff3a3a';
   return '#3d5870';
@@ -70,7 +70,7 @@ export default function UrlTracer() {
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
@@ -82,7 +82,7 @@ export default function UrlTracer() {
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
         .search-input::placeholder { color: #3d5870; }
-        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
         .results-wrap { padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; }
@@ -91,10 +91,10 @@ export default function UrlTracer() {
         .summary-stat { display: flex; flex-direction: column; gap: 4px; }
         .summary-stat-val { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 700; color: #c0cfe0; }
         .summary-stat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
-        .final-url { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #00ff88; word-break: break-all; }
+        .final-url { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #1e9eff; word-break: break-all; }
         .hop-list { display: flex; flex-direction: column; gap: 2px; }
         .hop-row { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 16px 20px; display: grid; grid-template-columns: 28px 64px 1fr; gap: 16px; align-items: center; }
-        .hop-row.final-hop { border-color: rgba(0,255,136,0.2); }
+        .hop-row.final-hop { border-color: rgba(30,158,255,0.2); }
         .hop-index { font-family: 'Orbitron', monospace; font-size: 12px; font-weight: 700; color: #3d5870; }
         .hop-code { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; }
         .hop-info { display: flex; flex-direction: column; gap: 4px; }
@@ -134,7 +134,7 @@ export default function UrlTracer() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('urlMenu')?.classList.toggle('open')}>

@@ -100,7 +100,7 @@ function parseSummary(raw: string): Summary {
 }
 
 function statusColor(val: string) {
-  if (['pass', 'passed'].includes(val)) return '#00ff88';
+  if (['pass', 'passed'].includes(val)) return '#1e9eff';
   if (['fail', 'failed', 'reject', 'quarantine'].includes(val)) return '#ff3a3a';
   return '#ffaa00';
 }
@@ -143,7 +143,7 @@ export default function EmailHeaderAnalyzer() {
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
@@ -156,7 +156,7 @@ export default function EmailHeaderAnalyzer() {
         .header-textarea { width: 100%; background: #0a1520; border: 1px solid rgba(30,158,255,0.3); color: #d8e8f5; font-family: 'Share Tech Mono', monospace; font-size: 12px; line-height: 1.6; padding: 16px 20px; resize: vertical; outline: none; min-height: 200px; }
         .header-textarea::placeholder { color: #3d5870; }
         .btn-row { display: flex; gap: 12px; margin-top: 16px; }
-        .analyze-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
+        .analyze-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
         .analyze-btn:hover { background: #4db8ff; }
         .reset-btn { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .reset-btn:hover { color: #7a9bb5; border-color: rgba(30,158,255,0.3); }
@@ -211,7 +211,7 @@ export default function EmailHeaderAnalyzer() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('emailMenu')?.classList.toggle('open')}>

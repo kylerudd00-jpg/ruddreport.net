@@ -28,7 +28,7 @@ export default function DNSIntel() {
   };
 
   const RECORD_COLORS: Record<string, string> = {
-    A: '#1e9eff', AAAA: '#4db8ff', MX: '#00ff88', TXT: '#ffaa00',
+    A: '#1e9eff', AAAA: '#4db8ff', MX: '#1e9eff', TXT: '#ffaa00',
     NS: '#ff6b35', CNAME: '#c084fc', SOA: '#f472b6', CAA: '#fb923c',
   };
 
@@ -53,7 +53,7 @@ export default function DNSIntel() {
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
@@ -65,7 +65,7 @@ export default function DNSIntel() {
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
         .search-input::placeholder { color: #3d5870; }
-        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
         .results { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
@@ -76,13 +76,13 @@ export default function DNSIntel() {
         .intel-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
         .intel-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 28px; }
         .intel-card.full { grid-column: 1 / -1; }
-        .intel-card.highlight { border-color: rgba(0,255,136,0.2); background: #0a1f18; }
+        .intel-card.highlight { border-color: rgba(30,158,255,0.2); background: #0a1f18; }
         .intel-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
-        .intel-value { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #00ff88; margin-bottom: 4px; }
+        .intel-value { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #1e9eff; margin-bottom: 4px; }
         .intel-value.blue { color: #1e9eff; }
         .intel-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
         .intel-item { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; letter-spacing: 1px; padding: 6px 10px; background: rgba(30,158,255,0.04); border-left: 2px solid rgba(30,158,255,0.3); }
-        .intel-item.green { border-left-color: #00ff88; color: #00ff88; }
+        .intel-item.green { border-left-color: #1e9eff; color: #1e9eff; }
         .intel-item.orange { border-left-color: #ffaa00; color: #ffaa00; }
         .intel-item.red { border-left-color: #ff3a3a; color: #ff3a3a; }
         .service-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
@@ -145,7 +145,7 @@ export default function DNSIntel() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('dnsMenu')?.classList.toggle('open')}>

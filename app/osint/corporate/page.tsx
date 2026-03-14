@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 const OFFSHORE = ['KY','VG','BM','PA','LU','MT','CY','LI','MC','GG','JE','IM','MO','BH','AG','SC','MU','TC','AI','BZ'];
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: '#00ff88', INACTIVE: '#ff3a3a', LAPSED: '#ffaa00',
+  ACTIVE: '#1e9eff', INACTIVE: '#ff3a3a', LAPSED: '#ffaa00',
   MERGED: '#c084fc', ANNULLED: '#ff3a3a', RETIRED: '#ff3a3a',
 };
 
@@ -258,7 +258,7 @@ export default function CorporateInvestigator() {
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 36px 40px 24px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .hero-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
@@ -322,7 +322,7 @@ export default function CorporateInvestigator() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('corpMenu')?.classList.toggle('open')}>
@@ -406,7 +406,7 @@ export default function CorporateInvestigator() {
                 <div className="graph-legend">
                   <div className="legend-row"><div className="legend-dot" style={{background:'rgba(255,58,58,0.15)', borderColor:'#ff6b6b'}}/> Ultimate Parent</div>
                   <div className="legend-row"><div className="legend-dot" style={{background:'rgba(255,170,0,0.1)', borderColor:'#ffaa00'}}/> Direct Parent</div>
-                  <div className="legend-row"><div className="legend-dot" style={{background:'rgba(0,255,136,0.1)', borderColor:'#00ff88'}}/> Target Entity</div>
+                  <div className="legend-row"><div className="legend-dot" style={{background:'rgba(30,158,255,0.1)', borderColor:'#1e9eff'}}/> Target Entity</div>
                   <div className="legend-row"><div className="legend-dot" style={{background:'rgba(30,158,255,0.08)', borderColor:'rgba(30,158,255,0.4)'}}/> Subsidiary</div>
                   <div className="legend-row"><div className="legend-dot" style={{background:'rgba(255,170,0,0.1)', borderColor:'#ffaa00', borderStyle:'dashed'}}/> ⚠ Offshore</div>
                 </div>

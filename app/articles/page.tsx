@@ -12,7 +12,7 @@ const CATEGORIES = [
 ] as const;
 
 const rc = (relevance: string) =>
-  relevance === 'HIGH' ? '#ff3a3a' : relevance === 'MED' ? '#ffaa00' : '#00ff88';
+  relevance === 'HIGH' ? '#ff3a3a' : relevance === 'MED' ? '#ffaa00' : '#1e9eff';
 
 export default function ArticlesPage() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -131,7 +131,7 @@ export default function ArticlesPage() {
           <li><a href="/intelligence">Intelligence</a></li>
           <li><a href="/geopolitics">Geopolitics</a></li>
           <li><a href="/national-security">National Security</a></li>
-          <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
+          <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
           <li><a href="/about">About</a></li>
         </ul>
         <div
@@ -240,7 +240,7 @@ function ArticleCard({ article }: { article: Article }) {
         <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '8px', letterSpacing: '2px', color }}>
           ■ {article.relevance}
         </span>
-        {article.featured && <span className="card-featured">★ FEATURED</span>}
+        {article.featured && <span className="card-featured">// FEATURED</span>}
       </div>
       <h2 className="card-title">{article.title}</h2>
       <p className="card-excerpt">{article.excerpt}</p>

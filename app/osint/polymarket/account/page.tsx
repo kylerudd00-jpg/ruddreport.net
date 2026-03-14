@@ -37,7 +37,7 @@ export default function AccountTrackerPage() {
         .page-wrap { padding-top: 70px; min-height: 100vh; background: #030608; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 50px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
@@ -48,10 +48,10 @@ export default function AccountTrackerPage() {
         .search-wrap { padding: 60px 40px; max-width: 1100px; margin: 0 auto; }
         .search-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 16px; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
-        .search-box:focus-within { border-color: rgba(0,255,136,0.5); }
+        .search-box:focus-within { border-color: rgba(30,158,255,0.5); }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 20px 24px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 2px; }
         .search-input::placeholder { color: #3d5870; }
-        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #00ff88; border: none; padding: 20px 40px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 20px 40px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4dffaa; }
         .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
         .hint-section { padding: 0 40px 60px; max-width: 1100px; margin: 0 auto; }
@@ -88,7 +88,7 @@ export default function AccountTrackerPage() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('acctMenu')?.classList.toggle('open')}>

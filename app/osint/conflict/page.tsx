@@ -1380,9 +1380,9 @@ useEffect(() => {
         .page-wrap { padding-top: 70px; min-height: 100vh; }
         .back-bar { padding: 14px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; align-items: center; justify-content: space-between; }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
-        .live-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #00ff88; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
-        .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 6px #00ff88; animation: blink 2s infinite; }
+        .back-link:hover { color: #1e9eff; }
+        .live-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+        .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #1e9eff; box-shadow: 0 0 6px #1e9eff; animation: blink 2s infinite; }
 
         .tool-hero { padding: 36px 40px 28px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1500px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
@@ -1444,7 +1444,7 @@ useEffect(() => {
         .news-item { padding: 10px 0; border-bottom: 1px solid rgba(30,158,255,0.05); }
         .news-item:last-child { border-bottom: none; }
         .news-title { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; color: #c0cfe0; line-height: 1.3; margin-bottom: 3px; text-decoration: none; display: block; transition: color 0.2s; }
-        .news-title:hover { color: #00ff88; }
+        .news-title:hover { color: #1e9eff; }
         .news-meta { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
         .news-empty { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; text-align: center; padding: 20px 0; }
         .news-loading { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-align: center; padding: 20px 0; animation: blink 1s infinite; }
@@ -1518,7 +1518,7 @@ useEffect(() => {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('conflictMenu')?.classList.toggle('open')}>
@@ -1604,7 +1604,7 @@ useEffect(() => {
                 </div>
                 <div className="conflict-status">● {c.status}</div>
                 {acledData[c.acledCountry] && (
-                  <div className="conflict-acled">⚡ {acledData[c.acledCountry]} incidents / 30d</div>
+                  <div className="conflict-acled">// {acledData[c.acledCountry]} incidents / 30d</div>
                 )}
                 <div className="conflict-tags">{c.tags.map(t => <span key={t} className="conflict-tag">{t}</span>)}</div>
               </div>

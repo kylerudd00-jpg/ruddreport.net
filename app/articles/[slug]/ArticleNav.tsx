@@ -12,7 +12,7 @@ export default function ArticleNav() {
           <li><a href="/intelligence">Intelligence</a></li>
           <li><a href="/geopolitics">Geopolitics</a></li>
           <li><a href="/national-security">National Security</a></li>
-          <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
+          <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
           <li><a href="/about">About</a></li>
         </ul>
         <div

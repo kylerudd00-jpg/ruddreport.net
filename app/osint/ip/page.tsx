@@ -106,7 +106,7 @@ export default function IPGeo() {
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1000px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
@@ -118,17 +118,17 @@ export default function IPGeo() {
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
         .search-input::placeholder { color: #3d5870; }
-        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
-        .myip-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #00ff88; background: none; border: 1px solid rgba(0,255,136,0.3); padding: 10px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; margin-top: 12px; display: inline-block; }
-        .myip-btn:hover { background: rgba(0,255,136,0.08); border-color: #00ff88; }
+        .myip-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.3); padding: 10px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; margin-top: 12px; display: inline-block; }
+        .myip-btn:hover { background: rgba(30,158,255,0.08); border-color: #1e9eff; }
         .results { max-width: 1000px; margin: 0 auto; padding: 0 40px 80px; }
         .map-wrap { width: 100%; height: 400px; border: 1px solid rgba(30,158,255,0.2); margin-bottom: 2px; position: relative; z-index: 1; }
         .result-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); }
         .result-header { padding: 24px 28px; border-bottom: 1px solid rgba(30,158,255,0.12); display: flex; align-items: center; justify-content: space-between; background: rgba(30,158,255,0.04); }
         .result-ip { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; }
-        .result-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #00ff88; border: 1px solid rgba(0,255,136,0.3); padding: 4px 12px; text-transform: uppercase; background: rgba(0,255,136,0.06); }
+        .result-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 4px 12px; text-transform: uppercase; background: rgba(30,158,255,0.06); }
         .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); }
         .section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 16px 28px 12px; background: rgba(30,158,255,0.03); border-bottom: 1px solid rgba(30,158,255,0.06); grid-column: 1 / -1; }
         .result-field { padding: 18px 28px; border-bottom: 1px solid rgba(30,158,255,0.05); border-right: 1px solid rgba(30,158,255,0.05); }
@@ -182,7 +182,7 @@ export default function IPGeo() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('ipMenu')?.classList.toggle('open')}>

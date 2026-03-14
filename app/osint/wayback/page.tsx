@@ -55,7 +55,7 @@ export default function WaybackMachine() {
   const archiveUrl = (ts: string) => `https://web.archive.org/web/${ts}/${targetUrl}`;
 
   const statusColor = (code: string) => {
-    if (code.startsWith('2')) return '#00ff88';
+    if (code.startsWith('2')) return '#1e9eff';
     if (code.startsWith('3')) return '#ffaa00';
     if (code.startsWith('4')) return '#ff3a3a';
     return '#7a9bb5';
@@ -82,29 +82,29 @@ export default function WaybackMachine() {
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1000px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #00ff88; box-shadow: 0 0 8px #00ff88; }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #00ff88; text-transform: uppercase; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; }
         .search-wrap { padding: 40px; max-width: 1000px; margin: 0 auto; }
-        .search-box { display: flex; border: 1px solid rgba(0,255,136,0.3); background: #0a1520; }
+        .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
         .search-input::placeholder { color: #3d5870; }
-        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #00ff88; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #33ffaa; }
         .search-btn:disabled { background: #0d3322; color: #3d5870; cursor: not-allowed; }
         .results { max-width: 1000px; margin: 0 auto; padding: 0 40px 80px; }
         .result-header { margin-bottom: 20px; }
         .result-meta { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
-        .result-meta span { color: #00ff88; }
+        .result-meta span { color: #1e9eff; }
         .snapshot-table { width: 100%; border-collapse: collapse; }
         .snapshot-table th { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(30,158,255,0.12); background: rgba(30,158,255,0.03); }
         .snapshot-table td { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; padding: 12px 16px; border-bottom: 1px solid rgba(30,158,255,0.05); letter-spacing: 0.5px; }
-        .snapshot-table tr:hover td { background: rgba(0,255,136,0.03); }
+        .snapshot-table tr:hover td { background: rgba(30,158,255,0.03); }
         .snapshot-link { color: #1e9eff; text-decoration: none; letter-spacing: 2px; font-size: 9px; border: 1px solid rgba(30,158,255,0.3); padding: 4px 10px; transition: all 0.2s; }
         .snapshot-link:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
         .mime-badge { font-size: 9px; letter-spacing: 1px; color: #3d5870; padding: 2px 8px; border: 1px solid rgba(30,158,255,0.1); }
@@ -112,13 +112,13 @@ export default function WaybackMachine() {
         .loading-wrap { display: flex; align-items: center; gap: 16px; padding: 40px 0; }
         .loading-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; animation: blink 1.5s infinite; }
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
-        .loading-bars span { width: 3px; background: #00ff88; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
+        .loading-bars span { width: 3px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
         .loading-bars span:nth-child(1) { animation-delay: 0s; }
         .loading-bars span:nth-child(2) { animation-delay: 0.15s; }
         .loading-bars span:nth-child(3) { animation-delay: 0.3s; }
         .loading-bars span:nth-child(4) { animation-delay: 0.45s; }
         .loading-bars span:nth-child(5) { animation-delay: 0.6s; }
-        .info-box { background: rgba(0,255,136,0.04); border: 1px solid rgba(0,255,136,0.15); padding: 16px 20px; margin-bottom: 24px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; line-height: 1.8; }
+        .info-box { background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.15); padding: 16px 20px; margin-bottom: 24px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; line-height: 1.8; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
@@ -152,7 +152,7 @@ export default function WaybackMachine() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('waybackMenu')?.classList.toggle('open')}>

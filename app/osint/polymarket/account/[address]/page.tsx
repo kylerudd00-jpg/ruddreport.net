@@ -108,9 +108,9 @@ export default function AccountPage() {
         .page-wrap { padding-top: 70px; min-height: 100vh; background: #030608; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; align-items: center; justify-content: space-between; }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .sync-status { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
-        .sync-status.live { color: #00ff88; }
+        .sync-status.live { color: #1e9eff; }
         .sync-status.syncing { color: #1e9eff; animation: blink 1s infinite; }
 
         .profile-hero { padding: 48px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -123,7 +123,7 @@ export default function AccountPage() {
         .stat-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px 24px; }
         .stat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
         .stat-value { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 700; color: #d8e8f5; letter-spacing: 1px; }
-        .stat-value.green { color: #00ff88; }
+        .stat-value.green { color: #1e9eff; }
         .stat-value.blue { color: #1e9eff; }
 
         .error-bar { max-width: 1100px; margin: 24px auto; padding: 16px 24px; background: rgba(255,60,60,0.08); border: 1px solid rgba(255,60,60,0.2); font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #ff6060; letter-spacing: 2px; }
@@ -133,7 +133,7 @@ export default function AccountPage() {
         .tabs { display: flex; gap: 2px; margin-bottom: 24px; }
         .tab-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 10px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .tab-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
-        .tab-btn.active { color: #00ff88; border-color: rgba(0,255,136,0.5); background: rgba(0,255,136,0.06); }
+        .tab-btn.active { color: #1e9eff; border-color: rgba(30,158,255,0.5); background: rgba(30,158,255,0.06); }
 
         .table-wrap { border: 1px solid rgba(30,158,255,0.1); overflow: hidden; }
         .table-header { display: grid; padding: 12px 16px; background: rgba(10,21,32,0.8); border-bottom: 1px solid rgba(30,158,255,0.1); }
@@ -144,7 +144,7 @@ export default function AccountPage() {
         .cell-main { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; color: #c0cfe0; line-height: 1.3; }
         .cell-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #3d5870; margin-top: 4px; letter-spacing: 1px; }
         .cell-value { font-family: 'Orbitron', monospace; font-size: 14px; color: #d8e8f5; text-align: right; }
-        .cell-value.green { color: #00ff88; }
+        .cell-value.green { color: #1e9eff; }
         .cell-value.blue { color: #1e9eff; }
         .cell-value.red { color: #ff6060; }
 
@@ -188,7 +188,7 @@ export default function AccountPage() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('acctDetailMenu')?.classList.toggle('open')}>
@@ -277,7 +277,7 @@ export default function AccountPage() {
                           <div className="cell-sub">{fmtDate(p.startDate || p.createdAt)}</div>
                         </div>
                         <div className="cell-value" style={{ display: 'flex', alignItems: 'center' }}>
-                          <span style={{ color: p.outcome?.toLowerCase() === 'yes' ? '#00ff88' : '#ff6060' }}>
+                          <span style={{ color: p.outcome?.toLowerCase() === 'yes' ? '#1e9eff' : '#ff6060' }}>
                             {p.outcome || '—'}
                           </span>
                         </div>
@@ -309,7 +309,7 @@ export default function AccountPage() {
                           <div className="cell-sub">{fmtDate(t.timestamp || t.createdAt)}</div>
                         </div>
                         <div className="cell-value" style={{ display: 'flex', alignItems: 'center' }}>
-                          <span style={{ color: t.side?.toLowerCase() === 'buy' ? '#00ff88' : '#ff6060' }}>
+                          <span style={{ color: t.side?.toLowerCase() === 'buy' ? '#1e9eff' : '#ff6060' }}>
                             {t.side || t.type || '—'}
                           </span>
                         </div>

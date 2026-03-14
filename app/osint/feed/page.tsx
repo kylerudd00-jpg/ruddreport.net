@@ -58,17 +58,17 @@ export default function OSINTFeed() {
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); max-width: 1400px; margin: 0 auto; }
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: #1e9eff; }
         .osint-header { padding: 40px 40px 0; max-width: 1400px; margin: 0 auto; }
         .osint-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
-        .osint-eyebrow-line { width: 40px; height: 1px; background: #00ff88; box-shadow: 0 0 8px #00ff88; }
-        .osint-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #00ff88; text-transform: uppercase; }
+        .osint-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
+        .osint-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .osint-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
         .osint-subtitle { font-size: 14px; color: #3d5870; font-family: 'Share Tech Mono', monospace; letter-spacing: 2px; }
         .osint-statusbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1400px; margin: 20px auto 0; border: 1px solid rgba(30,158,255,0.12); background: rgba(10,21,32,0.8); }
         .status-left { display: flex; align-items: center; gap: 24px; }
-        .status-live { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #00ff88; text-transform: uppercase; }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: pulse 2s infinite; }
+        .status-live { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; animation: pulse 2s infinite; }
         .status-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .status-updated { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .refresh-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.3); padding: 6px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
@@ -86,7 +86,7 @@ export default function OSINTFeed() {
         .feed-source { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.2); padding: 2px 8px; background: rgba(30,158,255,0.06); }
         .feed-cat-cyber { color: #ff3a3a; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
         .feed-cat-geopolitics { color: #ffaa00; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
-        .feed-cat-global { color: #00ff88; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
+        .feed-cat-global { color: #1e9eff; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; }
         .feed-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #d8e8f5; line-height: 1.3; margin-bottom: 12px; transition: color 0.3s; }
         .feed-card:hover .feed-title { color: #1e9eff; }
         .feed-date { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
@@ -133,7 +133,7 @@ export default function OSINTFeed() {
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#00ff88'}}>OSINT Hub</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('feedMobileMenu')?.classList.toggle('open')}>
