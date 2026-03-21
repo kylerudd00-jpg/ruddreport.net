@@ -1,5 +1,5 @@
 'use client';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite } from 'lucide-react';
 
 export default function OSINTHub() {
   return (
@@ -181,42 +181,47 @@ export default function OSINTHub() {
               <p className="tool-desc">Check if a username exists across 39 platforms simultaneously — social media, developer communities, gaming networks, and forums. Results update in real time.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
-<a href="/osint/metadata" className="tool-card live">
-  <span className="tool-icon"><FileImage size={28} strokeWidth={1.5} /></span>
-  <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-  <div className="tool-name">Metadata Extractor</div>
-  <p className="tool-desc">Upload any photo and reveal hidden EXIF data — GPS coordinates, device model, serial numbers, timestamps, and more. Runs entirely in your browser.</p>
-  <div className="tool-action">Launch Tool →</div>
-</a>
-        <a href="/osint/corporate" className="tool-card live">
-  <span className="tool-icon"><Building2 size={28} strokeWidth={1.5} /></span>
-  <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-  <div className="tool-name">Corporate Investigator</div>
-  <p className="tool-desc">Search 200M+ companies across 140 jurisdictions. Trace corporate structures, registered agents, and incorporation records across known shell company havens.</p>
-  <div className="tool-action">Launch Tool →</div>
-</a>
-           <a href="/osint/conflict" className="tool-card live">
-  <span className="tool-icon"><Map size={28} strokeWidth={1.5} /></span>
-  <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-  <div className="tool-name">Conflict Tracker</div>
-  <p className="tool-desc">Real-time mapping of active conflict zones, insurgencies, and geopolitical flashpoints — with live GDELT news and ACLED incident data.</p>
-  <div className="tool-action">Launch Tool →</div>
-</a>
 
-<a href="/osint/sanctions" className="tool-card live">
-  <span className="tool-icon"><Scale size={28} strokeWidth={1.5} /></span>
-  <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-  <div className="tool-name">Sanctions Monitor</div>
-  <p className="tool-desc">Cross-reference entities against OFAC, UN, EU, UK, INTERPOL, and 100+ watchlists simultaneously. Essential for compliance and intelligence work.</p>
-  <div className="tool-action">Launch Tool →</div>
-</a>
-<a href="/osint/polymarket" className="tool-card live">
+            <a href="/osint/metadata" className="tool-card live">
+              <span className="tool-icon"><FileImage size={28} strokeWidth={1.5} /></span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Metadata Extractor</div>
+              <p className="tool-desc">Upload any photo and reveal hidden EXIF data — GPS coordinates, device model, serial numbers, timestamps, and more. Runs entirely in your browser.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/corporate" className="tool-card live">
+              <span className="tool-icon"><Building2 size={28} strokeWidth={1.5} /></span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Corporate Investigator</div>
+              <p className="tool-desc">Search 200M+ companies across 140 jurisdictions. Trace corporate structures, registered agents, and incorporation records across known shell company havens.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/conflict" className="tool-card live">
+              <span className="tool-icon"><Map size={28} strokeWidth={1.5} /></span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Conflict Tracker</div>
+              <p className="tool-desc">Real-time mapping of active conflict zones, insurgencies, and geopolitical flashpoints — with live GDELT news and ACLED incident data.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/sanctions" className="tool-card live">
+              <span className="tool-icon"><Scale size={28} strokeWidth={1.5} /></span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Sanctions Monitor</div>
+              <p className="tool-desc">Cross-reference entities against OFAC, UN, EU, UK, INTERPOL, and 100+ watchlists simultaneously. Essential for compliance and intelligence work.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/osint/polymarket" className="tool-card live">
               <span className="tool-icon"><TrendingUp size={28} strokeWidth={1.5} /></span>
               <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
               <div className="tool-name">Polymarket Tracker</div>
               <p className="tool-desc">Track real-time prediction market odds on geopolitical events, elections, and global conflicts. Monitor market movements and sentiment shifts as they happen.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
+
             <a href="/osint/subdomains" className="tool-card live">
               <span className="tool-icon"><ScanSearch size={28} strokeWidth={1.5} /></span>
               <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
@@ -274,7 +279,7 @@ export default function OSINTHub() {
             </a>
 
             <a href="/tools/satellite-tracker" className="tool-card live">
-              <span className="tool-icon">🛰️</span>
+              <span className="tool-icon"><Satellite size={28} strokeWidth={1.5} /></span>
               <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
               <div className="tool-name">Satellite Tracker</div>
               <p className="tool-desc">Track satellites in real-time using publicly available TLE data. Predict passes over any location, visualize orbital ground tracks, and analyze coverage windows — critical for geospatial intelligence and surveillance awareness.</p>

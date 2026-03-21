@@ -259,8 +259,14 @@ export default function SatelliteTracker() {
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '© OpenStreetMap © CARTO', maxZoom: 10,
       }).addTo(map);
+      map.invalidateSize();
     };
-    setTimeout(initMap, 100);
+    if (document.readyState === 'complete') {
+      setTimeout(initMap, 50);
+    } else {
+      link.onload = () => setTimeout(initMap, 50);
+      setTimeout(initMap, 300);
+    }
     return () => {
       if (mapInstanceRef.current) { mapInstanceRef.current.remove(); mapInstanceRef.current = null; }
     };
@@ -646,7 +652,7 @@ export default function SatelliteTracker() {
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         @keyframes satPulse { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(2.2);opacity:0} }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
@@ -698,7 +704,11 @@ export default function SatelliteTracker() {
         .viz-tab { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 10px 20px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #3d5870; border-right: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; }
         .viz-tab.active { color: #1e9eff; background: rgba(30,158,255,0.06); }
         .viz-tab:hover:not(.active) { color: #7a9bb5; }
-        .map-inner { width: 100%; height: 460px; display: block; }
+        .map-inner { width: 100%; height: 460px; display: block; position: relative; isolation: isolate; }
+        .leaflet-container { position: relative !important; }
+        .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; }
+        .leaflet-tile { filter: none; visibility: hidden; }
+        .leaflet-tile-loaded { visibility: inherit; }
         .sky-canvas-wrap { display: flex; align-items: center; justify-content: center; padding: 12px; height: 460px; }
         .info-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); display: flex; flex-direction: column; }
         .info-sat-header { padding: 18px 22px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); }
