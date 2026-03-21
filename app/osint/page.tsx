@@ -1,5 +1,5 @@
 'use client';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone } from 'lucide-react';
 
 export default function OSINTHub() {
   return (
@@ -120,7 +120,7 @@ export default function OSINTHub() {
             <p className="hero-sub">A curated toolkit for open-source intelligence gathering, corporate investigations, and real-time situational awareness. Built for analysts, researchers, and anyone who needs to know what's really going on.</p>
             <div className="hero-stats">
               <div className="hero-stat">
-                <div className="hero-stat-num">18</div>
+                <div className="hero-stat-num">21</div>
                 <div className="hero-stat-label">// Live Tools</div>
               </div>
               <div className="hero-stat">
@@ -283,6 +283,30 @@ export default function OSINTHub() {
               <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
               <div className="tool-name">Satellite Tracker</div>
               <p className="tool-desc">Track satellites in real-time using publicly available TLE data. Predict passes over any location, visualize orbital ground tracks, and analyze coverage windows — critical for geospatial intelligence and surveillance awareness.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/tools/flight-tracker" className="tool-card live">
+              <span className="tool-icon"><PlaneTakeoff size={28} strokeWidth={1.5} /></span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Flight Tracker</div>
+              <p className="tool-desc">Live global air traffic via OpenSky Network — track any aircraft, view altitude, speed, heading, and squawk codes in real time. Click any aircraft for full ADS-B telemetry.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/tools/vessel-tracker" className="tool-card live">
+              <span className="tool-icon"><Ship size={28} strokeWidth={1.5} /></span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Vessel Tracker</div>
+              <p className="tool-desc">Decode any MMSI number to identify a vessel's flag state and class instantly. Search by name for full AIS position, destination, speed, and voyage data with links to live maritime trackers.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/tools/phone-lookup" className="tool-card live">
+              <span className="tool-icon"><Phone size={28} strokeWidth={1.5} /></span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Phone Number OSINT</div>
+              <p className="tool-desc">Identify any number's country of origin, line type (mobile, landline, VoIP), and carrier class — entirely client-side. Then launch into TrueCaller, SpyDialer, WhitePages, and other OSINT databases.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
 
