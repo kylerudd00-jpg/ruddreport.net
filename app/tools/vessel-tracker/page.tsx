@@ -110,28 +110,144 @@ export default function VesselTracker() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [noKey, setNoKey] = useState(false);
+  const [wsStatus, setWsStatus] = useState<'idle'|'connecting'|'live'|'no-key'>('idle');
+  const [vesselCount, setVesselCount] = useState(0);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
+  const wsRef = useRef<WebSocket | null>(null);
+  const aisKeyRef = useRef<string>('');
+  const vesselDataRef = useRef<Map<string, any>>(new Map()); // MMSI → {name,type,speed,course,heading,lat,lon}
+  const vesselMarkersRef = useRef<Map<string, any>>(new Map()); // MMSI → L.circleMarker
+  const vesselLayerRef = useRef<any>(null);
+  const rendererRef = useRef<any>(null);
 
+  const subscribeViewport = useCallback(() => {
+    const ws = wsRef.current;
+    if (!ws || ws.readyState !== WebSocket.OPEN || !mapRef.current) return;
+    const b = mapRef.current.getBounds();
+    ws.send(JSON.stringify({
+      APIKey: aisKeyRef.current,
+      BoundingBoxes: [[[b.getSouth(), b.getWest()], [b.getNorth(), b.getEast()]]],
+      FilterMessageTypes: ['PositionReport', 'ShipStaticData'],
+    }));
+  }, []);
+
+  const vesselColor = useCallback((type: number) => {
+    if (type >= 70 && type <= 79) return '#1e9eff';  // Cargo
+    if (type >= 80 && type <= 89) return '#ff3a3a';  // Tanker
+    if (type >= 60 && type <= 69) return '#00ff88';  // Passenger
+    if (type === 30) return '#f59e0b';               // Fishing
+    if (type === 35) return '#cc0000';               // Military
+    if (type === 36 || type === 37) return '#00ffff'; // Pleasure
+    if (type === 51 || type === 52) return '#a78bfa'; // SAR/Tug
+    return '#7a9bb5';
+  }, []);
+
+  // Init map
   useEffect(() => {
     if (mapRef.current || !mapContainerRef.current) return;
     (async () => {
       const L = (await import('leaflet')).default;
-      const map = L.map(mapContainerRef.current!, { center: [20, 0], zoom: 2, zoomControl: true, attributionControl: true });
+      rendererRef.current = L.canvas({ padding: 0.5 });
+      const map = L.map(mapContainerRef.current!, { center: [20, 0], zoom: 2, zoomControl: true, attributionControl: true, preferCanvas: true });
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 18,
+        attribution: '© OpenStreetMap contributors', maxZoom: 18,
       }).addTo(map);
       L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
-        attribution: '© OpenSeaMap contributors',
-        maxZoom: 18,
-        opacity: 0.8,
+        attribution: '© OpenSeaMap contributors', maxZoom: 18, opacity: 0.7,
       }).addTo(map);
+      vesselLayerRef.current = L.layerGroup().addTo(map);
+      map.on('moveend', () => subscribeViewport());
       mapRef.current = map;
       setTimeout(() => map.invalidateSize(), 200);
     })();
     return () => { if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; } };
-  }, []);
+  }, [subscribeViewport]);
+
+  // Fetch AIS key and connect WebSocket
+  useEffect(() => {
+    fetch('/api/vessel/stream-key').then(r => r.json()).then(({ key }) => {
+      if (!key) { setWsStatus('no-key'); return; }
+      aisKeyRef.current = key;
+      setWsStatus('connecting');
+
+      const ws = new WebSocket('wss://stream.aisstream.io/v0/stream');
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        setWsStatus('live');
+        subscribeViewport();
+      };
+
+      ws.onmessage = (evt) => {
+        try {
+          const msg = JSON.parse(evt.data);
+          const meta = msg.MetaData;
+          if (!meta) return;
+          const mmsi = String(meta.MMSI);
+          const existing = vesselDataRef.current.get(mmsi) || {};
+
+          if (msg.MessageType === 'PositionReport') {
+            const pr = msg.Message?.PositionReport;
+            const lat = meta.latitude ?? pr?.Latitude;
+            const lon = meta.longitude ?? pr?.Longitude;
+            if (!lat || !lon) return;
+            const updated = { ...existing, mmsi, lat, lon,
+              name: meta.ShipName?.trim() || existing.name || '',
+              speed: pr?.Sog ?? existing.speed,
+              course: pr?.Cog ?? existing.course,
+              heading: pr?.TrueHeading ?? existing.heading,
+              navStatus: pr?.NavigationalStatus ?? existing.navStatus,
+            };
+            vesselDataRef.current.set(mmsi, updated);
+
+            const L = (window as any).L || null;
+            if (!vesselLayerRef.current || !mapRef.current) return;
+            const Lmod = mapRef.current._leaflet_id ? require : null;
+            const color = vesselColor(existing.shipType || 0);
+
+            if (vesselMarkersRef.current.has(mmsi)) {
+              vesselMarkersRef.current.get(mmsi).setLatLng([lat, lon]);
+            } else {
+              import('leaflet').then(({ default: Lm }) => {
+                const marker = Lm.circleMarker([lat, lon], {
+                  radius: 4, color, fillColor: color, fillOpacity: 0.85, weight: 1,
+                  renderer: rendererRef.current,
+                }).addTo(vesselLayerRef.current!);
+                marker.on('click', () => {
+                  const d = vesselDataRef.current.get(mmsi);
+                  setInput(mmsi);
+                  setMode('mmsi');
+                  const info = decodeMmsi(mmsi);
+                  setMmsiInfo(info);
+                  setSelected(null); setResults(null); setError(''); setNoKey(false);
+                  if (d?.name) {
+                    setSelected({ name: d.name, mmsi, speed: d.speed, course: d.course,
+                      latitude: d.lat, longitude: d.lon, status: String(d.navStatus ?? '') });
+                  }
+                });
+                vesselMarkersRef.current.set(mmsi, marker);
+                setVesselCount(vesselMarkersRef.current.size);
+              });
+            }
+          } else if (msg.MessageType === 'ShipStaticData') {
+            const sd = msg.Message?.ShipStaticData;
+            if (!sd) return;
+            vesselDataRef.current.set(mmsi, { ...existing, mmsi,
+              name: sd.Name?.trim() || existing.name || '',
+              shipType: sd.Type ?? existing.shipType,
+              destination: sd.Destination?.trim() || existing.destination,
+              callsign: sd.CallSign?.trim() || existing.callsign,
+            });
+          }
+        } catch { /* ignore parse errors */ }
+      };
+
+      ws.onclose = () => setWsStatus('idle');
+      ws.onerror = () => setWsStatus('idle');
+    });
+    return () => { wsRef.current?.close(); };
+  }, [subscribeViewport, vesselColor]);
 
   const handleSearch = async () => {
     setError(''); setResults(null); setSelected(null); setMmsiInfo(null); setNoKey(false);
@@ -219,11 +335,12 @@ export default function VesselTracker() {
         .live-map-inner .leaflet-pane { position: absolute; }
         .live-map-inner .leaflet-tile { position: absolute; }
         .live-map-inner .leaflet-tile-container { position: absolute; }
-        .live-map-notice { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 10px 16px; background: rgba(30,158,255,0.04); border-bottom: 1px solid rgba(30,158,255,0.1); margin-bottom: 2px; }
-        .live-map-notice-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
-        .live-map-notice-links { display: flex; gap: 8px; flex-wrap: wrap; }
-        .live-ext-btn { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; text-decoration: none; border: 1px solid rgba(30,158,255,0.25); padding: 5px 12px; transition: all 0.2s; white-space: nowrap; }
-        .live-ext-btn:hover { background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.5); }
+        .ais-nokey-bar { background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.2); padding: 16px 20px; margin-bottom: 2px; }
+        .ais-nokey-title { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #f59e0b; text-transform: uppercase; margin-bottom: 10px; }
+        .ais-nokey-steps { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a9bb5; line-height: 2; }
+        .ais-nokey-steps a { color: #1e9eff; text-decoration: none; }
+        .ais-nokey-steps code { color: #00ff88; }
+        .ws-legend { position: absolute; bottom: 10px; left: 10px; z-index: 10; display: flex; gap: 10px; flex-wrap: wrap; background: rgba(3,6,8,0.82); padding: 5px 10px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; }
         .mode-tabs { display: flex; gap: 2px; margin-bottom: 2px; }
         .mode-tab { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 9px 20px; cursor: pointer; text-transform: uppercase; background: #0a1520; border: 1px solid rgba(30,158,255,0.15); color: #3d5870; transition: all 0.2s; }
         .mode-tab.active { color: #1e9eff; background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.35); }
@@ -320,25 +437,43 @@ export default function VesselTracker() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">// Maritime Intelligence</div></div>
             <div className="hero-title">Vessel <span>Tracker</span></div>
-            <p className="hero-sub">Nautical chart with OpenSeaMap overlay. Search any vessel by MMSI or name for flag state, cargo type, tonnage, route, operator, and full AIS telemetry. Open MarineTraffic or VesselFinder for live vessel positions.</p>
+            <p className="hero-sub">Live global vessel tracking via AIS stream. Click any vessel on the map to decode its MMSI. Search by MMSI or name for flag state, cargo type, tonnage, route, and full AIS telemetry.</p>
           </div>
         </div>
 
         <div className="tool-section">
-          {/* Live vessel map notice */}
-          <div className="live-map-notice">
-            <span className="live-map-notice-text">// Nautical chart — open a live AIS tracker for vessel positions:</span>
-            <div className="live-map-notice-links">
-              <a className="live-ext-btn" href="https://www.marinetraffic.com" target="_blank" rel="noopener noreferrer">MarineTraffic ↗</a>
-              <a className="live-ext-btn" href="https://www.vesselfinder.com" target="_blank" rel="noopener noreferrer">VesselFinder ↗</a>
-              <a className="live-ext-btn" href="https://www.myshiptracking.com" target="_blank" rel="noopener noreferrer">MyShipTracking ↗</a>
-              <a className="live-ext-btn" href="https://www.fleetmon.com/map" target="_blank" rel="noopener noreferrer">FleetMon ↗</a>
+          {/* No-key notice */}
+          {wsStatus === 'no-key' && (
+            <div className="ais-nokey-bar">
+              <div className="ais-nokey-title">// Live AIS stream requires a free API key</div>
+              <div className="ais-nokey-steps">
+                1. Sign up free at <a href="https://aisstream.io" target="_blank" rel="noopener noreferrer">aisstream.io</a> (no credit card — completely free)<br />
+                2. Copy your API key from the dashboard<br />
+                3. Add to <code>.env.local</code>: <code>AISSTREAM_API_KEY=your_key_here</code><br />
+                4. Restart the dev server — vessels will appear on the map automatically
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* OpenSeaMap nautical chart */}
+          {/* Live vessel map */}
           <div className="live-map-wrap">
-            <div className="live-map-label">// OpenSeaMap Nautical Chart</div>
+            <div className="live-map-label">
+              {wsStatus === 'live'
+                ? `// Live AIS — ${vesselCount.toLocaleString()} vessels in view`
+                : wsStatus === 'connecting' ? '// Connecting to AIS stream...'
+                : wsStatus === 'no-key' ? '// OpenSeaMap — add AISSTREAM_API_KEY for live vessels'
+                : '// OpenSeaMap Nautical Chart'}
+            </div>
+            {wsStatus === 'live' && (
+              <div className="ws-legend">
+                <span style={{color:'#1e9eff'}}>● Cargo</span>
+                <span style={{color:'#ff3a3a'}}>● Tanker</span>
+                <span style={{color:'#00ff88'}}>● Passenger</span>
+                <span style={{color:'#f59e0b'}}>● Fishing</span>
+                <span style={{color:'#00ffff'}}>● Pleasure</span>
+                <span style={{color:'#7a9bb5'}}>● Other</span>
+              </div>
+            )}
             <div className="live-map-inner" ref={mapContainerRef} />
           </div>
 
