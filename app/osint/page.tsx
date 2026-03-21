@@ -120,7 +120,7 @@ export default function OSINTHub() {
             <p className="hero-sub">A curated toolkit for open-source intelligence gathering, corporate investigations, and real-time situational awareness. Built for analysts, researchers, and anyone who needs to know what's really going on.</p>
             <div className="hero-stats">
               <div className="hero-stat">
-                <div className="hero-stat-num">17</div>
+                <div className="hero-stat-num">18</div>
                 <div className="hero-stat-label">// Live Tools</div>
               </div>
               <div className="hero-stat">
@@ -270,6 +270,14 @@ export default function OSINTHub() {
               <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
               <div className="tool-name">Email Header Analyzer</div>
               <p className="tool-desc">Paste raw email headers to reveal the full routing path, originating IP, and authentication results (SPF / DKIM / DMARC). Detect spoofed senders and trace phishing emails to their source.</p>
+              <div className="tool-action">Launch Tool →</div>
+            </a>
+
+            <a href="/tools/satellite-tracker" className="tool-card live">
+              <span className="tool-icon">🛰️</span>
+              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
+              <div className="tool-name">Satellite Tracker</div>
+              <p className="tool-desc">Track satellites in real-time using publicly available TLE data. Predict passes over any location, visualize orbital ground tracks, and analyze coverage windows — critical for geospatial intelligence and surveillance awareness.</p>
               <div className="tool-action">Launch Tool →</div>
             </a>
 
