@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 const MID: Record<string, string> = {
   '201':'Albania','202':'Andorra','203':'Austria','205':'Belgium','206':'Belarus','207':'Bulgaria',
@@ -110,7 +110,28 @@ export default function VesselTracker() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [noKey, setNoKey] = useState(false);
-  const [iframeError, setIframeError] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (mapRef.current || !mapContainerRef.current) return;
+    (async () => {
+      const L = (await import('leaflet')).default;
+      const map = L.map(mapContainerRef.current!, { center: [20, 0], zoom: 2, zoomControl: true, attributionControl: true });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18,
+      }).addTo(map);
+      L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+        attribution: '© OpenSeaMap contributors',
+        maxZoom: 18,
+        opacity: 0.8,
+      }).addTo(map);
+      mapRef.current = map;
+      setTimeout(() => map.invalidateSize(), 200);
+    })();
+    return () => { if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; } };
+  }, []);
 
   const handleSearch = async () => {
     setError(''); setResults(null); setSelected(null); setMmsiInfo(null); setNoKey(false);
@@ -193,12 +214,16 @@ export default function VesselTracker() {
         .tool-section { padding: 24px 40px 40px; max-width: 1200px; margin: 0 auto; }
         .live-map-wrap { position: relative; width: 100%; height: 520px; border: 1px solid rgba(30,158,255,0.15); background: #050d14; margin-bottom: 2px; overflow: hidden; }
         .live-map-label { position: absolute; top: 12px; left: 12px; z-index: 10; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; background: rgba(3,6,8,0.85); padding: 5px 12px; border: 1px solid rgba(30,158,255,0.2); }
-        .live-map-iframe { width: 100%; height: 100%; border: none; display: block; }
-        .iframe-fallback { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 16px; padding: 40px; text-align: center; }
-        .iframe-fallback-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #7a9bb5; line-height: 1.8; }
-        .iframe-fallback-links { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
-        .iframe-ext-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-decoration: none; border: 1px solid rgba(30,158,255,0.3); padding: 8px 16px; transition: all 0.2s; }
-        .iframe-ext-link:hover { background: rgba(30,158,255,0.08); }
+        .live-map-inner { width: 100%; height: 100%; position: relative; isolation: isolate; }
+        .live-map-inner .leaflet-container { position: relative !important; width: 100% !important; height: 100% !important; background: #050d14; }
+        .live-map-inner .leaflet-pane { position: absolute; }
+        .live-map-inner .leaflet-tile { position: absolute; }
+        .live-map-inner .leaflet-tile-container { position: absolute; }
+        .live-map-notice { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 10px 16px; background: rgba(30,158,255,0.04); border-bottom: 1px solid rgba(30,158,255,0.1); margin-bottom: 2px; }
+        .live-map-notice-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .live-map-notice-links { display: flex; gap: 8px; flex-wrap: wrap; }
+        .live-ext-btn { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; text-decoration: none; border: 1px solid rgba(30,158,255,0.25); padding: 5px 12px; transition: all 0.2s; white-space: nowrap; }
+        .live-ext-btn:hover { background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.5); }
         .mode-tabs { display: flex; gap: 2px; margin-bottom: 2px; }
         .mode-tab { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 9px 20px; cursor: pointer; text-transform: uppercase; background: #0a1520; border: 1px solid rgba(30,158,255,0.15); color: #3d5870; transition: all 0.2s; }
         .mode-tab.active { color: #1e9eff; background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.35); }
@@ -295,35 +320,26 @@ export default function VesselTracker() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">// Maritime Intelligence</div></div>
             <div className="hero-title">Vessel <span>Tracker</span></div>
-            <p className="hero-sub">Live global vessel traffic via VesselFinder — all ships visible on the map below. Search any vessel by MMSI or name for flag state, cargo type, tonnage, route, operator, and full AIS telemetry.</p>
+            <p className="hero-sub">Nautical chart with OpenSeaMap overlay. Search any vessel by MMSI or name for flag state, cargo type, tonnage, route, operator, and full AIS telemetry. Open MarineTraffic or VesselFinder for live vessel positions.</p>
           </div>
         </div>
 
         <div className="tool-section">
-          {/* Live vessel map */}
+          {/* Live vessel map notice */}
+          <div className="live-map-notice">
+            <span className="live-map-notice-text">// Nautical chart — open a live AIS tracker for vessel positions:</span>
+            <div className="live-map-notice-links">
+              <a className="live-ext-btn" href="https://www.marinetraffic.com" target="_blank" rel="noopener noreferrer">MarineTraffic ↗</a>
+              <a className="live-ext-btn" href="https://www.vesselfinder.com" target="_blank" rel="noopener noreferrer">VesselFinder ↗</a>
+              <a className="live-ext-btn" href="https://www.myshiptracking.com" target="_blank" rel="noopener noreferrer">MyShipTracking ↗</a>
+              <a className="live-ext-btn" href="https://www.fleetmon.com/map" target="_blank" rel="noopener noreferrer">FleetMon ↗</a>
+            </div>
+          </div>
+
+          {/* OpenSeaMap nautical chart */}
           <div className="live-map-wrap">
-            <div className="live-map-label">// Live Vessel Traffic</div>
-            {!iframeError ? (
-              <iframe
-                className="live-map-iframe"
-                src="https://www.vesselfinder.com/?zoom=3&lat=20&lng=0"
-                title="Live Vessel Traffic"
-                onError={() => setIframeError(true)}
-                sandbox="allow-scripts allow-same-origin allow-forms"
-              />
-            ) : (
-              <div className="iframe-fallback">
-                <div className="iframe-fallback-text">
-                  Live vessel map blocked by browser policy.<br />
-                  View live global vessel traffic directly:
-                </div>
-                <div className="iframe-fallback-links">
-                  <a className="iframe-ext-link" href="https://www.vesselfinder.com" target="_blank" rel="noopener noreferrer">VesselFinder →</a>
-                  <a className="iframe-ext-link" href="https://www.marinetraffic.com" target="_blank" rel="noopener noreferrer">MarineTraffic →</a>
-                  <a className="iframe-ext-link" href="https://www.myshiptracking.com" target="_blank" rel="noopener noreferrer">MyShipTracking →</a>
-                </div>
-              </div>
-            )}
+            <div className="live-map-label">// OpenSeaMap Nautical Chart</div>
+            <div className="live-map-inner" ref={mapContainerRef} />
           </div>
 
           {/* Search */}
