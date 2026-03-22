@@ -15,6 +15,9 @@ export default function WaybackMachine() {
   const [error, setError] = useState('');
   const [targetUrl, setTargetUrl] = useState('');
   const [sortDir, setSortDir] = useState<'desc' | 'asc'>('desc');
+  const currentYear = new Date().getFullYear();
+  const [fromYear, setFromYear] = useState('');
+  const [toYear, setToYear] = useState('');
 
   const search = async () => {
     if (!url.trim()) return;
@@ -24,7 +27,10 @@ export default function WaybackMachine() {
     const clean = url.trim().replace(/^https?:\/\//, '');
     setTargetUrl(clean);
     try {
-      const res = await fetch(`/api/osint/wayback?url=${encodeURIComponent(clean)}`);
+      const params = new URLSearchParams({ url: clean });
+      if (fromYear) params.set('from', fromYear);
+      if (toYear)   params.set('to',   toYear);
+      const res = await fetch(`/api/osint/wayback?${params.toString()}`);
       const json = await res.json();
       if (json.error) throw new Error(json.error);
       const raw = json.data;
@@ -99,6 +105,14 @@ export default function WaybackMachine() {
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #33ffaa; }
         .search-btn:disabled { background: #0d3322; color: #3d5870; cursor: not-allowed; }
+        .date-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+        .date-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+        .year-input { background: rgba(10,21,32,0.8); border: 1px solid rgba(30,158,255,0.2); color: #c0cfe0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 6px 12px; width: 90px; outline: none; letter-spacing: 1px; }
+        .year-input::placeholder { color: #3d5870; }
+        .year-input:focus { border-color: rgba(30,158,255,0.5); }
+        .date-sep { color: #3d5870; font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+        .date-clear { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; background: none; border: none; cursor: pointer; text-transform: uppercase; padding: 0; transition: color 0.2s; }
+        .date-clear:hover { color: #1e9eff; }
         .results { max-width: 1000px; margin: 0 auto; padding: 0 40px 80px; }
         .result-header { margin-bottom: 20px; }
         .result-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
@@ -199,6 +213,30 @@ export default function WaybackMachine() {
             <button className="search-btn" onClick={search} disabled={loading || !url.trim()}>
               {loading ? 'Searching...' : 'Search →'}
             </button>
+          </div>
+          <div className="date-row">
+            <span className="date-label">Year range:</span>
+            <input
+              className="year-input"
+              placeholder="From"
+              value={fromYear}
+              maxLength={4}
+              onChange={e => setFromYear(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              onKeyDown={e => e.key === 'Enter' && search()}
+            />
+            <span className="date-sep">—</span>
+            <input
+              className="year-input"
+              placeholder="To"
+              value={toYear}
+              maxLength={4}
+              onChange={e => setToYear(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              onKeyDown={e => e.key === 'Enter' && search()}
+            />
+            {(fromYear || toYear) && (
+              <button className="date-clear" onClick={() => { setFromYear(''); setToYear(''); }}>✕ Clear</button>
+            )}
+            <span className="date-label" style={{marginLeft:4}}>leave blank for most recent</span>
           </div>
         </div>
 
