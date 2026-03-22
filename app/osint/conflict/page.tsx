@@ -1199,6 +1199,15 @@ export default function ConflictTracker() {
   const [search, setSearch] = useState('');
   const [regionFilter, setRegionFilter] = useState('all');
 
+  // Pentagon Pizza Tracker / DoD activity
+  const [dodIndex, setDodIndex] = useState(0);
+  const [dodArticles, setDodArticles] = useState<Article[]>([]);
+  const [dodLoading, setDodLoading] = useState(true);
+
+  // Emerging conflicts feed
+  const [emerging, setEmerging] = useState<Article[]>([]);
+  const [emergingLoading, setEmergingLoading] = useState(true);
+
   // ── Leaflet init ──────────────────────────────────────────────
   useEffect(() => {
     const initMap = () => {
@@ -1323,6 +1332,34 @@ export default function ConflictTracker() {
     } catch { setSpikes([]); } finally { setSpikesLoading(false); }
   }, []);
 
+  // ── Fetch DoD / Pentagon activity ────────────────────────────
+  const fetchDodActivity = useCallback(async () => {
+    try {
+      const r = await fetch('/api/osint/gdelt?q=pentagon+department+defense+secretary+military+briefing&maxrecords=20&timespan=24h');
+      if (!r.ok) throw new Error();
+      const data = await r.json();
+      const arts = data.articles || [];
+      setDodIndex(Math.min(100, Math.round((arts.length / 20) * 100)));
+      setDodArticles(arts.slice(0, 5).map((a: any) => ({
+        title: a.title || '—', url: a.url || '#',
+        source: a.domain || '—', date: a.seendate ? a.seendate.slice(0, 8) : '—',
+      })));
+    } catch {} finally { setDodLoading(false); }
+  }, []);
+
+  // ── Fetch emerging conflicts ──────────────────────────────────
+  const fetchEmerging = useCallback(async () => {
+    try {
+      const r = await fetch('/api/osint/gdelt?q=clashes+fighting+troops+offensive+escalation+outbreak&maxrecords=20&timespan=24h');
+      if (!r.ok) throw new Error();
+      const data = await r.json();
+      setEmerging((data.articles || []).slice(0, 10).map((a: any) => ({
+        title: a.title || '—', url: a.url || '#',
+        source: a.domain || '—', date: a.seendate ? a.seendate.slice(0, 8) : '—',
+      })));
+    } catch {} finally { setEmergingLoading(false); }
+  }, []);
+
   // ── Fetch ACLED data ──────────────────────────────────────────
   const fetchAcled = useCallback(async () => {
     try {
@@ -1340,6 +1377,8 @@ useEffect(() => {
   fetchTicker();
   setTimeout(() => fetchGlobalNews(), 2000);
   setTimeout(() => fetchSpikes(), 4000);
+  setTimeout(() => fetchDodActivity(), 3000);
+  setTimeout(() => fetchEmerging(), 5000);
   fetchAcled();
 
   const tickerInterval = setInterval(fetchTicker, 5 * 60 * 1000);
@@ -1364,6 +1403,16 @@ useEffect(() => {
   });
   const pagedNews = globalNews.slice(globalPage * 10, globalPage * 10 + 10);
   const totalPages = Math.ceil(globalNews.length / 10);
+
+  const CHART_REGIONS = ['Africa', 'Middle East', 'Europe', 'Asia', 'Americas'];
+  const regionCounts = CHART_REGIONS.map(r => ({
+    region: r, short: r === 'Middle East' ? 'M.East' : r,
+    high: CONFLICTS.filter(c => getRegion(c.tags) === r && c.intensity === 'high').length,
+    medium: CONFLICTS.filter(c => getRegion(c.tags) === r && c.intensity === 'medium').length,
+  }));
+  const chartMax = Math.max(...regionCounts.map(r => r.high + r.medium));
+
+  const dodLevel = dodIndex < 35 ? { label: 'NORMAL', color: '#00ff88' } : dodIndex < 70 ? { label: 'ELEVATED', color: '#ffaa00' } : { label: 'HIGH ALERT', color: '#ff3a3a' };
 
   return (
     <>
@@ -1530,9 +1579,59 @@ useEffect(() => {
         .detail-fact-value.orange { color: #ffaa00; }
         .detail-fact-value.blue { color: #1e9eff; }
 
+        /* INTEL SECTION */
+        .intel-section { max-width: 1500px; margin: 2px auto 0; padding: 0 40px 80px; display: grid; grid-template-columns: 1fr 1fr 360px; gap: 2px; }
+        .intel-panel { border: 1px solid rgba(30,158,255,0.08); background: #070d12; }
+        .emerging-item { padding: 12px 18px; border-bottom: 1px solid rgba(30,158,255,0.05); transition: background 0.2s; }
+        .emerging-item:hover { background: #0a1520; }
+        .emerging-title { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; color: #c0cfe0; line-height: 1.3; text-decoration: none; display: block; transition: color 0.2s; margin-bottom: 3px; }
+        .emerging-title:hover { color: #ffaa00; }
+        .emerging-meta { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
+        .emerging-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ffaa00; margin-right: 6px; box-shadow: 0 0 6px #ffaa00; animation: blink 2s infinite; }
+
+        /* CHART */
+        .chart-wrap { padding: 16px 18px 12px; }
+        .chart-bar-group { display: flex; flex-direction: column; gap: 8px; }
+        .chart-row { display: flex; align-items: center; gap: 10px; }
+        .chart-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #3d5870; width: 52px; flex-shrink: 0; text-transform: uppercase; text-align: right; }
+        .chart-bars { flex: 1; display: flex; height: 18px; gap: 1px; }
+        .chart-seg-high { background: #ff3a3a; height: 100%; transition: width 0.6s ease; }
+        .chart-seg-med { background: #ffaa00; height: 100%; transition: width 0.6s ease; }
+        .chart-count { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #3d5870; width: 20px; flex-shrink: 0; }
+        .chart-legend { display: flex; gap: 16px; padding: 10px 18px; border-top: 1px solid rgba(30,158,255,0.06); }
+        .chart-legend-item { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; text-transform: uppercase; }
+        .chart-legend-dot { width: 8px; height: 8px; flex-shrink: 0; }
+
+        /* PENTAGON PIZZA TRACKER */
+        .pizza-header { padding: 16px 18px; border-bottom: 1px solid rgba(255,170,0,0.15); background: rgba(255,170,0,0.03); }
+        .pizza-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #ffaa00; text-transform: uppercase; margin-bottom: 6px; }
+        .pizza-title { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 900; color: #c0cfe0; letter-spacing: 1px; text-transform: uppercase; }
+        .pizza-gauge-wrap { padding: 18px 18px 10px; border-bottom: 1px solid rgba(30,158,255,0.06); }
+        .pizza-gauge-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
+        .pizza-meter { height: 8px; background: rgba(30,158,255,0.08); border: 1px solid rgba(30,158,255,0.1); position: relative; margin-bottom: 6px; }
+        .pizza-meter-fill { height: 100%; transition: width 1s ease; }
+        .pizza-meter-zones { display: flex; justify-content: space-between; }
+        .pizza-meter-zone { font-family: 'IBM Plex Mono', monospace; font-size: 7px; letter-spacing: 1px; color: #3d5870; text-transform: uppercase; }
+        .pizza-level { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 900; letter-spacing: 2px; margin-top: 8px; }
+        .pizza-index { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; margin-top: 2px; }
+        .pizza-history { padding: 12px 18px; border-bottom: 1px solid rgba(30,158,255,0.06); }
+        .pizza-history-title { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
+        .pizza-event { display: flex; gap: 10px; margin-bottom: 8px; }
+        .pizza-event-year { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #ffaa00; flex-shrink: 0; width: 32px; }
+        .pizza-event-text { font-family: 'Barlow', sans-serif; font-size: 11px; color: #7a9bb5; line-height: 1.4; }
+        .pizza-signals { padding: 12px 18px; border-bottom: 1px solid rgba(30,158,255,0.06); }
+        .pizza-signal { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(30,158,255,0.04); }
+        .pizza-signal:last-child { border-bottom: none; }
+        .pizza-signal-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+        .pizza-signal-name { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; color: #7a9bb5; flex: 1; }
+        .pizza-signal-status { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #3d5870; text-transform: uppercase; }
+        .pizza-link { display: block; padding: 10px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; text-decoration: none; text-transform: uppercase; transition: background 0.2s; border-top: 1px solid rgba(255,170,0,0.1); }
+        .pizza-link:hover { background: rgba(255,170,0,0.05); }
+
         @media (max-width: 1200px) {
           .main-layout { grid-template-columns: 1fr; }
           .bottom-section { grid-template-columns: 1fr; }
+          .intel-section { grid-template-columns: 1fr; padding-left: 16px; padding-right: 16px; }
           #conflict-map { height: 400px; }
           nav { padding: 0 16px; }
           .nav-links { display: none; }
@@ -1776,6 +1875,137 @@ useEffect(() => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* INTEL SECTION: Emerging + Chart + Pentagon */}
+        <div className="intel-section">
+
+          {/* Emerging Conflicts Feed */}
+          <div className="intel-panel">
+            <div className="panel-header">
+              <div>
+                <div className="panel-title">Emerging Conflict Feed</div>
+                <div className="panel-subtitle">Live escalations · last 24h</div>
+              </div>
+              {emergingLoading && <div style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:9,letterSpacing:2,color:'#ffaa00',animation:'blink 1s infinite'}}>SCANNING</div>}
+            </div>
+            {emerging.length > 0 ? emerging.map((a, i) => (
+              <div key={i} className="emerging-item">
+                <a href={a.url} target="_blank" rel="noopener noreferrer" className="emerging-title">
+                  <span className="emerging-dot" />
+                  {a.title}
+                </a>
+                <div className="emerging-meta">{a.source} · {a.date}</div>
+              </div>
+            )) : !emergingLoading && (
+              <div className="news-empty">No emerging events detected</div>
+            )}
+          </div>
+
+          {/* Regional Breakdown Chart */}
+          <div className="intel-panel">
+            <div className="panel-header">
+              <div>
+                <div className="panel-title">Conflicts by Region</div>
+                <div className="panel-subtitle">{CONFLICTS.length} tracked zones</div>
+              </div>
+            </div>
+            <div className="chart-wrap">
+              <div className="chart-bar-group">
+                {regionCounts.map(r => (
+                  <div key={r.region} className="chart-row">
+                    <div className="chart-label">{r.short}</div>
+                    <div className="chart-bars">
+                      <div className="chart-seg-high" style={{width:`${chartMax ? (r.high/chartMax)*100 : 0}%`}} />
+                      <div className="chart-seg-med" style={{width:`${chartMax ? (r.medium/chartMax)*100 : 0}%`}} />
+                    </div>
+                    <div className="chart-count">{r.high + r.medium}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="chart-legend">
+              <div className="chart-legend-item"><div className="chart-legend-dot" style={{background:'#ff3a3a'}} />High intensity</div>
+              <div className="chart-legend-item"><div className="chart-legend-dot" style={{background:'#ffaa00'}} />Medium intensity</div>
+            </div>
+            <div style={{padding:'0 18px 16px'}}>
+              {regionCounts.map(r => (
+                <div key={r.region} style={{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:'1px solid rgba(30,158,255,0.05)'}}>
+                  <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:13,color:'#c0cfe0'}}>{r.region}</span>
+                  <span style={{display:'flex',gap:12}}>
+                    <span style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:9,color:'#ff3a3a'}}>{r.high} high</span>
+                    <span style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:9,color:'#ffaa00'}}>{r.medium} med</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pentagon Pizza Tracker */}
+          <div className="intel-panel" style={{borderColor:'rgba(255,170,0,0.12)'}}>
+            <div className="pizza-header">
+              <div className="pizza-eyebrow">⬡ OSINT Signal · DoD Activity</div>
+              <div className="pizza-title">Pentagon Pizza Tracker</div>
+            </div>
+
+            <div className="pizza-gauge-wrap">
+              <div className="pizza-gauge-label">Live DoD Activity Index (GDELT · 24h)</div>
+              <div className="pizza-meter">
+                <div className="pizza-meter-fill" style={{width:`${dodIndex}%`, background: dodLevel.color}} />
+              </div>
+              <div className="pizza-meter-zones">
+                <span className="pizza-meter-zone">Normal</span>
+                <span className="pizza-meter-zone">Elevated</span>
+                <span className="pizza-meter-zone">High</span>
+              </div>
+              {dodLoading
+                ? <div style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:9,color:'#3d5870',letterSpacing:2,marginTop:8,animation:'blink 1s infinite'}}>MEASURING...</div>
+                : <>
+                    <div className="pizza-level" style={{color: dodLevel.color}}>{dodLevel.label}</div>
+                    <div className="pizza-index">Activity index: {dodIndex}/100 · {dodArticles.length} DoD articles/24h</div>
+                  </>
+              }
+            </div>
+
+            {dodArticles.length > 0 && (
+              <div style={{padding:'10px 0'}}>
+                {dodArticles.map((a, i) => (
+                  <div key={i} className="emerging-item">
+                    <a href={a.url} target="_blank" rel="noopener noreferrer" className="emerging-title" style={{fontSize:12}}>{a.title}</a>
+                    <div className="emerging-meta">{a.source}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="pizza-history">
+              <div className="pizza-history-title">Historical precedent</div>
+              <div className="pizza-event"><span className="pizza-event-year">1983</span><span className="pizza-event-text">Domino's owner Frank Meeks noticed pizza surges to the Pentagon the night before the Grenada invasion.</span></div>
+              <div className="pizza-event"><span className="pizza-event-year">1990</span><span className="pizza-event-text">CIA ordered 21 pizzas the night before Iraq's invasion of Kuwait was announced.</span></div>
+              <div className="pizza-event"><span className="pizza-event-year">1991</span><span className="pizza-event-text">Operation Desert Storm: late-night Pentagon deliveries spiked days before the air campaign began.</span></div>
+            </div>
+
+            <div className="pizza-signals">
+              <div className="pizza-history-title">Modern OSINT equivalents</div>
+              {[
+                {name:'Military Flight Tracking', status:'ADS-B / FlightAware', color:'#1e9eff'},
+                {name:'Pentagon Parking Lots', status:'Satellite Imagery', color:'#1e9eff'},
+                {name:'DoD Spokesperson Tweets', status:'X / Social Monitor', color:'#1e9eff'},
+                {name:'Building Light Patterns', status:'Satellite / Overpass', color:'#1e9eff'},
+                {name:'Delivery Volume (pizza.ai)', status:'Behavioral OSINT', color:'#ffaa00'},
+              ].map((s, i) => (
+                <div key={i} className="pizza-signal">
+                  <div className="pizza-signal-dot" style={{background: s.color, boxShadow:`0 0 5px ${s.color}`}} />
+                  <span className="pizza-signal-name">{s.name}</span>
+                  <span className="pizza-signal-status">{s.status}</span>
+                </div>
+              ))}
+            </div>
+
+            <a href="https://www.pizzint.watch" target="_blank" rel="noopener noreferrer" className="pizza-link">
+              → pizzint.watch — live pizza index ↗
+            </a>
           </div>
         </div>
 
