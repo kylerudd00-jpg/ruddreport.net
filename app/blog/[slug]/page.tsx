@@ -14,8 +14,8 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
           body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
           .not-found { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 24px; }
           .nf-code { font-family: 'Barlow Condensed', sans-serif; font-size: 80px; font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(30,158,255,0.4); }
-          .nf-text { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; }
-          .nf-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #1e9eff; text-decoration: none; border: 1px solid rgba(30,158,255,0.3); padding: 12px 24px; text-transform: uppercase; }
+          .nf-text { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; }
+          .nf-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; color: #1e9eff; text-decoration: none; border: 1px solid rgba(30,158,255,0.3); padding: 12px 24px; text-transform: uppercase; }
         `}</style>
         <div className="not-found">
           <div className="nf-code">404</div>
@@ -44,17 +44,17 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
         .mobile-menu a:hover { color: #1e9eff; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .article-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); max-width: 900px; margin: 0 auto; }
-        .article-back { display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; margin-bottom: 32px; transition: color 0.3s; }
+        .article-back { display: inline-flex; align-items: center; gap: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; margin-bottom: 32px; transition: color 0.3s; }
         .article-back:hover { color: #1e9eff; }
         .article-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-        .article-category { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 4px 12px; background: rgba(30,158,255,0.08); }
-        .article-date { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
-        .threat-high { color: #ff3a3a; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; }
-        .threat-med { color: #ffaa00; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; }
-        .threat-low { color: #1e9eff; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; }
+        .article-category { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 4px 12px; background: rgba(30,158,255,0.08); }
+        .article-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .threat-high { color: #ff3a3a; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
+        .threat-med { color: #ffaa00; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
+        .threat-low { color: #1e9eff; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
         .article-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: #d8e8f5; line-height: 1.1; margin-bottom: 20px; }
         .article-excerpt { font-size: 18px; font-weight: 300; color: #7a9bb5; line-height: 1.8; padding: 20px 24px; border-left: 3px solid #1e9eff; background: rgba(30,158,255,0.04); }
         .article-body { max-width: 900px; margin: 0 auto; padding: 60px 40px 100px; }
@@ -63,13 +63,13 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
         .article-paragraph { font-size: 17px; font-weight: 300; color: #a0b8cc; line-height: 1.95; }
         .article-divider { width: 60px; height: 1px; background: #1e9eff; margin: 60px 0;  }
         .article-footer { max-width: 900px; margin: 0 auto; padding: 40px; border-top: 1px solid rgba(30,158,255,0.12); display: flex; align-items: center; justify-content: space-between; }
-        .article-author { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .article-author { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
         .article-author span { color: #1e9eff; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
+        .footer-classify { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
