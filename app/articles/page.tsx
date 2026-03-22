@@ -88,7 +88,7 @@ export default function ArticlesPage() {
         .card-category { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 3px 10px; background: rgba(30,158,255,0.06); }
         .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 2px; color: #3d5870; }
         .card-featured { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 3px 10px; }
-        .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 21px; font-weight: 700; color: #c0cfe0; line-height: 1.2; margin-bottom: 10px; transition: color 0.3s; }
+        .card-title { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #c0cfe0; line-height: 1.2; margin-bottom: 10px; transition: color 0.3s; }
         .article-card:hover .card-title { color: #fff; }
         .card-excerpt { font-size: 14px; font-weight: 300; color: #7a9bb5; line-height: 1.75; margin-bottom: 20px; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid rgba(30,158,255,0.08); }

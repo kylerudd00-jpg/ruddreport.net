@@ -50,7 +50,7 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
         .card-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
         .card-category { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid #0d5a9e; padding: 3px 10px; background: rgba(30,158,255,0.08); }
         .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
-        .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #d8e8f5; line-height: 1.2; margin-bottom: 12px; transition: color 0.3s; }
+        .card-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #d8e8f5; line-height: 1.2; margin-bottom: 12px; transition: color 0.3s; }
         .article-card:hover .card-title { color: #1e9eff; }
         .card-excerpt { font-size: 13px; font-weight: 300; color: #7a9bb5; line-height: 1.8; margin-bottom: 24px; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid rgba(30,158,255,0.12); }

@@ -107,7 +107,7 @@ export default function Home() {
         .card-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
         .card-category { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-dim); padding: 3px 10px; background: var(--accent-glow); }
         .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--text-muted); }
-        .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1.2; letter-spacing: 0.5px; margin-bottom: 16px; transition: color 0.3s; }
+        .card-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1.2; letter-spacing: -0.3px; margin-bottom: 16px; transition: color 0.3s; }
         .article-card:hover .card-title { color: var(--accent); }
         .featured-card .card-title { font-size: 42px; line-height: 1.1; }
         .card-excerpt { font-size: 14px; font-weight: 300; color: var(--text-secondary); line-height: 1.8; }

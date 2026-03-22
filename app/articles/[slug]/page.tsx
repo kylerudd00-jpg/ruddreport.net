@@ -93,7 +93,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         .meta-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
         .meta-time { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
         .meta-sep { color: #1e2a35; }
-        .article-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: #c0cfe0; line-height: 1.1; margin-bottom: 24px; letter-spacing: 0.5px; }
+        .article-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4.5vw, 52px); font-weight: 700; color: #c0cfe0; line-height: 1.15; margin-bottom: 24px; letter-spacing: -0.5px; }
         .article-excerpt { font-size: 18px; font-weight: 300; color: #7a9bb5; line-height: 1.7; border-left: 2px solid #1e9eff; padding-left: 20px; }
 
         /* BODY LAYOUT */
