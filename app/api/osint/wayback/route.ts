@@ -18,13 +18,18 @@ export async function GET(req: NextRequest) {
     const fromCDX = toCDXDate(req.nextUrl.searchParams.get('from') ?? '');
     const toCDX   = toCDXDate(req.nextUrl.searchParams.get('to')   ?? '');
 
+    // Default: from 1 year ago to today
+    const now = new Date();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const todayCDX = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
+    const yearAgoCDX = `${now.getFullYear()-1}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
+
     const buildParams = (u: string) => {
       const p = new URLSearchParams({
-        url: u, output: 'json', fl: 'timestamp,statuscode,mimetype',
-        limit: '150', reverse: 'true',
+        url: u, output: 'json', fl: 'timestamp,statuscode,mimetype', limit: '200',
       });
-      if (fromCDX) p.set('from', fromCDX);
-      if (toCDX)   p.set('to',   toCDX);
+      p.set('from', fromCDX || yearAgoCDX);
+      p.set('to',   toCDX   || todayCDX);
       return p.toString();
     };
 

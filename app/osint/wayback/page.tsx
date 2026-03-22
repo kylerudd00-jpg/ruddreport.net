@@ -15,8 +15,12 @@ export default function WaybackMachine() {
   const [error, setError] = useState('');
   const [targetUrl, setTargetUrl] = useState('');
   const [sortDir, setSortDir] = useState<'desc' | 'asc'>('desc');
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
+  const now = new Date();
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const todayStr = `${pad(now.getMonth()+1)}/${pad(now.getDate())}/${now.getFullYear()}`;
+  const yearAgoStr = `${pad(now.getMonth()+1)}/${pad(now.getDate())}/${now.getFullYear()-1}`;
+  const [fromDate, setFromDate] = useState(yearAgoStr);
+  const [toDate, setToDate] = useState(todayStr);
 
   const search = async () => {
     if (!url.trim()) return;
@@ -242,10 +246,8 @@ export default function WaybackMachine() {
               }}
               onKeyDown={e => e.key === 'Enter' && search()}
             />
-            {(fromDate || toDate) && (
-              <button className="date-clear" onClick={() => { setFromDate(''); setToDate(''); }}>✕ Clear</button>
-            )}
-            <span className="date-label" style={{marginLeft:4}}>blank = 150 most recent</span>
+            <button className="date-clear" onClick={() => { setFromDate(yearAgoStr); setToDate(todayStr); }}>↺ Reset</button>
+            <span className="date-label" style={{marginLeft:4}}>default = last 12 months</span>
           </div>
         </div>
 
