@@ -123,7 +123,8 @@ export default function VesselTracker() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [noKey, setNoKey] = useState(false);
-  const [wsStatus, setWsStatus] = useState<'idle'|'connecting'|'live'|'no-key'>('idle');
+  const [wsStatus, setWsStatus] = useState<'idle'|'connecting'|'connected'|'live'|'no-key'|'error'>('idle');
+  const [wsError, setWsError] = useState('');
   const [vesselCount, setVesselCount] = useState(0);
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -181,17 +182,22 @@ export default function VesselTracker() {
 
   // Connect to AISstream.io directly from the browser
   const connectAIS = useCallback(async () => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) return;
+    const ws = wsRef.current;
+    if (ws && (ws.readyState === WebSocket.CONNECTING || ws.readyState === WebSocket.OPEN)) return;
     setWsStatus('connecting');
     try {
       const res = await fetch('/api/vessel/stream-key');
-      const { key } = await res.json();
+      if (!res.ok) { setWsStatus('error'); setWsError(`Key route returned ${res.status}`); return; }
+      const data = await res.json();
+      const key = data?.key;
       if (!key) { setWsStatus('no-key'); setNoKey(true); return; }
 
       const ws = new WebSocket('wss://stream.aisstream.io/v0/stream');
       wsRef.current = ws;
 
       ws.onopen = () => {
+        setWsStatus('connected');
+        setWsError('');
         ws.send(JSON.stringify({
           APIKey: key,
           BoundingBoxes: [[[-90, -180], [90, 180]]],
@@ -202,11 +208,17 @@ export default function VesselTracker() {
       ws.onmessage = (event) => {
         try {
           const msg = JSON.parse(event.data);
+          // Surface any error messages from AISstream
+          if (msg.error || msg.Error) {
+            setWsError(msg.error || msg.Error || 'AIS stream error');
+            setWsStatus('error');
+            return;
+          }
           if (msg.MessageType !== 'PositionReport') return;
           const meta = msg.MetaData;
           const pr = msg.Message?.PositionReport;
-          const lat = meta.latitude ?? pr?.Latitude;
-          const lon = meta.longitude ?? pr?.Longitude;
+          const lat = meta?.latitude ?? pr?.Latitude;
+          const lon = meta?.longitude ?? pr?.Longitude;
           if (lat == null || lon == null) return;
 
           vesselDataRef.current.set(String(meta.MMSI), {
@@ -225,9 +237,14 @@ export default function VesselTracker() {
         } catch { /* ignore malformed */ }
       };
 
-      ws.onclose = () => {
+      ws.onclose = (e) => {
         wsLiveRef.current = false;
         wsRef.current = null;
+        if (e.code === 1008 || e.code === 4001 || e.code === 4003) {
+          setWsStatus('error');
+          setWsError(`Connection rejected by AIS server (code ${e.code}) — check API key`);
+          return; // don't retry on auth errors
+        }
         setWsStatus('connecting');
         setTimeout(connectAIS, 8000);
       };
@@ -467,8 +484,10 @@ export default function VesselTracker() {
             <div className="live-map-label">
               {wsStatus === 'live'
                 ? `Live AIS — ${vesselCount.toLocaleString()} vessels in view`
+                : wsStatus === 'connected' ? 'AIS connected — waiting for vessels...'
                 : wsStatus === 'connecting' ? 'Connecting to AIS stream...'
-                : wsStatus === 'no-key' ? 'No API key — add AISSTREAM_API_KEY to .env.local'
+                : wsStatus === 'error' ? `AIS Error: ${wsError}`
+                : wsStatus === 'no-key' ? 'No API key configured'
                 : 'Initializing...'}
             </div>
             {wsStatus === 'live' && (
