@@ -1196,6 +1196,8 @@ export default function ConflictTracker() {
 
   // ACLED counts
   const [acledData, setAcledData] = useState<Record<string, number>>({});
+  const [search, setSearch] = useState('');
+  const [regionFilter, setRegionFilter] = useState('all');
 
   // ── Leaflet init ──────────────────────────────────────────────
   useEffect(() => {
@@ -1232,7 +1234,10 @@ export default function ConflictTracker() {
         </div>`,
         iconSize: [size, size], iconAnchor: [size / 2, size / 2],
       });
-      const marker = L.marker([c.lat, c.lng], { icon }).addTo(map).on('click', () => { setSelected(c); fetchConflictNews(c); });
+      const marker = L.marker([c.lat, c.lng], { icon })
+        .addTo(map)
+        .bindTooltip(c.name, { direction: 'top', className: 'map-tooltip', offset: [0, -8] })
+        .on('click', () => { setSelected(c); fetchConflictNews(c); });
       markersRef.current.push(marker);
     });
   }
@@ -1343,7 +1348,20 @@ useEffect(() => {
   return () => { clearInterval(tickerInterval); clearInterval(newsInterval); clearInterval(spikesInterval); };
 }, []);
 
-  const visible = CONFLICTS.filter(c => filter === 'all' || c.intensity === filter);
+  const getRegion = (tags: string[]) => {
+    if (tags.some(t => ['Africa'].includes(t))) return 'Africa';
+    if (tags.some(t => ['Middle East', 'Gulf'].includes(t))) return 'Middle East';
+    if (tags.some(t => ['Europe', 'Balkans', 'Caucasus', 'Scandinavia'].includes(t))) return 'Europe';
+    if (tags.some(t => ['South Asia', 'Asia-Pacific', 'Central Asia', 'Asia'].includes(t))) return 'Asia';
+    if (tags.some(t => ['Americas', 'Caribbean', 'North America'].includes(t))) return 'Americas';
+    return 'Other';
+  };
+  const visible = CONFLICTS.filter(c => {
+    if (filter !== 'all' && c.intensity !== filter) return false;
+    if (regionFilter !== 'all' && getRegion(c.tags) !== regionFilter) return false;
+    if (search && !c.name.toLowerCase().includes(search.toLowerCase()) && !c.tags.some(t => t.toLowerCase().includes(search.toLowerCase()))) return false;
+    return true;
+  });
   const pagedNews = globalNews.slice(globalPage * 10, globalPage * 10 + 10);
   const totalPages = Math.ceil(globalNews.length / 10);
 
@@ -1494,6 +1512,23 @@ useEffect(() => {
 
         .leaflet-container { background: #030608 !important; }
         .leaflet-control-zoom a { background: #0a1520 !important; color: #1e9eff !important; border-color: rgba(30,158,255,0.2) !important; }
+        .map-tooltip { background: #0a1828 !important; border: 1px solid rgba(30,158,255,0.4) !important; border-radius: 0 !important; color: #c0cfe0 !important; font-family: 'Barlow Condensed', sans-serif !important; font-size: 12px !important; font-weight: 700 !important; letter-spacing: 1px !important; padding: 4px 10px !important; box-shadow: 0 0 12px rgba(30,158,255,0.15) !important; }
+        .map-tooltip::before { display: none !important; }
+        .conflict-search { width: 100%; background: rgba(10,21,32,0.8); border: none; border-bottom: 1px solid rgba(30,158,255,0.15); outline: none; padding: 12px 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; color: #c0cfe0; letter-spacing: 1px; }
+        .conflict-search::placeholder { color: #3d5870; }
+        .region-tabs { display: flex; overflow-x: auto; border-bottom: 1px solid rgba(30,158,255,0.06); scrollbar-width: none; }
+        .region-tabs::-webkit-scrollbar { display: none; }
+        .region-tab { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #3d5870; background: none; border: none; border-bottom: 2px solid transparent; padding: 8px 12px; cursor: pointer; text-transform: uppercase; white-space: nowrap; transition: all 0.2s; }
+        .region-tab:hover { color: #1e9eff; }
+        .region-tab.active { color: #1e9eff; border-bottom-color: #1e9eff; }
+        .conflict-count { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; padding: 6px 16px; border-bottom: 1px solid rgba(30,158,255,0.06); }
+        .detail-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border-top: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.08); background: rgba(30,158,255,0.04); margin: 0 0 2px; }
+        .detail-fact { padding: 10px 18px; background: #070d12; }
+        .detail-fact-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 3px; }
+        .detail-fact-value { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #c0cfe0; }
+        .detail-fact-value.red { color: #ff3a3a; }
+        .detail-fact-value.orange { color: #ffaa00; }
+        .detail-fact-value.blue { color: #1e9eff; }
 
         @media (max-width: 1200px) {
           .main-layout { grid-template-columns: 1fr; }
@@ -1594,6 +1629,20 @@ useEffect(() => {
         <div className="main-layout">
           {/* Left list */}
           <div className="conflict-list">
+            <input
+              className="conflict-search"
+              placeholder="Search conflicts..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            <div className="region-tabs">
+              {['all','Africa','Middle East','Europe','Asia','Americas'].map(r => (
+                <button key={r} className={`region-tab${regionFilter === r ? ' active' : ''}`} onClick={() => setRegionFilter(r)}>
+                  {r === 'all' ? 'All Regions' : r}
+                </button>
+              ))}
+            </div>
+            <div className="conflict-count">{visible.length} conflicts</div>
             {visible.map(c => (
               <div key={c.id} className={`conflict-item ${selected?.id === c.id ? 'active' : ''}`}
                 onClick={() => { setSelected(c); fetchConflictNews(c); }}>
@@ -1629,6 +1678,28 @@ useEffect(() => {
                     <div className="detail-eyebrow">Active Zone</div>
                     <div className="detail-name">{selected.name}</div>
                     <div className="detail-summary">{selected.summary}</div>
+                    <div className="detail-facts">
+                      <div className="detail-fact">
+                        <div className="detail-fact-label">Intensity</div>
+                        <div className={`detail-fact-value ${selected.intensity === 'high' ? 'red' : 'orange'}`}>
+                          {selected.intensity.toUpperCase()}
+                        </div>
+                      </div>
+                      <div className="detail-fact">
+                        <div className="detail-fact-label">Status</div>
+                        <div className={`detail-fact-value ${selected.status === 'ACTIVE' ? 'red' : 'orange'}`}>
+                          {selected.status}
+                        </div>
+                      </div>
+                      <div className="detail-fact">
+                        <div className="detail-fact-label">Region</div>
+                        <div className="detail-fact-value blue">{getRegion(selected.tags)}</div>
+                      </div>
+                      <div className="detail-fact">
+                        <div className="detail-fact-label">Type</div>
+                        <div className="detail-fact-value" style={{fontSize:11}}>{selected.tags[0]}</div>
+                      </div>
+                    </div>
                     <div className="detail-tags">{selected.tags.map(t => <span key={t} className="detail-tag">{t}</span>)}</div>
                   </div>
                   <div className="news-section">
