@@ -73,7 +73,7 @@ export default function Home() {
         .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: var(--text-secondary); text-transform: uppercase; }
         .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(52px, 8vw, 100px); font-weight: 900; line-height: 1.0; color: var(--silver); letter-spacing: -1px; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; }
         .hero-title .accent-word { color: var(--accent); display: block; }
-        .hero-subtitle { margin-top: 28px; font-size: 16px; font-weight: 300; color: var(--text-secondary); max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
+        .hero-subtitle { margin-top: 28px; font-size: 16px; font-weight: 400; color: var(--text-secondary); max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
         .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards; }
         .hero-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #c0cfe0; border: 1px solid rgba(30,158,255,0.25); padding: 7px 16px; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; background: transparent; cursor: pointer; }
         .hero-tag:hover, .hero-tag.active { color: #fff; border-color: #1e9eff; background: rgba(30,158,255,0.1); }
@@ -110,7 +110,7 @@ export default function Home() {
         .card-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1.2; letter-spacing: -0.3px; margin-bottom: 16px; transition: color 0.3s; }
         .article-card:hover .card-title { color: var(--accent); }
         .featured-card .card-title { font-size: 42px; line-height: 1.1; }
-        .card-excerpt { font-size: 14px; font-weight: 300; color: var(--text-secondary); line-height: 1.8; }
+        .card-excerpt { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.75; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
         .card-read { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
         .visual-label { position: absolute; bottom: 16px; left: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; z-index: 2; opacity: 0.6; }
@@ -144,7 +144,7 @@ export default function Home() {
         footer { border-top: 1px solid var(--border); padding: 60px 40px 40px; background: var(--bg-secondary); }
         .footer-inner { max-width: 1200px; margin: 0 auto; }
         .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 40px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
-        .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; font-style: italic; color: var(--silver); letter-spacing: 0; margin-bottom: 4px; }
+        .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--silver); letter-spacing: 0; margin-bottom: 4px; }
         .footer-brand-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 20px; }
         .footer-desc { font-size: 13px; color: var(--text-muted); line-height: 1.8; max-width: 280px; }
         .footer-col-title { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 4px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 20px; }

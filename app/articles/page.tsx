@@ -90,7 +90,7 @@ export default function ArticlesPage() {
         .card-featured { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 3px 10px; }
         .card-title { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #c0cfe0; line-height: 1.2; margin-bottom: 10px; transition: color 0.3s; }
         .article-card:hover .card-title { color: #fff; }
-        .card-excerpt { font-size: 14px; font-weight: 300; color: #7a9bb5; line-height: 1.75; margin-bottom: 20px; }
+        .card-excerpt { font-size: 14px; font-weight: 400; color: #9ab0c4; line-height: 1.75; margin-bottom: 20px; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid rgba(30,158,255,0.08); }
         .card-time { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
         .card-read { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #1e9eff; transition: letter-spacing 0.3s; }
@@ -106,7 +106,6 @@ export default function ArticlesPage() {
         .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
         .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
 
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
@@ -219,7 +218,7 @@ export default function ArticlesPage() {
       <footer>
         <div className="footer-inner">
           <div className="footer-copy">
-            © 2026 <span>The Rudd Report</span> — All Rights Reserved
+            © 2026 The Rudd Report — All Rights Reserved
           </div>
           
         </div>

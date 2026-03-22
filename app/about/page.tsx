@@ -88,7 +88,6 @@ export default function About() {
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); }
         .footer-copy span { color: var(--accent); }
-        .footer-classify { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 4px; color: var(--text-muted); border: 1px solid var(--border); padding: 5px 14px; text-transform: uppercase; }
 
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @keyframes signalPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
@@ -246,7 +245,7 @@ export default function About() {
 
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
             
           </div>
         </footer>

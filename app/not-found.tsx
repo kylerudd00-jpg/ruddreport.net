@@ -16,7 +16,6 @@ export default function NotFound() {
         .submessage { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #3d5870; letter-spacing: 2px; margin-bottom: 48px; }
         .btn { display: inline-block; padding: 14px 32px; border: 1px solid rgba(30,158,255,0.4); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #1e9eff; text-decoration: none; text-transform: uppercase; transition: all 0.3s; }
         .btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; box-shadow: 0 0 20px rgba(30,158,255,0.2); }
-        .classified { position: absolute; bottom: 40px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1a2a3a; text-transform: uppercase; }
         @keyframes flicker {
           0%, 95%, 100% { opacity: 1; }
           96% { opacity: 0.4; }
@@ -33,7 +32,7 @@ export default function NotFound() {
         <p className="message">Either this page doesn't exist, was redacted by a three-letter agency, or you've stumbled into a part of the internet that isn't cleared for public release.</p>
         <p className="submessage">We're going to need you to act like you never saw thisッ </p>
         <a href="/" className="btn">↩ Return To Base</a>
-        <div className="classified">CLASSIFIED — EYES ONLY — DO NOT DISTRIBUTE</div>
+        
       </div>
     </>
   );

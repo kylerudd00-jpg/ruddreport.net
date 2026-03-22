@@ -181,7 +181,7 @@ export default function FlightTracker() {
         .hero-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
         .hero-title span { color: #1e9eff; }
-        .hero-sub { font-size: 14px; font-weight: 300; color: #7a9bb5; margin-bottom: 24px; max-width: 560px; line-height: 1.7; }
+        .hero-sub { font-size: 14px; font-weight: 400; color: #7a9bb5; margin-bottom: 24px; max-width: 560px; line-height: 1.7; }
         .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
         .hero-stat { display: flex; flex-direction: column; gap: 3px; }
         .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: #1e9eff; }
@@ -242,7 +242,6 @@ export default function FlightTracker() {
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.3;} }
         @media (max-width: 768px) {
           nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
@@ -399,7 +398,7 @@ export default function FlightTracker() {
 
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
             
           </div>
         </footer>

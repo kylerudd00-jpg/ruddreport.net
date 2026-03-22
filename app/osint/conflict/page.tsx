@@ -1487,7 +1487,6 @@ useEffect(() => {
         .footer-bottom { max-width: 1500px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @keyframes markerPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.2); } }
@@ -1711,7 +1710,7 @@ useEffect(() => {
 
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
             
           </div>
         </footer>

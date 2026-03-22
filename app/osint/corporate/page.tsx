@@ -308,7 +308,6 @@ export default function CorporateInvestigator() {
         .footer-bottom { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
         @media (max-width: 1100px) { .main-layout { grid-template-columns: 1fr; } .graph-panel { min-height: 400px; } }
         @media (max-width: 768px) { nav{padding:0 16px} .nav-links{display:none} .hamburger{display:flex} .tool-hero{padding:20px 16px} .search-bar{padding:12px 16px;flex-direction:column} .main-layout{padding:0 16px 40px} .back-bar{padding:12px 16px} footer{padding:20px 16px} .footer-bottom{flex-direction:column;gap:10px;text-align:center} }
@@ -479,7 +478,7 @@ export default function CorporateInvestigator() {
 
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
             
           </div>
         </footer>

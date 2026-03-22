@@ -29,7 +29,7 @@ export default function OSINTHub() {
         .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
         .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(32px, 5vw, 64px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; line-height: 1.05; margin-bottom: 16px; }
         .hero-title span { color: #1e9eff; }
-        .hero-sub { font-size: 16px; font-weight: 300; color: #7a9bb5; line-height: 1.8; max-width: 600px; margin-bottom: 32px; }
+        .hero-sub { font-size: 16px; font-weight: 400; color: #7a9bb5; line-height: 1.8; max-width: 600px; margin-bottom: 32px; }
         .hero-stats { display: flex; gap: 40px; }
         .hero-stat { display: flex; flex-direction: column; gap: 4px; }
         .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: #1e9eff; }
@@ -57,7 +57,7 @@ export default function OSINTHub() {
         .tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #d8e8f5; margin-bottom: 10px; transition: color 0.3s; }
         .tool-card:hover .tool-name { color: #1e9eff; }
         .tool-card.live:hover .tool-name { color: #1e9eff; }
-        .tool-desc { font-size: 13px; font-weight: 300; color: #7a9bb5; line-height: 1.7; margin-bottom: 20px; }
+        .tool-desc { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.7; margin-bottom: 20px; }
         .tool-action { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1.5px; color: #1e9eff; text-transform: uppercase; }
         .tool-card.live .tool-action { color: #1e9eff; }
         .tool-card.coming .tool-action { color: #3d5870; }
@@ -66,7 +66,6 @@ export default function OSINTHub() {
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
@@ -317,7 +316,7 @@ export default function OSINTHub() {
 
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
             
           </div>
         </footer>
