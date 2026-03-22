@@ -67,10 +67,9 @@ const STYLE = `
 `;
 
 const AWARD_TYPES = [
-  { label: 'All', codes: ['A','B','C','D','IDV_A','IDV_B','IDV_B_A','IDV_B_B','IDV_B_C','IDV_C','IDV_D','IDV_E','02','03','04','05'] },
-  { label: 'Contracts', codes: ['A','B','C','D'] },
-  { label: 'Grants', codes: ['02','03','04','05'] },
-  { label: 'IDVs', codes: ['IDV_A','IDV_B','IDV_B_A','IDV_B_B','IDV_B_C','IDV_C','IDV_D','IDV_E'] },
+  { label: 'All', tab: 'all' },
+  { label: 'Contracts', tab: 'contracts' },
+  { label: 'Grants', tab: 'grants' },
 ];
 
 const QUICK = ['Tesla', 'SpaceX', 'Rivian', 'Lockheed Martin', 'General Motors', 'Northrop Grumman'];
@@ -113,28 +112,13 @@ export default function ContractsTracker() {
     setTotalCount(0);
     setSearched(qVal);
     try {
-      const body = {
-        filters: {
-          keywords: [qVal.trim()],
-          award_type_codes: AWARD_TYPES[tIdx].codes,
-        },
-        fields: ['Award ID', 'Recipient Name', 'Award Amount', 'Awarding Agency', 'Award Type', 'Start Date', 'Description'],
-        page: 1,
-        limit: 30,
-        sort: 'Award Amount',
-        order: 'desc',
-        subawards: false,
-      };
-      const res = await fetch('https://api.usaspending.gov/api/v2/search/spending_by_award/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) throw new Error(`USASpending returned HTTP ${res.status}`);
+      const res = await fetch(`/api/contracts?q=${encodeURIComponent(qVal.trim())}&tab=${AWARD_TYPES[tIdx].tab}`);
+      if (!res.ok) throw new Error(`Server error ${res.status}`);
       const data = await res.json();
-      const awards: Award[] = data?.results ?? [];
+      if (data.error) throw new Error(data.error);
+      const awards: Award[] = data.results ?? [];
       setResults(awards);
-      setTotalCount(data?.page_metadata?.total ?? awards.length);
+      setTotalCount(data.total ?? awards.length);
       const sum = awards.reduce((acc, a) => acc + (a['Award Amount'] ?? 0), 0);
       setTotalAmount(sum);
     } catch (e: unknown) {
@@ -171,7 +155,7 @@ export default function ContractsTracker() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Corporate Intelligence</div></div>
             <div className="hero-title">Government <span>Contracts Tracker</span></div>
-            <p className="hero-sub">Search all federal contract and grant awards via USASpending.gov. Reveals what any company earns from the US government, which agencies are awarding, and what the money is for.</p>
+            <p className="hero-sub">Every dollar the US government spends on contracts is public record. Search by company name to see how much federal money they receive, which agencies award it, and what it's for. Essential for understanding which companies depend on government revenue — and which ones have influence over it.</p>
           </div>
         </div>
 

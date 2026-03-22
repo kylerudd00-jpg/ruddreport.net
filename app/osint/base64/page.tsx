@@ -109,7 +109,7 @@ export default function Base64Tool() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Utility</div></div>
             <div className="hero-title">Base64 <span>Encoder / Decoder</span></div>
-            <p className="hero-sub">Encode plain text to Base64 or decode Base64 back to readable text. Runs entirely in your browser — nothing is sent to a server.</p>
+            <p className="hero-sub">Base64 is a way of disguising data as a string of random-looking letters and numbers. Malware uses it to hide commands, developers use it to embed images in code, and APIs use it to transmit credentials. If you find a suspicious string that looks like gibberish — paste it here to instantly decode what it actually says. Runs entirely in your browser.</p>
           </div>
         </div>
 

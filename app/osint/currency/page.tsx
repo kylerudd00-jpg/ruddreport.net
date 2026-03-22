@@ -312,8 +312,7 @@ export default function CurrencyTracker() {
             </div>
             <div className="tool-title">Currency Tracker</div>
             <p className="tool-desc">
-              Monitor exchange rates for sanctions analysis, capital flight detection, and economic pressure campaigns.
-              Live data sourced from the European Central Bank via Frankfurter API.
+              Sudden currency devaluations and exchange rate swings are early warning signs of economic crisis, sanctions pressure, or capital flight. Monitor live rates across global currencies to track the real-world financial impact of geopolitical events as they unfold.
             </p>
             <div className="source-tags">
               {['Live ECB Rates', 'No API Key Required', 'Sanctions Analysis', 'Capital Flight', 'Economic Pressure'].map((t) => (

@@ -87,7 +87,7 @@ export default function SSLInspector() {
     setResults([]);
     setSearched(domain);
     try {
-      const res = await fetch(`https://crt.sh/?q=${encodeURIComponent(domain)}&output=json`);
+      const res = await fetch(`/api/ssl?domain=${encodeURIComponent(domain)}`);
       if (!res.ok) throw new Error(`crt.sh returned HTTP ${res.status}`);
       const data: CertRecord[] = await res.json();
       // Deduplicate by name_value + issuer, take most recent 50
@@ -133,7 +133,7 @@ export default function SSLInspector() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Network</div></div>
             <div className="hero-title">SSL Certificate <span>Inspector</span></div>
-            <p className="hero-sub">Query the Certificate Transparency logs via crt.sh to enumerate all issued SSL/TLS certificates for any domain. Reveals certificate history, issuing authorities, SANs, and expiration dates.</p>
+            <p className="hero-sub">Every SSL certificate issued for a domain is publicly logged — and that log reveals far more than most expect. Enter any domain to pull its full certificate history: when certs were issued, who issued them, and what additional domains are covered. Used to find hidden subdomains, track infrastructure changes, and verify a site's legitimacy.</p>
           </div>
         </div>
 

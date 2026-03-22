@@ -275,7 +275,7 @@ export default function MetadataExtractor() {
               <div className="tool-eyebrow-text">OSINT Hub — Image Intelligence</div>
             </div>
             <div className="tool-title">Metadata Extractor</div>
-            <p className="tool-desc">Every photo contains hidden data — GPS coordinates, device model, timestamps, and more. Upload any image to reveal what's hiding inside. Runs entirely in your browser. Nothing leaves your device.</p>
+            <p className="tool-desc">Most photos secretly embed GPS coordinates, the exact device that took them, and precise timestamps — information most people never know is there. Upload any image to extract this hidden data. Journalists use it to verify where a photo was actually taken. Investigators use it to catch inconsistencies in someone's claimed location or timeline. Runs entirely in your browser.</p>
           </div>
           <div className="warning-bar">
             <div className="warning-text">⚠ &nbsp; Privacy Warning — Photos taken on smartphones often contain exact GPS coordinates. Never share unstripped photos publicly.</div>

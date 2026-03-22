@@ -137,7 +137,7 @@ export default function JWTDecoder() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Utility</div></div>
             <div className="hero-title">JWT <span>Decoder</span></div>
-            <p className="hero-sub">Decode and inspect any JSON Web Token. Reveals the header algorithm, all payload claims, expiration status, and the raw signature. Runs entirely client-side — your token never leaves the browser.</p>
+            <p className="hero-sub">When you log into a website, the server often gives your browser a JWT — a token that proves who you are. Paste one here to see exactly what's inside: your user ID, email, permissions, and when it expires. Security researchers use this to find sensitive data developers accidentally encoded into tokens, or to spot weak signing algorithms that make tokens forgeable. Runs entirely in your browser — your token is never sent anywhere.</p>
           </div>
         </div>
 

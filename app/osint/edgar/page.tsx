@@ -126,11 +126,12 @@ export default function EDGARSearch() {
     setResults([]);
     setSearched(qVal);
     try {
-      const params = new URLSearchParams({ q: `"${qVal.trim()}"` });
+      const params = new URLSearchParams({ q: qVal.trim() });
       if (fVal) params.set('forms', fVal);
-      const res = await fetch(`https://efts.sec.gov/LATEST/search-index?${params}`);
+      const res = await fetch(`/api/edgar?${params}`);
       if (!res.ok) throw new Error(`EDGAR returned HTTP ${res.status}`);
       const data = await res.json();
+      if (data.error) throw new Error(data.error);
       const hits: FilingHit[] = data?.hits?.hits ?? [];
       setResults(hits.slice(0, 40));
       setTotal(data?.hits?.total?.value ?? hits.length);
@@ -175,7 +176,7 @@ export default function EDGARSearch() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Corporate Intelligence</div></div>
             <div className="hero-title">SEC EDGAR <span>Filing Search</span></div>
-            <p className="hero-sub">Search the full text of all SEC filings — 10-Ks, 8-Ks, proxy statements, insider transactions, and more. Essential for corporate intelligence, M&A research, and competitive analysis.</p>
+            <p className="hero-sub">Every public company in the US is legally required to disclose its financials, executive pay, risk factors, and major events to the SEC. Search EDGAR to find those filings — 10-Ks reveal the full financial picture, 8-Ks flag breaking events, and proxy statements expose executive compensation and insider transactions.</p>
           </div>
         </div>
 

@@ -406,7 +406,7 @@ export default function PolymarketTracker() {
               <div className="tool-eyebrow-text">OSINT Hub — Market Intelligence</div>
             </div>
             <div className="tool-title">Polymarket Tracker</div>
-<p className="tool-desc">Prediction markets are a public signal stream. When odds and volume spike, someone is paying to be right—often before headlines catch up. This tracker surfaces probability swings and conviction so you can cross-check against real-world indicators.</p>
+<p className="tool-desc">Prediction markets let people bet real money on how world events unfold — and when the odds shift sharply, informed money is often behind it. This tracker surfaces those probability swings so you can spot what well-connected bettors are pricing in before it makes the news.</p>
           </div>
           <div style={{ maxWidth: 1100, margin: '24px auto 0', display: 'flex', gap: 12 }}>
             <a href="/osint/polymarket/account" style={{

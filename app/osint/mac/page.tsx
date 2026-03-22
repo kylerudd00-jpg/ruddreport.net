@@ -127,7 +127,7 @@ export default function MACLookup() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Network</div></div>
             <div className="hero-title">MAC Address <span>Lookup</span></div>
-            <p className="hero-sub">Identify the hardware vendor behind any MAC address or OUI prefix. Reveals the device manufacturer and flags locally administered or multicast addresses.</p>
+            <p className="hero-sub">Every network device has a MAC address with the first half identifying its manufacturer. Paste any MAC address to find out what company made the hardware — useful when analyzing network traffic logs, investigating unknown devices on a network, or attributing equipment to a specific vendor.</p>
           </div>
         </div>
 

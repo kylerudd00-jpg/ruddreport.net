@@ -266,7 +266,7 @@ export default function EmailPermutator() {
               <div className="tool-eyebrow-text">Corporate Intelligence</div>
             </div>
             <div className="tool-title">Email Permutator</div>
-            <p className="tool-desc">Generate every possible email format for a target — the fastest way to find a professional email address. Enter a name and company domain to produce the full universe of likely addresses used by that organization.</p>
+            <p className="tool-desc">Every company uses a standard email format — like firstname.lastname@company.com — but you often don't know which one. Enter a name and company domain to generate every possible format. Used by journalists, investigators, and recruiters to find the right address for anyone at any organization.</p>
           </div>
         </div>
 

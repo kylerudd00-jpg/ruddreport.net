@@ -1559,7 +1559,7 @@ useEffect(() => {
             <div>
               <div className="tool-eyebrow">OSINT Hub — Conflict Intelligence</div>
               <div className="tool-title">Conflict Tracker</div>
-              <p className="tool-desc">Real-time mapping of active conflict zones with live news from GDELT's global media index, ACLED incident data, and AI-flagged emerging threats. Auto-refreshes every 5 minutes.</p>
+              <p className="tool-desc">A live map of active conflict zones pulling from global news feeds, ACLED incident reports, and GDELT's worldwide media index. Track where violence is escalating, where ceasefires are holding, and where the next flashpoint may emerge — updated every 5 minutes.</p>
             </div>
             <div className="hero-stats">
               <div className="hero-stat">

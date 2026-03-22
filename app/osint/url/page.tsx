@@ -160,7 +160,7 @@ export default function UrlTracer() {
               <div className="tool-eyebrow-text">OSINT Hub — Link Intelligence</div>
             </div>
             <div className="tool-title">URL Redirect Tracer</div>
-            <p className="tool-desc">Trace the complete redirect chain of any URL — shortened links, tracking redirects, affiliate hops, and obfuscated destinations. See every step between the link you clicked and where you actually end up.</p>
+            <p className="tool-desc">Shortened links, affiliate redirects, and phishing URLs all hide where they actually send you. Paste any URL here to trace every redirect step before you click — revealing the final destination and every server your traffic passes through along the way.</p>
           </div>
         </div>
 

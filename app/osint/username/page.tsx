@@ -250,7 +250,7 @@ export default function UsernameHunter() {
               <div className="tool-eyebrow-text">OSINT Hub — Identity Intelligence</div>
             </div>
             <div className="tool-title">Username Hunter</div>
-            <p className="tool-desc">Check if a username exists across {PLATFORMS.length} platforms simultaneously — social media, developer communities, gaming networks, forums, and more. Results update in real time. Platforms that block automated checks are flagged for manual verification.</p>
+            <p className="tool-desc">People reuse the same username across dozens of platforms without realizing how much that reveals. Enter any username to instantly check 39 sites — social media, gaming networks, developer communities, and forums — mapping out a target's full online presence in seconds.</p>
           </div>
         </div>
 

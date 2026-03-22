@@ -219,7 +219,7 @@ export default function BreachLookup() {
               <div className="tool-eyebrow-text">Credential Intelligence</div>
             </div>
             <div className="tool-title">Breach Lookup</div>
-            <p className="tool-desc">Check if an email appears in known data breaches — the fastest way to assess credential exposure</p>
+            <p className="tool-desc">When companies get hacked, stolen email and password combinations end up in criminal marketplaces. Enter any email to check if it appeared in known data breaches — so you know whether credentials for a target have already been compromised and are likely in the hands of attackers.</p>
           </div>
         </div>
 

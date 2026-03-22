@@ -1,6 +1,6 @@
 'use client';
 import { useState, useMemo } from 'react';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, FlaskConical, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, type LucideIcon } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, type LucideIcon } from 'lucide-react';
 
 function detectAndRoute(raw: string) {
   const q = raw.trim();
@@ -33,7 +33,6 @@ const TOOLS: Tool[] = [
   { icon: LayoutDashboard, name: 'Corporate Intel Dashboard', desc: 'Full company research package — filings, patents, contracts, exec intel', href: '/osint/company', category: 'Corporate' },
   { icon: FileText, name: 'SEC EDGAR Search', desc: 'Full-text search of 10-Ks, 8-Ks, proxies, and insider transactions', href: '/osint/edgar', category: 'Corporate' },
   { icon: Landmark, name: 'Government Contracts', desc: 'Federal award search via USASpending.gov — contracts, grants, IDVs', href: '/osint/contracts', category: 'Corporate' },
-  { icon: FlaskConical, name: 'Patent Intelligence', desc: 'USPTO patent search by company or technology keyword', href: '/osint/patents', category: 'Corporate' },
   { icon: Building2, name: 'Corporate Investigator', desc: 'Search 200M+ companies across 140 jurisdictions via OpenCorporates', href: '/osint/corporate', category: 'Corporate' },
   { icon: Search, name: 'Entity Search', desc: 'Wikipedia profile + research links across registries and databases', href: '/osint/entity', category: 'Corporate' },
   // Network & Domain

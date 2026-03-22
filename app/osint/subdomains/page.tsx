@@ -164,7 +164,7 @@ export default function SubdomainScanner() {
               <div className="tool-eyebrow-text">Certificate Transparency</div>
             </div>
             <div className="tool-title">Subdomain Scanner</div>
-            <p className="tool-desc">Enumerate subdomains of any domain by querying certificate transparency logs via crt.sh. Reveals every subdomain that has ever had an SSL certificate issued — exposing dev environments, APIs, admin panels, and forgotten infrastructure.</p>
+            <p className="tool-desc">Companies often leave staging servers, internal tools, and admin panels exposed on subdomains they've forgotten about. This tool searches SSL certificate logs to find every subdomain that has ever existed for a domain — including dev environments, APIs, and forgotten infrastructure that may still be accessible.</p>
           </div>
         </div>
 

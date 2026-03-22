@@ -210,7 +210,7 @@ export default function HashAnalyzer() {
               <div className="tool-eyebrow-text">Cryptographic Analysis</div>
             </div>
             <div className="tool-title">Hash Analyzer</div>
-            <p className="tool-desc">Identify unknown cryptographic hashes by format, or check if a password has appeared in known data breaches using the HaveIBeenPwned k-anonymity API. Your input is never sent in full — only the first 5 characters of its SHA-1 hash are transmitted.</p>
+            <p className="tool-desc">A hash is a unique fingerprint for any piece of data — files, passwords, and messages all produce one. Paste any hash to identify its type (MD5, SHA-256, bcrypt, and more) or check if it matches a known compromised password. Used by analysts to verify file integrity and check whether credentials have been exposed in a breach. Your input is never sent in full.</p>
           </div>
         </div>
 

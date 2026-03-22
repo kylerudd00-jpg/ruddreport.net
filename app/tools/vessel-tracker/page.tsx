@@ -474,7 +474,7 @@ export default function VesselTracker() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">Maritime Intelligence</div></div>
             <div className="hero-title">Vessel <span>Tracker</span></div>
-            <p className="hero-sub">Live global vessel tracking via AIS stream. Click any vessel on the map to decode its MMSI. Search by MMSI or vessel name for flag state, cargo type, and full AIS telemetry.</p>
+            <p className="hero-sub">Every large vessel at sea is legally required to broadcast its position, speed, and identity via AIS — and it's all public. Watch live ship traffic on the map, click any vessel to decode its MMSI registration, or search by name to track a specific ship's flag state, cargo type, and current location.</p>
           </div>
         </div>
 

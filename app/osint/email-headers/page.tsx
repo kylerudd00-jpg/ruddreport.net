@@ -237,7 +237,7 @@ export default function EmailHeaderAnalyzer() {
               <div className="tool-eyebrow-text">OSINT Hub — Communications Intelligence</div>
             </div>
             <div className="tool-title">Email Header Analyzer</div>
-            <p className="tool-desc">Paste raw email headers to reveal the full routing path, originating IP, authentication results (SPF / DKIM / DMARC), and timestamps. Runs entirely in your browser — no data leaves your device.</p>
+            <p className="tool-desc">Every email carries a hidden trail showing exactly where it came from, every server it passed through, and whether the sender's identity checks out. Paste raw email headers here to trace the originating IP, verify SPF/DKIM/DMARC authentication, and catch spoofed or phishing emails. Runs entirely in your browser.</p>
           </div>
         </div>
 

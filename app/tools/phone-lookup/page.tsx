@@ -298,7 +298,7 @@ export default function PhoneLookup() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">Identity Intelligence</div></div>
             <div className="hero-title">Phone Number <span>OSINT</span></div>
-            <p className="hero-sub">Identify a number's country, line type, area code location, and likely use — personal, business, or virtual. Runs entirely in your browser, then launch into carrier lookup and OSINT databases for deeper investigation.</p>
+            <p className="hero-sub">A phone number reveals more than most people think — the country it's registered in, whether it's a mobile, landline, or VoIP number, and the carrier that issued it. Enter any number to identify its origin and type, then launch directly into carrier lookups and open-source databases for deeper investigation.</p>
           </div>
         </div>
 

@@ -360,7 +360,7 @@ export default function DorkBuilder() {
               <div className="tool-eyebrow-text">Search Intelligence</div>
             </div>
             <div className="tool-title">Google Dork Builder</div>
-            <p className="tool-desc">Construct advanced search operators to find exposed files, login pages, employee data, and leaked information across any domain or organization.</p>
+            <p className="tool-desc">Google indexes far more than most people realize — exposed files, login portals, internal documents, and employee directories are all findable with the right search syntax. Build advanced Google search operators here to surface sensitive information about any domain without writing a single line of code.</p>
           </div>
         </div>
 

@@ -200,7 +200,7 @@ export default function ReverseImageSearch() {
               <div className="tool-eyebrow-text">Visual Intelligence</div>
             </div>
             <div className="tool-title">Reverse Image Search</div>
-            <p className="tool-desc">Find where an image appears across the web — identify fake profiles, track image origins, and verify photos</p>
+            <p className="tool-desc">Upload or link any image to search Google, TinEye, Yandex, and Bing simultaneously — finding every place that photo appears online. Used to expose fake profiles using stolen photos, trace the true origin of a viral image, and debunk disinformation using recycled or out-of-context media.</p>
           </div>
         </div>
 

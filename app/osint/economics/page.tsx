@@ -436,8 +436,7 @@ export default function CountryEconomicProfile() {
               Country <span>Economic</span> Profile
             </div>
             <p className="tool-desc">
-              World Bank indicators for 200+ countries — GDP, inflation, debt, trade, and growth trends.
-              Select a country to instantly surface key macroeconomic signals and automated OSINT assessments.
+              GDP, inflation, debt levels, and trade balances tell the story of a country's economic health — and its vulnerabilities. Pull World Bank data for any country to understand the economic context behind geopolitical events, sanctions pressure, or investment risk.
             </p>
             <div className="source-tags">
               {['World Bank Open Data', 'GDP & Growth', 'Inflation (CPI)', 'Unemployment', 'Trade Integration', 'Sovereign Debt', 'Current Account', 'No API Key Required'].map(t => (

@@ -298,7 +298,7 @@ export default function SanctionsScreener() {
             </div>
             <div className="tool-title">Sanctions Screener</div>
             <p className="tool-desc">
-              Search OFAC SDN, EU, UN, and BIS sanctions lists — individuals, entities, and state-owned enterprises
+              Before doing business with anyone, compliance teams check global sanctions lists. Search OFAC, EU, UN, and BIS databases simultaneously to find out if a person or company is sanctioned — and why. Used by banks, law firms, and investigators to screen targets for financial crime and state connections.
             </p>
           </div>
         </div>

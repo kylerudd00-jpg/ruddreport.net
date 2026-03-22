@@ -422,7 +422,7 @@ export default function PeopleSearch() {
               <div className="tool-eyebrow-text">Human Intelligence</div>
             </div>
             <div className="tool-title">People Search</div>
-            <p className="tool-desc">Aggregate public records, social media, and people-search databases — find addresses, relatives, court records, and social profiles</p>
+            <p className="tool-desc">Public records, property filings, voter registrations, and social profiles contain more information about people than most realize. Search by name to pull aggregated results across people-search databases — addresses, known relatives, and linked social profiles — all in one place.</p>
           </div>
         </div>
 

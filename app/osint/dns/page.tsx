@@ -171,7 +171,7 @@ export default function DNSIntel() {
               <div className="tool-eyebrow-text">OSINT Hub — Infrastructure Intelligence</div>
             </div>
             <div className="tool-title">DNS Intelligence</div>
-            <p className="tool-desc">Reveal the full infrastructure behind any domain — email providers, DNS hosts, third-party services, security posture, and all DNS records decoded into plain English.</p>
+            <p className="tool-desc">Every domain runs on DNS records that reveal who hosts it, where email is processed, and what third-party services are connected. Enter any domain to map its full infrastructure — useful for investigating a target's attack surface, verifying domain ownership, and understanding what's actually running behind the scenes.</p>
           </div>
         </div>
 

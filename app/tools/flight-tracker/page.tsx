@@ -565,7 +565,7 @@ export default function AviationTracker() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">Aviation Intelligence</div></div>
             <div className="hero-title">Aviation <span>Tracker</span></div>
-            <p className="hero-sub">Live ADS-B transponder signals via OpenSky Network — aircraft actively broadcasting right now. Color-coded by type. Search airport traffic or look up any tail number for owner, registration, and photo.</p>
+            <p className="hero-sub">Every commercial and most private aircraft broadcast their position, altitude, and speed in real time via ADS-B transponders — and it's all public. Track live flights color-coded by type, check what's arriving and departing any major airport, or search a tail number to find who owns the aircraft, its registration, and a photo.</p>
             <div className="hero-stats">
               <div className="hero-stat"><div className="hero-stat-num">{loading ? '—' : stats.total.toLocaleString()}</div><div className="hero-stat-label">Live ADS-B</div></div>
             </div>

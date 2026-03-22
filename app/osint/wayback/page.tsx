@@ -178,7 +178,7 @@ export default function WaybackMachine() {
               <div className="tool-eyebrow-text">Internet Archive</div>
             </div>
             <div className="tool-title">Wayback Machine</div>
-            <p className="tool-desc">Retrieve the full historical archive of any URL from the Internet Archive's Wayback Machine. Useful for recovering deleted content, tracking website changes over time, and verifying what was published — and when.</p>
+            <p className="tool-desc">The internet remembers everything — even content that's been deleted. Enter any URL to pull its full archive history from the Wayback Machine: see what a page said before it was scrubbed, recover deleted articles, and verify what was published and when. Critical for investigations where sources change or erase their story.</p>
           </div>
         </div>
 

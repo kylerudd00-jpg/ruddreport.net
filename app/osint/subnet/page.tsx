@@ -161,7 +161,7 @@ export default function SubnetCalc() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Network</div></div>
             <div className="hero-title">Subnet <span>Calculator</span></div>
-            <p className="hero-sub">Enter any IPv4 address in CIDR notation to instantly calculate network address, broadcast, usable host range, subnet mask, wildcard mask, and total host count.</p>
+            <p className="hero-sub">IP addresses belong to network blocks that define who else shares the same range. Enter any IP in CIDR notation (like 192.168.1.0/24) to calculate the full address range, how many devices it can hold, and the broadcast and gateway addresses. Used by network engineers and analysts to understand the scope of any IP block.</p>
           </div>
         </div>
 

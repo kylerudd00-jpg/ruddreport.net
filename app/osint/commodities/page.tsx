@@ -406,9 +406,7 @@ export default function CommodityMonitor() {
             </div>
             <div className="tool-title">Commodity Monitor</div>
             <p className="tool-desc">
-              Strategic commodities and cryptocurrency prices — energy, metals, food, and digital assets
-              as economic intelligence indicators. Track resource weapons, sanctions pressure points,
-              and crypto evasion signals.
+              Oil, gas, wheat, and gold prices move in direct response to conflict, sanctions, and geopolitical shocks. Track live prices for strategic commodities and crypto assets to monitor supply disruptions, economic pressure campaigns, and the financial signals that often precede major world events.
             </p>
             <div className="source-tags">
               {['Brent Crude', 'WTI Oil', 'Natural Gas', 'Gold', 'Palladium', 'Wheat', 'Bitcoin', 'Monero', 'CoinGecko Live'].map((t) => (

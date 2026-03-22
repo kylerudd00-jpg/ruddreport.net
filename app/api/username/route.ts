@@ -26,13 +26,21 @@ async function checkReddit(u: string) {
 }
 
 async function checkTwitch(u: string) {
-  const r = await get(`https://api.twitch.tv/kraken/users?login=${u}`, {
-    Accept: 'application/vnd.twitchtv.v5+json',
-    'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+  // Kraken v5 is deprecated; use GQL introspection via the public undocumented endpoint
+  const r = await fetch('https://gql.twitch.tv/gql', {
+    method: 'POST',
+    headers: {
+      'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+      'Content-Type': 'application/json',
+      'User-Agent': HEADERS['User-Agent'],
+    },
+    body: JSON.stringify([{ operationName: 'UserPage_User', variables: { login: u.toLowerCase() }, extensions: { persistedQuery: { version: 1, sha256Hash: '28e2eb6d3fe2a9a82e0ecfa8f3f8ca34' } } }]),
+    signal: AbortSignal.timeout(8000),
   });
   if (r.status !== 200) return false;
   const d = await r.json();
-  return Array.isArray(d?.users) && d.users.length > 0;
+  const user = Array.isArray(d) ? d[0]?.data?.user : d?.data?.user;
+  return user !== null && user !== undefined;
 }
 
 async function checkGitLab(u: string) {
@@ -108,16 +116,27 @@ async function checkSteam(u: string) {
   if (r.status === 404) return false;
   if (r.status !== 200) return false;
   const html = await r.text();
-  return !html.includes('The specified profile could not be found') && !html.includes('error_ctn');
+  if (html.includes('The specified profile could not be found')) return false;
+  if (html.includes('error_ctn')) return false;
+  // Valid profiles include the profile summary block or player avatar
+  return html.includes('profile_header') || html.includes('playerAvatar') || html.includes('persona_name');
 }
 
 async function checkTwitter(u: string) {
-  const r = await get(`https://cdn.syndication.twimg.com/widgets/followbutton/info.json?screen_names=${u}`, {
-    Accept: 'application/json',
+  // Use X/Twitter's profile page — server renders og:title with @username for valid accounts
+  const r = await get(`https://x.com/${u}`, {
+    Accept: 'text/html',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'none',
+    'Cache-Control': 'no-cache',
   });
+  if (r.status === 404) return false;
   if (r.status !== 200) return false;
-  const d = await r.json();
-  return Array.isArray(d) && d.length > 0;
+  const html = await r.text();
+  // X renders og:title as "Name (@username) / X" for valid profiles
+  const lower = html.toLowerCase();
+  if (lower.includes("this account doesn't exist") || lower.includes("this page doesn't exist") || lower.includes('account suspended') && !lower.includes(`@${u.toLowerCase()}`)) return false;
+  return lower.includes(`@${u.toLowerCase()}`) || lower.includes(`"screen_name":"${u.toLowerCase()}`);
 }
 
 async function checkTikTok(u: string) {
@@ -149,7 +168,8 @@ async function checkYouTube(u: string) {
   if (r.status === 404) return false;
   if (r.status !== 200) return false;
   const html = await r.text();
-  return !html.includes('404') && html.includes('channelId');
+  // YouTube embeds channel metadata in the page hydration for real channels
+  return html.includes('"channelId"') || html.includes('"externalId"') || html.includes('"vanityUrl"');
 }
 
 async function checkPinterest(u: string) {

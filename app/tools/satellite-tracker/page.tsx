@@ -1047,7 +1047,7 @@ export default function SatelliteTracker() {
                 <div className="tool-eyebrow-text">OSINT Hub — Geospatial Intelligence</div>
               </div>
               <div className="tool-title">Satellite Tracker</div>
-              <p className="tool-desc">Real-time satellite tracking powered by CelesTrak TLE data. Visualize ground tracks, predict passes over any location, plot sky paths, and analyze orbital coverage for GEOINT and surveillance awareness.</p>
+              <p className="tool-desc">Governments and militaries use satellites for communications, surveillance, and intelligence — and their orbits are publicly tracked. Enter any satellite name or NORAD ID to see its live position on the map, trace its ground track, and predict exactly when it will pass over any location on Earth.</p>
             </div>
             <div className="hero-stats">
               <div className="hero-stat">

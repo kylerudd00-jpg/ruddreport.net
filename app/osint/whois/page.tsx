@@ -24,7 +24,7 @@ export default function WHOISLookup() {
     setResult(null);
     try {
       const clean = target.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
-      const res = await fetch(`https://rdap.org/domain/${clean}`);
+      const res = await fetch(`/api/whois?domain=${encodeURIComponent(clean)}`);
       if (!res.ok) throw new Error('Not found');
       const data = await res.json();
       setResult(data);
@@ -218,7 +218,7 @@ export default function WHOISLookup() {
               <div className="tool-eyebrow-text">OSINT Hub — Domain Intelligence</div>
             </div>
             <div className="tool-title">WHOIS Lookup</div>
-            <p className="tool-desc">Full domain registration intelligence — ownership, registrar, nameservers, contact records, DNSSEC status, and registry data. Powered by RDAP.</p>
+            <p className="tool-desc">When a domain is registered, ownership details, registrar, and creation date are recorded — and often publicly accessible. Look up any domain to find out who registered it, when it was created (brand-new domains are a major red flag in phishing), what nameservers it uses, and whether the owner hid behind privacy protection.</p>
           </div>
         </div>
 

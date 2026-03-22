@@ -224,7 +224,7 @@ export default function CVESearch() {
               <div className="tool-eyebrow-text">OSINT Hub — Vulnerability Intelligence</div>
             </div>
             <div className="tool-title">CVE Search</div>
-            <p className="tool-desc">Search the NIST National Vulnerability Database by CVE ID (e.g. CVE-2021-44228) or keyword. Displays CVSS severity scores, attack vectors, affected weaknesses (CWE), and official references. Powered by the NVD API.</p>
+            <p className="tool-desc">Every publicly known software vulnerability gets a CVE number and a severity score. Search by CVE ID or keyword to see what systems are affected, how severe the flaw is, and how it can be exploited. Critical for threat intelligence teams assessing whether software they care about has known weaknesses that attackers are actively targeting.</p>
           </div>
         </div>
 

@@ -193,7 +193,7 @@ export default function CorporateDashboard() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Corporate Intelligence</div></div>
             <div className="hero-title">Corporate Intelligence <span>Dashboard</span></div>
-            <p className="hero-sub">Enter any company to instantly generate a comprehensive intelligence research package — SEC filings, corporate registry, patents, government contracts, executive intelligence, infrastructure, and financial data. All in one place.</p>
+            <p className="hero-sub">Everything publicly known about a company — in one place. Enter any company name to pull SEC filings, government contracts, corporate registry records, executive profiles, and infrastructure data. Used by journalists, analysts, and due diligence teams to build a complete picture of any organization.</p>
           </div>
         </div>
 

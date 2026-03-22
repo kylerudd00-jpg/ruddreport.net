@@ -222,7 +222,7 @@ export default function IPGeo() {
               <div className="tool-eyebrow-text">OSINT Hub — Network Intelligence</div>
             </div>
             <div className="tool-title">IP Geolocation</div>
-            <p className="tool-desc">Identify the geographic location, ISP, organization, and network details behind any IP address. Drop a pin on the map for any target worldwide.</p>
+            <p className="tool-desc">Every internet-connected device has an IP address that reveals its approximate location, internet provider, and owning organization. Paste any IP to map it and see who it belongs to — useful for tracing where traffic originates, identifying VPN or proxy use, and profiling unknown servers.</p>
           </div>
         </div>
 
