@@ -73,17 +73,29 @@ export async function GET(request: Request) {
   // Ensure connection is alive
   if (wsState === 'disconnected') connect();
 
-  const { searchParams } = new URL(request.url);
-  const south = parseFloat(searchParams.get('south') || '-90');
-  const north = parseFloat(searchParams.get('north') || '90');
-  const west  = parseFloat(searchParams.get('west')  || '-180');
-  const east  = parseFloat(searchParams.get('east')  || '180');
-
   // Remove stale entries (older than 15 minutes)
   const cutoff = Date.now() - 15 * 60 * 1000;
   for (const [mmsi, v] of vessels) {
     if (v.ts < cutoff) vessels.delete(mmsi);
   }
+
+  const { searchParams } = new URL(request.url);
+  const search = searchParams.get('search')?.trim().toUpperCase();
+
+  // Name search mode
+  if (search) {
+    const results = Array.from(vessels.values())
+      .filter(v => v.name.toUpperCase().includes(search))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .slice(0, 30);
+    return NextResponse.json({ vessels: results, total: vessels.size, wsState });
+  }
+
+  // Viewport mode
+  const south = parseFloat(searchParams.get('south') || '-90');
+  const north = parseFloat(searchParams.get('north') || '90');
+  const west  = parseFloat(searchParams.get('west')  || '-180');
+  const east  = parseFloat(searchParams.get('east')  || '180');
 
   const inView = Array.from(vessels.values()).filter(
     v => v.lat >= south && v.lat <= north && v.lon >= west && v.lon <= east

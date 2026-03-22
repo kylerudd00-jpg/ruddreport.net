@@ -215,20 +215,26 @@ export default function VesselTracker() {
       const info = decodeMmsi(val);
       if (!info) { setError('Invalid MMSI — must be exactly 9 digits.'); return; }
       setMmsiInfo(info);
+      setLoading(false);
+      return;
     }
 
+    // Name search — query the live AIS vessel store (no extra API key needed)
     setLoading(true);
     try {
-      const param = mode === 'mmsi' ? `mmsi=${encodeURIComponent(val)}` : `name=${encodeURIComponent(val)}`;
-      const res = await fetch(`/api/vessel?${param}`);
+      const res = await fetch(`/api/vessel/positions?search=${encodeURIComponent(val)}`);
       const data = await res.json();
-      if (data.error === 'NO_API_KEY') { setNoKey(true); setLoading(false); return; }
+      if (data.error === 'NO_KEY') { setNoKey(true); setLoading(false); return; }
       if (data.error) throw new Error(data.error);
-      const list: VesselResult[] = Array.isArray(data.data) ? data.data : data.data ? [data.data] : [];
-      setResults(list);
+      const list: VesselResult[] = (data.vessels || []).map((v: any) => ({
+        name: v.name, mmsi: v.mmsi, latitude: v.lat, longitude: v.lon,
+        speed: v.speed, course: v.course,
+      }));
+      if (list.length === 0) setError(`No vessels matching "${val}" in live AIS feed. Try again in a moment as more vessels stream in.`);
+      setResults(list.length > 0 ? list : null);
       if (list.length === 1) setSelected(list[0]);
     } catch (e: any) {
-      setError(e.message || 'Lookup failed');
+      setError(e.message || 'Search failed');
     }
     setLoading(false);
   };
@@ -485,15 +491,13 @@ export default function VesselTracker() {
               </div>
             )}
 
-            {/* No API key */}
+            {/* No AIS key */}
             {noKey && (
               <div className="nokey-notice">
-                <div className="nokey-title">API Key Required for Name Search</div>
+                <div className="nokey-title">AIS Stream Key Required</div>
                 <div className="nokey-text">
-                  Full vessel name search requires a free Datalastic API key.<br /><br />
-                  1. Register free at <a href="https://datalastic.com" target="_blank" rel="noopener noreferrer">datalastic.com</a> (no credit card)<br />
-                  2. Add to <code>.env.local</code>: <code>DATALASTIC_API_KEY=your_key</code><br /><br />
-                  Free tier: 500 lookups/day. <strong style={{color:'#c0cfe0'}}>MMSI decode above works with no key.</strong>
+                  Add <code>AISSTREAM_API_KEY</code> to <code>.env.local</code> to enable vessel search and live map.<br />
+                  Sign up free at <a href="https://aisstream.io" target="_blank" rel="noopener noreferrer">aisstream.io</a> — no credit card required.
                 </div>
               </div>
             )}
