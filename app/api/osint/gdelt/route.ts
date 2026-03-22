@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+export const runtime = 'edge';
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get('q') || '';
@@ -12,6 +14,7 @@ export async function GET(req: Request) {
     const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(q + ' sourcelang:english')}&mode=artlist&maxrecords=${maxrecords}&format=json&timespan=${timespan}&sort=DateDesc`;
     const r = await fetch(url, {
       headers: { accept: 'application/json' },
+      signal: AbortSignal.timeout(25000),
     });
     if (!r.ok) throw new Error(`GDELT ${r.status}`);
     const data = await r.json();
