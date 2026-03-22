@@ -236,7 +236,7 @@ export default function WaybackMachine() {
             {(fromYear || toYear) && (
               <button className="date-clear" onClick={() => { setFromYear(''); setToYear(''); }}>✕ Clear</button>
             )}
-            <span className="date-label" style={{marginLeft:4}}>leave blank for most recent</span>
+            <span className="date-label" style={{marginLeft:4}}>blank = last 5 years</span>
           </div>
         </div>
 

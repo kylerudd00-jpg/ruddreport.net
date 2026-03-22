@@ -8,17 +8,20 @@ export async function GET(req: NextRequest) {
 
   try {
     const clean = url.trim().replace(/^https?:\/\//, '').replace(/^www\./, '');
-    const from = req.nextUrl.searchParams.get('from') ?? '';
-    const to   = req.nextUrl.searchParams.get('to')   ?? '';
+    const fromYear = req.nextUrl.searchParams.get('from') ?? '';
+    const toYear   = req.nextUrl.searchParams.get('to')   ?? '';
 
-    // Negative limit = scan from newest end of index (the correct way to get recent captures)
+    // Default: last 5 years so results are modern. User can override with explicit year range.
+    const defaultFrom = String(new Date().getFullYear() - 5);
+    const from = fromYear || defaultFrom;
+    const to   = toYear   || '';
+
     const buildParams = (u: string) => {
       const p = new URLSearchParams({
-        url: u, output: 'json', fl: 'timestamp,statuscode,mimetype',
-        limit: from || to ? '200' : '-200',
+        url: u, output: 'json', fl: 'timestamp,statuscode,mimetype', limit: '200',
       });
-      if (from) p.set('from', from + '0101');
-      if (to)   p.set('to',   to   + '1231');
+      p.set('from', from + '0101');
+      if (to) p.set('to', to + '1231');
       return p.toString();
     };
 
