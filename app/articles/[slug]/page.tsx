@@ -94,7 +94,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         .meta-time { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
         .meta-sep { color: #1e2a35; }
         .article-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4.5vw, 52px); font-weight: 700; color: #c0cfe0; line-height: 1.15; margin-bottom: 24px; letter-spacing: -0.5px; }
-        .article-excerpt { font-size: 18px; font-weight: 300; color: #7a9bb5; line-height: 1.7; border-left: 2px solid #1e9eff; padding-left: 20px; }
+        .article-excerpt { font-size: 18px; font-weight: 400; color: #9ab0c4; line-height: 1.7; border-left: 2px solid #1e9eff; padding-left: 20px; }
 
         /* BODY LAYOUT */
         .article-body { padding: 60px 40px 80px; }
@@ -102,8 +102,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
         /* ARTICLE CONTENT */
         .article-content { min-width: 0; }
-        .content-h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; letter-spacing: 1px; margin: 48px 0 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.12); scroll-margin-top: 90px; }
-        .content-p { font-size: 16px; font-weight: 300; color: #a0b8cc; line-height: 1.95; margin-bottom: 22px; }
+        .content-h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #c0cfe0; letter-spacing: -0.2px; margin: 48px 0 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.12); scroll-margin-top: 90px; }
+        .content-p { font-size: 16px; font-weight: 400; color: #b8ccdc; line-height: 1.95; margin-bottom: 22px; }
 
         /* SHARE + FOOTER */
         .article-sign-off { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(30,158,255,0.12); font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
@@ -118,7 +118,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         .related-card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
         .related-card-cat { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
         .related-card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 2px; color: #3d5870; }
-        .related-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #c0cfe0; line-height: 1.2; margin-bottom: 8px; transition: color 0.3s; }
+        .related-card-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #c0cfe0; line-height: 1.2; margin-bottom: 8px; transition: color 0.3s; }
         .related-card:hover .related-card-title { color: #fff; }
         .related-card-excerpt { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.65; }
 
@@ -168,7 +168,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <span className="meta-category">{article.category}</span>
             <span className="meta-date">{article.date}</span>
             <span className="meta-sep">·</span>
-            <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: relevanceColor }}>
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: relevanceColor }}>
               ■ {article.relevance} RELEVANCE
             </span>
             <span className="meta-sep">·</span>
@@ -203,7 +203,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
             {/* SIGN-OFF */}
             <div className="article-sign-off">
-              Analysis by Kyle Rudd — The Rudd Report // Unclassified // For Public Release
+              Analysis by Kyle Rudd — The Rudd Report
             </div>
           </div>
 
@@ -237,7 +237,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     <span className="related-card-cat">{r.category}</span>
                     <span style={{ color: '#1e2a35' }}>·</span>
                     <span className="related-card-date">{r.date}</span>
-                    <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '8px', letterSpacing: '2px', color: rColor }}>
+                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '8px', letterSpacing: '2px', color: rColor }}>
                       ■ {r.relevance}
                     </span>
                   </div>

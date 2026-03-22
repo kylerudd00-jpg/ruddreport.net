@@ -22,7 +22,7 @@ export default function DNSIntel() {
       setResult(data);
       setActiveTab('intel');
     } catch (e: any) {
-      setError(`// ${e.message}`);
+      setError(`${e.message}`);
     }
     setLoading(false);
   };
@@ -60,7 +60,7 @@ export default function DNSIntel() {
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
         .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
         .search-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
@@ -269,7 +269,7 @@ export default function DNSIntel() {
                   {!result.intelligence.emailProvider && !result.intelligence.dnsProvider && result.intelligence.services.length === 0 && !result.intelligence.spfDecoded && !result.intelligence.dmarcDecoded && (
                     <div className="intel-card full">
                       <div className="intel-label">Intelligence</div>
-                      <div style={{fontFamily:'Share Tech Mono', fontSize:'11px', color:'#3d5870', letterSpacing:'2px'}}>Limited intelligence available. Check Raw Records tab.</div>
+                      <div style={{fontFamily:'IBM Plex Mono', fontSize:'11px', color:'#3d5870', letterSpacing:'2px'}}>Limited intelligence available. Check Raw Records tab.</div>
                     </div>
                   )}
                 </div>

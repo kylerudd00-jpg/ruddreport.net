@@ -565,7 +565,7 @@ export default function SatelliteTracker() {
       if (data.error) throw new Error(data.error);
       setSearchResults(data.results || []);
       if (!data.results?.length) setError('No satellites found matching that query.');
-    } catch (e: any) { setError(`// ${e.message}`); }
+    } catch (e: any) { setError(`${e.message}`); }
     setSearchLoading(false);
   };
 
@@ -604,8 +604,8 @@ export default function SatelliteTracker() {
       setObserverLat(newLat);
       setObserverLon(newLon);
       const label = [data.city, data.state, data.country].filter(Boolean).join(', ');
-      setPostalResult(`// Located: ${label}`);
-    } catch (e: any) { setError(`// ${e.message}`); }
+      setPostalResult(`Located: ${label}`);
+    } catch (e: any) { setError(`${e.message}`); }
     setPostalLoading(false);
   };
 
@@ -676,7 +676,7 @@ export default function SatelliteTracker() {
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
         .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(26px, 3.5vw, 48px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .tool-desc { font-size: 14px; font-weight: 300; color: #7a9bb5; line-height: 1.8; max-width: 560px; }
+        .tool-desc { font-size: 14px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 560px; }
         .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
         .hero-stat { display: flex; flex-direction: column; gap: 4px; }
         .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #00ff88; }
@@ -793,14 +793,14 @@ export default function SatelliteTracker() {
         .credit-section { background: #0a1520; border: 1px solid rgba(0,255,136,0.12); padding: 24px 28px; margin-bottom: 2px; display: flex; align-items: flex-start; gap: 20px; }
         .credit-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
         .credit-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #00ff88; text-transform: uppercase; margin-bottom: 6px; }
-        .credit-text { font-size: 14px; font-weight: 300; color: #7a9bb5; line-height: 1.8; }
+        .credit-text { font-size: 14px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
         .credit-text a { color: #1e9eff; text-decoration: none; transition: color 0.2s; }
         .credit-text a:hover { color: #4db8ff; }
         .osint-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 28px; margin-bottom: 2px; }
         .osint-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-top: 18px; }
         .osint-card { border-left: 2px solid #1e9eff; padding: 14px 18px; background: rgba(30,158,255,0.04); }
         .osint-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #d8e8f5; margin-bottom: 7px; }
-        .osint-card-desc { font-size: 13px; font-weight: 300; color: #7a9bb5; line-height: 1.7; }
+        .osint-card-desc { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.7; }
         .error-msg { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff3a3a; padding: 14px 0; text-transform: uppercase; }
         .loading-wrap { display: flex; align-items: center; gap: 16px; padding: 20px 0; }
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
@@ -929,7 +929,7 @@ export default function SatelliteTracker() {
               </div>
               {activeView === 'skyplot' && passes.length === 0 && (
                 <div style={{ position: 'absolute', bottom: '16px', left: 0, right: 0, textAlign: 'center', fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '2px', color: '#3d5870', pointerEvents: 'none' }}>
-                  // Run Pass Predictor to populate sky track
+                  Run Pass Predictor to populate sky track
                 </div>
               )}
             </div>
@@ -1043,7 +1043,7 @@ export default function SatelliteTracker() {
                 </>
               ) : (
                 <div style={{ padding: '32px 22px', color: '#3d5870', fontFamily: "'Share Tech Mono',monospace", fontSize: '11px', letterSpacing: '2px', lineHeight: 2 }}>
-                  // Select a satellite above to begin tracking
+                  Select a satellite above to begin tracking
                 </div>
               )}
             </div>

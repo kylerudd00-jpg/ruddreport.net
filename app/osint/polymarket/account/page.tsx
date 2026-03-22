@@ -44,7 +44,7 @@ export default function AccountTrackerPage() {
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
         .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; max-width: 700px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 700px; }
         .search-wrap { padding: 60px 40px; max-width: 1100px; margin: 0 auto; }
         .search-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 16px; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
@@ -59,7 +59,7 @@ export default function AccountTrackerPage() {
         .hint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .hint-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px; }
         .hint-card-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-bottom: 8px; }
-        .hint-card-text { font-size: 13px; font-weight: 300; color: #7a9bb5; line-height: 1.6; }
+        .hint-card-text { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.6; }
         .hint-card-example { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #3d5870; margin-top: 10px; word-break: break-all; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }

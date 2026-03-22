@@ -34,7 +34,7 @@ export default function MetadataExtractor() {
         raw: data || null,
       });
     } catch (e: any) {
-      setError(`// Failed to parse metadata: ${e.message}`);
+      setError(`Failed to parse metadata: ${e.message}`);
     }
     setLoading(false);
   };
@@ -165,7 +165,7 @@ export default function MetadataExtractor() {
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
         .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; max-width: 700px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 700px; }
         .warning-bar { max-width: 1100px; margin: 24px auto 0; background: rgba(255,58,58,0.06); border: 1px solid rgba(255,58,58,0.2); padding: 14px 24px; display: flex; align-items: center; gap: 12px; }
         .warning-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; text-transform: uppercase; }
         .upload-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }

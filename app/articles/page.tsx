@@ -57,7 +57,7 @@ export default function ArticlesPage() {
         .page-header-inner { max-width: 1200px; margin: 0 auto; }
         .page-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
         .page-eyebrow::before { content: ''; display: inline-block; width: 40px; height: 1px; background: #1e9eff; }
-        .page-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 5vw, 52px); font-weight: 900; color: #c0cfe0; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; }
+        .page-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 52px); font-weight: 700; color: #c0cfe0; letter-spacing: -0.5px; margin-bottom: 16px; }
         .page-subtitle { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
         .page-subtitle span { color: #1e9eff; }
 
@@ -65,7 +65,7 @@ export default function ArticlesPage() {
         .controls { padding: 28px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); background: rgba(3,6,8,0.85); position: sticky; top: 70px; z-index: 50; backdrop-filter: blur(20px); }
         .controls-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
         .search-wrap { position: relative; }
-        .search-prefix { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; pointer-events: none; }
+        .search-prefix { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1px; color: #3d5870; pointer-events: none; }
         .search-input { width: 100%; background: rgba(10,21,32,0.8); border: 1px solid rgba(30,158,255,0.15); color: #d8e8f5; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1px; padding: 11px 16px 11px 90px; outline: none; transition: border-color 0.3s; }
         .search-input::placeholder { color: #3d5870; }
         .search-input:focus { border-color: rgba(30,158,255,0.4); }
@@ -163,7 +163,7 @@ export default function ArticlesPage() {
           <div className="page-eyebrow">Intelligence Database</div>
           <h1 className="page-title">All Reports</h1>
           <div className="page-subtitle">
-            <span>{ARTICLES.length}</span> REPORTS // ACTIVE ANALYSIS
+            <span>{ARTICLES.length}</span> Reports Published
           </div>
         </div>
       </div>
@@ -172,7 +172,7 @@ export default function ArticlesPage() {
       <div className="controls">
         <div className="controls-inner">
           <div className="search-wrap">
-            <span className="search-prefix">SEARCH //</span>
+            <span className="search-prefix">Search</span>
             <input
               className="search-input"
               type="text"
@@ -199,7 +199,7 @@ export default function ArticlesPage() {
       <div className="results-bar">
         <span>{filtered.length}</span> REPORT{filtered.length !== 1 ? 'S' : ''} FOUND
         {searchQuery.trim() && (
-          <span style={{ color: '#3d5870' }}> // QUERY: {searchQuery.toUpperCase()}</span>
+          <span style={{ color: '#3d5870' }}> — "{searchQuery}"</span>
         )}
       </div>
 
@@ -236,7 +236,7 @@ function ArticleCard({ article }: { article: Article }) {
       <div className="card-meta">
         <span className="card-category">{article.category}</span>
         <span className="card-date">{article.date}</span>
-        <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '8px', letterSpacing: '2px', color }}>
+        <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '8px', letterSpacing: '2px', color }}>
           ■ {article.relevance}
         </span>
         {article.featured && <span className="card-featured">FEATURED</span>}

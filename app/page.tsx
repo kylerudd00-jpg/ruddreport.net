@@ -161,6 +161,9 @@ export default function Home() {
         .search-bar-input::placeholder { color: var(--text-muted); }
         .search-bar-clear { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); background: none; border: none; padding: 12px 16px; cursor: pointer; text-transform: uppercase; transition: color 0.2s; }
         .search-bar-clear:hover { color: var(--accent); }
+        .cat-filter-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border: 1px solid rgba(30,158,255,0.2); background: transparent; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+        .cat-filter-btn:hover { border-color: rgba(30,158,255,0.5); color: var(--silver); }
+        .cat-filter-btn--active { background: rgba(30,158,255,0.1); border-color: rgba(30,158,255,0.5); color: var(--accent); }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -292,7 +295,7 @@ export default function Home() {
                 <div className="card-excerpt">{currentFeatured.excerpt}</div>
                 <div className="card-footer">
                   <div className="card-read">Read Analysis →</div>
-                  <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '10px', color: relevanceColor(currentFeatured.relevance), letterSpacing: '2px' }}>
+                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: relevanceColor(currentFeatured.relevance), letterSpacing: '2px' }}>
                     ■ {currentFeatured.relevance} RELEVANCE
                   </div>
                 </div>
@@ -358,7 +361,7 @@ export default function Home() {
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div className="card-read">Read Analysis →</div>
-                  <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
+                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
                 </div>
               </a>
             ))}
@@ -444,7 +447,7 @@ export default function Home() {
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div className="card-read">Read →</div>
-                  <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
+                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
                 </div>
               </a>
             ))}

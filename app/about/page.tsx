@@ -38,10 +38,10 @@ export default function About() {
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
         .hero-eyebrow-line { width: 60px; height: 1px; background: var(--accent);  }
         .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; }
-        .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(36px, 5vw, 68px); font-weight: 900; color: var(--silver); text-transform: uppercase; letter-spacing: 2px; line-height: 1.05; margin-bottom: 8px; }
-        .hero-title span { color: transparent; -webkit-text-stroke: 1px var(--accent); }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 68px); font-weight: 700; color: var(--silver); letter-spacing: -0.5px; line-height: 1.05; margin-bottom: 8px; }
+        .hero-title span { color: var(--accent); }
         .hero-subtitle { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 24px; }
-        .hero-bio { font-size: 15px; font-weight: 300; color: var(--text-secondary); line-height: 1.9; margin-bottom: 28px; }
+        .hero-bio { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.9; margin-bottom: 28px; }
         .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
         .hero-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--text-muted); border: 1px solid rgba(30,158,255,0.15); padding: 5px 12px; text-transform: uppercase; }
         .hero-socials { display: flex; gap: 10px; }
@@ -55,7 +55,7 @@ export default function About() {
         .credentials { padding: 80px 40px; border-bottom: 1px solid var(--border); }
         .credentials-inner { max-width: 1200px; margin: 0 auto; }
         .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
-        .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--silver); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 48px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--silver); letter-spacing: -0.2px; margin-bottom: 48px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
         .cred-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
         .cred-card { background: var(--bg-card); border: 1px solid var(--border); padding: 32px; position: relative; overflow: hidden; transition: all 0.3s; }
         .cred-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--accent); opacity: 0; transition: opacity 0.3s; }
@@ -63,7 +63,7 @@ export default function About() {
         .cred-card:hover::before { opacity: 1; }
         .cred-org { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
         .cred-role { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: var(--text-primary); line-height: 1.2; margin-bottom: 10px; }
-        .cred-detail { font-size: 13px; font-weight: 300; color: var(--text-muted); line-height: 1.7; }
+        .cred-detail { font-size: 13px; font-weight: 400; color: var(--text-muted); line-height: 1.7; }
         .cred-year { position: absolute; top: 32px; right: 32px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; color: var(--text-muted); letter-spacing: 2px; }
 
         .mission { padding: 80px 40px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); }
@@ -71,7 +71,7 @@ export default function About() {
         .mission-left {}
         .mission-quote { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(24px, 3vw, 40px); font-weight: 400; color: var(--text-primary); line-height: 1.5; font-style: italic; padding-left: 24px; border-left: 3px solid var(--accent); }
         .mission-right {}
-        .mission-text { font-size: 15px; font-weight: 300; color: var(--text-secondary); line-height: 1.9; margin-bottom: 20px; }
+        .mission-text { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.9; margin-bottom: 20px; }
 
         .focus-areas { padding: 80px 40px; border-bottom: 1px solid var(--border); }
         .focus-inner { max-width: 1200px; margin: 0 auto; }
@@ -82,7 +82,7 @@ export default function About() {
         .focus-card:hover::after { transform: scaleX(1); }
         .focus-icon { margin-bottom: 16px; display: block; color: #1e9eff; opacity: 0.7; }
         .focus-name { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--silver); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
-        .focus-desc { font-size: 13px; font-weight: 300; color: var(--text-muted); line-height: 1.7; }
+        .focus-desc { font-size: 13px; font-weight: 400; color: var(--text-muted); line-height: 1.7; }
 
         footer { position: relative; z-index: 3; border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
@@ -123,10 +123,6 @@ export default function About() {
             <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about" className="active">About</a></li>
           </ul>
-          <div className="nav-status">
-            <span>LIVE</span>
-            <div className="signal-bar"><span /><span /><span /><span /></div>
-          </div>
           <div className="hamburger" onClick={() => document.getElementById('mobileMenuAbout')?.classList.toggle('open')}>
             <span /><span /><span />
           </div>

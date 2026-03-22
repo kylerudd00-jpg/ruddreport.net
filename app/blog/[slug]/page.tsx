@@ -55,12 +55,12 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
         .threat-high { color: #ff3a3a; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
         .threat-med { color: #ffaa00; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
         .threat-low { color: #1e9eff; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
-        .article-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: #d8e8f5; line-height: 1.1; margin-bottom: 20px; }
-        .article-excerpt { font-size: 18px; font-weight: 300; color: #7a9bb5; line-height: 1.8; padding: 20px 24px; border-left: 3px solid #1e9eff; background: rgba(30,158,255,0.04); }
+        .article-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: #d8e8f5; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 20px; }
+        .article-excerpt { font-size: 18px; font-weight: 400; color: #9ab0c4; line-height: 1.8; padding: 20px 24px; border-left: 3px solid #1e9eff; background: rgba(30,158,255,0.04); }
         .article-body { max-width: 900px; margin: 0 auto; padding: 60px 40px 100px; }
         .article-section { margin-bottom: 48px; }
-        .article-heading { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; color: #c0cfe0; letter-spacing: 1px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .article-paragraph { font-size: 17px; font-weight: 300; color: #a0b8cc; line-height: 1.95; }
+        .article-heading { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: #c0cfe0; letter-spacing: -0.2px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .article-paragraph { font-size: 17px; font-weight: 400; color: #b8ccdc; line-height: 1.95; }
         .article-divider { width: 60px; height: 1px; background: #1e9eff; margin: 60px 0;  }
         .article-footer { max-width: 900px; margin: 0 auto; padding: 40px; border-top: 1px solid rgba(30,158,255,0.12); display: flex; align-items: center; justify-content: space-between; }
         .article-author { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
@@ -87,10 +87,12 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
             <div className="nav-logo-text">The Rudd Report</div>
           </a>
           <ul className="nav-links">
+            <li><a href="/articles">All Reports</a></li>
             <li><a href="/cybersecurity">Cybersecurity</a></li>
             <li><a href="/intelligence">Intelligence</a></li>
             <li><a href="/geopolitics">Geopolitics</a></li>
             <li><a href="/national-security">National Security</a></li>
+            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
             <li><a href="/about">About</a></li>
           </ul>
           <div className="hamburger" onClick={() => document.getElementById('blogMobileMenu')?.classList.toggle('open')}>
@@ -110,7 +112,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
         </div>
 
         <div className="article-hero">
-          <a href="/" className="article-back">← Back to Reports</a>
+          <a href="/articles" className="article-back">← Back to Reports</a>
           <div className="article-meta">
             <div className="article-category">{article.category}</div>
             <div className="article-date">{article.date}</div>
@@ -131,7 +133,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
 
         <div className="article-footer">
           <div className="article-author">Analysis by <span>Kyle Rudd</span> — The Rudd Report</div>
-          <a href="/" className="article-back">← Back to Reports</a>
+          <a href="/articles" className="article-back">← Back to Reports</a>
         </div>
 
         <footer>

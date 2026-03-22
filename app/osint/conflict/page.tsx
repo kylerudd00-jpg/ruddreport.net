@@ -1388,7 +1388,7 @@ useEffect(() => {
         .tool-hero-inner { max-width: 1500px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
         .tool-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #ff3a3a; text-transform: uppercase; margin-bottom: 10px; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(24px, 3vw, 42px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
-        .tool-desc { font-size: 14px; font-weight: 300; color: #7a9bb5; line-height: 1.7; max-width: 600px; }
+        .tool-desc { font-size: 14px; font-weight: 400; color: #9ab0c4; line-height: 1.7; max-width: 600px; }
         .hero-stats { display: flex; gap: 32px; }
         .hero-stat { text-align: right; }
         .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 700; }
@@ -1435,7 +1435,7 @@ useEffect(() => {
         .detail-header { padding: 18px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .detail-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #ff3a3a; text-transform: uppercase; margin-bottom: 8px; }
         .detail-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .detail-summary { font-size: 13px; font-weight: 300; color: #7a9bb5; line-height: 1.7; margin-bottom: 10px; }
+        .detail-summary { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.7; margin-bottom: 10px; }
         .detail-tags { display: flex; flex-wrap: wrap; gap: 4px; }
         .detail-tag { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.2); padding: 2px 7px; }
         .news-section { padding: 14px 18px; }
@@ -1543,8 +1543,8 @@ useEffect(() => {
             </div>
           )}
           {tickerLoading && (
-            <div style={{ paddingLeft: 160, fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: '#3d5870', letterSpacing: 2, animation: 'blink 1s infinite' }}>
-              // PULLING LIVE FEED...
+            <div style={{ paddingLeft: 160, fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#3d5870', letterSpacing: 2, animation: 'blink 1s infinite' }}>
+              Pulling live feed...
             </div>
           )}
         </div>

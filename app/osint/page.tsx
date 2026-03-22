@@ -27,7 +27,7 @@ export default function OSINTHub() {
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
         .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
         .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(32px, 5vw, 64px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; line-height: 1.05; margin-bottom: 16px; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 64px); font-weight: 700; color: #c0cfe0; line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.5px; }
         .hero-title span { color: #1e9eff; }
         .hero-sub { font-size: 16px; font-weight: 400; color: #7a9bb5; line-height: 1.8; max-width: 600px; margin-bottom: 32px; }
         .hero-stats { display: flex; gap: 40px; }
@@ -37,7 +37,7 @@ export default function OSINTHub() {
         .section { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
         .section-header { margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; margin-bottom: 8px; }
-        .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #c0cfe0; letter-spacing: -0.2px; }
         .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .tool-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 32px; text-decoration: none; display: block; transition: all 0.3s; overflow: hidden; }
         .tool-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: #1e9eff; transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom; }
@@ -54,7 +54,7 @@ export default function OSINTHub() {
         .tool-status.soon { color: #3d5870; }
         .tool-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
         .tool-status.live .tool-status-dot { box-shadow: 0 0 6px #1e9eff; animation: pulse 2s infinite; }
-        .tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #d8e8f5; margin-bottom: 10px; transition: color 0.3s; }
+        .tool-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #d8e8f5; margin-bottom: 10px; transition: color 0.3s; }
         .tool-card:hover .tool-name { color: #1e9eff; }
         .tool-card.live:hover .tool-name { color: #1e9eff; }
         .tool-desc { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.7; margin-bottom: 20px; }

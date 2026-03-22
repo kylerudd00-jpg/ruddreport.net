@@ -89,7 +89,7 @@ export default function WaybackMachine() {
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
         .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
         .search-wrap { padding: 40px; max-width: 1000px; margin: 0 auto; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
@@ -210,7 +210,7 @@ export default function WaybackMachine() {
           {snapshots.length > 0 && (
             <>
               <div className="info-box">
-                // Data from the Internet Archive Wayback Machine &nbsp;|&nbsp; Showing up to 50 most recent unique snapshots &nbsp;|&nbsp; Click "View Snapshot" to see the archived version
+                Data from the Internet Archive Wayback Machine &nbsp;|&nbsp; Showing up to 50 most recent unique snapshots &nbsp;|&nbsp; Click "View Snapshot" to see the archived version
               </div>
               <div className="result-header">
                 <div className="result-meta">

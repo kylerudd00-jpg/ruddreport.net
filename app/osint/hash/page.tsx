@@ -112,7 +112,7 @@ export default function HashAnalyzer() {
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
         .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
         .search-wrap { padding: 40px; max-width: 1000px; margin: 0 auto; }
         .mode-tabs { display: flex; gap: 2px; margin-bottom: 20px; }
         .mode-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 10px 20px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #3d5870; cursor: pointer; transition: all 0.2s; }
@@ -130,7 +130,7 @@ export default function HashAnalyzer() {
         .match-header { padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .match-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; }
         .match-bits { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; border: 1px solid rgba(30,158,255,0.15); padding: 4px 12px; }
-        .match-desc { padding: 14px 24px; font-size: 13px; color: #7a9bb5; font-weight: 300; line-height: 1.7; }
+        .match-desc { padding: 14px 24px; font-size: 13px; color: #9ab0c4; font-weight: 400; line-height: 1.7; }
         .breach-card { background: #0a1520; border: 1px solid; padding: 32px; text-align: center; }
         .breach-card.found { border-color: rgba(255,58,58,0.4); background: rgba(255,58,58,0.04); }
         .breach-card.safe { border-color: rgba(30,158,255,0.4); background: rgba(30,158,255,0.04); }
@@ -220,13 +220,13 @@ export default function HashAnalyzer() {
               className={`mode-tab ${mode === 'identify' ? 'active' : ''}`}
               onClick={() => { setMode('identify'); setMatches([]); setBreachResult(null); setError(''); }}
             >
-              // Identify Hash
+              Identify Hash
             </button>
             <button
               className={`mode-tab ${mode === 'breach' ? 'active' : ''}`}
               onClick={() => { setMode('breach'); setMatches([]); setBreachResult(null); setError(''); }}
             >
-              // Breach Check
+              Breach Check
             </button>
           </div>
           <div className="search-box">
@@ -244,7 +244,7 @@ export default function HashAnalyzer() {
           </div>
           {mode === 'breach' && (
             <div className="mode-note">
-              // Privacy-safe: uses k-anonymity — only the first 5 hex chars of your password's SHA-1 hash are sent to HIBP. Your actual password never leaves your browser.
+              Privacy-safe: uses k-anonymity — only the first 5 hex chars of your password's SHA-1 hash are sent to HIBP. Your actual password never leaves your browser.
             </div>
           )}
         </div>
@@ -290,8 +290,8 @@ export default function HashAnalyzer() {
                 <div className="breach-count">This password was not found in any known data breach</div>
               )}
               <div className="breach-note">
-                // Source: Have I Been Pwned (HIBP) — aggregates {'>'}14 billion compromised credentials<br />
-                // A "not found" result does not guarantee security — use unique, randomly generated passwords
+                Source: Have I Been Pwned (HIBP) — aggregates {'>'}14 billion compromised credentials<br />
+                Note: a 'not found' result does not guarantee security — use unique, randomly generated passwords
               </div>
             </div>
           )}

@@ -130,7 +130,7 @@ export default function CVESearch() {
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
         .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
         .search-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .mode-toggle { display: flex; gap: 2px; margin-bottom: 16px; }
         .mode-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
@@ -157,7 +157,7 @@ export default function CVESearch() {
         .cvss-severity { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 2px; }
         .cvss-version { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
         .cvss-vector { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
-        .cve-desc { font-size: 14px; font-weight: 300; color: #7a9bb5; line-height: 1.8; margin-bottom: 16px; }
+        .cve-desc { font-size: 14px; font-weight: 400; color: #9ab0c4; line-height: 1.8; margin-bottom: 16px; }
         .cwe-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
         .cwe-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.2); padding: 3px 10px; background: rgba(255,170,0,0.05); }
         .refs-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 8px; }
@@ -258,7 +258,7 @@ export default function CVESearch() {
               ) : (
                 <>
                   <div className="results-header">
-                    // {total.toLocaleString()} result{total !== 1 ? 's' : ''} — showing {cves.length}
+                    {total.toLocaleString()} result{total !== 1 ? 's' : ''} — showing {cves.length}
                   </div>
                   <div className="cve-list">
                     {cves.map((cve, i) => {

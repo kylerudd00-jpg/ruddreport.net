@@ -33,15 +33,15 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
         .hero-eyebrow-line { width: 60px; height: 1px; background: #1e9eff;  }
         .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(36px, 6vw, 72px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; line-height: 1.05; margin-bottom: 12px; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 72px); font-weight: 700; color: #c0cfe0; letter-spacing: -0.5px; line-height: 1.05; margin-bottom: 12px; }
         .hero-tagline { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 28px; }
-        .hero-blurb { font-size: 16px; font-weight: 300; color: #7a9bb5; line-height: 1.9; margin-bottom: 24px; }
+        .hero-blurb { font-size: 16px; font-weight: 400; color: #9ab0c4; line-height: 1.9; margin-bottom: 24px; }
         .hero-note { font-size: 14px; font-weight: 400; line-height: 1.8; padding: 20px 24px; border-left: 2px solid #1e9eff; background: rgba(30,158,255,0.04); font-style: italic; color: #3d5870; }
         .hero-icon-box { display: flex; align-items: center; justify-content: center; opacity: 0.1; color: #1e9eff; }
         .articles { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
         .articles-header { margin-bottom: 48px; padding-bottom: 20px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .articles-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 8px; }
-        .articles-title { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; }
+        .articles-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: #c0cfe0; letter-spacing: -0.2px; }
         .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .article-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 32px; overflow: hidden; text-decoration: none; display: block; transition: all 0.4s ease; }
         .article-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #1e9eff, transparent); transform: scaleX(0); transition: transform 0.5s ease; }
@@ -52,7 +52,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
         .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
         .card-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #d8e8f5; line-height: 1.2; margin-bottom: 12px; transition: color 0.3s; }
         .article-card:hover .card-title { color: #1e9eff; }
-        .card-excerpt { font-size: 13px; font-weight: 300; color: #7a9bb5; line-height: 1.8; margin-bottom: 24px; }
+        .card-excerpt { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.8; margin-bottom: 24px; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid rgba(30,158,255,0.12); }
         .card-read { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
         .threat-high { color: #ff3a3a; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
@@ -156,5 +156,5 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
 
 export default function Geopolitics() {
   const articles = getArticlesByCategory('Geopolitics');
-  return <CategoryPage category="Geopolitics" eyebrow="// Domain: Global Affairs" tagline="GEOPOLITICAL ANALYSIS" blurb="Geopolitics is the study of how geography, power, and interest shape the international order. In an era of great power competition, understanding these dynamics is not optional — it is essential." personalNote="My dual major in International Relations and Economics gives me a framework for analyzing both the strategic and structural forces driving geopolitical change. This section cuts through headlines to explain what's actually happening — and why it matters." icon={<Globe size={120} strokeWidth={0.75} />} articles={articles} />;
+  return <CategoryPage category="Geopolitics" eyebrow="Domain: Global Affairs" tagline="GEOPOLITICAL ANALYSIS" blurb="Geopolitics is the study of how geography, power, and interest shape the international order. In an era of great power competition, understanding these dynamics is not optional — it is essential." personalNote="My dual major in International Relations and Economics gives me a framework for analyzing both the strategic and structural forces driving geopolitical change. This section cuts through headlines to explain what's actually happening — and why it matters." icon={<Globe size={120} strokeWidth={0.75} />} articles={articles} />;
 }

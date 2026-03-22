@@ -421,7 +421,7 @@ export default function VesselTracker() {
           <div className="live-map-wrap">
             <div className="live-map-label">
               {wsStatus === 'live'
-                ? `// Live AIS — ${vesselCount.toLocaleString()} vessels in view`
+                ? `Live AIS — ${vesselCount.toLocaleString()} vessels in view`
                 : wsStatus === 'connecting' ? 'Connecting to AIS stream...'
                 : wsStatus === 'no-key' ? 'OpenSeaMap — add AISSTREAM_API_KEY for live vessels'
                 : 'OpenSeaMap Nautical Chart'}

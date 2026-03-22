@@ -103,7 +103,7 @@ export default function WHOISLookup() {
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
         .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
         .search-wrap { padding: 40px; max-width: 1000px; margin: 0 auto; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
@@ -235,18 +235,18 @@ export default function WHOISLookup() {
                 <div className="result-badge">Record Found</div>
               </div>
 
-              <Section title="// Domain Overview">
-                <Field label="// Registry Domain ID" value={result?.handle} />
-                <Field label="// TLD" value={result?.ldhName?.split('.').pop()?.toUpperCase()} />
-                <Field label="// Registered" value={getDate(result, 'registration')} highlight />
-                <Field label="// Expires" value={getDate(result, 'expiration')} highlight />
-                <Field label="// Last Updated" value={getDate(result, 'last changed')} />
-                <Field label="// Transferred" value={getDate(result, 'transfer')} />
-                <Field label="// DNSSEC" value={result?.secureDNS?.delegationSigned ? '✓ Signed — Protected' : '✗ Unsigned — No DNSSEC'} />
-                <Field label="// Zone Signed" value={result?.secureDNS?.zoneSigned ? 'Yes' : 'No'} />
+              <Section title="Domain Overview">
+                <Field label="Registry Domain ID" value={result?.handle} />
+                <Field label="TLD" value={result?.ldhName?.split('.').pop()?.toUpperCase()} />
+                <Field label="Registered" value={getDate(result, 'registration')} highlight />
+                <Field label="Expires" value={getDate(result, 'expiration')} highlight />
+                <Field label="Last Updated" value={getDate(result, 'last changed')} />
+                <Field label="Transferred" value={getDate(result, 'transfer')} />
+                <Field label="DNSSEC" value={result?.secureDNS?.delegationSigned ? '✓ Signed — Protected' : '✗ Unsigned — No DNSSEC'} />
+                <Field label="Zone Signed" value={result?.secureDNS?.zoneSigned ? 'Yes' : 'No'} />
               </Section>
 
-              <Section title="// Nameservers">
+              <Section title="Nameservers">
                 <div className="result-field full">
                   <div className="field-label">DNS Nameservers</div>
                   <div className="ns-list">
@@ -261,21 +261,21 @@ export default function WHOISLookup() {
               </Section>
 
               {registrarInfo && (
-                <Section title="// Registrar">
-                  <Field label="// Registrar Name" value={registrarInfo.fn} highlight />
-                  <Field label="// IANA ID" value={registrarInfo.handle} />
-                  <Field label="// Registrar URL" value={registrarInfo.url} />
-                  <Field label="// Abuse Email" value={abuseInfo?.email || registrarInfo.email} />
-                  <Field label="// Abuse Phone" value={abuseInfo?.tel} />
+                <Section title="Registrar">
+                  <Field label="Registrar Name" value={registrarInfo.fn} highlight />
+                  <Field label="IANA ID" value={registrarInfo.handle} />
+                  <Field label="Registrar URL" value={registrarInfo.url} />
+                  <Field label="Abuse Email" value={abuseInfo?.email || registrarInfo.email} />
+                  <Field label="Abuse Phone" value={abuseInfo?.tel} />
                 </Section>
               )}
 
               {registrantInfo && (
-                <Section title="// Registrant">
-                  <Field label="// Name" value={registrantInfo.fn} highlight />
-                  <Field label="// Organization" value={registrantInfo.org} highlight />
-                  <Field label="// Email" value={registrantInfo.email} />
-                  <Field label="// Phone" value={registrantInfo.tel} />
+                <Section title="Registrant">
+                  <Field label="Name" value={registrantInfo.fn} highlight />
+                  <Field label="Organization" value={registrantInfo.org} highlight />
+                  <Field label="Email" value={registrantInfo.email} />
+                  <Field label="Phone" value={registrantInfo.tel} />
                   {registrantInfo.adr && (
                     <div className="result-field full">
                       <div className="field-label">Address</div>
@@ -290,24 +290,24 @@ export default function WHOISLookup() {
               )}
 
               {adminInfo && (
-                <Section title="// Administrative Contact">
-                  <Field label="// Name" value={adminInfo.fn} />
-                  <Field label="// Organization" value={adminInfo.org} />
-                  <Field label="// Email" value={adminInfo.email} />
-                  <Field label="// Phone" value={adminInfo.tel} />
+                <Section title="Administrative Contact">
+                  <Field label="Name" value={adminInfo.fn} />
+                  <Field label="Organization" value={adminInfo.org} />
+                  <Field label="Email" value={adminInfo.email} />
+                  <Field label="Phone" value={adminInfo.tel} />
                 </Section>
               )}
 
               {techInfo && (
-                <Section title="// Technical Contact">
-                  <Field label="// Name" value={techInfo.fn} />
-                  <Field label="// Organization" value={techInfo.org} />
-                  <Field label="// Email" value={techInfo.email} />
-                  <Field label="// Phone" value={techInfo.tel} />
+                <Section title="Technical Contact">
+                  <Field label="Name" value={techInfo.fn} />
+                  <Field label="Organization" value={techInfo.org} />
+                  <Field label="Email" value={techInfo.email} />
+                  <Field label="Phone" value={techInfo.tel} />
                 </Section>
               )}
 
-              <Section title="// Domain Status">
+              <Section title="Domain Status">
                 <div className="result-field full">
                   <div className="field-label">EPP Status Codes</div>
                   <div className="status-list">

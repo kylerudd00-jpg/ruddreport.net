@@ -98,7 +98,7 @@ export default function SanctionsMonitor() {
       setSearched(true);
     } catch (e: any) {
       if (e?.name === 'AbortError') return;
-      setError(`// ${e?.message || 'Search failed'}`);
+      setError(`${e?.message || 'Search failed'}`);
       setSearched(true);
     } finally {
       setLoading(false);
@@ -133,7 +133,7 @@ export default function SanctionsMonitor() {
         .tool-eyebrow-line { width: 40px; height: 1px; background: #ff3a3a; box-shadow: 0 0 8px #ff3a3a; }
         .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #ff3a3a; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; max-width: 700px; margin-bottom: 24px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 700px; margin-bottom: 24px; }
         .source-tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .source-tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ff3a3a; border: 1px solid rgba(255,58,58,0.3); padding: 4px 12px; text-transform: uppercase; background: rgba(255,58,58,0.06); }
         .search-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
@@ -329,8 +329,8 @@ export default function SanctionsMonitor() {
 
                   {score !== null && (
                     <div style={{ textAlign: 'right', minWidth: '120px' }}>
-                      <div style={{ fontFamily: 'Share Tech Mono', fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', marginBottom: '6px' }}>
-                        // Match Score
+                      <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', marginBottom: '6px' }}>
+                        Match Score
                       </div>
                       <div className="score-num">{score}%</div>
                       <div className="score-track">

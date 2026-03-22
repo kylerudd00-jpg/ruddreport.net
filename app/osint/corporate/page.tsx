@@ -36,7 +36,7 @@ export default function CorporateInvestigator() {
       if (data.error) throw new Error(data.error);
       setSearchResults(data.data || []);
       setSearched(true);
-    } catch (e: any) { setError(`// ${e.message}`); }
+    } catch (e: any) { setError(`${e.message}`); }
     setLoading(false);
   };
 
@@ -365,7 +365,7 @@ export default function CorporateInvestigator() {
 
         <div className="main-layout">
           <div className="side-panel">
-            <div className="panel-header">{searched ? `// ${searchResults.length} entities found` : 'Search results'}</div>
+            <div className="panel-header">{searched ? `${searchResults.length} entities found` : 'Search results'}</div>
             {searchResults.map((entity: any, i: number) => {
               const a = entity.attributes;
               const name = a?.entity?.legalName?.name || 'Unknown';

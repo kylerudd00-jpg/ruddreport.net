@@ -61,7 +61,7 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
       flexWrap: 'wrap',
     }}>
       <span style={{
-        fontFamily: "'Share Tech Mono', monospace",
+        fontFamily: "'IBM Plex Mono', monospace",
         fontSize: '9px',
         letterSpacing: '3px',
         color: '#3d5870',
@@ -72,7 +72,7 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         onClick={shareTwitter}
         style={{
-          fontFamily: "'Share Tech Mono', monospace",
+          fontFamily: "'IBM Plex Mono', monospace",
           fontSize: '9px',
           letterSpacing: '2px',
           color: '#1e9eff',
@@ -97,7 +97,7 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         onClick={shareLinkedIn}
         style={{
-          fontFamily: "'Share Tech Mono', monospace",
+          fontFamily: "'IBM Plex Mono', monospace",
           fontSize: '9px',
           letterSpacing: '2px',
           color: '#1e9eff',
@@ -122,7 +122,7 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         onClick={copyLink}
         style={{
-          fontFamily: "'Share Tech Mono', monospace",
+          fontFamily: "'IBM Plex Mono', monospace",
           fontSize: '9px',
           letterSpacing: '2px',
           color: copied ? '#1e9eff' : '#1e9eff',
