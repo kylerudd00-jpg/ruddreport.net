@@ -11,7 +11,7 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
         html, body { margin: 0; padding: 0; background: var(--bg-primary, #030608); color: var(--text-primary, #d8e8f5); font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; }
+        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; position: relative; }
         .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: #1e9eff; transform: scaleX(0); transition: transform 0.3s; }
