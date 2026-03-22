@@ -78,9 +78,21 @@ const BREACHES = [
   { service: 'LastPass', year: '2022', records: 'Unknown', type: 'Password vaults' },
 ];
 
+async function sha1Hex(text: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuf = await window.crypto.subtle.digest('SHA-1', data);
+  return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 export default function BreachLookup() {
+  const [tab, setTab] = useState<'email' | 'password'>('email');
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState('');
+  const [password, setPassword] = useState('');
+  const [pwResult, setPwResult] = useState<{ found: boolean; count: number } | null>(null);
+  const [pwLoading, setPwLoading] = useState(false);
+  const [pwError, setPwError] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
 
   const isValidEmail = (e: string) => e.trim().length > 3 && e.includes('@');
@@ -88,6 +100,30 @@ export default function BreachLookup() {
   const handleSubmit = () => {
     if (!isValidEmail(email)) return;
     setSubmitted(email.trim());
+  };
+
+  const checkPassword = async () => {
+    if (!password.trim()) return;
+    setPwLoading(true);
+    setPwError('');
+    setPwResult(null);
+    try {
+      const hash = await sha1Hex(password);
+      const prefix = hash.slice(0, 5).toUpperCase();
+      const suffix = hash.slice(5).toUpperCase();
+      const res = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`, { headers: { 'Add-Padding': 'true' } });
+      if (!res.ok) throw new Error('HIBP API unavailable');
+      const text = await res.text();
+      const match = text.split('\n').find(l => l.startsWith(suffix));
+      if (match) {
+        setPwResult({ found: true, count: parseInt(match.split(':')[1].trim(), 10) });
+      } else {
+        setPwResult({ found: false, count: 0 });
+      }
+    } catch (e: unknown) {
+      setPwError(e instanceof Error ? e.message : 'Check failed.');
+    }
+    setPwLoading(false);
   };
 
   return (
@@ -164,6 +200,22 @@ export default function BreachLookup() {
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
+        .tab-row { display: flex; gap: 2px; margin-bottom: 28px; }
+        .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 10px 24px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #3d5870; cursor: pointer; transition: all 0.2s; }
+        .tab-btn.active { background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.4); color: #1e9eff; }
+        .tab-btn:hover:not(.active) { border-color: rgba(30,158,255,0.4); color: #c0cfe0; }
+        .pw-privacy-note { margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #3d5870; line-height: 1.7; }
+        .pw-result { margin-top: 24px; padding: 32px; text-align: center; border: 1px solid; }
+        .pw-result.found { border-color: rgba(255,58,58,0.4); background: rgba(255,58,58,0.04); }
+        .pw-result.safe { border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.03); }
+        .pw-icon { font-size: 40px; margin-bottom: 14px; }
+        .pw-status { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 900; letter-spacing: 3px; margin-bottom: 10px; }
+        .pw-status.found { color: #ff3a3a; }
+        .pw-status.safe { color: #00ff88; }
+        .pw-count { font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #7a9bb5; margin-bottom: 8px; }
+        .pw-count span { color: #ff3a3a; font-size: 17px; }
+        .pw-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #3d5870; line-height: 1.8; margin-top: 16px; }
+        .pw-error { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #ff3a3a; margin-top: 16px; }
         @media (max-width: 900px) {
           .services-grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -219,12 +271,18 @@ export default function BreachLookup() {
               <div className="tool-eyebrow-text">Credential Intelligence</div>
             </div>
             <div className="tool-title">Breach Lookup</div>
-            <p className="tool-desc">When companies get hacked, stolen email and password combinations end up in criminal marketplaces. Enter any email to check if it appeared in known data breaches — so you know whether credentials for a target have already been compromised and are likely in the hands of attackers.</p>
+            <p className="tool-desc">When companies get hacked, stolen credentials end up in criminal marketplaces. Check any email address against known breach databases, or test whether a password has ever appeared in leaked data — without ever exposing your actual password.</p>
           </div>
         </div>
 
         <div className="main-wrap">
-          {/* Input */}
+          {/* Tab switcher */}
+          <div className="tab-row">
+            <button className={`tab-btn${tab === 'email' ? ' active' : ''}`} onClick={() => { setTab('email'); setPwResult(null); setPwError(''); }}>Email Lookup</button>
+            <button className={`tab-btn${tab === 'password' ? ' active' : ''}`} onClick={() => { setTab('password'); setSubmitted(''); }}>Password Check</button>
+          </div>
+
+          {tab === 'email' && (
           <div style={{marginBottom: '40px'}}>
             <div className="search-box">
               <input
@@ -246,9 +304,48 @@ export default function BreachLookup() {
               </div>
             </div>
           </div>
+          )}
 
-          {/* Target display + service cards */}
-          {submitted && (
+          {tab === 'password' && (
+          <div style={{marginBottom: '40px'}}>
+            <div className="search-box">
+              <input
+                className="search-input"
+                placeholder="Enter password to check..."
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && checkPassword()}
+                type="password"
+              />
+              <button className="search-btn" onClick={checkPassword} disabled={pwLoading || !password.trim()}>
+                {pwLoading ? 'Checking...' : 'Check →'}
+              </button>
+            </div>
+            <div className="pw-privacy-note">
+              Privacy-safe: only the first 5 hex chars of your password&apos;s SHA-1 hash are sent to HIBP (k-anonymity). Your actual password never leaves your browser.
+            </div>
+            {pwError && <div className="pw-error">{pwError}</div>}
+            {pwResult && (
+              <div className={`pw-result ${pwResult.found ? 'found' : 'safe'}`}>
+                <div className="pw-icon">{pwResult.found ? '⚠' : '✓'}</div>
+                <div className={`pw-status ${pwResult.found ? 'found' : 'safe'}`}>
+                  {pwResult.found ? 'COMPROMISED' : 'NOT FOUND'}
+                </div>
+                {pwResult.found ? (
+                  <div className="pw-count">Seen <span>{pwResult.count.toLocaleString()}</span> times in known breach data</div>
+                ) : (
+                  <div className="pw-count">This password has not appeared in any known breach</div>
+                )}
+                <div className="pw-note">
+                  Source: Have I Been Pwned — 14B+ compromised credentials indexed<br />
+                  Note: not found does not mean safe — use unique, randomly generated passwords
+                </div>
+              </div>
+            )}
+          </div>
+          )}
+
+          {tab === 'email' && submitted && (
             <div style={{marginBottom: '12px'}}>
               <div className="target-display">
                 <div className="target-label">Target Email</div>
@@ -257,7 +354,7 @@ export default function BreachLookup() {
             </div>
           )}
 
-          <div style={{marginBottom: '12px'}}>
+          {tab === 'email' && <><div style={{marginBottom: '12px'}}>
             <div className="section-label">Breach Databases — {submitted ? `Searching for ${submitted}` : 'Enter Email Above to Enable'}</div>
           </div>
           <div className="services-grid">
@@ -323,7 +420,7 @@ export default function BreachLookup() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </div></>}
         </div>
 
         <footer>

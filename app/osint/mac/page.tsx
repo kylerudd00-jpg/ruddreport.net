@@ -87,11 +87,10 @@ export default function MACLookup() {
       const clean = raw.replace(/[^0-9a-fA-F]/g, '');
       if (clean.length < 6) throw new Error('Enter at least 6 hex characters (OUI prefix).');
       const oui = clean.slice(0, 6);
-      const res = await fetch(`https://api.macvendors.com/${oui}`, { headers: { Accept: 'text/plain' } });
-      if (res.status === 404) throw new Error('No vendor found for this OUI. May be a private or locally administered address.');
-      if (!res.ok) throw new Error(`Lookup failed (HTTP ${res.status}).`);
-      const text = await res.text();
-      setVendor(text.trim());
+      const res = await fetch(`/api/mac?oui=${oui}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? `Lookup failed (HTTP ${res.status}).`);
+      setVendor(data.vendor);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Lookup failed.');
     } finally {

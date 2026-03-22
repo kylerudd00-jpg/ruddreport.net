@@ -27,60 +27,23 @@ function identifyHash(input: string): typeof HASH_PATTERNS {
   return HASH_PATTERNS.filter(p => p.regex.test(trimmed));
 }
 
-async function sha1Hex(text: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuf = await window.crypto.subtle.digest('SHA-1', data);
-  return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
 
 export default function HashAnalyzer() {
   const [input, setInput] = useState('');
-  const [mode, setMode] = useState<'identify' | 'breach'>('identify');
   const [matches, setMatches] = useState<typeof HASH_PATTERNS>([]);
-  const [breachResult, setBreachResult] = useState<{ count: number; found: boolean } | null>(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [analyzed, setAnalyzed] = useState('');
 
-  const analyze = async () => {
+  const analyze = () => {
     if (!input.trim()) return;
     setError('');
-    setBreachResult(null);
     setMatches([]);
     setAnalyzed(input.trim());
-
-    if (mode === 'identify') {
-      const found = identifyHash(input.trim());
-      if (found.length === 0) {
-        setError('No known hash format matched. Input may be encoded, salted, or a custom format.');
-      } else {
-        setMatches(found);
-      }
+    const found = identifyHash(input.trim());
+    if (found.length === 0) {
+      setError('No known hash format matched. Input may be encoded, salted, or a custom format.');
     } else {
-      // Breach check via HIBP k-anonymity
-      setLoading(true);
-      try {
-        const hash = await sha1Hex(input.trim());
-        const prefix = hash.slice(0, 5).toUpperCase();
-        const suffix = hash.slice(5).toUpperCase();
-        const res = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`, {
-          headers: { 'Add-Padding': 'true' }
-        });
-        if (!res.ok) throw new Error('HIBP API unavailable');
-        const text = await res.text();
-        const lines = text.split('\n');
-        const match = lines.find(l => l.startsWith(suffix));
-        if (match) {
-          const count = parseInt(match.split(':')[1].trim(), 10);
-          setBreachResult({ found: true, count });
-        } else {
-          setBreachResult({ found: false, count: 0 });
-        }
-      } catch (e: any) {
-        setError('' + (e.message || 'Failed to check breach database.'));
-      }
-      setLoading(false);
+      setMatches(found);
     }
   };
 
@@ -210,54 +173,27 @@ export default function HashAnalyzer() {
               <div className="tool-eyebrow-text">Cryptographic Analysis</div>
             </div>
             <div className="tool-title">Hash Analyzer</div>
-            <p className="tool-desc">A hash is a unique fingerprint for any piece of data — files, passwords, and messages all produce one. Paste any hash to identify its type (MD5, SHA-256, bcrypt, and more) or check if it matches a known compromised password. Used by analysts to verify file integrity and check whether credentials have been exposed in a breach. Your input is never sent in full.</p>
+            <p className="tool-desc">A hash is a unique fingerprint for any piece of data — files, passwords, and messages all produce one. Paste any hash to identify its algorithm (MD5, SHA-256, bcrypt, NTLM, and more). Used by analysts to verify file integrity, identify credential formats in breach dumps, and assess the strength of password storage.</p>
           </div>
         </div>
 
         <div className="search-wrap">
-          <div className="mode-tabs">
-            <button
-              className={`mode-tab ${mode === 'identify' ? 'active' : ''}`}
-              onClick={() => { setMode('identify'); setMatches([]); setBreachResult(null); setError(''); }}
-            >
-              Identify Hash
-            </button>
-            <button
-              className={`mode-tab ${mode === 'breach' ? 'active' : ''}`}
-              onClick={() => { setMode('breach'); setMatches([]); setBreachResult(null); setError(''); }}
-            >
-              Breach Check
-            </button>
-          </div>
           <div className="search-box">
             <input
               className="search-input"
-              placeholder={mode === 'identify' ? 'paste hash here...' : 'enter password to check...'}
+              placeholder="paste hash here — MD5, SHA-256, bcrypt, NTLM..."
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && analyze()}
-              type={mode === 'breach' ? 'password' : 'text'}
+              type="text"
             />
-            <button className="search-btn" onClick={analyze} disabled={loading || !input.trim()}>
-              {loading ? 'Checking...' : mode === 'identify' ? 'Identify →' : 'Check →'}
+            <button className="search-btn" onClick={analyze} disabled={!input.trim()}>
+              Identify →
             </button>
           </div>
-          {mode === 'breach' && (
-            <div className="mode-note">
-              Privacy-safe: uses k-anonymity — only the first 5 hex chars of your password's SHA-1 hash are sent to HIBP. Your actual password never leaves your browser.
-            </div>
-          )}
         </div>
 
         <div className="results">
-          {loading && (
-            <div className="loading-wrap">
-              <div className="loading-bars">
-                <span /><span /><span /><span /><span />
-              </div>
-              <div className="loading-text">Querying breach database...</div>
-            </div>
-          )}
           {error && <div className="error-msg">{error}</div>}
 
           {matches.length > 0 && (
@@ -274,26 +210,6 @@ export default function HashAnalyzer() {
                 </div>
               ))}
             </>
-          )}
-
-          {breachResult && (
-            <div className={`breach-card ${breachResult.found ? 'found' : 'safe'}`}>
-              <div className="breach-icon">{breachResult.found ? '⚠' : '✓'}</div>
-              <div className={`breach-status ${breachResult.found ? 'found' : 'safe'}`}>
-                {breachResult.found ? 'COMPROMISED' : 'NOT FOUND'}
-              </div>
-              {breachResult.found ? (
-                <div className="breach-count">
-                  Seen <span>{breachResult.count.toLocaleString()}</span> times in known breaches
-                </div>
-              ) : (
-                <div className="breach-count">This password was not found in any known data breach</div>
-              )}
-              <div className="breach-note">
-                Source: Have I Been Pwned (HIBP) — aggregates {'>'}14 billion compromised credentials<br />
-                Note: a 'not found' result does not guarantee security — use unique, randomly generated passwords
-              </div>
-            </div>
           )}
         </div>
 

@@ -44,7 +44,7 @@ const TOOLS: Tool[] = [
   { icon: Link, name: 'URL Redirect Tracer', desc: 'Trace the full redirect chain of any shortened or obfuscated URL', href: '/osint/url', category: 'Network' },
   { icon: Shield, name: 'MAC Address Lookup', desc: 'Identify hardware vendor from any MAC address or OUI prefix', href: '/osint/mac', category: 'Network' },
   // Cyber & Security
-  { icon: KeyRound, name: 'Hash Analyzer', desc: 'Identify hash format or check password against known breach data', href: '/osint/hash', category: 'Cyber' },
+  { icon: KeyRound, name: 'Hash Analyzer', desc: 'Identify hash algorithm — MD5, SHA-256, bcrypt, NTLM, and 15+ more', href: '/osint/hash', category: 'Cyber' },
   { icon: AlertTriangle, name: 'CVE Search', desc: 'NIST NVD vulnerability search — CVSS scores, attack vectors, CWEs', href: '/osint/cve', category: 'Cyber' },
   { icon: Mail, name: 'Email Header Analyzer', desc: 'Trace routing path, SPF/DKIM/DMARC results, and originating IP', href: '/osint/email-headers', category: 'Cyber' },
   { icon: User, name: 'Username Hunter', desc: 'Check username across 39 platforms simultaneously in real time', href: '/osint/username', category: 'Cyber' },
