@@ -21,8 +21,12 @@ const OSINT_TOOLS = [
   { name: 'Patent Intelligence', desc: 'USPTO PatentsView search', href: '/osint/patents', cat: 'Corporate' },
   { name: 'Conflict Tracker', desc: 'Live conflict zones map', href: '/osint/conflict', cat: 'Live & Tracking' },
   { name: 'Flight Tracker', desc: 'Real-time aircraft positions', href: '/osint/flights', cat: 'Live & Tracking' },
-  { name: 'Breach Checker', desc: 'Email breach exposure', href: '/osint/breach', cat: 'Cyber' },
+  { name: 'Breach Lookup', desc: 'Check email across HIBP, DeHashed, IntelligenceX', href: '/osint/breach', cat: 'Cyber' },
   { name: 'Metadata Extractor', desc: 'Hidden file metadata', href: '/osint/metadata', cat: 'Cyber' },
+  { name: 'Google Dork Builder', desc: 'Build advanced Google search operators', href: '/osint/dorks', cat: 'Cyber' },
+  { name: 'Email Permutator', desc: 'Generate all email formats from name + domain', href: '/osint/email-permutator', cat: 'Corporate' },
+  { name: 'Reverse Image Search', desc: 'Launch Google, TinEye, Yandex, Bing simultaneously', href: '/osint/reverse-image', cat: 'Cyber' },
+  { name: 'People Search', desc: 'Aggregate public records and social profiles by name', href: '/osint/people', cat: 'Corporate' },
 ];
 
 const CAT_COLOR: Record<string, string> = {

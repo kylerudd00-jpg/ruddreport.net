@@ -1,6 +1,6 @@
 'use client';
 import { useState, useMemo } from 'react';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, FlaskConical, LayoutDashboard, DollarSign, BarChart2, Package, type LucideIcon } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, FlaskConical, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, type LucideIcon } from 'lucide-react';
 
 function detectAndRoute(raw: string) {
   const q = raw.trim();
@@ -63,6 +63,12 @@ const TOOLS: Tool[] = [
   { icon: KeyRound, name: 'JWT Decoder', desc: 'Decode JWT tokens and inspect claims client-side', href: '/osint/jwt', category: 'Utilities' },
   { icon: Binary, name: 'Base64 Tool', desc: 'Encode or decode Base64 strings — Unicode supported, client-side', href: '/osint/base64', category: 'Utilities' },
   { icon: Phone, name: 'Phone Number OSINT', desc: 'Identify carrier and line type, launch into OSINT databases', href: '/tools/phone-lookup', category: 'Utilities' },
+  // Simple High-Value Tools
+  { icon: Search, name: 'Google Dork Builder', desc: 'Build advanced search operators — find exposed files, logins, leaked data', href: '/osint/dorks', category: 'Cyber' },
+  { icon: AtSign, name: 'Email Permutator', desc: 'Generate every possible email format from a name + company domain', href: '/osint/email-permutator', category: 'Corporate' },
+  { icon: Image, name: 'Reverse Image Search', desc: 'Launch Google, TinEye, Yandex, Bing, and Baidu simultaneously', href: '/osint/reverse-image', category: 'Cyber' },
+  { icon: ShieldAlert, name: 'Breach Lookup', desc: 'Check email exposure across HIBP, DeHashed, IntelligenceX, and more', href: '/osint/breach', category: 'Cyber' },
+  { icon: Users, name: 'People Search', desc: 'Aggregate public records, court data, and social profiles by name', href: '/osint/people', category: 'Corporate' },
   // Economic Intelligence
   { icon: DollarSign, name: 'Currency Tracker', desc: 'Live exchange rates — sanctions pressure, capital flight, currency collapse', href: '/osint/currency', category: 'Economic' },
   { icon: BarChart2, name: 'Country Economic Profile', desc: 'World Bank data — GDP, inflation, debt, trade for 200+ countries', href: '/osint/economics', category: 'Economic' },
@@ -251,10 +257,10 @@ export default function OSINTHub() {
                 <div className="hero-eyebrow-text">Open Source Intelligence</div>
               </div>
               <div className="hero-title">OSINT <span>Hub</span></div>
-              <p className="hero-sub">33 free tools for intelligence gathering, corporate research, network analysis, economic intelligence, and real-time situational awareness. No sign-up required.</p>
+              <p className="hero-sub">38 free tools for intelligence gathering, corporate research, network analysis, economic intelligence, and real-time situational awareness. No sign-up required.</p>
               <div className="hero-stats">
                 <div>
-                  <div className="hero-stat-num">33</div>
+                  <div className="hero-stat-num">38</div>
                   <div className="hero-stat-label">Live Tools</div>
                 </div>
                 <div>
@@ -359,7 +365,7 @@ export default function OSINTHub() {
         <footer>
           <div className="footer-inner">
             <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
-            <div className="footer-copy">OSINT Hub · <span style={{color:'#1e9eff'}}>33 Live Tools</span></div>
+            <div className="footer-copy">OSINT Hub · <span style={{color:'#1e9eff'}}>38 Live Tools</span></div>
           </div>
         </footer>
       </div>
