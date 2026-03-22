@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   try {
     const clean = url.trim().replace(/^https?:\/\//, '');
     const res = await fetch(
-      `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(clean)}&output=json&limit=50&fl=timestamp,statuscode,mimetype&collapse=timestamp:8&filter=statuscode:200&reverse=on`,
+      `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(clean)}&output=json&limit=100&fl=timestamp,statuscode,mimetype&reverse=on`,
       { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(25000) }
     );
     if (!res.ok) throw new Error('Wayback Machine unavailable');

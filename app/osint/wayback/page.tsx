@@ -14,6 +14,7 @@ export default function WaybackMachine() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [targetUrl, setTargetUrl] = useState('');
+  const [sortDir, setSortDir] = useState<'desc' | 'asc'>('desc');
 
   const search = async () => {
     if (!url.trim()) return;
@@ -53,6 +54,7 @@ export default function WaybackMachine() {
   };
 
   const archiveUrl = (ts: string) => `https://web.archive.org/web/${ts}/${targetUrl}`;
+  const displayed = sortDir === 'desc' ? snapshots : [...snapshots].reverse();
 
   const statusColor = (code: string) => {
     if (code.startsWith('2')) return '#1e9eff';
@@ -103,6 +105,9 @@ export default function WaybackMachine() {
         .result-meta span { color: #1e9eff; }
         .snapshot-table { width: 100%; border-collapse: collapse; }
         .snapshot-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(30,158,255,0.12); background: rgba(30,158,255,0.03); }
+        .th-sort { cursor: pointer; user-select: none; transition: color 0.2s; }
+        .th-sort:hover { color: #1e9eff; }
+        .sort-arrow { margin-left: 6px; color: #1e9eff; }
         .snapshot-table td { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #c0cfe0; padding: 12px 16px; border-bottom: 1px solid rgba(30,158,255,0.05); letter-spacing: 0.5px; }
         .snapshot-table tr:hover td { background: rgba(30,158,255,0.03); }
         .snapshot-link { color: #1e9eff; text-decoration: none; letter-spacing: 2px; font-size: 9px; border: 1px solid rgba(30,158,255,0.3); padding: 4px 10px; transition: all 0.2s; }
@@ -221,14 +226,16 @@ export default function WaybackMachine() {
               <table className="snapshot-table">
                 <thead>
                   <tr>
-                    <th>Captured</th>
+                    <th className="th-sort" onClick={() => setSortDir(d => d === 'desc' ? 'asc' : 'desc')}>
+                      Captured<span className="sort-arrow">{sortDir === 'desc' ? '↓' : '↑'}</span>
+                    </th>
                     <th>Status</th>
                     <th>Type</th>
                     <th>Archive</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {snapshots.map((s, i) => (
+                  {displayed.map((s, i) => (
                     <tr key={i}>
                       <td>{formatTs(s.timestamp)}</td>
                       <td style={{color: statusColor(s.statuscode)}}>{s.statuscode}</td>
