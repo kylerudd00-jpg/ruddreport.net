@@ -47,12 +47,12 @@ export default function EntitySearch() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; }
+        .nav-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: #1e9eff; }
@@ -60,54 +60,54 @@ export default function EntitySearch() {
         .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
+        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; }
         .search-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
+        .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
         .search-input::placeholder { color: #3d5870; }
-        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
         .results-wrap { padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; }
-        .error-msg { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #ff3a3a; padding: 20px 0; }
-        .not-found { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; padding: 20px 0; text-transform: uppercase; }
+        .error-msg { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #ff3a3a; padding: 20px 0; }
+        .not-found { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; padding: 20px 0; text-transform: uppercase; }
         .entity-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); border-top: 2px solid #1e9eff; padding: 32px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start; margin-bottom: 24px; }
-        .entity-title { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
-        .entity-desc { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; }
+        .entity-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+        .entity-desc { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; }
         .entity-extract { font-size: 14px; font-weight: 300; color: #7a9bb5; line-height: 1.9; margin-bottom: 20px; }
-        .entity-wiki-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .entity-wiki-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .entity-wiki-link:hover { color: #4db8ff; }
         .entity-thumb { width: 140px; height: 140px; object-fit: cover; border: 1px solid rgba(30,158,255,0.2); flex-shrink: 0; }
         .suggestions { margin-bottom: 24px; }
-        .suggestions-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
+        .suggestions-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
         .suggestions-list { display: flex; gap: 8px; flex-wrap: wrap; }
-        .suggestion-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #7a9bb5; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 6px 14px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .suggestion-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #7a9bb5; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 6px 14px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .suggestion-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
         .osint-section { margin-top: 4px; }
-        .osint-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
+        .osint-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .osint-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-        .osint-link { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 16px 20px; text-decoration: none; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #7a9bb5; text-transform: uppercase; transition: all 0.3s; display: block; }
+        .osint-link { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 16px 20px; text-decoration: none; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #7a9bb5; text-transform: uppercase; transition: all 0.3s; display: block; }
         .osint-link:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); background: #0f1e2e; }
         .osint-link-arrow { color: #3d5870; margin-left: 4px; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
+        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        .loading { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #1e9eff; animation: pulse 1s infinite; padding: 20px 0; }
+        .loading { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #1e9eff; animation: pulse 1s infinite; padding: 20px 0; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
@@ -159,7 +159,7 @@ export default function EntitySearch() {
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
               <div className="tool-eyebrow-line" />
-              <div className="tool-eyebrow-text">// OSINT Hub — Entity Intelligence</div>
+              <div className="tool-eyebrow-text">OSINT Hub — Entity Intelligence</div>
             </div>
             <div className="tool-title">Entity Search</div>
             <p className="tool-desc">Search any person, organization, or topic. Pulls a Wikipedia profile summary and surfaces quick-launch links to cross-reference against news archives, corporate registries, sanctions databases, court records, and more.</p>
@@ -182,11 +182,11 @@ export default function EntitySearch() {
         </div>
 
         <div className="results-wrap">
-          {loading && <div className="loading">// Querying intelligence sources...</div>}
-          {error && <div className="error-msg">// Error: {error}</div>}
+          {loading && <div className="loading">Querying intelligence sources...</div>}
+          {error && <div className="error-msg">Error: {error}</div>}
 
           {result && !result.found && !loading && (
-            <div className="not-found">// No Wikipedia profile found — try the cross-reference links below</div>
+            <div className="not-found">No Wikipedia profile found — try the cross-reference links below</div>
           )}
 
           {result?.found && (
@@ -210,7 +210,7 @@ export default function EntitySearch() {
 
               {result.suggestions && result.suggestions.length > 0 && (
                 <div className="suggestions">
-                  <div className="suggestions-label">// Related results</div>
+                  <div className="suggestions-label">Related results</div>
                   <div className="suggestions-list">
                     {result.suggestions.map((s, i) => (
                       <button key={i} className="suggestion-btn" onClick={() => { setQuery(s); }}>
@@ -225,7 +225,7 @@ export default function EntitySearch() {
 
           {(result || query) && !loading && (
             <div className="osint-section">
-              <div className="osint-label">// Cross-reference in external databases</div>
+              <div className="osint-label">Cross-reference in external databases</div>
               <div className="osint-grid">
                 {OSINT_LINKS(result?.title || query).map((l, i) => (
                   <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" className="osint-link">
@@ -240,7 +240,7 @@ export default function EntitySearch() {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
-            <div className="footer-classify">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+            
           </div>
         </footer>
       </div>

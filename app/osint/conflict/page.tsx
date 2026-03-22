@@ -1350,13 +1350,13 @@ useEffect(() => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
 
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #fff; text-transform: uppercase; }
+        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; font-style: italic; letter-spacing: 0.5px; color: #fff; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: #1e9eff; }
@@ -1364,41 +1364,41 @@ useEffect(() => {
         .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         /* TICKER */
         .ticker-wrap { position: sticky; top: 70px; z-index: 99; border-top: 1px solid rgba(255,58,58,0.2); border-bottom: 1px solid rgba(255,58,58,0.2); background: rgba(3,6,8,0.95); padding: 9px 0; overflow: hidden; backdrop-filter: blur(10px); }
-        .ticker-label { position: absolute; left: 0; top: 0; bottom: 0; background: #ff3a3a; display: flex; align-items: center; padding: 0 20px; font-family: 'Orbitron', monospace; font-size: 9px; font-weight: 700; letter-spacing: 3px; color: #000; z-index: 2; text-transform: uppercase; white-space: nowrap; }
+        .ticker-label { position: absolute; left: 0; top: 0; bottom: 0; background: #ff3a3a; display: flex; align-items: center; padding: 0 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 3px; color: #000; z-index: 2; text-transform: uppercase; white-space: nowrap; }
         .ticker-track { display: flex; animation: ticker 60s linear infinite; padding-left: 160px; }
         .ticker-track:hover { animation-play-state: paused; }
-        .ticker-item { white-space: nowrap; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; letter-spacing: 1px; padding: 0 40px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: color 0.2s; text-decoration: none; }
+        .ticker-item { white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #c0cfe0; letter-spacing: 1px; padding: 0 40px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: color 0.2s; text-decoration: none; }
         .ticker-item:hover { color: #ff3a3a; }
         .ticker-item::after { content: '//'; color: #ff3a3a; opacity: 0.4; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         .page-wrap { padding-top: 70px; min-height: 100vh; }
         .back-bar { padding: 14px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; align-items: center; justify-content: space-between; }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
-        .live-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+        .live-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
         .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #1e9eff; box-shadow: 0 0 6px #1e9eff; animation: blink 2s infinite; }
 
         .tool-hero { padding: 36px 40px 28px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1500px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-        .tool-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #ff3a3a; text-transform: uppercase; margin-bottom: 10px; }
-        .tool-title { font-family: 'Orbitron', monospace; font-size: clamp(24px, 3vw, 42px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .tool-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #ff3a3a; text-transform: uppercase; margin-bottom: 10px; }
+        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(24px, 3vw, 42px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
         .tool-desc { font-size: 14px; font-weight: 300; color: #7a9bb5; line-height: 1.7; max-width: 600px; }
         .hero-stats { display: flex; gap: 32px; }
         .hero-stat { text-align: right; }
-        .hero-stat-num { font-family: 'Orbitron', monospace; font-size: 32px; font-weight: 700; }
+        .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 700; }
         .hero-stat-num.red { color: #ff3a3a; }
         .hero-stat-num.orange { color: #ffaa00; }
         .hero-stat-num.blue { color: #1e9eff; }
-        .hero-stat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .hero-stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
 
         .filters { display: flex; gap: 2px; padding: 14px 40px; max-width: 1500px; margin: 0 auto; }
-        .filter-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .filter-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .filter-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
         .filter-btn.active { color: #ff3a3a; border-color: rgba(255,58,58,0.5); background: rgba(255,58,58,0.06); }
         .filter-btn.active-orange { color: #ffaa00; border-color: rgba(255,170,0,0.5); background: rgba(255,170,0,0.06); }
@@ -1413,41 +1413,41 @@ useEffect(() => {
         .conflict-item.active { background: #0a1520; border-left: 2px solid #ff3a3a; }
         .conflict-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
         .conflict-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #c0cfe0; }
-        .intensity-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; padding: 2px 6px; text-transform: uppercase; }
+        .intensity-badge { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; padding: 2px 6px; text-transform: uppercase; }
         .intensity-high { color: #ff3a3a; border: 1px solid rgba(255,58,58,0.4); background: rgba(255,58,58,0.08); }
         .intensity-medium { color: #ffaa00; border: 1px solid rgba(255,170,0,0.4); background: rgba(255,170,0,0.08); }
-        .conflict-status { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 6px; }
-        .conflict-acled { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #1e9eff; margin-bottom: 6px; }
+        .conflict-status { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 6px; }
+        .conflict-acled { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #1e9eff; margin-bottom: 6px; }
         .conflict-tags { display: flex; flex-wrap: wrap; gap: 3px; }
-        .conflict-tag { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #3d5870; border: 1px solid rgba(30,158,255,0.08); padding: 1px 5px; }
+        .conflict-tag { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #3d5870; border: 1px solid rgba(30,158,255,0.08); padding: 1px 5px; }
 
         .map-wrap { position: relative; border: 1px solid rgba(30,158,255,0.08); }
         #conflict-map { width: 100%; height: 700px; background: #030608; }
         .map-overlay { position: absolute; top: 12px; left: 12px; z-index: 500; }
-        .map-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; background: rgba(3,6,8,0.85); border: 1px solid rgba(30,158,255,0.2); padding: 6px 12px; }
+        .map-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; background: rgba(3,6,8,0.85); border: 1px solid rgba(30,158,255,0.2); padding: 6px 12px; }
         .map-legend { position: absolute; bottom: 12px; left: 12px; z-index: 500; background: rgba(3,6,8,0.85); border: 1px solid rgba(30,158,255,0.12); padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
-        .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #7a9bb5; text-transform: uppercase; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #7a9bb5; text-transform: uppercase; }
         .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
 
         /* RIGHT PANEL */
         .right-panel { display: flex; flex-direction: column; gap: 2px; max-height: 700px; overflow-y: auto; }
         .detail-panel { border: 1px solid rgba(30,158,255,0.08); background: #070d12; flex: 1; overflow-y: auto; }
         .detail-header { padding: 18px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .detail-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #ff3a3a; text-transform: uppercase; margin-bottom: 8px; }
-        .detail-name { font-family: 'Orbitron', monospace; font-size: 15px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .detail-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #ff3a3a; text-transform: uppercase; margin-bottom: 8px; }
+        .detail-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         .detail-summary { font-size: 13px; font-weight: 300; color: #7a9bb5; line-height: 1.7; margin-bottom: 10px; }
         .detail-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-        .detail-tag { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.2); padding: 2px 7px; }
+        .detail-tag { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.2); padding: 2px 7px; }
         .news-section { padding: 14px 18px; }
-        .news-section-title { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+        .news-section-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
         .news-updated { color: #1e9eff; font-size: 9px; }
         .news-item { padding: 10px 0; border-bottom: 1px solid rgba(30,158,255,0.05); }
         .news-item:last-child { border-bottom: none; }
         .news-title { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; color: #c0cfe0; line-height: 1.3; margin-bottom: 3px; text-decoration: none; display: block; transition: color 0.2s; }
         .news-title:hover { color: #1e9eff; }
-        .news-meta { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
-        .news-empty { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; text-align: center; padding: 20px 0; }
-        .news-loading { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-align: center; padding: 20px 0; animation: blink 1s infinite; }
+        .news-meta { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
+        .news-empty { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; text-align: center; padding: 20px 0; }
+        .news-loading { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-align: center; padding: 20px 0; animation: blink 1s infinite; }
 
         /* BOTTOM SECTION */
         .bottom-section { max-width: 1500px; margin: 2px auto 0; padding: 0 40px 80px; display: grid; grid-template-columns: 1fr 340px; gap: 2px; }
@@ -1455,39 +1455,39 @@ useEffect(() => {
         /* GLOBAL NEWS FEED */
         .global-feed { border: 1px solid rgba(30,158,255,0.08); background: #070d12; }
         .panel-header { padding: 16px 20px; border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; align-items: center; justify-content: space-between; }
-        .panel-title { font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; }
-        .panel-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .panel-title { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; }
+        .panel-subtitle { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
         .feed-item { padding: 14px 20px; border-bottom: 1px solid rgba(30,158,255,0.05); transition: background 0.2s; }
         .feed-item:hover { background: #0a1520; }
         .feed-title { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; color: #c0cfe0; line-height: 1.3; margin-bottom: 4px; text-decoration: none; display: block; transition: color 0.2s; }
         .feed-title:hover { color: #1e9eff; }
-        .feed-meta { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
+        .feed-meta { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
         .feed-pagination { padding: 12px 20px; display: flex; align-items: center; gap: 8px; border-top: 1px solid rgba(30,158,255,0.08); }
-        .page-btn { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 5px 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+        .page-btn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 5px 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
         .page-btn:hover:not(:disabled) { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
         .page-btn:disabled { opacity: 0.3; cursor: default; }
-        .page-info { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; flex: 1; text-align: center; }
+        .page-info { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; flex: 1; text-align: center; }
 
         /* SPIKES PANEL */
         .spikes-panel { border: 1px solid rgba(30,158,255,0.08); background: #070d12; }
         .spike-item { padding: 14px 20px; border-bottom: 1px solid rgba(30,158,255,0.05); display: flex; align-items: center; justify-content: space-between; }
         .spike-country { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #c0cfe0; }
-        .spike-trend { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #ffaa00; }
-        .spike-count { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
-        .spike-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 2px 6px; text-transform: uppercase; }
+        .spike-trend { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ffaa00; }
+        .spike-count { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .spike-badge { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 2px 6px; text-transform: uppercase; }
 
         /* ACLED / STATS PANEL */
         .stats-panel { border: 1px solid rgba(30,158,255,0.08); background: #070d12; }
         .stat-row { padding: 12px 20px; border-bottom: 1px solid rgba(30,158,255,0.05); display: flex; align-items: center; justify-content: space-between; }
         .stat-country { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; color: #c0cfe0; }
-        .stat-value { font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 700; color: #ff3a3a; }
-        .stat-label { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #3d5870; text-align: right; }
+        .stat-value { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #ff3a3a; }
+        .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #3d5870; text-align: right; }
 
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; }
         .footer-bottom { max-width: 1500px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
+        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @keyframes markerPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.2); } }
@@ -1558,22 +1558,22 @@ useEffect(() => {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div>
-              <div className="tool-eyebrow">// OSINT Hub — Conflict Intelligence</div>
+              <div className="tool-eyebrow">OSINT Hub — Conflict Intelligence</div>
               <div className="tool-title">Conflict Tracker</div>
               <p className="tool-desc">Real-time mapping of active conflict zones with live news from GDELT's global media index, ACLED incident data, and AI-flagged emerging threats. Auto-refreshes every 5 minutes.</p>
             </div>
             <div className="hero-stats">
               <div className="hero-stat">
                 <div className="hero-stat-num red">{CONFLICTS.filter(c => c.intensity === 'high').length}</div>
-                <div className="hero-stat-label">// High Intensity</div>
+                <div className="hero-stat-label">High Intensity</div>
               </div>
               <div className="hero-stat">
                 <div className="hero-stat-num orange">{CONFLICTS.filter(c => c.intensity === 'medium').length}</div>
-                <div className="hero-stat-label">// Elevated</div>
+                <div className="hero-stat-label">Elevated</div>
               </div>
               <div className="hero-stat">
                 <div className="hero-stat-num blue">{spikes.length}</div>
-                <div className="hero-stat-label">// Emerging Threats</div>
+                <div className="hero-stat-label">Emerging Threats</div>
               </div>
             </div>
           </div>
@@ -1604,7 +1604,7 @@ useEffect(() => {
                 </div>
                 <div className="conflict-status">● {c.status}</div>
                 {acledData[c.acledCountry] && (
-                  <div className="conflict-acled">// {acledData[c.acledCountry]} incidents / 30d</div>
+                  <div className="conflict-acled">{acledData[c.acledCountry]} incidents / 30d</div>
                 )}
                 <div className="conflict-tags">{c.tags.map(t => <span key={t} className="conflict-tag">{t}</span>)}</div>
               </div>
@@ -1613,7 +1613,7 @@ useEffect(() => {
 
           {/* Map */}
           <div className="map-wrap">
-            <div className="map-overlay"><div className="map-label">// Live Conflict Map</div></div>
+            <div className="map-overlay"><div className="map-label">Live Conflict Map</div></div>
             <div id="conflict-map" ref={mapRef} />
             <div className="map-legend">
               <div className="legend-item"><div className="legend-dot" style={{ background: '#ff3a3a', boxShadow: '0 0 6px #ff3a3a' }} /> High Intensity</div>
@@ -1627,20 +1627,20 @@ useEffect(() => {
               {selected ? (
                 <>
                   <div className="detail-header">
-                    <div className="detail-eyebrow">// Active Zone</div>
+                    <div className="detail-eyebrow">Active Zone</div>
                     <div className="detail-name">{selected.name}</div>
                     <div className="detail-summary">{selected.summary}</div>
                     <div className="detail-tags">{selected.tags.map(t => <span key={t} className="detail-tag">{t}</span>)}</div>
                   </div>
                   <div className="news-section">
                     <div className="news-section-title">
-                      <span>// Recent Coverage</span>
+                      <span>Recent Coverage</span>
                       {lastUpdated && <span className="news-updated">{lastUpdated}</span>}
                     </div>
                     {newsLoading ? (
-                      <div className="news-loading">// Pulling GDELT feed...</div>
+                      <div className="news-loading">Pulling GDELT feed...</div>
                     ) : news.length === 0 ? (
-                      <div className="news-empty">// No recent articles found</div>
+                      <div className="news-empty">No recent articles found</div>
                     ) : news.map((a, i) => (
                       <div key={i} className="news-item">
                         <a className="news-title" href={a.url} target="_blank" rel="noopener noreferrer">{a.title}</a>
@@ -1650,7 +1650,7 @@ useEffect(() => {
                   </div>
                 </>
               ) : (
-                <div className="news-empty" style={{ padding: 40 }}>// Select a conflict zone</div>
+                <div className="news-empty" style={{ padding: 40 }}>Select a conflict zone</div>
               )}
             </div>
           </div>
@@ -1664,12 +1664,12 @@ useEffect(() => {
             <div className="panel-header">
               <div>
                 <div className="panel-title">Global Conflict Feed</div>
-                <div className="panel-subtitle">// GDELT — Updated every 10 min</div>
+                <div className="panel-subtitle">GDELT — Updated every 10 min</div>
               </div>
               <button className="page-btn" onClick={fetchGlobalNews}>↺ Refresh</button>
             </div>
             {globalLoading ? (
-              <div className="news-loading" style={{ padding: 30 }}>// Pulling global feed...</div>
+              <div className="news-loading" style={{ padding: 30 }}>Pulling global feed...</div>
             ) : pagedNews.map((a, i) => (
               <div key={i} className="feed-item">
                 <a className="feed-title" href={a.url} target="_blank" rel="noopener noreferrer">{a.title}</a>
@@ -1692,11 +1692,11 @@ useEffect(() => {
             <div className="panel-header">
               <div>
                 <div className="panel-title">Incident Data</div>
-                <div className="panel-subtitle">// ACLED — 30-day counts</div>
+                <div className="panel-subtitle">ACLED — 30-day counts</div>
               </div>
             </div>
             {Object.keys(acledData).length === 0 ? (
-              <div className="news-empty" style={{ padding: 30 }}>// ACLED data loading...</div>
+              <div className="news-empty" style={{ padding: 30 }}>ACLED data loading...</div>
             ) : Object.entries(acledData).slice(0, 12).map(([country, count]) => (
               <div key={country} className="stat-row">
                 <div className="stat-country">{country}</div>
@@ -1712,7 +1712,7 @@ useEffect(() => {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
-            <div className="footer-classify">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+            
           </div>
         </footer>
       </div>

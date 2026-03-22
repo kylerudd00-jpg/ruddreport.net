@@ -193,12 +193,12 @@ export default function PhoneLookup() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #fff; text-transform: uppercase; }
+        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; font-style: italic; letter-spacing: 0.5px; color: #fff; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: #1e9eff; }
@@ -206,63 +206,63 @@ export default function PhoneLookup() {
         .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 1100; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .hero { padding: 48px 40px 36px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .hero-inner { max-width: 1200px; margin: 0 auto; }
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
-        .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
+        .hero-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
         .hero-title span { color: #1e9eff; }
         .hero-sub { font-size: 14px; font-weight: 300; color: #7a9bb5; max-width: 600px; line-height: 1.7; }
         .tool-section { padding: 32px 40px 48px; max-width: 920px; margin: 0 auto; }
         .search-row { display: flex; gap: 2px; margin-bottom: 8px; }
-        .search-input { flex: 1; background: #0a1520; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 15px 22px; font-family: 'Share Tech Mono', monospace; font-size: 16px; color: #d8e8f5; letter-spacing: 3px; }
+        .search-input { flex: 1; background: #0a1520; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 15px 22px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #d8e8f5; letter-spacing: 3px; }
         .search-input::placeholder { color: #3d5870; letter-spacing: 1px; }
         .search-input:focus { border-color: rgba(30,158,255,0.5); }
-        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 15px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 15px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .hint { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; margin-bottom: 24px; }
+        .hint { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; margin-bottom: 24px; }
         .hint span { color: #1e9eff; }
-        .error-bar { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.2); padding: 12px 18px; margin-bottom: 20px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; }
+        .error-bar { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.2); padding: 12px 18px; margin-bottom: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; }
         .result-card { border: 1px solid rgba(30,158,255,0.2); background: #0a1520; }
         .result-header { padding: 22px 28px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); }
-        .result-number { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; margin-bottom: 12px; }
+        .result-number { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; margin-bottom: 12px; }
         .result-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-        .badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; padding: 4px 12px; text-transform: uppercase; border: 1px solid; }
+        .badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; padding: 4px 12px; text-transform: uppercase; border: 1px solid; }
         .badge-valid { color: #00ff88; border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.06); }
         .badge-invalid { color: #ff3a3a; border-color: rgba(255,58,58,0.3); background: rgba(255,58,58,0.06); }
         .badge-possible { color: #f59e0b; border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.06); }
-        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 12px 28px 8px; background: rgba(30,158,255,0.03); border-top: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.06); }
+        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 12px 28px 8px; background: rgba(30,158,255,0.03); border-top: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.06); }
         .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
         .info-field { padding: 16px 28px; border-bottom: 1px solid rgba(30,158,255,0.06); border-right: 1px solid rgba(30,158,255,0.06); }
         .info-field:nth-child(3n) { border-right: none; }
         .info-field.two { grid-column: span 2; }
         .info-field.full { grid-column: 1/-1; border-right: none; }
-        .field-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 6px; }
-        .field-value { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; word-break: break-word; line-height: 1.4; }
+        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 6px; }
+        .field-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #c0cfe0; word-break: break-word; line-height: 1.4; }
         .field-value.cyan { color: #00ffff; } .field-value.green { color: #00ff88; }
         .field-value.amber { color: #f59e0b; } .field-value.blue { color: #1e9eff; }
         .field-value.muted { color: #3d5870; font-size: 11px; }
         .use-block { margin: 0 28px 16px; padding: 14px 18px; background: #050d14; border-left: 3px solid; margin-top: 14px; }
-        .use-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 4px; }
+        .use-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 4px; }
         .use-value { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 600; }
-        .carrier-note { padding: 14px 28px 0; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #3d5870; line-height: 1.7; }
+        .carrier-note { padding: 14px 28px 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #3d5870; line-height: 1.7; }
         .carrier-note a { color: #1e9eff; text-decoration: none; }
         .osint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 16px 28px 20px; }
         .osint-link { display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; background: #050d14; border: 1px solid rgba(30,158,255,0.1); text-decoration: none; transition: all 0.2s; }
         .osint-link:hover { border-color: rgba(30,158,255,0.3); background: rgba(30,158,255,0.05); }
         .osint-link-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 600; color: #c0cfe0; }
-        .osint-link-desc { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
-        .osint-link-arrow { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #1e9eff; margin-top: 6px; }
-        .privacy-note { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; padding: 12px 28px 18px; border-top: 1px solid rgba(30,158,255,0.06); line-height: 1.8; }
+        .osint-link-desc { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
+        .osint-link-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #1e9eff; margin-top: 6px; }
+        .privacy-note { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; padding: 12px 28px 18px; border-top: 1px solid rgba(30,158,255,0.06); line-height: 1.8; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 32px 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
+        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
           .hero { padding: 32px 20px; } .tool-section { padding: 20px 20px 32px; }
@@ -297,7 +297,7 @@ export default function PhoneLookup() {
 
         <div className="hero">
           <div className="hero-inner">
-            <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">// Identity Intelligence</div></div>
+            <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">Identity Intelligence</div></div>
             <div className="hero-title">Phone Number <span>OSINT</span></div>
             <p className="hero-sub">Identify a number's country, line type, area code location, and likely use — personal, business, or virtual. Runs entirely in your browser, then launch into carrier lookup and OSINT databases for deeper investigation.</p>
           </div>
@@ -334,7 +334,7 @@ export default function PhoneLookup() {
                 </div>
               )}
 
-              <div className="section-label">// Number Intelligence</div>
+              <div className="section-label">Number Intelligence</div>
               <div className="info-grid">
                 <div className="info-field two">
                   <div className="field-label">Country</div>
@@ -360,7 +360,7 @@ export default function PhoneLookup() {
                 </div>
               </div>
 
-              <div className="section-label">// Number Formats</div>
+              <div className="section-label">Number Formats</div>
               <div className="info-grid">
                 <div className="info-field full">
                   <div className="field-label">International Format</div>
@@ -380,7 +380,7 @@ export default function PhoneLookup() {
                 </div>
               </div>
 
-              <div className="section-label">// Carrier & Identity Lookup</div>
+              <div className="section-label">Carrier & Identity Lookup</div>
               <div className="osint-grid">
                 <a className="osint-link" href={`https://www.truecaller.com/search/${result.country?.toLowerCase()}/${result.nationalNumber}`} target="_blank" rel="noopener noreferrer">
                   <div className="osint-link-name">TrueCaller</div>
@@ -438,7 +438,7 @@ export default function PhoneLookup() {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
-            <div className="footer-classify">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+            
           </div>
         </footer>
       </div>

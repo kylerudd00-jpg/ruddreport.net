@@ -158,12 +158,12 @@ export default function FlightTracker() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #fff; text-transform: uppercase; }
+        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; font-style: italic; letter-spacing: 0.5px; color: #fff; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: #1e9eff; }
@@ -171,29 +171,29 @@ export default function FlightTracker() {
         .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 1100; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .hero { padding: 48px 40px 36px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .hero-inner { max-width: 1200px; margin: 0 auto; }
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
-        .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
+        .hero-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
         .hero-title span { color: #1e9eff; }
         .hero-sub { font-size: 14px; font-weight: 300; color: #7a9bb5; margin-bottom: 24px; max-width: 560px; line-height: 1.7; }
         .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
         .hero-stat { display: flex; flex-direction: column; gap: 3px; }
-        .hero-stat-num { font-family: 'Orbitron', monospace; font-size: 26px; font-weight: 700; color: #1e9eff; }
-        .hero-stat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: #1e9eff; }
+        .hero-stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
         .tool-section { padding: 24px 40px 40px; max-width: 1200px; margin: 0 auto; }
         .controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
         .search-box { display: flex; flex: 1; min-width: 200px; border: 1px solid rgba(30,158,255,0.2); background: #0a1520; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 11px 18px; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #d8e8f5; letter-spacing: 1px; }
+        .search-input { flex: 1; background: none; border: none; outline: none; padding: 11px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d8e8f5; letter-spacing: 1px; }
         .search-input::placeholder { color: #3d5870; }
-        .refresh-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.25); padding: 10px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
+        .refresh-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.25); padding: 10px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
         .refresh-btn:hover { background: rgba(30,158,255,0.08); }
-        .countdown-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; white-space: nowrap; }
+        .countdown-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; white-space: nowrap; }
         .content-grid { display: grid; grid-template-columns: 1fr 360px; gap: 2px; }
         .map-panel { background: #050d14; border: 1px solid rgba(30,158,255,0.15); position: relative; isolation: isolate; }
         .map-inner { width: 100%; height: 580px; display: block; position: relative; }
@@ -201,48 +201,48 @@ export default function FlightTracker() {
         .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; }
         .leaflet-tile { visibility: hidden; } .leaflet-tile-loaded { visibility: inherit; }
         .map-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #050d14; z-index: 2; }
-        .map-loading-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
-        .fl-tooltip { background: rgba(5,13,20,0.95) !important; border: 1px solid rgba(30,158,255,0.3) !important; color: #1e9eff !important; font-family: 'Share Tech Mono', monospace !important; font-size: 10px !important; letter-spacing: 2px !important; padding: 4px 10px !important; border-radius: 0 !important; box-shadow: none !important; }
+        .map-loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .fl-tooltip { background: rgba(5,13,20,0.95) !important; border: 1px solid rgba(30,158,255,0.3) !important; color: #1e9eff !important; font-family: 'IBM Plex Mono', monospace !important; font-size: 10px !important; letter-spacing: 2px !important; padding: 4px 10px !important; border-radius: 0 !important; box-shadow: none !important; }
         .fl-tooltip::before { display: none !important; }
         .info-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); display: flex; flex-direction: column; overflow-y: auto; max-height: 580px; }
         .info-header { padding: 16px 20px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); flex-shrink: 0; }
-        .info-header-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; margin-bottom: 6px; }
-        .info-callsign { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; word-break: break-all; }
-        .info-icao { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #3d5870; margin-top: 4px; letter-spacing: 2px; }
-        .status-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; }
+        .info-header-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; margin-bottom: 6px; }
+        .info-callsign { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; word-break: break-all; }
+        .info-icao { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #3d5870; margin-top: 4px; letter-spacing: 2px; }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; }
         .status-badge.air { color: #1e9eff; } .status-badge.ground { color: #3d5870; }
         .status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
         .status-badge.air .status-dot { box-shadow: 0 0 6px #1e9eff; animation: pulse 2s infinite; }
-        .info-section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 10px 20px 6px; background: rgba(30,158,255,0.03); border-bottom: 1px solid rgba(30,158,255,0.06); border-top: 1px solid rgba(30,158,255,0.06); flex-shrink: 0; }
+        .info-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 10px 20px 6px; background: rgba(30,158,255,0.03); border-bottom: 1px solid rgba(30,158,255,0.06); border-top: 1px solid rgba(30,158,255,0.06); flex-shrink: 0; }
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; }
         .info-field { padding: 10px 20px; border-bottom: 1px solid rgba(30,158,255,0.05); border-right: 1px solid rgba(30,158,255,0.05); }
         .info-field:nth-child(even) { border-right: none; }
         .info-field.full { grid-column: 1/-1; border-right: none; }
-        .field-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 4px; }
-        .field-value { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #c0cfe0; word-break: break-word; line-height: 1.4; }
+        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 4px; }
+        .field-value { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #c0cfe0; word-break: break-word; line-height: 1.4; }
         .field-value.cyan { color: #00ffff; } .field-value.green { color: #00ff88; }
         .field-value.amber { color: #f59e0b; } .field-value.red { color: #ff3a3a; }
         .field-value.blue { color: #1e9eff; }
-        .loading-row { padding: 14px 20px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; animation: pulse 1.5s infinite; }
+        .loading-row { padding: 14px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; animation: pulse 1.5s infinite; }
         .route-airport { display: flex; flex-direction: column; gap: 2px; }
-        .route-iata { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: #1e9eff; }
-        .route-name { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #7a9bb5; letter-spacing: 1px; }
-        .route-city { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #3d5870; letter-spacing: 1px; }
-        .route-arrow { display: flex; align-items: center; justify-content: center; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 16px; color: #3d5870; border-bottom: 1px solid rgba(30,158,255,0.05); }
+        .route-iata { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #1e9eff; }
+        .route-name { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a9bb5; letter-spacing: 1px; }
+        .route-city { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #3d5870; letter-spacing: 1px; }
+        .route-arrow { display: flex; align-items: center; justify-content: center; padding: 12px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #3d5870; border-bottom: 1px solid rgba(30,158,255,0.05); }
         .no-selection { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 12px; padding: 40px 20px; text-align: center; }
         .no-selection-icon { font-size: 32px; opacity: 0.2; }
-        .no-selection-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; line-height: 1.8; }
-        .error-bar { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.2); padding: 10px 16px; margin-bottom: 12px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; }
+        .no-selection-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; line-height: 1.8; }
+        .error-bar { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.2); padding: 10px 16px; margin-bottom: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; }
         .legend { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
-        .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
         .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-        .credit { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; margin-top: 8px; }
+        .credit { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; margin-top: 8px; }
         .credit a { color: #1e9eff; text-decoration: none; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 32px 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
+        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.3;} }
         @media (max-width: 768px) {
           nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
@@ -278,13 +278,13 @@ export default function FlightTracker() {
 
         <div className="hero">
           <div className="hero-inner">
-            <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">// Aviation Intelligence</div></div>
+            <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">Aviation Intelligence</div></div>
             <div className="hero-title">Flight <span>Tracker</span></div>
             <p className="hero-sub">Live global air traffic via OpenSky Network. Click any aircraft for airline, aircraft type, registration, and origin/destination. Refreshes every 30 seconds.</p>
             <div className="hero-stats">
-              <div className="hero-stat"><div className="hero-stat-num">{loading ? '—' : stats.total.toLocaleString()}</div><div className="hero-stat-label">// Tracked</div></div>
-              <div className="hero-stat"><div className="hero-stat-num">{loading ? '—' : stats.airborne.toLocaleString()}</div><div className="hero-stat-label">// Airborne</div></div>
-              <div className="hero-stat"><div className="hero-stat-num">{loading ? '—' : stats.ground.toLocaleString()}</div><div className="hero-stat-label">// On Ground</div></div>
+              <div className="hero-stat"><div className="hero-stat-num">{loading ? '—' : stats.total.toLocaleString()}</div><div className="hero-stat-label">Tracked</div></div>
+              <div className="hero-stat"><div className="hero-stat-num">{loading ? '—' : stats.airborne.toLocaleString()}</div><div className="hero-stat-label">Airborne</div></div>
+              <div className="hero-stat"><div className="hero-stat-num">{loading ? '—' : stats.ground.toLocaleString()}</div><div className="hero-stat-label">On Ground</div></div>
             </div>
           </div>
         </div>
@@ -309,7 +309,7 @@ export default function FlightTracker() {
               {selected ? (
                 <>
                   <div className="info-header">
-                    <div className="info-header-label">// Selected Aircraft</div>
+                    <div className="info-header-label">Selected Aircraft</div>
                     <div className="info-callsign">{selected.callsign || 'No Callsign'}</div>
                     <div className="info-icao">ICAO24: {selected.icao24.toUpperCase()}</div>
                     <div className={`status-badge ${selected.onGround ? 'ground' : 'air'}`}>
@@ -321,7 +321,7 @@ export default function FlightTracker() {
                   {loadingAircraft && <div className="loading-row">Fetching aircraft data...</div>}
                   {(origin || dest) && (
                     <>
-                      <div className="info-section-label">// Route</div>
+                      <div className="info-section-label">Route</div>
                       <div style={{display:'grid', gridTemplateColumns:'1fr auto 1fr'}}>
                         <div className="info-field full" style={{gridColumn:'unset', borderRight:'1px solid rgba(30,158,255,0.05)'}}>
                           <div className="field-label">Origin</div>
@@ -347,7 +347,7 @@ export default function FlightTracker() {
                   {/* Aircraft */}
                   {(aircraftInfo || routeInfo) && (
                     <>
-                      <div className="info-section-label">// Aircraft & Airline</div>
+                      <div className="info-section-label">Aircraft & Airline</div>
                       <div className="info-grid">
                         {airline && <div className="info-field full"><div className="field-label">Airline / Operator</div><div className="field-value blue">{airline}</div></div>}
                         {aircraftInfo?.type && <div className="info-field full"><div className="field-label">Aircraft Type</div><div className="field-value cyan">{aircraftInfo.type}</div></div>}
@@ -361,7 +361,7 @@ export default function FlightTracker() {
                   )}
 
                   {/* Navigation */}
-                  <div className="info-section-label">// Navigation</div>
+                  <div className="info-section-label">Navigation</div>
                   <div className="info-grid">
                     <div className="info-field"><div className="field-label">Altitude</div><div className="field-value cyan">{selected.baroAlt > 0 ? `${mToFt(selected.baroAlt)} ft` : '—'}</div></div>
                     <div className="info-field"><div className="field-label">Alt (m)</div><div className="field-value">{selected.baroAlt > 0 ? `${Math.round(selected.baroAlt).toLocaleString()} m` : '—'}</div></div>
@@ -372,7 +372,7 @@ export default function FlightTracker() {
                   </div>
 
                   {/* Identification */}
-                  <div className="info-section-label">// Identification</div>
+                  <div className="info-section-label">Identification</div>
                   <div className="info-grid">
                     <div className="info-field full"><div className="field-label">Registered Country</div><div className="field-value">{selected.country || '—'}</div></div>
                     <div className="info-field"><div className="field-label">Squawk</div><div className="field-value">{selected.squawk || '—'}</div></div>
@@ -400,7 +400,7 @@ export default function FlightTracker() {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
-            <div className="footer-classify">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+            
           </div>
         </footer>
       </div>

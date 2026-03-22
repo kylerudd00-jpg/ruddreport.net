@@ -266,12 +266,12 @@ export default function VesselTracker() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #fff; text-transform: uppercase; }
+        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; font-style: italic; letter-spacing: 0.5px; color: #fff; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: #1e9eff; }
@@ -279,57 +279,57 @@ export default function VesselTracker() {
         .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 1100; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .hero { padding: 48px 40px 36px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .hero-inner { max-width: 1200px; margin: 0 auto; }
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
-        .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
+        .hero-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
         .hero-title span { color: #1e9eff; }
         .hero-sub { font-size: 14px; font-weight: 300; color: #7a9bb5; max-width: 600px; line-height: 1.7; }
         .tool-section { padding: 24px 40px 40px; max-width: 1200px; margin: 0 auto; }
         .live-map-wrap { position: relative; width: 100%; height: 520px; border: 1px solid rgba(30,158,255,0.15); background: #050d14; margin-bottom: 2px; overflow: hidden; }
-        .live-map-label { position: absolute; top: 12px; left: 12px; z-index: 10; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; background: rgba(3,6,8,0.85); padding: 5px 12px; border: 1px solid rgba(30,158,255,0.2); }
+        .live-map-label { position: absolute; top: 12px; left: 12px; z-index: 10; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; background: rgba(3,6,8,0.85); padding: 5px 12px; border: 1px solid rgba(30,158,255,0.2); }
         .live-map-inner { width: 100%; height: 100%; position: relative; isolation: isolate; }
         .live-map-inner .leaflet-container { position: relative !important; width: 100% !important; height: 100% !important; background: #050d14; }
         .live-map-inner .leaflet-pane { position: absolute; }
         .live-map-inner .leaflet-tile { position: absolute; }
         .live-map-inner .leaflet-tile-container { position: absolute; }
         .ais-nokey-bar { background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.2); padding: 16px 20px; margin-bottom: 2px; }
-        .ais-nokey-title { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #f59e0b; text-transform: uppercase; margin-bottom: 10px; }
-        .ais-nokey-steps { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a9bb5; line-height: 2; }
+        .ais-nokey-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #f59e0b; text-transform: uppercase; margin-bottom: 10px; }
+        .ais-nokey-steps { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a9bb5; line-height: 2; }
         .ais-nokey-steps a { color: #1e9eff; text-decoration: none; }
         .ais-nokey-steps code { color: #00ff88; }
-        .ws-legend { position: absolute; bottom: 10px; left: 10px; z-index: 10; display: flex; gap: 10px; flex-wrap: wrap; background: rgba(3,6,8,0.82); padding: 5px 10px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; }
+        .ws-legend { position: absolute; bottom: 10px; left: 10px; z-index: 10; display: flex; gap: 10px; flex-wrap: wrap; background: rgba(3,6,8,0.82); padding: 5px 10px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; }
         .mode-tabs { display: flex; gap: 2px; margin-bottom: 2px; }
-        .mode-tab { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 9px 20px; cursor: pointer; text-transform: uppercase; background: #0a1520; border: 1px solid rgba(30,158,255,0.15); color: #3d5870; transition: all 0.2s; }
+        .mode-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 9px 20px; cursor: pointer; text-transform: uppercase; background: #0a1520; border: 1px solid rgba(30,158,255,0.15); color: #3d5870; transition: all 0.2s; }
         .mode-tab.active { color: #1e9eff; background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.35); }
         .search-row { display: flex; gap: 2px; margin-bottom: 16px; }
-        .search-input { flex: 1; background: #0a1520; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 13px 20px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 2px; }
+        .search-input { flex: 1; background: #0a1520; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 13px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 2px; }
         .search-input::placeholder { color: #3d5870; }
-        .search-btn { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 13px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 13px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
         .result-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); }
-        .panel-section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 12px 22px 8px; background: rgba(30,158,255,0.03); border-bottom: 1px solid rgba(30,158,255,0.06); }
+        .panel-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 12px 22px 8px; background: rgba(30,158,255,0.03); border-bottom: 1px solid rgba(30,158,255,0.06); }
         .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
         .detail-field { padding: 14px 22px; border-bottom: 1px solid rgba(30,158,255,0.05); border-right: 1px solid rgba(30,158,255,0.05); }
         .detail-field:nth-child(3n) { border-right: none; }
         .detail-field.full { grid-column: 1/-1; border-right: none; }
         .detail-field.half { grid-column: span 1; }
         .detail-field.two { grid-column: span 2; }
-        .field-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 5px; }
-        .field-value { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; word-break: break-word; }
+        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 5px; }
+        .field-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #c0cfe0; word-break: break-word; }
         .field-value.cyan { color: #00ffff; } .field-value.green { color: #00ff88; }
         .field-value.amber { color: #f59e0b; } .field-value.blue { color: #1e9eff; }
         .field-value.red { color: #ff3a3a; } .field-value.purple { color: #a78bfa; }
         .vessel-header { padding: 20px 22px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); }
-        .vessel-name-big { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; word-break: break-all; margin-bottom: 8px; }
+        .vessel-name-big { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; word-break: break-all; margin-bottom: 8px; }
         .vessel-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-        .vessel-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 3px 10px; border: 1px solid; text-transform: uppercase; }
+        .vessel-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 3px 10px; border: 1px solid; text-transform: uppercase; }
         .badge-mmsi { color: #3d5870; border-color: rgba(30,158,255,0.2); }
         .badge-type { color: #f59e0b; border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.05); }
         .badge-flag { color: #00ff88; border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.05); }
@@ -337,33 +337,33 @@ export default function VesselTracker() {
         .result-item { padding: 12px 22px; border-bottom: 1px solid rgba(30,158,255,0.06); cursor: pointer; transition: background 0.2s; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
         .result-item:last-child { border-bottom: none; }
         .result-item:hover { background: rgba(30,158,255,0.06); }
-        .result-name { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #c0cfe0; }
-        .result-meta { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #3d5870; }
+        .result-name { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #c0cfe0; }
+        .result-meta { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #3d5870; }
         .mmsi-decode { padding: 22px; }
-        .mmsi-decode-title { font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
-        .mmsi-raw { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #3d5870; letter-spacing: 2px; margin-bottom: 16px; }
+        .mmsi-decode-title { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+        .mmsi-raw { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #3d5870; letter-spacing: 2px; margin-bottom: 16px; }
         .decode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 16px; }
         .decode-field { background: #050d14; padding: 12px 14px; }
         .decode-field.full { grid-column: 1/-1; }
         .ext-links-wrap { border-top: 1px solid rgba(30,158,255,0.08); padding-top: 16px; }
-        .ext-links-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
-        .ext-link { display: block; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-decoration: none; padding: 8px 0; border-bottom: 1px solid rgba(30,158,255,0.06); transition: color 0.2s; }
+        .ext-links-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
+        .ext-link { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-decoration: none; padding: 8px 0; border-bottom: 1px solid rgba(30,158,255,0.06); transition: color 0.2s; }
         .ext-link:last-child { border-bottom: none; }
         .ext-link:hover { color: #4db8ff; }
         .empty-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 20px; gap: 14px; text-align: center; }
         .empty-icon { font-size: 36px; opacity: 0.15; }
-        .empty-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; line-height: 1.9; }
-        .error-bar { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.2); padding: 10px 16px; margin-bottom: 12px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; }
+        .empty-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; line-height: 1.9; }
+        .error-bar { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.2); padding: 10px 16px; margin-bottom: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; }
         .nokey-notice { padding: 24px 22px; }
-        .nokey-title { font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 700; color: #f59e0b; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
-        .nokey-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a9bb5; line-height: 1.9; }
+        .nokey-title { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: #f59e0b; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .nokey-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a9bb5; line-height: 1.9; }
         .nokey-text a { color: #1e9eff; text-decoration: none; }
         .nokey-text code { color: #00ff88; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 32px 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
+        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
           .hero { padding: 32px 20px; } .tool-section { padding: 16px 20px 32px; }
@@ -398,7 +398,7 @@ export default function VesselTracker() {
 
         <div className="hero">
           <div className="hero-inner">
-            <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">// Maritime Intelligence</div></div>
+            <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">Maritime Intelligence</div></div>
             <div className="hero-title">Vessel <span>Tracker</span></div>
             <p className="hero-sub">Live global vessel tracking via AIS stream. Click any vessel on the map to decode its MMSI. Search by MMSI or name for flag state, cargo type, tonnage, route, and full AIS telemetry.</p>
           </div>
@@ -408,7 +408,7 @@ export default function VesselTracker() {
           {/* No-key notice */}
           {wsStatus === 'no-key' && (
             <div className="ais-nokey-bar">
-              <div className="ais-nokey-title">// Live AIS stream requires a free API key</div>
+              <div className="ais-nokey-title">Live AIS stream requires a free API key</div>
               <div className="ais-nokey-steps">
                 1. Sign up free at <a href="https://aisstream.io" target="_blank" rel="noopener noreferrer">aisstream.io</a> (no credit card — completely free)<br />
                 2. Copy your API key from the dashboard<br />
@@ -423,9 +423,9 @@ export default function VesselTracker() {
             <div className="live-map-label">
               {wsStatus === 'live'
                 ? `// Live AIS — ${vesselCount.toLocaleString()} vessels in view`
-                : wsStatus === 'connecting' ? '// Connecting to AIS stream...'
-                : wsStatus === 'no-key' ? '// OpenSeaMap — add AISSTREAM_API_KEY for live vessels'
-                : '// OpenSeaMap Nautical Chart'}
+                : wsStatus === 'connecting' ? 'Connecting to AIS stream...'
+                : wsStatus === 'no-key' ? 'OpenSeaMap — add AISSTREAM_API_KEY for live vessels'
+                : 'OpenSeaMap Nautical Chart'}
             </div>
             {wsStatus === 'live' && (
               <div className="ws-legend">
@@ -505,7 +505,7 @@ export default function VesselTracker() {
             {/* Results list */}
             {results && !noKey && results.length > 1 && !selected && (
               <div className="results-list">
-                <div className="panel-section-label">// Search Results — {results.length} vessels found</div>
+                <div className="panel-section-label">Search Results — {results.length} vessels found</div>
                 {results.map((v, i) => (
                   <div key={i} className="result-item" onClick={() => setSelected(v)}>
                     <div>
@@ -530,7 +530,7 @@ export default function VesselTracker() {
                   </div>
                 </div>
 
-                <div className="panel-section-label">// Identity & Registration</div>
+                <div className="panel-section-label">Identity & Registration</div>
                 <div className="detail-grid">
                   {selected.imo && <div className="detail-field"><div className="field-label">IMO Number</div><div className="field-value blue">{selected.imo}</div></div>}
                   {selected.callsign && <div className="detail-field"><div className="field-label">Call Sign</div><div className="field-value">{selected.callsign}</div></div>}
@@ -538,7 +538,7 @@ export default function VesselTracker() {
                   {selected.year_built && <div className="detail-field"><div className="field-label">Year Built</div><div className="field-value">{selected.year_built}</div></div>}
                 </div>
 
-                <div className="panel-section-label">// Vessel Class & Cargo</div>
+                <div className="panel-section-label">Vessel Class & Cargo</div>
                 <div className="detail-grid">
                   {vesselTypeLabel(selected) && <div className="detail-field two"><div className="field-label">Vessel Type</div><div className="field-value cyan">{vesselTypeLabel(selected)}</div></div>}
                   {cargoType(selected) && <div className="detail-field"><div className="field-label">Category</div><div className="field-value amber">{cargoType(selected)}</div></div>}
@@ -549,7 +549,7 @@ export default function VesselTracker() {
                   {selected.deadweight_tonnage != null && <div className="detail-field"><div className="field-label">Deadweight</div><div className="field-value purple">{selected.deadweight_tonnage?.toLocaleString()} DWT</div></div>}
                 </div>
 
-                <div className="panel-section-label">// Current Position & Voyage</div>
+                <div className="panel-section-label">Current Position & Voyage</div>
                 <div className="detail-grid">
                   {selected.status && <div className="detail-field full"><div className="field-label">Nav Status</div><div className="field-value green">{NAV_STATUS[selected.status] || selected.status}</div></div>}
                   {selected.speed != null && <div className="detail-field"><div className="field-label">Speed</div><div className="field-value green">{selected.speed} kts</div></div>}
@@ -562,7 +562,7 @@ export default function VesselTracker() {
                   {selected.last_position_UTC && <div className="detail-field full"><div className="field-label">Last AIS Update</div><div className="field-value" style={{fontSize:'11px'}}>{selected.last_position_UTC}</div></div>}
                 </div>
 
-                <div className="panel-section-label">// Live Tracking Links</div>
+                <div className="panel-section-label">Live Tracking Links</div>
                 <div style={{padding:'14px 22px', display:'flex', gap:'12px', flexWrap:'wrap'}}>
                   <a className="ext-link" style={{padding:'8px 16px', border:'1px solid rgba(30,158,255,0.25)', display:'inline-block'}} href={`https://www.marinetraffic.com/en/ais/details/ships/mmsi:${selected.mmsi}`} target="_blank" rel="noopener noreferrer">MarineTraffic →</a>
                   <a className="ext-link" style={{padding:'8px 16px', border:'1px solid rgba(30,158,255,0.25)', display:'inline-block'}} href={`https://www.vesselfinder.com/?mmsi=${selected.mmsi}`} target="_blank" rel="noopener noreferrer">VesselFinder →</a>
@@ -583,7 +583,7 @@ export default function VesselTracker() {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
-            <div className="footer-classify">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+            
           </div>
         </footer>
       </div>

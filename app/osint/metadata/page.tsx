@@ -12,7 +12,7 @@ export default function MetadataExtractor() {
 
   const processFile = async (file: File) => {
     if (!file.type.startsWith('image/')) {
-      setError('// File must be an image (JPEG, PNG, TIFF, HEIC, WebP)');
+      setError('File must be an image (JPEG, PNG, TIFF, HEIC, WebP)');
       return;
     }
     setLoading(true);
@@ -140,12 +140,12 @@ export default function MetadataExtractor() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; }
+        .nav-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: #1e9eff; }
@@ -153,63 +153,63 @@ export default function MetadataExtractor() {
         .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
+        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 300; color: #7a9bb5; line-height: 1.8; max-width: 700px; }
         .warning-bar { max-width: 1100px; margin: 24px auto 0; background: rgba(255,58,58,0.06); border: 1px solid rgba(255,58,58,0.2); padding: 14px 24px; display: flex; align-items: center; gap: 12px; }
-        .warning-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; text-transform: uppercase; }
+        .warning-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; text-transform: uppercase; }
         .upload-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .drop-zone { border: 2px dashed rgba(30,158,255,0.3); background: #0a1520; padding: 60px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; cursor: pointer; transition: all 0.3s; text-align: center; }
         .drop-zone:hover, .drop-zone.dragging { border-color: #1e9eff; background: #0f1e2e; }
         .drop-icon { color: #1e9eff; opacity: 0.6; }
-        .drop-title { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; }
-        .drop-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
-        .drop-formats { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.2); padding: 4px 14px; text-transform: uppercase; }
+        .drop-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; }
+        .drop-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .drop-formats { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.2); padding: 4px 14px; text-transform: uppercase; }
         .results { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
         .file-header { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 20px 28px; margin-bottom: 2px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
         .file-preview { width: 80px; height: 80px; object-fit: cover; border: 1px solid rgba(30,158,255,0.2); }
-        .file-name { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: #1e9eff; letter-spacing: 1px; margin-bottom: 6px; word-break: break-all; }
+        .file-name { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #1e9eff; letter-spacing: 1px; margin-bottom: 6px; word-break: break-all; }
         .file-meta { display: flex; gap: 16px; flex-wrap: wrap; }
-        .file-meta-item { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .file-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .file-meta-item span { color: #c0cfe0; }
         .gps-alert { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.3); padding: 20px 28px; margin-bottom: 2px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-        .gps-alert-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #ff3a3a; text-transform: uppercase; margin-bottom: 8px; }
-        .gps-alert-coords { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; color: #ff3a3a; }
-        .gps-alt { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #ff3a3a; opacity: 0.7; margin-top: 4px; letter-spacing: 2px; }
-        .gps-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #ff3a3a; border: 1px solid rgba(255,58,58,0.4); padding: 10px 20px; text-decoration: none; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
+        .gps-alert-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #ff3a3a; text-transform: uppercase; margin-bottom: 8px; }
+        .gps-alert-coords { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #ff3a3a; }
+        .gps-alt { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff3a3a; opacity: 0.7; margin-top: 4px; letter-spacing: 2px; }
+        .gps-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #ff3a3a; border: 1px solid rgba(255,58,58,0.4); padding: 10px 20px; text-decoration: none; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
         .gps-link:hover { background: rgba(255,58,58,0.1); }
         .intel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 2px; }
         .intel-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 24px; }
         .intel-card.highlight { border-color: rgba(30,158,255,0.2); background: #0a1f18; }
-        .intel-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
+        .intel-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
         .intel-value { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; line-height: 1.3; }
         .intel-value.green { color: #1e9eff; }
         .intel-value.blue { color: #1e9eff; }
         .intel-value.orange { color: #ffaa00; }
         .section-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); margin-bottom: 2px; }
         .section-head { padding: 14px 24px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .section-head-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; }
+        .section-head-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; }
         .field-rows { display: grid; grid-template-columns: repeat(2, 1fr); }
         .field-row { padding: 14px 24px; border-bottom: 1px solid rgba(30,158,255,0.04); border-right: 1px solid rgba(30,158,255,0.04); }
         .field-row:nth-child(even) { border-right: none; }
-        .field-key { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 6px; }
-        .field-val { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #c0cfe0; letter-spacing: 1px; word-break: break-all; }
+        .field-key { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 6px; }
+        .field-val { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #c0cfe0; letter-spacing: 1px; word-break: break-all; }
         .no-metadata { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 40px; text-align: center; }
-        .no-metadata-title { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
-        .no-metadata-sub { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #3d5870; line-height: 1.8; }
-        .error-msg { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff3a3a; padding: 20px 0; text-transform: uppercase; }
+        .no-metadata-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+        .no-metadata-sub { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #3d5870; line-height: 1.8; }
+        .error-msg { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff3a3a; padding: 20px 0; text-transform: uppercase; }
         .loading-wrap { display: flex; align-items: center; gap: 16px; padding: 40px 0; }
-        .loading-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; animation: blink 1.5s infinite; }
+        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; animation: blink 1.5s infinite; }
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
         .loading-bars span { width: 3px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
         .loading-bars span:nth-child(1) { animation-delay: 0s; }
@@ -219,9 +219,9 @@ export default function MetadataExtractor() {
         .loading-bars span:nth-child(5) { animation-delay: 0.6s; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
         .footer-copy span { color: #1e9eff; }
-        .footer-classify { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
+        .footer-classify { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; border: 1px solid rgba(30,158,255,0.12); padding: 5px 14px; text-transform: uppercase; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @keyframes loadBar { 0%, 100% { height: 4px; } 50% { height: 20px; } }
         @media (max-width: 768px) {
@@ -273,7 +273,7 @@ export default function MetadataExtractor() {
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
               <div className="tool-eyebrow-line" />
-              <div className="tool-eyebrow-text">// OSINT Hub — Image Intelligence</div>
+              <div className="tool-eyebrow-text">OSINT Hub — Image Intelligence</div>
             </div>
             <div className="tool-title">Metadata Extractor</div>
             <p className="tool-desc">Every photo contains hidden data — GPS coordinates, device model, timestamps, and more. Upload any image to reveal what's hiding inside. Runs entirely in your browser. Nothing leaves your device.</p>
@@ -294,7 +294,7 @@ export default function MetadataExtractor() {
           >
             <div className="drop-icon"><Camera size={48} strokeWidth={1} /></div>
             <div className="drop-title">Drop Image Here or Click to Upload</div>
-            <div className="drop-sub">// Your image never leaves your device</div>
+            <div className="drop-sub">Your image never leaves your device</div>
             <div className="drop-formats">JPEG · PNG · TIFF · HEIC · WebP · RAW</div>
           </div>
         </div>
@@ -303,7 +303,7 @@ export default function MetadataExtractor() {
           {loading && (
             <div className="loading-wrap">
               <div className="loading-bars"><span/><span/><span/><span/><span/></div>
-              <div className="loading-text">// Extracting metadata...</div>
+              <div className="loading-text">Extracting metadata...</div>
             </div>
           )}
           {error && <div className="error-msg">{error}</div>}
@@ -323,7 +323,7 @@ export default function MetadataExtractor() {
 
               {!intel ? (
                 <div className="no-metadata">
-                  <div className="no-metadata-title">// No Metadata Found</div>
+                  <div className="no-metadata-title">No Metadata Found</div>
                   <p className="no-metadata-sub">This image has no embedded metadata — it may have been stripped already,<br/>or it was a screenshot or web-exported image.</p>
                 </div>
               ) : (
@@ -331,7 +331,7 @@ export default function MetadataExtractor() {
                 {hasGPS && intel?.location && (
   <div className="gps-alert">
     <div>
-      <div className="gps-alert-label">// GPS Location Detected</div>
+      <div className="gps-alert-label">GPS Location Detected</div>
       <div className="gps-alert-coords">{intel.location.lat!.toFixed(6)}°, {intel.location.lon!.toFixed(6)}°</div>
       {intel.location.altitude && <div className="gps-alt">Altitude: {intel.location.altitude.toFixed(1)}m</div>}
     </div>
@@ -342,31 +342,31 @@ export default function MetadataExtractor() {
                   <div className="intel-grid">
                     {intel.device && (
                       <div className="intel-card highlight">
-                        <div className="intel-label">// Device</div>
+                        <div className="intel-label">Device</div>
                         <div className="intel-value blue">{intel.device}</div>
                       </div>
                     )}
                     {intel.datetime && (
                       <div className="intel-card">
-                        <div className="intel-label">// Date & Time Taken</div>
+                        <div className="intel-label">Date & Time Taken</div>
                         <div className="intel-value orange">{intel.datetime}</div>
                       </div>
                     )}
                     {intel.dimensions && (
                       <div className="intel-card">
-                        <div className="intel-label">// Resolution</div>
+                        <div className="intel-label">Resolution</div>
                         <div className="intel-value">{intel.dimensions}</div>
                       </div>
                     )}
                     {intel.software && (
                       <div className="intel-card">
-                        <div className="intel-label">// Software / OS</div>
+                        <div className="intel-label">Software / OS</div>
                         <div className="intel-value">{intel.software}</div>
                       </div>
                     )}
                     {intel.lens && (
                       <div className="intel-card">
-                        <div className="intel-label">// Lens</div>
+                        <div className="intel-label">Lens</div>
                         <div className="intel-value">{intel.lens}</div>
                       </div>
                     )}
@@ -375,7 +375,7 @@ export default function MetadataExtractor() {
                   {cameraFields.length > 0 && (
                     <div className="section-card">
                       <div className="section-head">
-                        <div className="section-head-label">// Camera Settings</div>
+                        <div className="section-head-label">Camera Settings</div>
                       </div>
                       <div className="field-rows">
                         {cameraFields.map(([key, val]) => (
@@ -391,7 +391,7 @@ export default function MetadataExtractor() {
                   {identityFields.length > 0 && (
                     <div className="section-card">
                       <div className="section-head">
-                        <div className="section-head-label">// Identity & Ownership</div>
+                        <div className="section-head-label">Identity & Ownership</div>
                       </div>
                       <div className="field-rows">
                         {identityFields.map(([key, val]) => (
@@ -412,7 +412,7 @@ export default function MetadataExtractor() {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
-            <div className="footer-classify">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+            
           </div>
         </footer>
       </div>
