@@ -8,7 +8,6 @@ const OSINT_TOOLS = [
   { name: 'DNS Lookup', desc: 'Query DNS records', href: '/osint/dns', cat: 'Network' },
   { name: 'Subdomain Scanner', desc: 'Enumerate subdomains via CT logs', href: '/osint/subdomains', cat: 'Network' },
   { name: 'SSL Certificate Inspector', desc: 'Certificate transparency logs', href: '/osint/ssl', cat: 'Network' },
-  { name: 'Port Scanner', desc: 'Common open ports', href: '/osint/portscan', cat: 'Network' },
   { name: 'Subnet Calculator', desc: 'CIDR network math', href: '/osint/subnet', cat: 'Network' },
   { name: 'Username Hunter', desc: 'Check 39 platforms', href: '/osint/username', cat: 'Cyber' },
   { name: 'Hash Analyzer', desc: 'Identify and analyze file hashes', href: '/osint/hash', cat: 'Cyber' },
@@ -18,9 +17,8 @@ const OSINT_TOOLS = [
   { name: 'Corporate Intel Dashboard', desc: 'Full company research hub', href: '/osint/company', cat: 'Corporate' },
   { name: 'SEC EDGAR Search', desc: '10-K, 8-K, proxy filings', href: '/osint/edgar', cat: 'Corporate' },
   { name: 'Government Contracts', desc: 'USASpending.gov awards', href: '/osint/contracts', cat: 'Corporate' },
-  { name: 'Patent Intelligence', desc: 'USPTO PatentsView search', href: '/osint/patents', cat: 'Corporate' },
   { name: 'Conflict Tracker', desc: 'Live conflict zones map', href: '/osint/conflict', cat: 'Live & Tracking' },
-  { name: 'Flight Tracker', desc: 'Real-time aircraft positions', href: '/osint/flights', cat: 'Live & Tracking' },
+  { name: 'Aviation Tracker', desc: 'Live flights, airport traffic, aircraft lookup by tail number', href: '/tools/flight-tracker', cat: 'Live & Tracking' },
   { name: 'Breach Lookup', desc: 'Check email across HIBP, DeHashed, IntelligenceX', href: '/osint/breach', cat: 'Cyber' },
   { name: 'Metadata Extractor', desc: 'Hidden file metadata', href: '/osint/metadata', cat: 'Cyber' },
   { name: 'Google Dork Builder', desc: 'Build advanced Google search operators', href: '/osint/dorks', cat: 'Cyber' },
@@ -114,11 +112,6 @@ export default function SearchModal() {
       >
         <span style={{ opacity: 0.5, fontSize: '13px' }}>⌕</span>
         Search
-        <kbd style={{
-          background: 'rgba(30,158,255,0.08)', border: '1px solid rgba(30,158,255,0.2)',
-          borderRadius: '3px', padding: '2px 6px', fontSize: '9px', letterSpacing: '1px',
-          fontFamily: 'monospace',
-        }}>⌘K</kbd>
       </button>
       </>
     );

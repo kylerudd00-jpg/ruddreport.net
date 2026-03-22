@@ -7,6 +7,7 @@ interface TLEData {
 interface SatPosition {
   lat: number; lon: number; alt: number; velocity: number;
   period: number; inclination: number; apogee: number; perigee: number;
+  sunlit: boolean; eccentricity: number; revsPerDay: number; bstar: number;
 }
 interface LookAngles {
   az: number; el: number; range: number; rangeRate: number;
@@ -19,7 +20,33 @@ interface Pass {
   skyTrack: SkyPoint[];
 }
 
+const GROUP_COLORS: Record<string, string> = {
+  __all__:  '#00ffff',
+  starlink: '#f59e0b',
+  gps:      '#a78bfa',
+  weather:  '#00ff88',
+  iridium:  '#ef4444',
+  amateur:  '#f472b6',
+  stations: '#00ffff',
+};
+
+// Detect constellation color from satellite name for All Active mode
+function getSatColor(name: string): string {
+  const n = name.toUpperCase();
+  if (n.startsWith('STARLINK'))                         return '#f59e0b'; // amber
+  if (n.startsWith('ONEWEB'))                           return '#38bdf8'; // sky blue
+  if (n.startsWith('IRIDIUM'))                          return '#ef4444'; // red
+  if (n.startsWith('GPS') || n.startsWith('NAVSTAR'))   return '#a78bfa'; // purple
+  if (n.startsWith('GLONASS') || n.startsWith('COSMOS') && n.includes('GLONASS')) return '#c084fc'; // light purple
+  if (n.startsWith('NOAA') || n.startsWith('GOES') || n.startsWith('METEOR') || n.startsWith('METEOSAT') || n.startsWith('HIMAWARI')) return '#00ff88'; // green
+  if (n.includes('ISS') || n.includes('ZARYA') || n.includes('TIANHE') || n.includes('CSS')) return '#00ffff'; // cyan
+  if (n.startsWith('BEIDOU'))                           return '#fb923c'; // orange
+  if (n.startsWith('GALILEO'))                          return '#e879f9'; // fuchsia
+  return '#4a6080'; // dim — unclassified / other
+}
+
 const PRESETS = [
+  { label: 'All Active', noradId: null, group: '__all__' },
   { label: 'ISS', noradId: '25544', group: 'stations' },
   { label: 'Tiangong', noradId: '48274', group: 'stations' },
   { label: 'Hubble', noradId: '20580', group: 'active' },
@@ -31,6 +58,39 @@ const PRESETS = [
 ];
 
 const ISS_FREQ_MHZ = 145.8;
+
+// Returns sun direction unit vector in ECI frame
+function getSunECI(date: Date): { x: number; y: number; z: number } {
+  const jd = date.getTime() / 86400000 + 2440587.5;
+  const n = jd - 2451545.0;
+  const L = (280.46 + 0.9856474 * n) % 360;
+  const g = ((357.528 + 0.9856003 * n) % 360) * (Math.PI / 180);
+  const lambda = (L + 1.915 * Math.sin(g) + 0.02 * Math.sin(2 * g)) * (Math.PI / 180);
+  const epsilon = 23.439 * (Math.PI / 180);
+  return { x: Math.cos(lambda), y: Math.sin(lambda) * Math.cos(epsilon), z: Math.sin(lambda) * Math.sin(epsilon) };
+}
+
+// Cylindrical shadow model — returns true if satellite ECI position is in sunlight
+function isSatSunlit(satECI: { x: number; y: number; z: number }, date: Date): boolean {
+  const sun = getSunECI(date);
+  const dot = satECI.x * sun.x + satECI.y * sun.y + satECI.z * sun.z;
+  if (dot > 0) return true; // satellite on sun side of Earth
+  // Perpendicular distance from Earth-sun axis
+  const px = satECI.x - dot * sun.x, py = satECI.y - dot * sun.y, pz = satECI.z - dot * sun.z;
+  return Math.sqrt(px * px + py * py + pz * pz) > 6371;
+}
+
+// Parse TLE epoch into a Date
+function parseTLEEpoch(line1: string): Date {
+  const epochStr = line1.substring(18, 32).trim();
+  const yr2 = parseInt(epochStr.substring(0, 2));
+  const year = yr2 >= 57 ? 1900 + yr2 : 2000 + yr2;
+  const dayOfYear = parseFloat(epochStr.substring(2));
+  const d = new Date(Date.UTC(year, 0, 1));
+  d.setUTCDate(d.getUTCDate() + Math.floor(dayOfYear) - 1);
+  d.setUTCMilliseconds(d.getUTCMilliseconds() + (dayOfYear % 1) * 86400000);
+  return d;
+}
 
 function getSunPosition(date: Date) {
   const jd = date.getTime() / 86400000 + 2440587.5;
@@ -233,6 +293,11 @@ export default function SatelliteTracker() {
   const selectedSatRef = useRef<TLEData | null>(null);
   const observerLatRef = useRef('38.90');
   const observerLonRef = useRef('-77.04');
+  const allSatsLayerRef = useRef<any>(null);
+  const allSatsIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [allSatsMode, setAllSatsMode] = useState('');
+  const [allSatsList, setAllSatsList] = useState<TLEData[]>([]);
+  const [allSatsCount, setAllSatsCount] = useState(0);
 
   useEffect(() => { passesRef.current = passes; }, [passes]);
   useEffect(() => { selectedSatRef.current = selectedSat; }, [selectedSat]);
@@ -254,10 +319,11 @@ export default function SatelliteTracker() {
     const initMap = async () => {
       const L = (await import('leaflet' as any)).default;
       if (mapInstanceRef.current || !mapRef.current) return;
-      const map = L.map(mapRef.current, { zoomControl: true, scrollWheelZoom: false, center: [20, 0], zoom: 1 });
+      const map = L.map(mapRef.current, { zoomControl: true, scrollWheelZoom: false, center: [20, 0], zoom: 2, minZoom: 2, maxBoundsViscosity: 1.0 });
+      map.setMaxBounds([[-90, -180], [90, 180]]);
       mapInstanceRef.current = map;
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap © CARTO', maxZoom: 10,
+        attribution: '© OpenStreetMap © CARTO', maxZoom: 10, noWrap: true,
       }).addTo(map);
       map.invalidateSize();
     };
@@ -268,6 +334,7 @@ export default function SatelliteTracker() {
       setTimeout(initMap, 300);
     }
     return () => {
+      if (allSatsIntervalRef.current) { clearInterval(allSatsIntervalRef.current); allSatsIntervalRef.current = null; }
       if (mapInstanceRef.current) { mapInstanceRef.current.remove(); mapInstanceRef.current = null; }
     };
   }, []);
@@ -318,7 +385,10 @@ export default function SatelliteTracker() {
       const a = Math.pow(398600.4418 / Math.pow(satrec.no / 60, 2), 1 / 3);
       const apogee = a * (1 + ecc) - 6371;
       const perigee = a * (1 - ecc) - 6371;
-      return { lat, lon, alt, velocity, period, inclination, apogee, perigee };
+      const revsPerDay = satrec.no * (1440 / (2 * Math.PI));
+      const bstar = satrec.bstar;
+      const sunlit = isSatSunlit(pv.position as any, date);
+      return { lat, lon, alt, velocity, period, inclination, apogee, perigee, sunlit, eccentricity: ecc, revsPerDay, bstar };
     } catch { return null; }
   }, []);
 
@@ -544,16 +614,93 @@ export default function SatelliteTracker() {
     }
   }, [passes, activeView]);
 
+  const renderAllSats = useCallback(async (sats: TLEData[], colorOrFn: string | ((tle: TLEData) => string) = '#00ffff') => {
+    const L = (await import('leaflet' as any)).default;
+    const map = mapInstanceRef.current;
+    const sat = satLibRef.current;
+    if (!map || !sat) return;
+
+    if (allSatsLayerRef.current) { allSatsLayerRef.current.remove(); allSatsLayerRef.current = null; }
+
+    const now = new Date();
+    const layer = L.layerGroup();
+    let plotted = 0;
+
+    for (const tle of sats) {
+      try {
+        const satrec = sat.twoline2satrec(tle.line1, tle.line2);
+        const pv = sat.propagate(satrec, now);
+        if (!pv.position || typeof pv.position === 'boolean') continue;
+        const gmst = sat.gstime(now);
+        const gd = sat.eciToGeodetic(pv.position, gmst);
+        const lat = sat.degreesLat(gd.latitude);
+        const lon = sat.degreesLong(gd.longitude);
+        if (isNaN(lat) || isNaN(lon)) continue;
+
+        const c = typeof colorOrFn === 'function' ? colorOrFn(tle) : colorOrFn;
+        const dot = L.circleMarker([lat, lon], {
+          radius: 2.5,
+          color: c,
+          fillColor: c,
+          fillOpacity: 0.75,
+          weight: 0,
+        });
+        dot.bindTooltip(`<div style="font-family:monospace;font-size:10px;background:#0a1520;color:${c};border:1px solid ${c}44;padding:4px 8px;">${tle.name}<br>NORAD ${tle.noradId}</div>`, { className: 'sat-tooltip' });
+        dot.on('click', () => {
+          setAllSatsMode('');
+          if (allSatsLayerRef.current) { allSatsLayerRef.current.remove(); allSatsLayerRef.current = null; }
+          if (allSatsIntervalRef.current) { clearInterval(allSatsIntervalRef.current); allSatsIntervalRef.current = null; }
+          setSelectedSat(tle);
+          startTracking(tle);
+        });
+        dot.addTo(layer);
+        plotted++;
+      } catch { /* skip bad TLE */ }
+    }
+
+    layer.addTo(map);
+    allSatsLayerRef.current = layer;
+    setAllSatsCount(plotted);
+  }, [startTracking]);
+
   const loadPreset = async (preset: typeof PRESETS[0]) => {
     setError(''); setSearchResults([]); setQuery('');
+
+    // Clear any existing multi-sat mode
+    if (allSatsIntervalRef.current) { clearInterval(allSatsIntervalRef.current); allSatsIntervalRef.current = null; }
+    if (allSatsLayerRef.current) { allSatsLayerRef.current.remove(); allSatsLayerRef.current = null; }
+    setAllSatsMode(''); setAllSatsList([]); setAllSatsCount(0);
+
+    // Named single satellites (ISS, Tiangong, Hubble)
+    if (preset.noradId) {
+      try {
+        const res = await fetch(`/api/satellite/tle?noradId=${preset.noradId}`);
+        const data = await res.json();
+        if (data.satellites?.[0]) { setSelectedSat(data.satellites[0]); startTracking(data.satellites[0]); }
+      } catch { setError('Failed to load satellite data.'); }
+      return;
+    }
+
+    // All group presets — show all sats as dots
+    const groupKey = preset.group === '__all__' ? 'active' : preset.group;
+    const colorArg: string | ((tle: TLEData) => string) = preset.group === '__all__'
+      ? (tle: TLEData) => getSatColor(tle.name)
+      : (GROUP_COLORS[preset.group] || '#00ffff');
+    setAllSatsMode(preset.label);
     try {
-      const url = preset.noradId
-        ? `/api/satellite/tle?noradId=${preset.noradId}`
-        : `/api/satellite/tle?group=${preset.group}`;
-      const res = await fetch(url);
+      const res = await fetch(`/api/satellite/tle?group=${groupKey}`);
       const data = await res.json();
-      if (data.satellites?.[0]) { setSelectedSat(data.satellites[0]); startTracking(data.satellites[0]); }
-    } catch { setError('Failed to load satellite data.'); }
+      const sats: TLEData[] = data.satellites || [];
+      setAllSatsList(sats);
+      // Clear single-sat tracking
+      if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
+      if (satMarkerRef.current) { satMarkerRef.current.remove(); satMarkerRef.current = null; }
+      if (trackLayerRef.current) { trackLayerRef.current.remove(); trackLayerRef.current = null; }
+      if (footprintLayerRef.current) { footprintLayerRef.current.remove(); footprintLayerRef.current = null; }
+      setSelectedSat(null); setPosition(null); setLookAngles(null); setPasses([]);
+      await renderAllSats(sats, colorArg);
+      allSatsIntervalRef.current = setInterval(() => renderAllSats(sats, colorArg), 60000);
+    } catch { setError(`Failed to load ${preset.label} satellites.`); setAllSatsMode(''); }
   };
 
   const doSearch = async () => {
@@ -628,7 +775,7 @@ export default function SatelliteTracker() {
 
   // Load ISS on mount
   useEffect(() => {
-    const timer = setTimeout(() => loadPreset(PRESETS[0]), 600);
+    const timer = setTimeout(() => loadPreset(PRESETS[1]), 600); // Default to ISS
     return () => { clearTimeout(timer); if (intervalRef.current) clearInterval(intervalRef.current); };
   }, []);
 
@@ -698,19 +845,43 @@ export default function SatelliteTracker() {
         .search-result-item:hover { background: rgba(30,158,255,0.06); }
         .sat-name { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #c0cfe0; }
         .sat-norad { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; white-space: nowrap; }
-        .content-grid { display: grid; grid-template-columns: 1fr 360px; gap: 2px; margin-bottom: 2px; }
-        .viz-panel { background: #050d14; border: 1px solid rgba(30,158,255,0.15); position: relative; display: flex; flex-direction: column; }
-        .viz-tabs { display: flex; border-bottom: 1px solid rgba(30,158,255,0.15); flex-shrink: 0; }
-        .viz-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 10px 20px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #3d5870; border-right: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; }
-        .viz-tab.active { color: #1e9eff; background: rgba(30,158,255,0.06); }
-        .viz-tab:hover:not(.active) { color: #7a9bb5; }
-        .map-inner { width: 100%; height: 460px; display: block; position: relative; isolation: isolate; }
+        .content-grid { display: grid; grid-template-columns: 1fr 380px; gap: 0; margin-bottom: 2px; border: 1px solid rgba(30,158,255,0.18); }
+        .viz-panel { background: #050d14; border-right: 1px solid rgba(30,158,255,0.18); position: relative; display: flex; flex-direction: column; align-self: stretch; }
+        .passes-preview { flex: 1; border-top: 1px solid rgba(30,158,255,0.15); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+        .passes-preview-header { padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(30,158,255,0.08); flex-shrink: 0; }
+        .passes-preview-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
+        .passes-preview-hint { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #3d5870; }
+        .passes-preview-list { display: flex; flex-direction: column; overflow-y: auto; flex: 1; }
+        .pass-preview-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; border-bottom: 1px solid rgba(30,158,255,0.05); padding: 10px 20px; align-items: center; }
+        .pass-preview-row:last-child { border-bottom: none; }
+        .pass-preview-time { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #c0cfe0; letter-spacing: 0.5px; }
+        .pass-preview-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #3d5870; margin-top: 2px; }
+        .pass-preview-el { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #00ff88; }
+        .pass-preview-el-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: #3d5870; letter-spacing: 2px; }
+        .pass-preview-dir { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a9bb5; }
+        .pass-preview-vis { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; }
+        .passes-preview-empty { flex: 1; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; text-align: center; padding: 20px; line-height: 2; }
+        .viz-tabs { display: flex; border-bottom: 1px solid rgba(30,158,255,0.18); flex-shrink: 0; background: #070e16; }
+        .viz-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 12px 24px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #3d5870; border-right: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; position: relative; }
+        .viz-tab.active { color: #00ffff; background: rgba(0,255,255,0.04); }
+        .viz-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #00ffff; }
+        .viz-tab:hover:not(.active) { color: #7a9bb5; background: rgba(30,158,255,0.03); }
+        .map-inner { width: 100%; height: 520px; display: block; position: relative; isolation: isolate; }
+        .map-hud { position: absolute; bottom: 12px; left: 12px; z-index: 500; pointer-events: none; display: flex; flex-direction: column; gap: 6px; }
+        .map-hud-sat { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #00ffff; background: rgba(3,6,8,0.82); border: 1px solid rgba(0,255,255,0.25); padding: 6px 12px; backdrop-filter: blur(8px); white-space: nowrap; }
+        .map-hud-coords { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #7a9bb5; background: rgba(3,6,8,0.75); border: 1px solid rgba(30,158,255,0.2); padding: 5px 12px; backdrop-filter: blur(8px); white-space: nowrap; }
+        .map-hud-allsats { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #00ffff; background: rgba(3,6,8,0.82); border: 1px solid rgba(0,255,255,0.3); padding: 6px 12px; backdrop-filter: blur(8px); }
         .leaflet-container { position: relative !important; }
         .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; }
         .leaflet-tile { filter: none; visibility: hidden; }
         .leaflet-tile-loaded { visibility: inherit; }
-        .sky-canvas-wrap { display: flex; align-items: center; justify-content: center; padding: 12px; height: 460px; }
-        .info-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); display: flex; flex-direction: column; }
+        .leaflet-control-zoom { border: 1px solid rgba(30,158,255,0.25) !important; border-radius: 0 !important; overflow: hidden; }
+        .leaflet-control-zoom a { background: rgba(7,14,22,0.92) !important; color: #1e9eff !important; border-bottom: 1px solid rgba(30,158,255,0.15) !important; font-size: 16px !important; font-weight: 400 !important; width: 28px !important; height: 28px !important; line-height: 28px !important; transition: background 0.2s; }
+        .leaflet-control-zoom a:hover { background: rgba(30,158,255,0.15) !important; color: #fff !important; }
+        .leaflet-control-attribution { background: rgba(3,6,8,0.7) !important; color: #3d5870 !important; font-size: 9px !important; backdrop-filter: blur(8px); border: none !important; padding: 3px 8px !important; }
+        .leaflet-control-attribution a { color: #1e9eff !important; }
+        .sky-canvas-wrap { display: flex; align-items: center; justify-content: center; padding: 12px; height: 520px; background: #030608; }
+        .info-panel { background: #070e16; display: flex; flex-direction: column; overflow-y: auto; }
         .info-sat-header { padding: 18px 22px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); }
         .info-sat-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; word-break: break-all; line-height: 1.3; }
         .info-sat-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
@@ -734,6 +905,9 @@ export default function SatelliteTracker() {
         .countdown-box { padding: 14px 22px; border-bottom: 1px solid rgba(30,158,255,0.08); background: rgba(0,255,136,0.03); }
         .countdown-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 4px; }
         .countdown-value { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #00ff88; letter-spacing: 2px; }
+        .telem-cell { padding: 14px 20px; border-right: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; flex-direction: column; gap: 5px; }
+        .telem-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .telem-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 1px; color: #c0cfe0; }
         .observer-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); margin-bottom: 2px; }
         .observer-main { padding: 24px 28px; }
         .observer-modify-bar { border-top: 1px solid rgba(30,158,255,0.08); padding: 12px 28px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; }
@@ -826,7 +1000,8 @@ export default function SatelliteTracker() {
           .hero-stats { gap: 20px; } .tool-hero-inner { flex-direction: column; align-items: flex-start; }
           .postal-inputs { flex-direction: column; align-items: stretch; }
           .postal-select, .postal-input, .postal-btn { width: 100%; }
-          .map-inner { height: 320px; } .sky-canvas-wrap { height: 320px; }
+          .map-inner { height: 340px; } .sky-canvas-wrap { height: 340px; } .content-grid { border: none; }
+
         }
       `}</style>
 
@@ -854,7 +1029,14 @@ export default function SatelliteTracker() {
 
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
-          <div className="utc-clock">UTC {utcClock}</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+            <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: '9px', letterSpacing: '2px', color: '#3d5870' }}>
+              Inspired by{' '}
+              <a href="https://github.com/sgoudelis/ground-station" target="_blank" rel="noopener noreferrer" style={{ color: '#1e9eff', textDecoration: 'none' }}>Ground Station</a>
+              {' '}by Efstratios Goudelis
+            </span>
+            <div className="utc-clock">UTC {utcClock}</div>
+          </div>
         </div>
 
         <div className="tool-hero">
@@ -898,9 +1080,26 @@ export default function SatelliteTracker() {
 
           <div className="presets">
             <span className="preset-label">Quick Select:&nbsp;&nbsp;</span>
-            {PRESETS.map(p => (
-              <button key={p.label} className="preset-btn" onClick={() => loadPreset(p)}>{p.label}</button>
-            ))}
+            {PRESETS.map(p => {
+              const isActive = allSatsMode === p.label || (!allSatsMode && selectedSat && p.noradId === selectedSat.noradId);
+              const groupColor = GROUP_COLORS[p.group] || '#00ff88';
+              const isGroupPreset = !p.noradId;
+              return (
+                <button
+                  key={p.label}
+                  className="preset-btn"
+                  onClick={() => loadPreset(p)}
+                  style={isGroupPreset ? {
+                    color: groupColor,
+                    borderColor: `${groupColor}55`,
+                    background: isActive ? `${groupColor}18` : undefined,
+                  } : isActive ? {
+                    background: 'rgba(0,255,136,0.12)',
+                    borderColor: 'rgba(0,255,136,0.5)',
+                  } : undefined}
+                >{p.label}</button>
+              );
+            })}
           </div>
 
           {searchResults.length > 0 && (
@@ -920,10 +1119,28 @@ export default function SatelliteTracker() {
             {/* Visualization panel with tabs */}
             <div className="viz-panel">
               <div className="viz-tabs">
-                <button className={`viz-tab${activeView === 'map' ? ' active' : ''}`} onClick={() => setActiveView('map')}>Map</button>
+                <button className={`viz-tab${activeView === 'map' ? ' active' : ''}`} onClick={() => setActiveView('map')}>Ground Track</button>
                 <button className={`viz-tab${activeView === 'skyplot' ? ' active' : ''}`} onClick={() => setActiveView('skyplot')}>Sky Plot</button>
               </div>
-              <div ref={mapRef} className="map-inner" style={{ display: activeView === 'map' ? 'block' : 'none' }} />
+              <div style={{ position: 'relative', display: activeView === 'map' ? 'block' : 'none' }}>
+                <div ref={mapRef} className="map-inner" />
+                {/* HUD overlay */}
+                <div className="map-hud">
+                  {allSatsMode && allSatsCount > 0 && (
+                    <div className="map-hud-allsats">⊕ {allSatsCount.toLocaleString()} {allSatsMode.toUpperCase()}</div>
+                  )}
+                  {selectedSat && position && (
+                    <>
+                      <div className="map-hud-sat">⊕ {selectedSat.name}</div>
+                      <div className="map-hud-coords">
+                        {position.lat >= 0 ? position.lat.toFixed(3) + '°N' : Math.abs(position.lat).toFixed(3) + '°S'}&nbsp;&nbsp;
+                        {position.lon >= 0 ? position.lon.toFixed(3) + '°E' : Math.abs(position.lon).toFixed(3) + '°W'}&nbsp;&nbsp;
+                        {position.alt.toFixed(0)} km
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
               <div className="sky-canvas-wrap" style={{ display: activeView === 'skyplot' ? 'flex' : 'none' }}>
                 <canvas ref={skyCanvasRef} width={420} height={420} style={{ maxWidth: '100%', maxHeight: '420px' }} />
               </div>
@@ -932,6 +1149,43 @@ export default function SatelliteTracker() {
                   Run Pass Predictor to populate sky track
                 </div>
               )}
+
+              {/* Telemetry panel — fills blank space below the map */}
+              <div className="passes-preview">
+                <div className="passes-preview-header">
+                  <div className="passes-preview-label">Live Telemetry</div>
+                  <div className="passes-preview-hint">{selectedSat ? 'updates every second' : 'no satellite selected'}</div>
+                </div>
+                {selectedSat && position ? (() => {
+                  const epochDate = parseTLEEpoch(selectedSat.line1);
+                  const minSinceEpoch = (Date.now() - epochDate.getTime()) / 60000;
+                  const revAtEpoch = parseInt(selectedSat.line2.substring(63, 68).trim()) || 0;
+                  const orbitNum = revAtEpoch + Math.floor(minSinceEpoch / position.period);
+                  const groundSpeedKmh = Math.round(position.velocity * (6371 / (6371 + position.alt)) * 3600);
+                  const lightMs = lookAngles ? ((lookAngles.range / 299792) * 1000).toFixed(1) : null;
+                  const tleAgeH = (Date.now() - epochDate.getTime()) / 3600000;
+                  const footprintDiamKm = Math.round(2 * 6371 * Math.acos(6371 / (6371 + Math.max(position.alt, 1))));
+                  return (
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', flex: 1 }}>
+                      {[
+                        { label: 'Orbit Number', value: `#${orbitNum.toLocaleString()}`, color: '#00ffff' },
+                        { label: 'Ground Speed', value: `${groundSpeedKmh.toLocaleString()} km/h`, color: '#c0cfe0' },
+                        { label: 'Coverage Footprint', value: `${footprintDiamKm.toLocaleString()} km`, color: '#f59e0b' },
+                        { label: 'Signal Delay', value: lightMs ? `${lightMs} ms` : '— set observer', color: lightMs ? '#c0cfe0' : '#3d5870' },
+                        { label: 'TLE Epoch', value: epochDate.toUTCString().replace(' GMT','').split(', ')[1]?.split(' ').slice(0,3).join(' ') || '—', color: tleAgeH < 24 ? '#00ff88' : tleAgeH < 72 ? '#f59e0b' : '#ff3a3a' },
+                        { label: 'Data Age', value: tleAgeH < 24 ? `${tleAgeH.toFixed(1)}h old` : `${(tleAgeH/24).toFixed(1)}d old`, color: tleAgeH < 24 ? '#00ff88' : tleAgeH < 72 ? '#f59e0b' : '#ff3a3a' },
+                      ].map(({ label, value, color }) => (
+                        <div key={label} className="telem-cell">
+                          <div className="telem-label">{label}</div>
+                          <div className="telem-value" style={{ color }}>{value}</div>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })() : (
+                  <div className="passes-preview-empty">Select a satellite to view telemetry</div>
+                )}
+              </div>
             </div>
 
             {/* Info panel */}
@@ -944,6 +1198,15 @@ export default function SatelliteTracker() {
                       <span className="info-sat-badge badge-norad">NORAD {selectedSat.noradId}</span>
                       {position && <span className="info-sat-badge badge-orbit">{getOrbitType(position.alt)}</span>}
                       <span className="info-sat-badge badge-live">Live</span>
+                      {position && (
+                        <span className="info-sat-badge" style={{
+                          color: position.sunlit ? '#f59e0b' : '#7a9bb5',
+                          border: `1px solid ${position.sunlit ? 'rgba(245,158,11,0.35)' : 'rgba(122,155,181,0.2)'}`,
+                          background: position.sunlit ? 'rgba(245,158,11,0.07)' : 'rgba(30,158,255,0.04)',
+                        }}>
+                          {position.sunlit ? '☀ Sunlit' : '◑ Eclipse'}
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -994,6 +1257,38 @@ export default function SatelliteTracker() {
                           <div className="field-label">Perigee</div>
                           <div className="field-value amber">{position.perigee.toFixed(0)} km</div>
                         </div>
+                        <div className="info-field">
+                          <div className="field-label">Eccentricity</div>
+                          <div className="field-value">{position.eccentricity.toFixed(7)}</div>
+                        </div>
+                        <div className="info-field">
+                          <div className="field-label">Revs / Day</div>
+                          <div className="field-value">{position.revsPerDay.toFixed(2)}</div>
+                        </div>
+                        <div className="info-field">
+                          <div className="field-label">BSTAR Drag</div>
+                          <div className="field-value" style={{ fontSize: '11px' }}>{position.bstar.toExponential(3)}</div>
+                        </div>
+                        <div className="info-field">
+                          <div className="field-label">TLE Age</div>
+                          <div className="field-value" style={{
+                            color: (() => { const h = (Date.now() - parseTLEEpoch(selectedSat.line1).getTime()) / 3600000; return h < 24 ? '#00ff88' : h < 72 ? '#f59e0b' : '#ff3a3a'; })()
+                          }}>
+                            {(() => { const h = (Date.now() - parseTLEEpoch(selectedSat.line1).getTime()) / 3600000; return h < 24 ? `${h.toFixed(1)}h` : `${(h/24).toFixed(1)}d`; })()}
+                          </div>
+                        </div>
+                        {lookAngles && (
+                          <div className="info-field full" style={{ borderRight: 'none' }}>
+                            <div className="field-label">Naked-Eye Visible Now</div>
+                            <div className="field-value" style={{ color: position.sunlit && lookAngles.el > 5 && getVisibility(new Date(), parseFloat(observerLat), parseFloat(observerLon)) !== 'Daylight' ? '#00ff88' : '#3d5870' }}>
+                              {position.sunlit && lookAngles.el > 5 && getVisibility(new Date(), parseFloat(observerLat), parseFloat(observerLon)) !== 'Daylight'
+                                ? '✓ Yes — look ' + fmtAz(lookAngles.az) + ' at ' + lookAngles.el.toFixed(0) + '° elevation'
+                                : position.sunlit && lookAngles.el <= 0 ? 'Below horizon'
+                                : !position.sunlit ? 'In eclipse'
+                                : 'Sky too bright'}
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {lookAngles && (
@@ -1041,6 +1336,30 @@ export default function SatelliteTracker() {
                     </div>
                   )}
                 </>
+              ) : allSatsMode ? (
+                <div style={{ padding: '28px 22px' }}>
+                  <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '3px', color: GROUP_COLORS[PRESETS.find(p => p.label === allSatsMode)?.group || ''] || '#1e9eff', textTransform: 'uppercase', marginBottom: '16px' }}>
+                    {allSatsMode}
+                  </div>
+                  {allSatsCount > 0 ? (
+                    <>
+                      <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '28px', fontWeight: 700, color: GROUP_COLORS[PRESETS.find(p => p.label === allSatsMode)?.group || ''] || '#00ffff', marginBottom: '8px' }}>
+                        {allSatsCount.toLocaleString()}
+                      </div>
+                      <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '2px', color: '#3d5870', marginBottom: '20px' }}>
+                        satellites plotted · updates every 60s
+                      </div>
+                      <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '1.5px', color: '#7a9bb5', lineHeight: 2 }}>
+                        Click any dot on the map to select a satellite for full tracking.
+                      </div>
+                    </>
+                  ) : (
+                    <div className="loading-wrap">
+                      <div className="loading-bars"><span/><span/><span/><span/><span/></div>
+                      <div className="loading-text">Loading {allSatsMode}...</div>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <div style={{ padding: '32px 22px', color: '#3d5870', fontFamily: "'Share Tech Mono',monospace", fontSize: '11px', letterSpacing: '2px', lineHeight: 2 }}>
                   Select a satellite above to begin tracking
@@ -1052,103 +1371,89 @@ export default function SatelliteTracker() {
           {/* Observer & Pass Predictor */}
           <div className="observer-section">
             <div className="observer-main">
-              <div className="section-header-label">Pass Predictor</div>
-              <div className="section-header-title">Observer Location</div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
+                <div>
+                  <div className="section-header-label">Pass Predictor</div>
+                  <div className="section-header-title">Observer Location</div>
+                </div>
+                {postalResult && (
+                  <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: '11px', color: '#00ff88', letterSpacing: '1px' }}>
+                    ⊕ {postalResult.replace('Located: ', '')}
+                  </div>
+                )}
+              </div>
               <div className="obs-inputs">
                 <div className="obs-field">
-                  <div className="obs-label">Latitude</div>
-                  <input className="obs-input" value={observerLat} onChange={e => { observerLatRef.current = e.target.value; setObserverLat(e.target.value); }} placeholder="38.90" />
+                  <div className="obs-label">Country</div>
+                  <select className="postal-select" value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)}>
+                    <option value="us">🇺🇸 United States</option>
+                    <option value="gb">🇬🇧 United Kingdom</option>
+                    <option value="ca">🇨🇦 Canada</option>
+                    <option value="au">🇦🇺 Australia</option>
+                    <option value="de">🇩🇪 Germany</option>
+                    <option value="fr">🇫🇷 France</option>
+                    <option value="jp">🇯🇵 Japan</option>
+                    <option value="nl">🇳🇱 Netherlands</option>
+                    <option value="it">🇮🇹 Italy</option>
+                    <option value="es">🇪🇸 Spain</option>
+                    <option value="br">🇧🇷 Brazil</option>
+                    <option value="mx">🇲🇽 Mexico</option>
+                    <option value="kr">🇰🇷 South Korea</option>
+                    <option value="se">🇸🇪 Sweden</option>
+                    <option value="no">🇳🇴 Norway</option>
+                    <option value="dk">🇩🇰 Denmark</option>
+                    <option value="fi">🇫🇮 Finland</option>
+                    <option value="pl">🇵🇱 Poland</option>
+                    <option value="ch">🇨🇭 Switzerland</option>
+                    <option value="at">🇦🇹 Austria</option>
+                    <option value="nz">🇳🇿 New Zealand</option>
+                    <option value="pt">🇵🇹 Portugal</option>
+                    <option value="be">🇧🇪 Belgium</option>
+                    <option value="za">🇿🇦 South Africa</option>
+                    <option value="sg">🇸🇬 Singapore</option>
+                    <option value="in">🇮🇳 India</option>
+                    <option value="tr">🇹🇷 Turkey</option>
+                    <option value="ar">🇦🇷 Argentina</option>
+                    <option value="cl">🇨🇱 Chile</option>
+                    <option value="il">🇮🇱 Israel</option>
+                    <option value="ua">🇺🇦 Ukraine</option>
+                    <option value="ro">🇷🇴 Romania</option>
+                    <option value="hu">🇭🇺 Hungary</option>
+                    <option value="cz">🇨🇿 Czech Republic</option>
+                    <option value="gr">🇬🇷 Greece</option>
+                  </select>
                 </div>
                 <div className="obs-field">
-                  <div className="obs-label">Longitude</div>
-                  <input className="obs-input" value={observerLon} onChange={e => { observerLonRef.current = e.target.value; setObserverLon(e.target.value); }} placeholder="-77.04" />
+                  <div className="obs-label">ZIP / Postal Code</div>
+                  <input
+                    className="postal-input"
+                    placeholder={selectedCountry === 'us' ? '90210' : selectedCountry === 'gb' ? 'SW1A 1AA' : selectedCountry === 'ca' ? 'K1A 0A9' : 'Postal code'}
+                    value={postalCode}
+                    onChange={e => setPostalCode(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && lookupPostal()}
+                  />
                 </div>
-                <div className="obs-field">
-                  <div className="obs-label">Min Elevation (°)</div>
-                  <input className="obs-input narrow" type="number" min={0} max={89} value={minElevation} onChange={e => setMinElevation(Number(e.target.value))} />
+                <div className="obs-field" style={{ justifyContent: 'flex-end' }}>
+                  <button className="postal-btn" onClick={lookupPostal} disabled={postalLoading || !postalCode.trim()}>
+                    {postalLoading ? 'Looking up...' : 'Look Up →'}
+                  </button>
                 </div>
                 <div className="obs-field" style={{ justifyContent: 'flex-end' }}>
                   <button className="geo-btn" onClick={useMyLocation} disabled={geoLoading}>
                     {geoLoading ? 'Locating...' : '⊕ Use My Location'}
                   </button>
                 </div>
+                <div className="obs-field">
+                  <div className="obs-label">Min Elevation (°)</div>
+                  <input className="obs-input narrow" type="number" min={0} max={89} value={minElevation} onChange={e => setMinElevation(Number(e.target.value))} />
+                </div>
                 <div className="obs-field" style={{ justifyContent: 'flex-end' }}>
-                  <button className="predict-btn" onClick={predictPasses} disabled={!selectedSat || passLoading}>
+                  <button className="predict-btn" onClick={predictPasses} disabled={!selectedSat || passLoading || (!observerLat || !observerLon)}>
                     {passLoading ? 'Calculating...' : 'Predict Passes →'}
                   </button>
                 </div>
               </div>
             </div>
-
-            {/* Modify Observer toggle */}
-            <div className="observer-modify-bar" onClick={() => setShowObserverForm(v => !v)}>
-              <div className="observer-modify-label">⊕ Modify Observer — Enter Postal / ZIP Code</div>
-              <div className="observer-modify-toggle">{showObserverForm ? '▲ Hide' : '▼ Expand'}</div>
-            </div>
-
-            {showObserverForm && (
-              <div className="observer-postal-form">
-                <div className="postal-form-label">Look up by postal or ZIP code</div>
-                <div className="postal-inputs">
-                  <div className="obs-field">
-                    <div className="obs-label">Country</div>
-                    <select className="postal-select" value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)}>
-                      <option value="us">🇺🇸 United States</option>
-                      <option value="gb">🇬🇧 United Kingdom</option>
-                      <option value="ca">🇨🇦 Canada</option>
-                      <option value="au">🇦🇺 Australia</option>
-                      <option value="de">🇩🇪 Germany</option>
-                      <option value="fr">🇫🇷 France</option>
-                      <option value="jp">🇯🇵 Japan</option>
-                      <option value="nl">🇳🇱 Netherlands</option>
-                      <option value="it">🇮🇹 Italy</option>
-                      <option value="es">🇪🇸 Spain</option>
-                      <option value="br">🇧🇷 Brazil</option>
-                      <option value="mx">🇲🇽 Mexico</option>
-                      <option value="kr">🇰🇷 South Korea</option>
-                      <option value="se">🇸🇪 Sweden</option>
-                      <option value="no">🇳🇴 Norway</option>
-                      <option value="dk">🇩🇰 Denmark</option>
-                      <option value="fi">🇫🇮 Finland</option>
-                      <option value="pl">🇵🇱 Poland</option>
-                      <option value="ch">🇨🇭 Switzerland</option>
-                      <option value="at">🇦🇹 Austria</option>
-                      <option value="nz">🇳🇿 New Zealand</option>
-                      <option value="pt">🇵🇹 Portugal</option>
-                      <option value="be">🇧🇪 Belgium</option>
-                      <option value="za">🇿🇦 South Africa</option>
-                      <option value="sg">🇸🇬 Singapore</option>
-                      <option value="in">🇮🇳 India</option>
-                      <option value="tr">🇹🇷 Turkey</option>
-                      <option value="ar">🇦🇷 Argentina</option>
-                      <option value="cl">🇨🇱 Chile</option>
-                      <option value="il">🇮🇱 Israel</option>
-                      <option value="ua">🇺🇦 Ukraine</option>
-                      <option value="ro">🇷🇴 Romania</option>
-                      <option value="hu">🇭🇺 Hungary</option>
-                      <option value="cz">🇨🇿 Czech Republic</option>
-                      <option value="gr">🇬🇷 Greece</option>
-                    </select>
-                  </div>
-                  <div className="obs-field">
-                    <div className="obs-label">Postal / ZIP Code</div>
-                    <input
-                      className="postal-input"
-                      placeholder={selectedCountry === 'us' ? '90210' : selectedCountry === 'gb' ? 'SW1A 1AA' : selectedCountry === 'ca' ? 'K1A 0A9' : 'Postal code'}
-                      value={postalCode}
-                      onChange={e => setPostalCode(e.target.value)}
-                      onKeyDown={e => e.key === 'Enter' && lookupPostal()}
-                    />
-                  </div>
-                  <div className="obs-field" style={{ justifyContent: 'flex-end' }}>
-                    <button className="postal-btn" onClick={lookupPostal} disabled={postalLoading || !postalCode.trim()}>
-                      {postalLoading ? 'Looking up...' : 'Look Up →'}
-                    </button>
-                  </div>
-                </div>
-                {postalResult && <div className="postal-result">{postalResult}</div>}
-              </div>
-            )}
           </div>
 
           {/* Pass results */}
@@ -1214,77 +1519,30 @@ export default function SatelliteTracker() {
             </div>
           )}
 
-          {/* TLE Raw Data */}
-          {selectedSat && (
-            <div className="tle-section">
-              <div className="tle-header" onClick={() => setShowTLE(v => !v)}>
-                <div>
-                  <div className="section-header-label" style={{ margin: 0 }}>Raw TLE Data</div>
-                  <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: '13px', color: '#7a9bb5', marginTop: '4px', fontWeight: 300 }}>
-                    Two-Line Element set from CelesTrak — {selectedSat.name}
-                  </div>
-                </div>
-                <div className="tle-toggle">{showTLE ? '▲ Hide' : '▼ Show'}</div>
-              </div>
-              {showTLE && (
-                <div className="tle-body">
-                  <div className="tle-line"><span>Name</span>{selectedSat.name}</div>
-                  <div className="tle-line"><span>Line 1</span>{selectedSat.line1}</div>
-                  <div className="tle-line"><span>Line 2</span>{selectedSat.line2}</div>
-                  <div style={{ marginTop: '12px', fontFamily: "'Barlow',sans-serif", fontSize: '12px', color: '#3d5870', fontWeight: 300, lineHeight: 1.7 }}>
-                    TLE data sourced from CelesTrak, operated in partnership with the 18th Space Control Squadron, United States Space Force. Updated every 24 hours.
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Credit */}
-          <div className="credit-section">
-            <div className="credit-icon">🛰️</div>
-            <div>
-              <div className="credit-label">Inspired By</div>
-              <p className="credit-text">
-                This tool was inspired by{' '}
-                <a href="https://github.com/sgoudelis/ground-station" target="_blank" rel="noopener noreferrer">
-                  Ground Station
-                </a>{' '}
-                by <strong style={{ color: '#c0cfe0' }}>Efstratios Goudelis</strong> — an open-source, all-in-one satellite monitoring suite for amateur radio operators and satellite enthusiasts, featuring real-time tracking, antenna rotator control, Doppler correction, IQ recording, and automated pass observations.
-                If you find this tool useful, check out his work at{' '}
-                <a href="https://github.com/sgoudelis/ground-station" target="_blank" rel="noopener noreferrer">
-                  github.com/sgoudelis/ground-station
-                </a>.
-              </p>
-            </div>
-          </div>
-
-          {/* OSINT Use Cases */}
+          {/* Intel Applications */}
           <div className="osint-section">
-            <div className="section-header-label">Intelligence Applications</div>
-            <div className="section-header-title">OSINT Use Cases</div>
-            <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: '14px', fontWeight: 300, color: '#7a9bb5', lineHeight: 1.8 }}>
-              All TLE data is publicly available via CelesTrak — the same data used by defense analysts, space agencies, and amateur astronomers worldwide. No authentication required.
-            </p>
+            <div className="section-header-label">How Analysts Use This</div>
+            <div className="section-header-title">Intelligence Applications</div>
             <div className="osint-grid">
               <div className="osint-card">
-                <div className="osint-card-title">Surveillance Awareness</div>
-                <div className="osint-card-desc">Know when reconnaissance satellites (USA-series) have line-of-sight over your area of interest. Use the sky plot to predict exact pass windows.</div>
+                <div className="osint-card-title">Reconnaissance Timing</div>
+                <div className="osint-card-desc">U.S. and foreign recon satellites (KH-series, Lacrosse, Yantar) follow public NORAD catalog entries. Predict their pass windows over any target to understand when overhead collection is possible.</div>
               </div>
               <div className="osint-card">
-                <div className="osint-card-title">Communication Windows</div>
-                <div className="osint-card-desc">Plan satellite phone or data uplink windows. The Doppler shift display shows frequency correction needed for radio contact with LEO satellites.</div>
+                <div className="osint-card-title">Imagery Collection Windows</div>
+                <div className="osint-card-desc">Commercial Earth observation satellites (Planet, Maxar, Sentinel-2) have predictable revisit cycles. Cross-reference pass times with known events to identify likely collection opportunities.</div>
               </div>
               <div className="osint-card">
-                <div className="osint-card-title">Geospatial Intelligence</div>
-                <div className="osint-card-desc">Track Earth observation satellites (NOAA, Landsat, Sentinel) over conflict zones. The footprint circle shows the satellite's current coverage area.</div>
+                <div className="osint-card-title">Signals Intelligence (SIGINT)</div>
+                <div className="osint-card-desc">SIGINT satellites require line-of-sight to collect. Knowing when a satellite has your area in its footprint — and at what elevation — defines the collection window. Doppler shift data supports frequency analysis.</div>
               </div>
               <div className="osint-card">
-                <div className="osint-card-title">Space Situational Awareness</div>
-                <div className="osint-card-desc">Over 8,000 active satellites are in orbit. The orbital regime (LEO/MEO/GEO) and inclination reveal the operator's strategic intent.</div>
+                <div className="osint-card-title">Denial & Deception Planning</div>
+                <div className="osint-card-desc">Operational security around satellite overflight is a core military planning consideration. Pass predictions let you identify when activity at a site may be visible from orbit — and when it won't be.</div>
               </div>
               <div className="osint-card">
-                <div className="osint-card-title">ISR Pattern Analysis</div>
-                <div className="osint-card-desc">ISR satellites follow predictable orbital mechanics. Pass scheduling can be correlated with ground activity windows and daylight visibility.</div>
+                <div className="osint-card-title">Constellation Mapping</div>
+                <div className="osint-card-desc">Starlink, OneWeb, and military communications constellations are visible here in real time. Pattern analysis of constellation density over a region reveals coverage gaps and surge indicators.</div>
               </div>
             </div>
           </div>
