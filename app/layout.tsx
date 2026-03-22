@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "The Rudd Report",
   description: "Unclassified intelligence. Strategic analysis on cybersecurity, national security, geopolitics, and the forces reshaping the global order.",
   metadataBase: new URL('https://ruddreport.net'),
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+  },
   openGraph: {
     siteName: 'The Rudd Report',
     type: 'website',
