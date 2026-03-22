@@ -114,13 +114,11 @@ export default function VesselTracker() {
   const [vesselCount, setVesselCount] = useState(0);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
-  const LRef = useRef<any>(null); // cached Leaflet module
-  const wsRef = useRef<WebSocket | null>(null);
-  const aisKeyRef = useRef<string>('');
-  const vesselDataRef = useRef<Map<string, any>>(new Map());
+  const LRef = useRef<any>(null);
   const vesselMarkersRef = useRef<Map<string, any>>(new Map());
   const vesselLayerRef = useRef<any>(null);
   const rendererRef = useRef<any>(null);
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   function vesselColor(type: number) {
     if (type >= 70 && type <= 79) return '#1e9eff';
@@ -133,76 +131,48 @@ export default function VesselTracker() {
     return '#7a9bb5';
   }
 
-  function subscribeViewport() {
-    const ws = wsRef.current;
-    if (!ws || ws.readyState !== WebSocket.OPEN || !mapRef.current) return;
-    const b = mapRef.current.getBounds();
-    ws.send(JSON.stringify({
-      APIKey: aisKeyRef.current,
-      BoundingBoxes: [[[b.getSouth(), b.getWest()], [b.getNorth(), b.getEast()]]],
-      FilterMessageTypes: ['PositionReport', 'ShipStaticData'],
-    }));
-  }
-
-  function handleVesselMessage(evt: MessageEvent) {
+  async function fetchVessels() {
+    const map = mapRef.current;
+    const L = LRef.current;
+    if (!map || !L || !vesselLayerRef.current) return;
+    const b = map.getBounds();
     try {
-      const msg = JSON.parse(evt.data);
-      const meta = msg.MetaData;
-      if (!meta) return;
-      const mmsi = String(meta.MMSI);
-      const existing = vesselDataRef.current.get(mmsi) || {};
-      const L = LRef.current;
-      if (!L) return;
+      const res = await fetch(
+        `/api/vessel/positions?south=${b.getSouth()}&north=${b.getNorth()}&west=${b.getWest()}&east=${b.getEast()}`
+      );
+      const data = await res.json();
+      if (data.error === 'NO_KEY') { setWsStatus('no-key'); return; }
+      setWsStatus(data.wsState === 'connected' ? 'live' : 'connecting');
 
-      if (msg.MessageType === 'PositionReport') {
-        const pr = msg.Message?.PositionReport;
-        const lat = meta.latitude ?? pr?.Latitude;
-        const lon = meta.longitude ?? pr?.Longitude;
-        if (!lat || !lon) return;
-        vesselDataRef.current.set(mmsi, { ...existing, mmsi, lat, lon,
-          name: meta.ShipName?.trim() || existing.name || '',
-          speed: pr?.Sog ?? existing.speed,
-          course: pr?.Cog ?? existing.course,
-          navStatus: pr?.NavigationalStatus ?? existing.navStatus,
-        });
-        if (!vesselLayerRef.current) return;
-        if (vesselMarkersRef.current.has(mmsi)) {
-          vesselMarkersRef.current.get(mmsi).setLatLng([lat, lon]);
+      const seen = new Set<string>();
+      for (const v of (data.vessels || [])) {
+        seen.add(v.mmsi);
+        if (vesselMarkersRef.current.has(v.mmsi)) {
+          vesselMarkersRef.current.get(v.mmsi).setLatLng([v.lat, v.lon]);
         } else {
-          const color = vesselColor(existing.shipType || 0);
-          const marker = L.circleMarker([lat, lon], {
+          const color = vesselColor(v.shipType || 0);
+          const marker = L.circleMarker([v.lat, v.lon], {
             radius: 4, color, fillColor: color, fillOpacity: 0.85, weight: 1,
             renderer: rendererRef.current,
           }).addTo(vesselLayerRef.current);
           marker.on('click', () => {
-            const d = vesselDataRef.current.get(mmsi);
-            setInput(mmsi);
+            setInput(v.mmsi);
             setMode('mmsi');
-            setMmsiInfo(decodeMmsi(mmsi));
+            setMmsiInfo(decodeMmsi(v.mmsi));
             setSelected(null); setResults(null); setError(''); setNoKey(false);
-            if (d?.name) {
-              setSelected({ name: d.name, mmsi, speed: d.speed, course: d.course,
-                latitude: d.lat, longitude: d.lon, status: String(d.navStatus ?? '') });
+            if (v.name) {
+              setSelected({ name: v.name, mmsi: v.mmsi, speed: v.speed,
+                course: v.course, latitude: v.lat, longitude: v.lon });
             }
           });
-          vesselMarkersRef.current.set(mmsi, marker);
-          setVesselCount(vesselMarkersRef.current.size);
-        }
-      } else if (msg.MessageType === 'ShipStaticData') {
-        const sd = msg.Message?.ShipStaticData;
-        if (!sd) return;
-        vesselDataRef.current.set(mmsi, { ...existing, mmsi,
-          name: sd.Name?.trim() || existing.name || '',
-          shipType: sd.Type ?? existing.shipType,
-          destination: sd.Destination?.trim() || existing.destination,
-          callsign: sd.CallSign?.trim() || existing.callsign,
-        });
-        // Update marker color if we now know the ship type
-        if (vesselMarkersRef.current.has(mmsi) && sd.Type != null) {
-          const color = vesselColor(sd.Type);
-          vesselMarkersRef.current.get(mmsi).setStyle({ color, fillColor: color });
+          vesselMarkersRef.current.set(v.mmsi, marker);
         }
       }
+      // Remove markers no longer in viewport
+      for (const [mmsi, marker] of vesselMarkersRef.current) {
+        if (!seen.has(mmsi)) { marker.remove(); vesselMarkersRef.current.delete(mmsi); }
+      }
+      setVesselCount(vesselMarkersRef.current.size);
     } catch { /* ignore */ }
   }
 
@@ -215,7 +185,7 @@ export default function VesselTracker() {
       if (cancelled) return;
       LRef.current = L;
       rendererRef.current = L.canvas({ padding: 0.5 });
-      const map = L.map(mapContainerRef.current!, { center: [20, 0], zoom: 2, preferCanvas: true });
+      const map = L.map(mapContainerRef.current!, { center: [20, 0], zoom: 3, preferCanvas: true });
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors', maxZoom: 18,
       }).addTo(map);
@@ -223,38 +193,17 @@ export default function VesselTracker() {
         attribution: '© OpenSeaMap contributors', maxZoom: 18, opacity: 0.7,
       }).addTo(map);
       vesselLayerRef.current = L.layerGroup().addTo(map);
-      map.on('moveend', subscribeViewport);
       mapRef.current = map;
-      setTimeout(() => { map.invalidateSize(); subscribeViewport(); }, 300);
+      setTimeout(() => { map.invalidateSize(); fetchVessels(); }, 400);
     })();
     return () => { cancelled = true; if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; } };
   }, []); // eslint-disable-line
 
-  // Fetch AIS key and connect WebSocket
+  // Poll for vessel positions every 15 seconds
   useEffect(() => {
-    fetch('/api/vessel/stream-key').then(r => r.json()).then(({ key }) => {
-      if (!key) { setWsStatus('no-key'); return; }
-      aisKeyRef.current = key;
-      setWsStatus('connecting');
-
-      const ws = new WebSocket('wss://stream.aisstream.io/v0/stream');
-      wsRef.current = ws;
-
-      ws.onopen = () => {
-        setWsStatus('live');
-        // Retry subscription until map is ready
-        const trySubscribe = (attempts = 0) => {
-          if (mapRef.current) { subscribeViewport(); return; }
-          if (attempts < 20) setTimeout(() => trySubscribe(attempts + 1), 200);
-        };
-        trySubscribe();
-      };
-
-      ws.onmessage = handleVesselMessage;
-      ws.onclose = () => setWsStatus('idle');
-      ws.onerror = () => setWsStatus('idle');
-    });
-    return () => { wsRef.current?.close(); };
+    setWsStatus('connecting');
+    pollRef.current = setInterval(fetchVessels, 15_000);
+    return () => { if (pollRef.current) clearInterval(pollRef.current); };
   }, []); // eslint-disable-line
 
   const handleSearch = async () => {
