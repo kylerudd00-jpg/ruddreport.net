@@ -8,20 +8,23 @@ export async function GET(req: NextRequest) {
 
   try {
     const clean = url.trim().replace(/^https?:\/\//, '').replace(/^www\./, '');
-    const fromYear = req.nextUrl.searchParams.get('from') ?? '';
-    const toYear   = req.nextUrl.searchParams.get('to')   ?? '';
-
-    // Default: last 5 years so results are modern. User can override with explicit year range.
-    const defaultFrom = String(new Date().getFullYear() - 5);
-    const from = fromYear || defaultFrom;
-    const to   = toYear   || '';
+    // Dates arrive as mm/dd/yyyy — convert to yyyymmdd for CDX
+    const toCDXDate = (s: string) => {
+      if (!s) return '';
+      const [m, d, y] = s.split('/');
+      if (!y || y.length !== 4) return '';
+      return `${y}${m?.padStart(2,'0') ?? '01'}${d?.padStart(2,'0') ?? '01'}`;
+    };
+    const fromCDX = toCDXDate(req.nextUrl.searchParams.get('from') ?? '');
+    const toCDX   = toCDXDate(req.nextUrl.searchParams.get('to')   ?? '');
 
     const buildParams = (u: string) => {
       const p = new URLSearchParams({
-        url: u, output: 'json', fl: 'timestamp,statuscode,mimetype', limit: '200',
+        url: u, output: 'json', fl: 'timestamp,statuscode,mimetype',
+        limit: '150', reverse: 'true',
       });
-      p.set('from', from + '0101');
-      if (to) p.set('to', to + '1231');
+      if (fromCDX) p.set('from', fromCDX);
+      if (toCDX)   p.set('to',   toCDX);
       return p.toString();
     };
 

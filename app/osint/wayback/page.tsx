@@ -15,9 +15,8 @@ export default function WaybackMachine() {
   const [error, setError] = useState('');
   const [targetUrl, setTargetUrl] = useState('');
   const [sortDir, setSortDir] = useState<'desc' | 'asc'>('desc');
-  const currentYear = new Date().getFullYear();
-  const [fromYear, setFromYear] = useState('');
-  const [toYear, setToYear] = useState('');
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
 
   const search = async () => {
     if (!url.trim()) return;
@@ -28,8 +27,8 @@ export default function WaybackMachine() {
     setTargetUrl(clean);
     try {
       const params = new URLSearchParams({ url: clean });
-      if (fromYear) params.set('from', fromYear);
-      if (toYear)   params.set('to',   toYear);
+      if (fromDate) params.set('from', fromDate);
+      if (toDate)   params.set('to',   toDate);
       const res = await fetch(`/api/osint/wayback?${params.toString()}`);
       const json = await res.json();
       if (json.error) throw new Error(json.error);
@@ -107,7 +106,7 @@ export default function WaybackMachine() {
         .search-btn:disabled { background: #0d3322; color: #3d5870; cursor: not-allowed; }
         .date-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
         .date-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
-        .year-input { background: rgba(10,21,32,0.8); border: 1px solid rgba(30,158,255,0.2); color: #c0cfe0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 6px 12px; width: 90px; outline: none; letter-spacing: 1px; }
+        .year-input { background: rgba(10,21,32,0.8); border: 1px solid rgba(30,158,255,0.2); color: #c0cfe0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; padding: 6px 12px; width: 120px; outline: none; letter-spacing: 1px; }
         .year-input::placeholder { color: #3d5870; }
         .year-input:focus { border-color: rgba(30,158,255,0.5); }
         .date-sep { color: #3d5870; font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
@@ -218,25 +217,35 @@ export default function WaybackMachine() {
             <span className="date-label">Year range:</span>
             <input
               className="year-input"
-              placeholder="From"
-              value={fromYear}
-              maxLength={4}
-              onChange={e => setFromYear(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              placeholder="mm/dd/yyyy"
+              value={fromDate}
+              maxLength={10}
+              onChange={e => {
+                let v = e.target.value.replace(/[^\d/]/g, '');
+                if (v.length === 2 && !v.includes('/')) v += '/';
+                if (v.length === 5 && v.split('/').length === 2) v += '/';
+                setFromDate(v.slice(0, 10));
+              }}
               onKeyDown={e => e.key === 'Enter' && search()}
             />
             <span className="date-sep">—</span>
             <input
               className="year-input"
-              placeholder="To"
-              value={toYear}
-              maxLength={4}
-              onChange={e => setToYear(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              placeholder="mm/dd/yyyy"
+              value={toDate}
+              maxLength={10}
+              onChange={e => {
+                let v = e.target.value.replace(/[^\d/]/g, '');
+                if (v.length === 2 && !v.includes('/')) v += '/';
+                if (v.length === 5 && v.split('/').length === 2) v += '/';
+                setToDate(v.slice(0, 10));
+              }}
               onKeyDown={e => e.key === 'Enter' && search()}
             />
-            {(fromYear || toYear) && (
-              <button className="date-clear" onClick={() => { setFromYear(''); setToYear(''); }}>✕ Clear</button>
+            {(fromDate || toDate) && (
+              <button className="date-clear" onClick={() => { setFromDate(''); setToDate(''); }}>✕ Clear</button>
             )}
-            <span className="date-label" style={{marginLeft:4}}>blank = last 5 years</span>
+            <span className="date-label" style={{marginLeft:4}}>blank = 150 most recent</span>
           </div>
         </div>
 
