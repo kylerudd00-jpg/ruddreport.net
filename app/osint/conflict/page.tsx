@@ -1198,6 +1198,7 @@ export default function ConflictTracker() {
   const [acledData, setAcledData] = useState<Record<string, number>>({});
   const [search, setSearch] = useState('');
   const [regionFilter, setRegionFilter] = useState('all');
+  const [drillRegion, setDrillRegion] = useState<string | null>(null);
 
   // Pentagon Pizza Tracker / DoD activity
   const [dodIndex, setDodIndex] = useState(0);
@@ -1580,7 +1581,7 @@ useEffect(() => {
         .detail-fact-value.blue { color: #1e9eff; }
 
         /* INTEL SECTION */
-        .intel-section { max-width: 1500px; margin: 2px auto 0; padding: 0 40px 80px; display: grid; grid-template-columns: 1fr 1fr 360px; gap: 2px; }
+        .intel-section { max-width: 1500px; margin: 2px auto 0; padding: 0 40px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
         .intel-panel { border: 1px solid rgba(30,158,255,0.08); background: #070d12; }
         .emerging-item { padding: 12px 18px; border-bottom: 1px solid rgba(30,158,255,0.05); transition: background 0.2s; }
         .emerging-item:hover { background: #0a1520; }
@@ -1600,6 +1601,19 @@ useEffect(() => {
         .chart-count { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #3d5870; width: 20px; flex-shrink: 0; }
         .chart-legend { display: flex; gap: 16px; padding: 10px 18px; border-top: 1px solid rgba(30,158,255,0.06); }
         .chart-legend-item { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; text-transform: uppercase; }
+        .chart-region-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 18px; border-bottom: 1px solid rgba(30,158,255,0.05); cursor: pointer; transition: background 0.15s; }
+        .chart-region-row:hover { background: rgba(30,158,255,0.04); }
+        .chart-region-row.active { background: rgba(30,158,255,0.07); border-left: 2px solid #1e9eff; }
+        .chart-region-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #c0cfe0; }
+        .chart-region-counts { display: flex; gap: 12px; align-items: center; }
+        .chart-region-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #3d5870; margin-left: 6px; transition: transform 0.2s; }
+        .chart-region-arrow.open { transform: rotate(90deg); }
+        .drill-panel { background: rgba(10,21,32,0.6); border-bottom: 1px solid rgba(30,158,255,0.08); max-height: 320px; overflow-y: auto; }
+        .drill-conflict { padding: 10px 18px 10px 28px; border-bottom: 1px solid rgba(30,158,255,0.04); cursor: pointer; transition: background 0.15s; }
+        .drill-conflict:hover { background: rgba(30,158,255,0.04); }
+        .drill-conflict-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+        .drill-conflict-name { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: #c0cfe0; }
+        .drill-summary { font-family: 'Barlow', sans-serif; font-size: 11px; color: #5a7a90; line-height: 1.4; }
         .chart-legend-dot { width: 8px; height: 8px; flex-shrink: 0; }
 
         /* PENTAGON PIZZA TRACKER */
@@ -1631,7 +1645,7 @@ useEffect(() => {
         @media (max-width: 1200px) {
           .main-layout { grid-template-columns: 1fr; }
           .bottom-section { grid-template-columns: 1fr; }
-          .intel-section { grid-template-columns: 1fr; padding-left: 16px; padding-right: 16px; }
+          .intel-section { grid-template-columns: 1fr; padding-left: 16px; padding-right: 16px; padding-bottom: 40px; }
           #conflict-map { height: 400px; }
           nav { padding: 0 16px; }
           .nav-links { display: none; }
@@ -1826,35 +1840,71 @@ useEffect(() => {
         </div>
 
         {/* BOTTOM ROW */}
+        {/* BOTTOM: Pizza Tracker + ACLED */}
         <div className="bottom-section">
 
-          {/* Global news feed */}
-          <div className="global-feed">
-            <div className="panel-header">
-              <div>
-                <div className="panel-title">Global Conflict Feed</div>
-                <div className="panel-subtitle">GDELT — Updated every 10 min</div>
-              </div>
-              <button className="page-btn" onClick={fetchGlobalNews}>↺ Refresh</button>
+          {/* Pentagon Pizza Tracker */}
+          <div className="global-feed" style={{borderColor:'rgba(255,170,0,0.12)'}}>
+            <div className="pizza-header">
+              <div className="pizza-eyebrow">⬡ OSINT Signal · DoD Activity</div>
+              <div className="pizza-title">Pentagon Pizza Tracker</div>
             </div>
-            {globalLoading ? (
-              <div className="news-loading" style={{ padding: 30 }}>Pulling global feed...</div>
-            ) : pagedNews.map((a, i) => (
-              <div key={i} className="feed-item">
-                <a className="feed-title" href={a.url} target="_blank" rel="noopener noreferrer">{a.title}</a>
-                <div className="feed-meta">{a.source} · {a.date}</div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:0}}>
+              <div className="pizza-gauge-wrap" style={{borderRight:'1px solid rgba(30,158,255,0.06)'}}>
+                <div className="pizza-gauge-label">Live DoD Activity Index (GDELT · 24h)</div>
+                <div className="pizza-meter">
+                  <div className="pizza-meter-fill" style={{width:`${dodIndex}%`, background: dodLevel.color}} />
+                </div>
+                <div className="pizza-meter-zones">
+                  <span className="pizza-meter-zone">Normal</span>
+                  <span className="pizza-meter-zone">Elevated</span>
+                  <span className="pizza-meter-zone">High</span>
+                </div>
+                {dodLoading
+                  ? <div style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:9,color:'#3d5870',letterSpacing:2,marginTop:8,animation:'blink 1s infinite'}}>MEASURING...</div>
+                  : <>
+                      <div className="pizza-level" style={{color: dodLevel.color}}>{dodLevel.label}</div>
+                      <div className="pizza-index">Index: {dodIndex}/100 · {dodArticles.length} DoD articles/24h</div>
+                    </>
+                }
+                {dodArticles.length > 0 && (
+                  <div style={{marginTop:10}}>
+                    {dodArticles.map((a, i) => (
+                      <div key={i} style={{padding:'6px 0',borderTop:'1px solid rgba(30,158,255,0.05)'}}>
+                        <a href={a.url} target="_blank" rel="noopener noreferrer" className="emerging-title" style={{fontSize:11}}>{a.title}</a>
+                        <div className="emerging-meta">{a.source}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-            ))}
-            {totalPages > 1 && (
-              <div className="feed-pagination">
-                <button className="page-btn" onClick={() => setGlobalPage(p => Math.max(0, p - 1))} disabled={globalPage === 0}>← Prev</button>
-                <div className="page-info">{globalPage + 1} / {totalPages}</div>
-                <button className="page-btn" onClick={() => setGlobalPage(p => Math.min(totalPages - 1, p + 1))} disabled={globalPage === totalPages - 1}>Next →</button>
+              <div>
+                <div className="pizza-history">
+                  <div className="pizza-history-title">Historical precedent</div>
+                  <div className="pizza-event"><span className="pizza-event-year">1983</span><span className="pizza-event-text">Domino's owner Frank Meeks noticed pizza surges to the Pentagon the night before the Grenada invasion.</span></div>
+                  <div className="pizza-event"><span className="pizza-event-year">1990</span><span className="pizza-event-text">CIA ordered 21 pizzas the night before Iraq's invasion of Kuwait was announced.</span></div>
+                  <div className="pizza-event"><span className="pizza-event-year">1991</span><span className="pizza-event-text">Operation Desert Storm: late-night Pentagon deliveries spiked days before the air campaign began.</span></div>
+                </div>
+                <div className="pizza-signals">
+                  <div className="pizza-history-title">Modern OSINT equivalents</div>
+                  {[
+                    {name:'Military Flight Tracking', status:'ADS-B / FlightAware', color:'#1e9eff'},
+                    {name:'Pentagon Parking Lots', status:'Satellite Imagery', color:'#1e9eff'},
+                    {name:'DoD Spokesperson Activity', status:'X / Social Monitor', color:'#1e9eff'},
+                    {name:'Building Light Patterns', status:'Satellite / Overpass', color:'#1e9eff'},
+                    {name:'Delivery Volume Spikes', status:'Behavioral OSINT', color:'#ffaa00'},
+                  ].map((s, i) => (
+                    <div key={i} className="pizza-signal">
+                      <div className="pizza-signal-dot" style={{background: s.color, boxShadow:`0 0 5px ${s.color}`}} />
+                      <span className="pizza-signal-name">{s.name}</span>
+                      <span className="pizza-signal-status">{s.status}</span>
+                    </div>
+                  ))}
+                </div>
+                <a href="https://www.pizzint.watch" target="_blank" rel="noopener noreferrer" className="pizza-link">→ pizzint.watch — live pizza index ↗</a>
               </div>
-            )}
+            </div>
           </div>
-
-          
 
           {/* ACLED stats */}
           <div className="stats-panel">
@@ -1878,7 +1928,7 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* INTEL SECTION: Emerging + Chart + Pentagon */}
+        {/* INTEL SECTION: Emerging + Clickable Regional Chart */}
         <div className="intel-section">
 
           {/* Emerging Conflicts Feed */}
@@ -1903,18 +1953,18 @@ useEffect(() => {
             )}
           </div>
 
-          {/* Regional Breakdown Chart */}
+          {/* Regional Breakdown Chart — clickable */}
           <div className="intel-panel">
             <div className="panel-header">
               <div>
                 <div className="panel-title">Conflicts by Region</div>
-                <div className="panel-subtitle">{CONFLICTS.length} tracked zones</div>
+                <div className="panel-subtitle">{CONFLICTS.length} tracked · click region for details</div>
               </div>
             </div>
             <div className="chart-wrap">
               <div className="chart-bar-group">
                 {regionCounts.map(r => (
-                  <div key={r.region} className="chart-row">
+                  <div key={r.region} className="chart-row" style={{cursor:'pointer'}} onClick={() => setDrillRegion(dr => dr === r.region ? null : r.region)}>
                     <div className="chart-label">{r.short}</div>
                     <div className="chart-bars">
                       <div className="chart-seg-high" style={{width:`${chartMax ? (r.high/chartMax)*100 : 0}%`}} />
@@ -1929,83 +1979,37 @@ useEffect(() => {
               <div className="chart-legend-item"><div className="chart-legend-dot" style={{background:'#ff3a3a'}} />High intensity</div>
               <div className="chart-legend-item"><div className="chart-legend-dot" style={{background:'#ffaa00'}} />Medium intensity</div>
             </div>
-            <div style={{padding:'0 18px 16px'}}>
-              {regionCounts.map(r => (
-                <div key={r.region} style={{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:'1px solid rgba(30,158,255,0.05)'}}>
-                  <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:13,color:'#c0cfe0'}}>{r.region}</span>
-                  <span style={{display:'flex',gap:12}}>
+            {regionCounts.map(r => (
+              <div key={r.region}>
+                <div
+                  className={`chart-region-row${drillRegion === r.region ? ' active' : ''}`}
+                  onClick={() => setDrillRegion(dr => dr === r.region ? null : r.region)}
+                >
+                  <span className="chart-region-name">{r.region}</span>
+                  <span className="chart-region-counts">
                     <span style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:9,color:'#ff3a3a'}}>{r.high} high</span>
                     <span style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:9,color:'#ffaa00'}}>{r.medium} med</span>
+                    <span className={`chart-region-arrow${drillRegion === r.region ? ' open' : ''}`}>▶</span>
                   </span>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Pentagon Pizza Tracker */}
-          <div className="intel-panel" style={{borderColor:'rgba(255,170,0,0.12)'}}>
-            <div className="pizza-header">
-              <div className="pizza-eyebrow">⬡ OSINT Signal · DoD Activity</div>
-              <div className="pizza-title">Pentagon Pizza Tracker</div>
-            </div>
-
-            <div className="pizza-gauge-wrap">
-              <div className="pizza-gauge-label">Live DoD Activity Index (GDELT · 24h)</div>
-              <div className="pizza-meter">
-                <div className="pizza-meter-fill" style={{width:`${dodIndex}%`, background: dodLevel.color}} />
-              </div>
-              <div className="pizza-meter-zones">
-                <span className="pizza-meter-zone">Normal</span>
-                <span className="pizza-meter-zone">Elevated</span>
-                <span className="pizza-meter-zone">High</span>
-              </div>
-              {dodLoading
-                ? <div style={{fontFamily:"'IBM Plex Mono',monospace",fontSize:9,color:'#3d5870',letterSpacing:2,marginTop:8,animation:'blink 1s infinite'}}>MEASURING...</div>
-                : <>
-                    <div className="pizza-level" style={{color: dodLevel.color}}>{dodLevel.label}</div>
-                    <div className="pizza-index">Activity index: {dodIndex}/100 · {dodArticles.length} DoD articles/24h</div>
-                  </>
-              }
-            </div>
-
-            {dodArticles.length > 0 && (
-              <div style={{padding:'10px 0'}}>
-                {dodArticles.map((a, i) => (
-                  <div key={i} className="emerging-item">
-                    <a href={a.url} target="_blank" rel="noopener noreferrer" className="emerging-title" style={{fontSize:12}}>{a.title}</a>
-                    <div className="emerging-meta">{a.source}</div>
+                {drillRegion === r.region && (
+                  <div className="drill-panel">
+                    {CONFLICTS.filter(c => getRegion(c.tags) === r.region)
+                      .sort((a, b) => (a.intensity === 'high' ? -1 : 1))
+                      .map(c => (
+                        <div key={c.id} className="drill-conflict" onClick={() => { setSelected(c); fetchConflictNews(c); }}>
+                          <div className="drill-conflict-header">
+                            <span className="drill-conflict-name">{c.name}</span>
+                            <span className={`intensity-badge intensity-${c.intensity}`}>{c.intensity}</span>
+                          </div>
+                          <div className="drill-summary">{c.summary}</div>
+                        </div>
+                      ))
+                    }
                   </div>
-                ))}
+                )}
               </div>
-            )}
-
-            <div className="pizza-history">
-              <div className="pizza-history-title">Historical precedent</div>
-              <div className="pizza-event"><span className="pizza-event-year">1983</span><span className="pizza-event-text">Domino's owner Frank Meeks noticed pizza surges to the Pentagon the night before the Grenada invasion.</span></div>
-              <div className="pizza-event"><span className="pizza-event-year">1990</span><span className="pizza-event-text">CIA ordered 21 pizzas the night before Iraq's invasion of Kuwait was announced.</span></div>
-              <div className="pizza-event"><span className="pizza-event-year">1991</span><span className="pizza-event-text">Operation Desert Storm: late-night Pentagon deliveries spiked days before the air campaign began.</span></div>
-            </div>
-
-            <div className="pizza-signals">
-              <div className="pizza-history-title">Modern OSINT equivalents</div>
-              {[
-                {name:'Military Flight Tracking', status:'ADS-B / FlightAware', color:'#1e9eff'},
-                {name:'Pentagon Parking Lots', status:'Satellite Imagery', color:'#1e9eff'},
-                {name:'DoD Spokesperson Tweets', status:'X / Social Monitor', color:'#1e9eff'},
-                {name:'Building Light Patterns', status:'Satellite / Overpass', color:'#1e9eff'},
-                {name:'Delivery Volume (pizza.ai)', status:'Behavioral OSINT', color:'#ffaa00'},
-              ].map((s, i) => (
-                <div key={i} className="pizza-signal">
-                  <div className="pizza-signal-dot" style={{background: s.color, boxShadow:`0 0 5px ${s.color}`}} />
-                  <span className="pizza-signal-name">{s.name}</span>
-                  <span className="pizza-signal-status">{s.status}</span>
-                </div>
-              ))}
-            </div>
-
-            <a href="https://www.pizzint.watch" target="_blank" rel="noopener noreferrer" className="pizza-link">
-              → pizzint.watch — live pizza index ↗
-            </a>
+            ))}
           </div>
         </div>
 
