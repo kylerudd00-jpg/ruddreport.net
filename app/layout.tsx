@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SearchModal from "./components/SearchModal";
 
 export const metadata: Metadata = {
   title: "The Rudd Report",
@@ -31,6 +32,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
+        <SearchModal />
       </body>
     </html>
   );

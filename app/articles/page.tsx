@@ -14,6 +14,17 @@ const CATEGORIES = [
 const rc = (relevance: string) =>
   relevance === 'HIGH' ? '#ff3a3a' : relevance === 'MED' ? '#ffaa00' : '#1e9eff';
 
+function getCategoryColor(cat: string): string {
+  switch (cat) {
+    case 'Cybersecurity': return '#ff4444';
+    case 'Intelligence': return '#b464ff';
+    case 'Geopolitics': return '#ffaa00';
+    case 'National Security': return '#22cc66';
+    case 'Economic Security': return '#00c9b0';
+    default: return '#1e9eff';
+  }
+}
+
 export default function ArticlesPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -186,6 +197,11 @@ export default function ArticlesPage() {
               <button
                 key={cat}
                 className={`filter-btn${activeCategory === cat ? ' active' : ''}`}
+                style={activeCategory === cat && cat !== 'All' ? {
+                  color: getCategoryColor(cat),
+                  borderColor: `${getCategoryColor(cat)}60`,
+                  background: `${getCategoryColor(cat)}12`,
+                } : {}}
                 onClick={() => setActiveCategory(cat)}
               >
                 {cat}
@@ -234,7 +250,7 @@ function ArticleCard({ article }: { article: Article }) {
   return (
     <a href={`/articles/${article.slug}`} className="article-card">
       <div className="card-meta">
-        <span className="card-category">{article.category}</span>
+        <span className="card-category" style={{color: getCategoryColor(article.category), borderColor: `${getCategoryColor(article.category)}40`, background: `${getCategoryColor(article.category)}10`}}>{article.category}</span>
         <span className="card-date">{article.date}</span>
         <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '8px', letterSpacing: '2px', color }}>
           ■ {article.relevance}

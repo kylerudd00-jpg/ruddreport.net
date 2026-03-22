@@ -48,6 +48,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const relevanceColor =
     article.relevance === 'HIGH' ? '#ff3a3a' : article.relevance === 'MED' ? '#ffaa00' : '#1e9eff';
 
+  const categoryColor = (() => {
+    switch (article.category) {
+      case 'Cybersecurity': return '#ff4444';
+      case 'Intelligence': return '#b464ff';
+      case 'Geopolitics': return '#ffaa00';
+      case 'National Security': return '#22cc66';
+      case 'Economic Security': return '#00c9b0';
+      default: return '#1e9eff';
+    }
+  })();
+
   // Build content blocks with anchor IDs on headings
   const blocks = article.content.split('\n\n').map((block, i) => {
     if (block.startsWith('## ')) {
@@ -165,7 +176,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <div className="article-header-inner">
           <a href="/articles" className="back-link">← All Reports</a>
           <div className="article-meta">
-            <span className="meta-category">{article.category}</span>
+            <span className="meta-category" style={{color: categoryColor, borderColor: `${categoryColor}50`, background: `${categoryColor}10`}}>{article.category}</span>
             <span className="meta-date">{article.date}</span>
             <span className="meta-sep">·</span>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: relevanceColor }}>
@@ -240,10 +251,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             {related.map(r => {
               const rColor =
                 r.relevance === 'HIGH' ? '#ff3a3a' : r.relevance === 'MED' ? '#ffaa00' : '#1e9eff';
+              const rCatColor = (() => { switch (r.category) { case 'Cybersecurity': return '#ff4444'; case 'Intelligence': return '#b464ff'; case 'Geopolitics': return '#ffaa00'; case 'National Security': return '#22cc66'; case 'Economic Security': return '#00c9b0'; default: return '#1e9eff'; } })();
               return (
                 <a key={r.slug} href={`/articles/${r.slug}`} className="related-card">
                   <div className="related-card-meta">
-                    <span className="related-card-cat">{r.category}</span>
+                    <span className="related-card-cat" style={{color: rCatColor}}>{r.category}</span>
                     <span style={{ color: '#1e2a35' }}>·</span>
                     <span className="related-card-date">{r.date}</span>
                     <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '8px', letterSpacing: '2px', color: rColor }}>

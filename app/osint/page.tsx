@@ -1,6 +1,6 @@
 'use client';
-import { useState } from 'react';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, FlaskConical, LayoutDashboard, DollarSign, BarChart2, Package, type LucideIcon } from 'lucide-react';
 
 function detectAndRoute(raw: string) {
   const q = raw.trim();
@@ -10,27 +10,106 @@ function detectAndRoute(raw: string) {
   const domainRx = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/i;
   const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const urlRx = /^https?:\/\//i;
-
   if (urlRx.test(q)) { window.location.href = `/osint/url?q=${encodeURIComponent(q)}`; return; }
   if (emailRx.test(q)) { window.location.href = `/osint/email-headers?q=${encodeURIComponent(q)}`; return; }
   if (ipRx.test(q)) { window.location.href = `/osint/ip?q=${encodeURIComponent(q)}`; return; }
   if (hashRx.test(q)) { window.location.href = `/osint/hash?q=${encodeURIComponent(q)}`; return; }
   if (domainRx.test(q)) { window.location.href = `/osint/whois?q=${encodeURIComponent(q)}`; return; }
-  // Default: username hunter
   window.location.href = `/osint/username?q=${encodeURIComponent(q)}`;
 }
 
+type Category = 'All' | 'Corporate' | 'Network' | 'Cyber' | 'Live & Tracking' | 'Utilities' | 'Economic';
+
+interface Tool {
+  icon: LucideIcon;
+  name: string;
+  desc: string;
+  href: string;
+  category: Exclude<Category, 'All'>;
+}
+
+const TOOLS: Tool[] = [
+  // Corporate Intelligence
+  { icon: LayoutDashboard, name: 'Corporate Intel Dashboard', desc: 'Full company research package — filings, patents, contracts, exec intel', href: '/osint/company', category: 'Corporate' },
+  { icon: FileText, name: 'SEC EDGAR Search', desc: 'Full-text search of 10-Ks, 8-Ks, proxies, and insider transactions', href: '/osint/edgar', category: 'Corporate' },
+  { icon: Landmark, name: 'Government Contracts', desc: 'Federal award search via USASpending.gov — contracts, grants, IDVs', href: '/osint/contracts', category: 'Corporate' },
+  { icon: FlaskConical, name: 'Patent Intelligence', desc: 'USPTO patent search by company or technology keyword', href: '/osint/patents', category: 'Corporate' },
+  { icon: Building2, name: 'Corporate Investigator', desc: 'Search 200M+ companies across 140 jurisdictions via OpenCorporates', href: '/osint/corporate', category: 'Corporate' },
+  { icon: Search, name: 'Entity Search', desc: 'Wikipedia profile + research links across registries and databases', href: '/osint/entity', category: 'Corporate' },
+  // Network & Domain
+  { icon: Globe, name: 'WHOIS Lookup', desc: 'Domain registration, registrar, nameservers, and contact records', href: '/osint/whois', category: 'Network' },
+  { icon: Server, name: 'DNS Intelligence', desc: 'Full DNS records, email security posture, hosting infrastructure', href: '/osint/dns', category: 'Network' },
+  { icon: MapPin, name: 'IP Geolocation', desc: 'Geographic location, ISP, ASN, and network details for any IP', href: '/osint/ip', category: 'Network' },
+  { icon: ScanSearch, name: 'Subdomain Scanner', desc: 'Enumerate subdomains via certificate transparency logs', href: '/osint/subdomains', category: 'Network' },
+  { icon: Lock, name: 'SSL Certificate Inspector', desc: 'Certificate transparency log search — cert history and SANs', href: '/osint/ssl', category: 'Network' },
+  { icon: Link, name: 'URL Redirect Tracer', desc: 'Trace the full redirect chain of any shortened or obfuscated URL', href: '/osint/url', category: 'Network' },
+  { icon: Shield, name: 'MAC Address Lookup', desc: 'Identify hardware vendor from any MAC address or OUI prefix', href: '/osint/mac', category: 'Network' },
+  // Cyber & Security
+  { icon: KeyRound, name: 'Hash Analyzer', desc: 'Identify hash format or check password against known breach data', href: '/osint/hash', category: 'Cyber' },
+  { icon: AlertTriangle, name: 'CVE Search', desc: 'NIST NVD vulnerability search — CVSS scores, attack vectors, CWEs', href: '/osint/cve', category: 'Cyber' },
+  { icon: Mail, name: 'Email Header Analyzer', desc: 'Trace routing path, SPF/DKIM/DMARC results, and originating IP', href: '/osint/email-headers', category: 'Cyber' },
+  { icon: User, name: 'Username Hunter', desc: 'Check username across 39 platforms simultaneously in real time', href: '/osint/username', category: 'Cyber' },
+  { icon: History, name: 'Wayback Machine', desc: 'Historical snapshots of any URL via the Internet Archive', href: '/osint/wayback', category: 'Cyber' },
+  { icon: FileImage, name: 'Metadata Extractor', desc: 'Extract hidden EXIF data from photos — GPS, device, timestamps', href: '/osint/metadata', category: 'Cyber' },
+  // Live & Tracking
+  { icon: Radio, name: 'Live Intel Feed', desc: 'Real-time news from BBC, Krebs, The Record, Foreign Policy, and more', href: '/osint/feed', category: 'Live & Tracking' },
+  { icon: Map, name: 'Conflict Tracker', desc: 'Real-time mapping of conflict zones with GDELT and ACLED data', href: '/osint/conflict', category: 'Live & Tracking' },
+  { icon: TrendingUp, name: 'Polymarket Tracker', desc: 'Prediction market odds on geopolitical events and global conflicts', href: '/osint/polymarket', category: 'Live & Tracking' },
+  { icon: Satellite, name: 'Satellite Tracker', desc: 'Real-time satellite tracking with orbital ground tracks and passes', href: '/tools/satellite-tracker', category: 'Live & Tracking' },
+  { icon: PlaneTakeoff, name: 'Flight Tracker', desc: 'Live global air traffic with full ADS-B telemetry via OpenSky', href: '/tools/flight-tracker', category: 'Live & Tracking' },
+  { icon: Ship, name: 'Vessel Tracker', desc: 'AIS vessel tracking — MMSI lookup, position, destination, speed', href: '/tools/vessel-tracker', category: 'Live & Tracking' },
+  // Utilities
+  { icon: Calculator, name: 'Subnet Calculator', desc: 'CIDR subnet math — network, broadcast, host range, mask', href: '/osint/subnet', category: 'Utilities' },
+  { icon: KeyRound, name: 'JWT Decoder', desc: 'Decode JWT tokens and inspect claims client-side', href: '/osint/jwt', category: 'Utilities' },
+  { icon: Binary, name: 'Base64 Tool', desc: 'Encode or decode Base64 strings — Unicode supported, client-side', href: '/osint/base64', category: 'Utilities' },
+  { icon: Phone, name: 'Phone Number OSINT', desc: 'Identify carrier and line type, launch into OSINT databases', href: '/tools/phone-lookup', category: 'Utilities' },
+  // Economic Intelligence
+  { icon: DollarSign, name: 'Currency Tracker', desc: 'Live exchange rates — sanctions pressure, capital flight, currency collapse', href: '/osint/currency', category: 'Economic' },
+  { icon: BarChart2, name: 'Country Economic Profile', desc: 'World Bank data — GDP, inflation, debt, trade for 200+ countries', href: '/osint/economics', category: 'Economic' },
+  { icon: Package, name: 'Commodity Monitor', desc: 'Strategic commodities and crypto prices — oil, gold, palladium, Monero', href: '/osint/commodities', category: 'Economic' },
+  { icon: Scale, name: 'Sanctions Screener', desc: 'Search OFAC SDN, EU, UN, and BIS sanctions lists by name', href: '/osint/sanctions', category: 'Economic' },
+];
+
+const CATEGORIES: Category[] = ['All', 'Corporate', 'Network', 'Cyber', 'Live & Tracking', 'Economic', 'Utilities'];
+
+const CAT_COLORS: Record<string, string> = {
+  Corporate: '#ffaa00',
+  Network: '#1e9eff',
+  Cyber: '#ff4444',
+  'Live & Tracking': '#22cc66',
+  Economic: '#00c9b0',
+  Utilities: '#b464ff',
+};
+
 export default function OSINTHub() {
   const [routerQuery, setRouterQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState<Category>('All');
+  const [search, setSearch] = useState('');
+
+  const filtered = useMemo(() => {
+    let list = activeCategory === 'All' ? TOOLS : TOOLS.filter(t => t.category === activeCategory);
+    if (search.trim()) {
+      const s = search.toLowerCase();
+      list = list.filter(t => t.name.toLowerCase().includes(s) || t.desc.toLowerCase().includes(s));
+    }
+    return list;
+  }, [activeCategory, search]);
+
+  const counts = useMemo(() => {
+    const map: Record<string, number> = { All: TOOLS.length };
+    CATEGORIES.slice(1).forEach(c => { map[c] = TOOLS.filter(t => t.category === c).length; });
+    return map;
+  }, []);
+
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
         .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
+        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #fff; }
         .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
         .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
         .nav-links a:hover { color: #1e9eff; }
@@ -40,73 +119,97 @@ export default function OSINTHub() {
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 2px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1.5px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+
         .page-wrap { padding-top: 70px; }
-        .hero { padding: 80px 40px 60px; border-bottom: 1px solid rgba(30,158,255,0.12); position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(30,158,255,0.05) 0%, transparent 70%); pointer-events: none; }
-        .hero-inner { max-width: 1200px; margin: 0 auto; }
-        .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-        .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
+
+        /* HERO */
+        .hero { padding: 60px 40px 50px; border-bottom: 1px solid rgba(30,158,255,0.1); position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -150px; right: -150px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(30,158,255,0.04) 0%, transparent 70%); pointer-events: none; }
+        .hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .hero-eyebrow-line { width: 32px; height: 1px; background: #1e9eff; }
         .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 64px); font-weight: 700; color: #c0cfe0; line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.5px; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 4vw, 60px); font-weight: 700; color: #c0cfe0; line-height: 1.05; margin-bottom: 14px; letter-spacing: -0.5px; }
         .hero-title span { color: #1e9eff; }
-        .hero-sub { font-size: 16px; font-weight: 400; color: #7a9bb5; line-height: 1.8; max-width: 600px; margin-bottom: 32px; }
-        .hero-stats { display: flex; gap: 40px; }
-        .hero-stat { display: flex; flex-direction: column; gap: 4px; }
-        .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: #1e9eff; }
-        .hero-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; text-transform: uppercase; }
-        .section { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
-        .section-header { margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; margin-bottom: 8px; }
-        .section-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #c0cfe0; letter-spacing: -0.2px; }
-        .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .tool-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 32px; text-decoration: none; display: block; transition: all 0.3s; overflow: hidden; }
-        .tool-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: #1e9eff; transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom; }
-        .tool-card:hover { background: #0f1e2e; border-color: rgba(30,158,255,0.3); transform: translateX(4px); }
-        .tool-card:hover::before { transform: scaleY(1); }
-        .tool-card.live { border-color: rgba(30,158,255,0.2); }
-        .tool-card.live::before { background: #1e9eff; }
-        .tool-card.live:hover { border-color: rgba(30,158,255,0.4); background: #0a1f18; }
-        .tool-card.coming { opacity: 0.45; cursor: default; pointer-events: none; }
-        .tool-icon { margin-bottom: 16px; display: block; color: #1e9eff; }
-        .tool-card.live .tool-icon { color: #1e9eff; }
-        .tool-status { display: inline-flex; align-items: center; gap: 6px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
-        .tool-status.live { color: #1e9eff; }
-        .tool-status.soon { color: #3d5870; }
-        .tool-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-        .tool-status.live .tool-status-dot { box-shadow: 0 0 6px #1e9eff; animation: pulse 2s infinite; }
-        .tool-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #d8e8f5; margin-bottom: 10px; transition: color 0.3s; }
-        .tool-card:hover .tool-name { color: #1e9eff; }
-        .tool-card.live:hover .tool-name { color: #1e9eff; }
-        .tool-desc { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.7; margin-bottom: 20px; }
-        .tool-action { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1.5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-card.live .tool-action { color: #1e9eff; }
-        .tool-card.coming .tool-action { color: #3d5870; }
-        .router-wrap { margin-top: 40px; padding: 24px; border: 1px solid rgba(30,158,255,0.15); background: rgba(10,21,32,0.6); }
-        .router-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
-        .router-row { display: flex; gap: 2px; }
-        .router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 12px 16px; outline: none; transition: border-color 0.2s; }
+        .hero-sub { font-size: 15px; font-weight: 400; color: #7a9bb5; line-height: 1.7; margin-bottom: 28px; }
+        .hero-stats { display: flex; gap: 32px; }
+        .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: #1e9eff; }
+        .hero-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; text-transform: uppercase; margin-top: 2px; }
+
+        /* ROUTER */
+        .router-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 28px; }
+        .router-panel-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #c0cfe0; margin-bottom: 6px; }
+        .router-panel-sub { font-size: 13px; color: #5a7a90; margin-bottom: 20px; line-height: 1.5; }
+        .router-row { display: flex; gap: 0; }
+        .router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 13px 16px; outline: none; transition: border-color 0.2s; }
         .router-input:focus { border-color: rgba(30,158,255,0.5); }
-        .router-input::placeholder { color: #3d5870; }
-        .router-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 12px 24px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
+        .router-input::placeholder { color: #3d5870; font-size: 12px; }
+        .router-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 13px 22px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: background 0.2s; }
         .router-btn:hover { background: #4db3ff; }
-        .router-hint { margin-top: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; }
-        .router-hint span { color: #1e9eff; }
-        .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(30,158,255,0.2), transparent); }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
-        .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .router-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+        .router-chip { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; border: 1px solid rgba(30,158,255,0.1); padding: 3px 8px; }
+        .router-chip span { color: #1e9eff; }
+
+        /* FILTER BAR */
+        .filter-bar { position: sticky; top: 70px; z-index: 50; background: rgba(3,6,8,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.1); }
+        .filter-bar-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 0; }
+        .filter-tab { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 16px 20px; color: #5a7a90; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
+        .filter-tab:hover { color: #9ab0c4; }
+        .filter-tab.active { color: #fff; border-bottom-color: #1e9eff; }
+        .filter-tab-count { font-family: 'IBM Plex Mono', monospace; font-size: 9px; background: rgba(30,158,255,0.1); padding: 1px 6px; color: #1e9eff; }
+        .filter-tab.active .filter-tab-count { background: rgba(30,158,255,0.2); }
+        .search-wrap { margin-left: auto; padding: 10px 0; }
+        .tool-search { background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.12); color: #d8e8f5; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1px; padding: 7px 14px; outline: none; width: 200px; transition: border-color 0.2s; }
+        .tool-search:focus { border-color: rgba(30,158,255,0.4); }
+        .tool-search::placeholder { color: #3d5870; }
+
+        /* TOOLS GRID */
+        .tools-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 40px 80px; }
+        .results-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 20px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+        .tool-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 22px 22px 18px; text-decoration: none; display: flex; flex-direction: column; gap: 0; transition: all 0.25s; overflow: hidden; }
+        .tool-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+        .tool-card:hover { background: #0d1e30; border-color: rgba(30,158,255,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .tool-card:hover::after { transform: scaleX(1); }
+        .tool-cat-line { height: 2px; width: 24px; margin-bottom: 16px; border-radius: 1px; }
+        .tool-icon-wrap { margin-bottom: 12px; }
+        .tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; color: #c0cfe0; margin-bottom: 7px; transition: color 0.2s; line-height: 1.2; }
+        .tool-card:hover .tool-name { color: #fff; }
+        .tool-desc { font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 400; color: #5a7a90; line-height: 1.55; flex: 1; margin-bottom: 16px; }
+        .tool-footer { display: flex; align-items: center; justify-content: space-between; }
+        .tool-cat-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px; border: 1px solid; }
+        .tool-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #3d5870; transition: all 0.2s; }
+        .tool-card:hover .tool-arrow { color: #1e9eff; transform: translateX(3px); }
+
+        .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; }
+        .empty-state-text { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+
+        .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(30,158,255,0.15), transparent); }
+        footer { border-top: 1px solid rgba(30,158,255,0.1); padding: 32px 40px; background: #070d12; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
-        .footer-copy span { color: #1e9eff; }
+
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        @media (max-width: 1024px) {
+          .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+          .tools-grid { grid-template-columns: repeat(3, 1fr); }
+        }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
-          .hero { padding: 40px 20px; }
-          .hero-stats { gap: 24px; flex-wrap: wrap; }
-          .section { padding: 40px 20px; }
+          .hero { padding: 40px 20px 36px; }
+          .filter-bar-inner { padding: 0 16px; overflow-x: auto; gap: 0; }
+          .filter-tab { padding: 14px 14px; font-size: 10px; }
+          .search-wrap { display: none; }
+          .tools-wrap { padding: 24px 16px 60px; }
+          .tools-grid { grid-template-columns: repeat(2, 1fr); }
+          footer { padding: 24px 16px; }
+          .footer-inner { flex-direction: column; gap: 8px; }
+        }
+        @media (max-width: 480px) {
           .tools-grid { grid-template-columns: 1fr; }
-          footer { padding: 30px 20px; }
-          .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
         }
       `}</style>
 
@@ -139,235 +242,124 @@ export default function OSINTHub() {
           <a href="/about">About</a>
         </div>
 
+        {/* HERO */}
         <div className="hero">
           <div className="hero-inner">
-            <div className="hero-eyebrow">
-              <div className="hero-eyebrow-line" />
-              <div className="hero-eyebrow-text">Open Source Intelligence</div>
-            </div>
-            <div className="hero-title">OSINT <span>Hub</span></div>
-            <p className="hero-sub">A curated toolkit for open-source intelligence gathering, corporate investigations, and real-time situational awareness. Built for analysts, researchers, and anyone who needs to know what's really going on.</p>
-            <div className="hero-stats">
-              <div className="hero-stat">
-                <div className="hero-stat-num">21</div>
-                <div className="hero-stat-label">Live Tools</div>
+            <div>
+              <div className="hero-eyebrow">
+                <div className="hero-eyebrow-line" />
+                <div className="hero-eyebrow-text">Open Source Intelligence</div>
               </div>
-              <div className="hero-stat">
-                <div className="hero-stat-num">Free</div>
-                <div className="hero-stat-label">No Sign-Up</div>
-              </div>
-              <div className="hero-stat">
-                <div className="hero-stat-num">6</div>
-                <div className="hero-stat-label">News Sources</div>
+              <div className="hero-title">OSINT <span>Hub</span></div>
+              <p className="hero-sub">33 free tools for intelligence gathering, corporate research, network analysis, economic intelligence, and real-time situational awareness. No sign-up required.</p>
+              <div className="hero-stats">
+                <div>
+                  <div className="hero-stat-num">33</div>
+                  <div className="hero-stat-label">Live Tools</div>
+                </div>
+                <div>
+                  <div className="hero-stat-num">Free</div>
+                  <div className="hero-stat-label">No Sign-Up</div>
+                </div>
+                <div>
+                  <div className="hero-stat-num">5</div>
+                  <div className="hero-stat-label">Categories</div>
+                </div>
               </div>
             </div>
 
             {/* Smart Router */}
-            <div className="router-wrap">
-              <div className="router-label">Quick Lookup — paste anything</div>
+            <div className="router-panel">
+              <div className="router-panel-title">Quick Investigate</div>
+              <p className="router-panel-sub">Paste anything — auto-routes to the right tool.</p>
               <div className="router-row">
                 <input
                   className="router-input"
-                  placeholder="IP address, domain, URL, hash, username, or email..."
+                  placeholder="IP, domain, URL, hash, email, or username..."
                   value={routerQuery}
                   onChange={e => setRouterQuery(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && detectAndRoute(routerQuery)}
                 />
                 <button className="router-btn" onClick={() => detectAndRoute(routerQuery)}>
-                  Investigate →
+                  Go →
                 </button>
               </div>
-              <div className="router-hint">
-                Auto-routes to the right tool — <span>IP</span> → Geolocation · <span>domain</span> → WHOIS · <span>hash</span> → Hash ID · <span>username</span> → Username Hunter
+              <div className="router-chips">
+                <div className="router-chip"><span>IP</span> → Geolocation</div>
+                <div className="router-chip"><span>domain</span> → WHOIS</div>
+                <div className="router-chip"><span>hash</span> → Hash Analyzer</div>
+                <div className="router-chip"><span>email</span> → Header Analyzer</div>
+                <div className="router-chip"><span>url</span> → Redirect Tracer</div>
+                <div className="router-chip"><span>username</span> → Hunter</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="section">
-          <div className="section-header">
-            <div className="section-label">Active Tools</div>
-            <div className="section-title">Intelligence Toolkit</div>
+        {/* STICKY FILTER BAR */}
+        <div className="filter-bar">
+          <div className="filter-bar-inner">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                className={`filter-tab${activeCategory === cat ? ' active' : ''}`}
+                onClick={() => { setActiveCategory(cat); setSearch(''); }}
+              >
+                {cat}
+                <span className="filter-tab-count">{counts[cat]}</span>
+              </button>
+            ))}
+            <div className="search-wrap">
+              <input
+                className="tool-search"
+                placeholder="Search tools..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+            </div>
           </div>
+        </div>
+
+        {/* TOOLS GRID */}
+        <div className="tools-wrap">
+          {search && (
+            <div className="results-label">
+              {filtered.length} result{filtered.length !== 1 ? 's' : ''} for &ldquo;{search}&rdquo;
+            </div>
+          )}
           <div className="tools-grid">
-
-            <a href="/osint/feed" className="tool-card live">
-              <span className="tool-icon"><Radio size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Live Intel Feed</div>
-              <p className="tool-desc">Real-time news aggregation from premier intelligence and security sources — BBC, Krebs, The Record, Foreign Policy, and more. Updated every 5 minutes.</p>
-              <div className="tool-action">Launch Feed →</div>
-            </a>
-
-            <a href="/osint/whois" className="tool-card live">
-              <span className="tool-icon"><Globe size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">WHOIS Lookup</div>
-              <p className="tool-desc">Full domain registration intelligence — ownership, registrar, nameservers, DNSSEC status, and contact records for any domain worldwide.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/dns" className="tool-card live">
-              <span className="tool-icon"><Server size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">DNS Intelligence</div>
-              <p className="tool-desc">Reveal the full infrastructure behind any domain — email providers, DNS hosts, third-party services, SPF/DMARC security posture, and all DNS records decoded.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/ip" className="tool-card live">
-              <span className="tool-icon"><MapPin size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">IP Geolocation</div>
-              <p className="tool-desc">Identify the geographic location, ISP, ASN, and network details behind any IP address. Drop a pin on the map for any target worldwide.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/username" className="tool-card live">
-              <span className="tool-icon"><User size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Username Hunter</div>
-              <p className="tool-desc">Check if a username exists across 39 platforms simultaneously — social media, developer communities, gaming networks, and forums. Results update in real time.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/metadata" className="tool-card live">
-              <span className="tool-icon"><FileImage size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Metadata Extractor</div>
-              <p className="tool-desc">Upload any photo and reveal hidden EXIF data — GPS coordinates, device model, serial numbers, timestamps, and more. Runs entirely in your browser.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/corporate" className="tool-card live">
-              <span className="tool-icon"><Building2 size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Corporate Investigator</div>
-              <p className="tool-desc">Search 200M+ companies across 140 jurisdictions. Trace corporate structures, registered agents, and incorporation records across known shell company havens.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/conflict" className="tool-card live">
-              <span className="tool-icon"><Map size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Conflict Tracker</div>
-              <p className="tool-desc">Real-time mapping of active conflict zones, insurgencies, and geopolitical flashpoints — with live GDELT news and ACLED incident data.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/sanctions" className="tool-card live">
-              <span className="tool-icon"><Scale size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Sanctions Monitor</div>
-              <p className="tool-desc">Cross-reference entities against OFAC, UN, EU, UK, INTERPOL, and 100+ watchlists simultaneously. Essential for compliance and intelligence work.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/polymarket" className="tool-card live">
-              <span className="tool-icon"><TrendingUp size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Polymarket Tracker</div>
-              <p className="tool-desc">Track real-time prediction market odds on geopolitical events, elections, and global conflicts. Monitor market movements and sentiment shifts as they happen.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/subdomains" className="tool-card live">
-              <span className="tool-icon"><ScanSearch size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Subdomain Scanner</div>
-              <p className="tool-desc">Enumerate every subdomain of a target domain using certificate transparency logs. Exposes dev environments, admin panels, APIs, and forgotten infrastructure.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/wayback" className="tool-card live">
-              <span className="tool-icon"><History size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Wayback Machine</div>
-              <p className="tool-desc">Query the Internet Archive for historical snapshots of any URL. Recover deleted content, track website changes over time, and verify what was published — and when.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/hash" className="tool-card live">
-              <span className="tool-icon"><KeyRound size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Hash Analyzer</div>
-              <p className="tool-desc">Identify unknown cryptographic hashes by format (MD5, SHA-1, bcrypt, and more), or check if a password has appeared in known data breaches — fully privacy-safe via k-anonymity.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/entity" className="tool-card live">
-              <span className="tool-icon"><Search size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Entity Search</div>
-              <p className="tool-desc">Search any person, organization, or topic. Pulls a Wikipedia profile and surfaces quick-launch links to cross-reference across news archives, corporate registries, sanctions databases, and court records.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/cve" className="tool-card live">
-              <span className="tool-icon"><AlertTriangle size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">CVE Search</div>
-              <p className="tool-desc">Search the NIST National Vulnerability Database by CVE ID or keyword. Shows CVSS severity scores, attack vectors, affected weaknesses, and official references. Essential for cyber threat research.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/url" className="tool-card live">
-              <span className="tool-icon"><Link size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">URL Redirect Tracer</div>
-              <p className="tool-desc">Trace the complete redirect chain of any URL — shortened links, tracking hops, affiliate redirects, and obfuscated destinations. See every step between the link and where you actually land.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/osint/email-headers" className="tool-card live">
-              <span className="tool-icon"><Mail size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Email Header Analyzer</div>
-              <p className="tool-desc">Paste raw email headers to reveal the full routing path, originating IP, and authentication results (SPF / DKIM / DMARC). Detect spoofed senders and trace phishing emails to their source.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/tools/satellite-tracker" className="tool-card live">
-              <span className="tool-icon"><Satellite size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Satellite Tracker</div>
-              <p className="tool-desc">Track satellites in real-time using publicly available TLE data. Predict passes over any location, visualize orbital ground tracks, and analyze coverage windows — critical for geospatial intelligence and surveillance awareness.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/tools/flight-tracker" className="tool-card live">
-              <span className="tool-icon"><PlaneTakeoff size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Flight Tracker</div>
-              <p className="tool-desc">Live global air traffic via OpenSky Network — track any aircraft, view altitude, speed, heading, and squawk codes in real time. Click any aircraft for full ADS-B telemetry.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/tools/vessel-tracker" className="tool-card live">
-              <span className="tool-icon"><Ship size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Vessel Tracker</div>
-              <p className="tool-desc">Decode any MMSI number to identify a vessel's flag state and class instantly. Search by name for full AIS position, destination, speed, and voyage data with links to live maritime trackers.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
-            <a href="/tools/phone-lookup" className="tool-card live">
-              <span className="tool-icon"><Phone size={28} strokeWidth={1.5} /></span>
-              <div className="tool-status live"><div className="tool-status-dot" /> Live</div>
-              <div className="tool-name">Phone Number OSINT</div>
-              <p className="tool-desc">Identify any number's country of origin, line type (mobile, landline, VoIP), and carrier class — entirely client-side. Then launch into TrueCaller, SpyDialer, WhitePages, and other OSINT databases.</p>
-              <div className="tool-action">Launch Tool →</div>
-            </a>
-
+            {filtered.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-state-text">No tools match &ldquo;{search}&rdquo;</div>
+              </div>
+            ) : filtered.map(tool => {
+              const color = CAT_COLORS[tool.category];
+              const Icon = tool.icon;
+              return (
+                <a key={tool.href} href={tool.href} className="tool-card" style={{ ['--cat-color' as string]: color }}>
+                  <style>{`.tool-card:hover::after { background: ${color}; }`}</style>
+                  <div className="tool-cat-line" style={{ background: color }} />
+                  <div className="tool-icon-wrap" style={{ color }}>
+                    <Icon size={22} strokeWidth={1.5} />
+                  </div>
+                  <div className="tool-name">{tool.name}</div>
+                  <div className="tool-desc">{tool.desc}</div>
+                  <div className="tool-footer">
+                    <div className="tool-cat-tag" style={{ color, borderColor: `${color}33` }}>{tool.category}</div>
+                    <div className="tool-arrow">→</div>
+                  </div>
+                </a>
+              );
+            })}
           </div>
         </div>
 
         <div className="divider" />
 
         <footer>
-          <div className="footer-bottom">
+          <div className="footer-inner">
             <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
-            
+            <div className="footer-copy">OSINT Hub · <span style={{color:'#1e9eff'}}>33 Live Tools</span></div>
           </div>
         </footer>
       </div>

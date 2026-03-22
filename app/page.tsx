@@ -1,7 +1,7 @@
 ﻿'use client';
 import { useEffect, useRef, useState } from 'react';
-import { Lock, Eye, Globe, Shield, TrendingUp } from 'lucide-react';
-import { ARTICLES, type Article } from '@/lib/articles';
+import { Lock, Eye, Globe, Shield, TrendingUp, LayoutDashboard, MapPin, User, FileText, Map, ScanSearch, ChevronRight } from 'lucide-react';
+import { ARTICLES, type Article, getReadingTime } from '@/lib/articles';
 
 const CATEGORIES = ['All', 'Cybersecurity', 'Intelligence', 'Geopolitics', 'National Security', 'Economic Security'] as const;
 
@@ -19,10 +19,25 @@ function getByCategory(cat: string): Article[] {
   return ARTICLES.filter(a => a.category === cat).sort((a, b) => b.date.localeCompare(a.date));
 }
 
+function getCategoryColor(cat: string): string {
+  switch (cat) {
+    case 'Cybersecurity': return '#ff4444';
+    case 'Intelligence': return '#b464ff';
+    case 'Geopolitics': return '#ffaa00';
+    case 'National Security': return '#22cc66';
+    case 'Economic Security': return '#00c9b0';
+    default: return '#1e9eff';
+  }
+}
+
 export default function Home() {
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [osintQuery, setOsintQuery] = useState('');
+  const [toolCount, setToolCount] = useState(0);
+  const [catCount, setCatCount] = useState(0);
+  const statsRef = useRef<HTMLDivElement>(null);
   const featured = getFeatured();
   const currentFeatured = featured.length > 0 ? featured[featuredIndex % featured.length] : null;
   const filteredArticles = getByCategory(activeCategory).filter(a =>
@@ -42,6 +57,30 @@ export default function Home() {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
     }, { threshold: 0.1 });
     reveals.forEach(r => observer.observe(r));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        observer.disconnect();
+        const duration = 1200;
+        const fps = 60;
+        const steps = Math.round(duration / (1000 / fps));
+        let step = 0;
+        const timer = setInterval(() => {
+          step++;
+          const progress = step / steps;
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setToolCount(Math.round(33 * eased));
+          setCatCount(Math.round(6 * eased));
+          if (step >= steps) clearInterval(timer);
+        }, 1000 / fps);
+      }
+    }, { threshold: 0.5 });
+    observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
@@ -75,8 +114,9 @@ export default function Home() {
         .hero-title .accent-word { color: var(--accent); display: block; }
         .hero-subtitle { margin-top: 28px; font-size: 16px; font-weight: 400; color: var(--text-secondary); max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
         .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards; }
-        .hero-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #c0cfe0; border: 1px solid rgba(30,158,255,0.25); padding: 7px 16px; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; background: transparent; cursor: pointer; }
-        .hero-tag:hover, .hero-tag.active { color: #fff; border-color: #1e9eff; background: rgba(30,158,255,0.1); }
+        .hero-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #c0cfe0; border: 1px solid rgba(30,158,255,0.25); padding: 7px 16px; text-transform: uppercase; transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease; text-decoration: none; display: inline-block; background: transparent; cursor: pointer; }
+        .hero-tag:hover { color: #fff; border-color: rgba(30,158,255,0.6); background: rgba(30,158,255,0.07); transform: translateY(-1px); }
+        .hero-tag.active { color: #fff; border-color: #1e9eff; background: rgba(30,158,255,0.12); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(30,158,255,0.2), 0 0 0 1px rgba(30,158,255,0.15); }
         .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 1s ease 1.4s forwards; }
         .hero-scroll-text { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase; }
         .hero-scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollLine 2s ease-in-out infinite; }
@@ -164,16 +204,79 @@ export default function Home() {
         .cat-filter-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border: 1px solid rgba(30,158,255,0.2); background: transparent; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
         .cat-filter-btn:hover { border-color: rgba(30,158,255,0.5); color: var(--silver); }
         .cat-filter-btn--active { background: rgba(30,158,255,0.1); border-color: rgba(30,158,255,0.5); color: var(--accent); }
+        /* OSINT HUB SECTION */
+        .osint-section { background: #050c14; border-top: 1px solid rgba(30,158,255,0.12); border-bottom: 1px solid rgba(30,158,255,0.12); padding: 80px 40px; position: relative; overflow: hidden; }
+        .osint-section::before { content: ''; position: absolute; top: -100px; left: -100px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(30,158,255,0.04) 0%, transparent 65%); pointer-events: none; }
+        .osint-section::after { content: ''; position: absolute; bottom: -80px; right: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(30,158,255,0.03) 0%, transparent 65%); pointer-events: none; }
+        .osint-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+        .osint-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 48px; }
+        .osint-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .osint-eyebrow-line { width: 32px; height: 1px; background: var(--accent); }
+        .osint-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; }
+        .osint-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 700; color: var(--silver); line-height: 1.05; letter-spacing: -0.5px; }
+        .osint-title span { color: var(--accent); }
+        .osint-sub { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.75; margin-bottom: 24px; }
+        .osint-cta { display: inline-flex; align-items: center; gap: 10px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #000; background: var(--accent); padding: 12px 24px; text-decoration: none; transition: background 0.2s; }
+        .osint-cta:hover { background: #4db3ff; }
+        .osint-stats { display: flex; gap: 28px; }
+        .osint-stat { border-left: 2px solid rgba(30,158,255,0.2); padding-left: 16px; }
+        .osint-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; color: var(--accent); }
+        .osint-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; }
+        .osint-right { display: flex; flex-direction: column; gap: 0; }
+        .osint-router-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+        .osint-router-row { display: flex; gap: 0; margin-bottom: 10px; }
+        .osint-router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: var(--text-primary); font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 13px 16px; outline: none; transition: border-color 0.2s; }
+        .osint-router-input:focus { border-color: rgba(30,158,255,0.5); }
+        .osint-router-input::placeholder { color: var(--text-muted); font-size: 11px; }
+        .osint-router-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: var(--accent); border: 1px solid var(--accent); color: #000; padding: 13px 22px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: background 0.2s; }
+        .osint-router-btn:hover { background: #4db3ff; }
+        .osint-router-hint { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: var(--text-muted); }
+        .osint-router-hint span { color: var(--accent); }
+        .osint-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .osint-tool { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 20px 22px; text-decoration: none; display: flex; align-items: center; gap: 16px; transition: all 0.25s; position: relative; overflow: hidden; }
+        .osint-tool::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom; }
+        .osint-tool:hover { background: #0d1e30; border-color: rgba(30,158,255,0.25); transform: translateX(3px); }
+        .osint-tool:hover::before { transform: scaleY(1); }
+        .osint-tool-icon { color: var(--accent); flex-shrink: 0; }
+        .osint-tool-body { min-width: 0; }
+        .osint-tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; color: var(--silver); margin-bottom: 3px; transition: color 0.2s; }
+        .osint-tool:hover .osint-tool-name { color: var(--accent); }
+        .osint-tool-desc { font-family: 'Barlow', sans-serif; font-size: 11px; color: var(--text-muted); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .osint-tool-arrow { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-muted); flex-shrink: 0; transition: all 0.2s; }
+        .osint-tool:hover .osint-tool-arrow { color: var(--accent); transform: translateX(3px); }
+        .osint-view-all { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px; padding: 16px; border: 1px solid rgba(30,158,255,0.1); background: rgba(3,6,8,0.4); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; transition: all 0.2s; }
+        .osint-view-all:hover { background: rgba(30,158,255,0.06); border-color: rgba(30,158,255,0.25); }
+        .creds-strip { border-top: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.08); padding: 14px 40px; background: rgba(3,6,8,0.7); }
+        .creds-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 24px; }
+        .creds-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; white-space: nowrap; }
+        .creds-items { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .cred-item { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #7a9bb5; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+        .cred-dot { width: 4px; height: 4px; border-radius: 50%; background: #1e9eff; opacity: 0.5; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes scrollLine { 0%, 100% { opacity: 1; transform: scaleY(1); } 50% { opacity: 0.3; transform: scaleY(0.5); } }
+        @keyframes sectionFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cardFadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .section-header-content { animation: sectionFadeIn 0.35s ease forwards; }
+        .animated-grid .article-card { opacity: 0; animation: cardFadeUp 0.4s ease forwards; }
+        .animated-grid .article-card:nth-child(1) { animation-delay: 0ms; }
+        .animated-grid .article-card:nth-child(2) { animation-delay: 60ms; }
+        .animated-grid .article-card:nth-child(3) { animation-delay: 120ms; }
+        .animated-grid .article-card:nth-child(4) { animation-delay: 180ms; }
+        .animated-grid .article-card:nth-child(5) { animation-delay: 240ms; }
+        .animated-grid .article-card:nth-child(6) { animation-delay: 300ms; }
+        .animated-grid .article-card:nth-child(n+7) { animation-delay: 360ms; }
         @media (max-width: 1024px) {
           .featured-card { grid-template-columns: 1fr !important; }
           .featured-visual { display: none; }
           .intel-grid { grid-template-columns: 1fr 1fr; }
           .topics-grid { grid-template-columns: repeat(3, 1fr); }
           .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 1024px) {
+          .osint-header { grid-template-columns: 1fr; gap: 32px; }
+          .osint-tools { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
@@ -184,6 +287,8 @@ export default function Home() {
           section { padding: 60px 20px; }
           .section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
           .featured-grid, .intel-grid { grid-template-columns: 1fr; }
+          .osint-section { padding: 60px 20px; }
+          .osint-tools { grid-template-columns: 1fr; }
           .topics-grid { grid-template-columns: 1fr 1fr !important; }
           .topic-card:first-child { grid-column: span 2; min-height: 200px !important; }
           .topic-card { padding: 24px 20px !important; min-height: 160px !important; }
@@ -269,10 +374,95 @@ export default function Home() {
         </div>
       </div>
 
+      {/* CREDENTIALS STRIP */}
+      <div className="creds-strip">
+        <div className="creds-inner">
+          <div className="creds-label">Background</div>
+          <div className="creds-items">
+            <div className="cred-item"><div className="cred-dot" />DHS Cybersecurity</div>
+            <div className="cred-item"><div className="cred-dot" />ODNI IC-CAE Program</div>
+            <div className="cred-item"><div className="cred-dot" />Cambridge Intelligence Studies</div>
+            <div className="cred-item"><div className="cred-dot" />Strategic & Competitive Intelligence</div>
+          </div>
+        </div>
+      </div>
+
+      {/* OSINT HUB FEATURE */}
+      <div className="osint-section">
+        <div className="osint-inner">
+          <div className="osint-header">
+            <div>
+              <div className="osint-eyebrow">
+                <div className="osint-eyebrow-line" />
+                <div className="osint-eyebrow-text">Open Source Intelligence</div>
+              </div>
+              <div className="osint-title">The OSINT <span>Hub</span></div>
+              <p className="osint-sub" style={{marginTop: '14px'}}>33 free intelligence tools for corporate research, network analysis, economic intelligence, and real-time situational awareness. No accounts, no API keys, no cost.</p>
+              <div className="osint-stats" style={{marginBottom: '28px'}} ref={statsRef}>
+                <div className="osint-stat"><div className="osint-stat-num">{toolCount}</div><div className="osint-stat-label">Live Tools</div></div>
+                <div className="osint-stat"><div className="osint-stat-num">{catCount}</div><div className="osint-stat-label">Categories</div></div>
+                <div className="osint-stat"><div className="osint-stat-num">Free</div><div className="osint-stat-label">No Sign-Up</div></div>
+              </div>
+              <a href="/osint" className="osint-cta">Enter OSINT Hub <ChevronRight size={14} /></a>
+            </div>
+            <div className="osint-right">
+              <div className="osint-router-label">Quick Investigate — paste anything</div>
+              <div className="osint-router-row">
+                <input
+                  className="osint-router-input"
+                  placeholder="IP, domain, hash, username, company name..."
+                  value={osintQuery}
+                  onChange={e => setOsintQuery(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      const q = osintQuery.trim();
+                      if (q) window.location.href = `/osint/company?q=${encodeURIComponent(q)}`;
+                    }
+                  }}
+                />
+                <button
+                  className="osint-router-btn"
+                  onClick={() => { const q = osintQuery.trim(); if (q) window.location.href = `/osint?q=${encodeURIComponent(q)}`; }}
+                >
+                  Investigate →
+                </button>
+              </div>
+              <div className="osint-router-hint">
+                Auto-routes · <span>IP</span> → Geolocation · <span>domain</span> → WHOIS · <span>hash</span> → Hash Analyzer · <span>company</span> → Intel Dashboard
+              </div>
+            </div>
+          </div>
+
+          <div className="osint-tools">
+            {[
+              { icon: LayoutDashboard, name: 'Corporate Intel Dashboard', desc: 'Full company research — filings, patents, contracts', href: '/osint/company' },
+              { icon: FileText, name: 'SEC EDGAR Search', desc: '10-Ks, 8-Ks, proxies, insider transactions', href: '/osint/edgar' },
+              { icon: MapPin, name: 'IP Geolocation', desc: 'Location, ISP, ASN for any IP address', href: '/osint/ip' },
+              { icon: User, name: 'Username Hunter', desc: 'Check 39 platforms simultaneously', href: '/osint/username' },
+              { icon: Map, name: 'Conflict Tracker', desc: 'Live conflict zones with GDELT & ACLED data', href: '/osint/conflict' },
+              { icon: ScanSearch, name: 'Subdomain Scanner', desc: 'Enumerate infrastructure via CT logs', href: '/osint/subdomains' },
+            ].map(tool => (
+              <a key={tool.href} href={tool.href} className="osint-tool">
+                <div className="osint-tool-icon"><tool.icon size={20} strokeWidth={1.5} /></div>
+                <div className="osint-tool-body">
+                  <div className="osint-tool-name">{tool.name}</div>
+                  <div className="osint-tool-desc">{tool.desc}</div>
+                </div>
+                <div className="osint-tool-arrow">→</div>
+              </a>
+            ))}
+          </div>
+
+          <a href="/osint" className="osint-view-all">
+            View all 33 tools in the OSINT Hub →
+          </a>
+        </div>
+      </div>
+
       <div className="divider" />
 
       {/* FEATURED */}
-      <section>
+      <section style={{paddingBottom: '40px'}}>
         <div className="section-inner">
           <div className="section-header reveal">
             <div>
@@ -288,7 +478,7 @@ export default function Home() {
             <a href={`/articles/${currentFeatured.slug}`} className="article-card featured-card reveal">
               <div>
                 <div className="card-meta">
-                  <div className="card-category">{currentFeatured.category}</div>
+                  <div className="card-category" style={{color: getCategoryColor(currentFeatured.category), borderColor: `${getCategoryColor(currentFeatured.category)}40`, background: `${getCategoryColor(currentFeatured.category)}10`}}>{currentFeatured.category}</div>
                   <div className="card-date">{currentFeatured.date}</div>
                 </div>
                 <div className="card-title">{currentFeatured.title}</div>
@@ -354,13 +544,16 @@ export default function Home() {
             {currentFeatured && latest.filter(a => a.slug !== currentFeatured.slug).slice(0, 2).map((a, i) => (
               <a key={a.slug} href={`/articles/${a.slug}`} className={`article-card reveal reveal-delay-${i + 1}`}>
                 <div className="card-meta">
-                  <div className="card-category">{a.category}</div>
+                  <div className="card-category" style={{color: getCategoryColor(a.category), borderColor: `${getCategoryColor(a.category)}40`, background: `${getCategoryColor(a.category)}10`}}>{a.category}</div>
                   <div className="card-date">{a.date}</div>
                 </div>
                 <div className="card-title">{a.title}</div>
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
-                  <div className="card-read">Read Analysis →</div>
+                  <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                    <div className="card-read">Read Analysis →</div>
+                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'9px',letterSpacing:'2px',color:'#3d5870'}}>{getReadingTime(a.content)} MIN</div>
+                  </div>
                   <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
                 </div>
               </a>
@@ -369,84 +562,55 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="divider" />
-
-      {/* TOPICS */}
-      <section className="topics-section" style={{padding: 0}}>
-        <div className="section-inner" style={{maxWidth:'100%', padding: 0}}>
-          <div className="topics-grid">
-            {[
-              { Icon: Lock, name: 'Cybersecurity', ghost: '01', href: '/cybersecurity' },
-              { Icon: Eye, name: 'Intelligence', ghost: '02', href: '/intelligence' },
-              { Icon: Globe, name: 'Geopolitics', ghost: '03', href: '/geopolitics' },
-              { Icon: Shield, name: 'National Security', ghost: '04', href: '/national-security' },
-              { Icon: TrendingUp, name: 'Economic Security', ghost: '05', href: '/economic-security' },
-            ].map((t, i) => {
-              const count = ARTICLES.filter(a => a.category === t.name).length;
-              return (
-                <a href={t.href} className={`topic-card reveal reveal-delay-${i + 1}`} key={t.name}>
-                  <div className="topic-ghost">{t.ghost}</div>
-                  <div className="topic-top">
-                    <div className="topic-index">DOMAIN_{t.ghost}</div>
-                    <div className="topic-icon"><t.Icon size={i === 0 ? 26 : 20} strokeWidth={1.5} /></div>
-                  </div>
-                  <div className="topic-name">{t.name}</div>
-                  <div className="topic-bottom">
-                    <div className="topic-count">{String(count).padStart(2, '0')} Reports</div>
-                    <div className="topic-enter">Enter →</div>
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <div className="divider" />
-
       {/* ARTICLES — filtered by category tag + search */}
-      <section id="articles-section">
+      <section id="articles-section" style={{paddingTop: '0', paddingBottom: '80px'}}>
         <div className="section-inner">
-          <div className="section-header reveal">
-            <div>
-              <div className="section-label">{searchQuery ? `Search: "${searchQuery}"` : activeCategory === 'All' ? 'Recent Dispatches' : activeCategory}</div>
-              <div className="section-title">{activeCategory === 'All' ? 'Latest Reports' : `${activeCategory} Reports`}</div>
-            </div>
-            <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-              {CATEGORIES.map(cat => (
-                <button key={cat} onClick={() => setActiveCategory(cat)}
-                  className={`cat-filter-btn${activeCategory === cat ? ' cat-filter-btn--active' : ''}`}>
-                  {cat}
-                </button>
-              ))}
+          {/* Compact toolbar */}
+          <div style={{ borderTop: '1px solid rgba(30,158,255,0.12)', borderBottom: '1px solid rgba(30,158,255,0.12)', padding: '0', marginBottom: '24px', background: 'rgba(7,13,18,0.6)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0', flexWrap: 'wrap' }}>
+              <div key={activeCategory} style={{ padding: '16px 24px', borderRight: '1px solid rgba(30,158,255,0.12)', flexShrink: 0 }}>
+                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '16px', fontWeight: 700, color: '#c0cfe0', whiteSpace: 'nowrap' }}>
+                  {searchQuery ? `"${searchQuery}"` : activeCategory === 'All' ? 'All Reports' : `${activeCategory}`}
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '0', flex: 1, flexWrap: 'wrap' }}>
+                {CATEGORIES.map(cat => (
+                  <button key={cat} onClick={() => setActiveCategory(cat)}
+                    className={`cat-filter-btn${activeCategory === cat ? ' cat-filter-btn--active' : ''}`}
+                    style={{ borderRadius: 0, borderTop: 'none', borderBottom: 'none', borderLeft: 'none', padding: '18px 16px' }}>
+                    {cat}
+                  </button>
+                ))}
+              </div>
+              <div style={{ display: 'flex', borderLeft: '1px solid rgba(30,158,255,0.12)', flexShrink: 0 }}>
+                <input
+                  style={{ background: 'transparent', border: 'none', outline: 'none', padding: '18px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '1px', color: '#c0cfe0', width: '220px' }}
+                  placeholder="Search reports..."
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button onClick={() => setSearchQuery('')} style={{ background: 'none', border: 'none', color: '#3d5870', cursor: 'pointer', padding: '0 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px' }}>✕</button>
+                )}
+              </div>
             </div>
           </div>
-          <div className="search-bar-wrap">
-            <div className="search-bar">
-              <input
-                className="search-bar-input"
-                placeholder="Search reports by title or topic..."
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-              />
-              {searchQuery && (
-                <button className="search-bar-clear" onClick={() => setSearchQuery('')}>✕ Clear</button>
-              )}
-            </div>
-          </div>
-          <div className="intel-grid">
+          <div key={activeCategory} className="intel-grid animated-grid">
             {filteredArticles.length === 0 ? (
               <div className="no-articles">{searchQuery ? `No reports matching "${searchQuery}"` : 'No reports in this category yet'}</div>
             ) : filteredArticles.map((a, i) => (
               <a key={a.slug} href={`/articles/${a.slug}`} className={`article-card reveal reveal-delay-${(i % 3) + 1}`}>
                 <div className="card-meta">
-                  <div className="card-category">{a.category}</div>
+                  <div className="card-category" style={{color: getCategoryColor(a.category), borderColor: `${getCategoryColor(a.category)}40`, background: `${getCategoryColor(a.category)}10`}}>{a.category}</div>
                   <div className="card-date">{a.date}</div>
                 </div>
                 <div className="card-title">{a.title}</div>
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
-                  <div className="card-read">Read →</div>
+                  <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                    <div className="card-read">Read →</div>
+                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'9px',letterSpacing:'2px',color:'#3d5870'}}>{getReadingTime(a.content)} MIN</div>
+                  </div>
                   <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
                 </div>
               </a>
@@ -487,7 +651,6 @@ export default function Home() {
               <ul className="footer-links">
                 <li><a href="https://x.com/KyleRudd44" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
                 <li><a href="https://www.linkedin.com/in/kyle-rudd-68209b252/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="/feed.xml">RSS Feed</a></li>
                 <li></li>
               </ul>
             </div>

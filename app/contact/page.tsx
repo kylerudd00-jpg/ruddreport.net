@@ -109,7 +109,8 @@ export default function Contact() {
               <div className="card-platform">Professional</div>
               <div className="card-name">LinkedIn</div>
               <div className="card-handle">Kyle Rudd</div>
-              <div className="card-action">Connect →</div>
+              <p className="email-note">For media inquiries, research collaboration, or general correspondence. I read everything.</p>
+              <div className="card-action" style={{marginTop: '20px'}}>Connect →</div>
             </a>
             <a href="https://x.com/KyleRudd44" target="_blank" rel="noopener noreferrer" className="contact-card">
               <div className="card-platform">Social</div>
@@ -117,14 +118,6 @@ export default function Contact() {
               <div className="card-handle">@KyleRudd44</div>
               <div className="card-action">Follow →</div>
             </a>
-          </div>
-
-          <div className="email-section">
-            <div className="email-label">Email</div>
-            <a href="mailto:kyle@ruddreport.net" className="email-link">
-              kyle@ruddreport.net →
-            </a>
-            <p className="email-note">For media inquiries, research collaboration, or general correspondence. I read everything.</p>
           </div>
         </div>
 
