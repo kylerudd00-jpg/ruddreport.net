@@ -195,6 +195,12 @@ export default function Home() {
         .footer-copy { font-family: 'Barlow', sans-serif; font-size: 12px; color: var(--text-muted); }
         .footer-copy span { color: var(--text-secondary); }
         .no-articles { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; color: var(--text-muted); text-align: center; padding: 60px 20px; border: 1px solid var(--border); grid-column: 1 / -1; }
+        .articles-toolbar { border-top: 1px solid rgba(30,158,255,0.12); border-bottom: 1px solid rgba(30,158,255,0.12); margin-bottom: 24px; background: rgba(7,13,18,0.6); }
+        .articles-toolbar-row { display: flex; align-items: center; }
+        .articles-toolbar-title { padding: 16px 24px; border-right: 1px solid rgba(30,158,255,0.12); flex-shrink: 0; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: #c0cfe0; white-space: nowrap; }
+        .articles-toolbar-filters { display: flex; flex: 1; overflow-x: auto; scrollbar-width: none; }
+        .articles-toolbar-filters::-webkit-scrollbar { display: none; }
+        .articles-toolbar-search { display: flex; border-left: 1px solid rgba(30,158,255,0.12); flex-shrink: 0; }
         .search-bar-wrap { margin-bottom: 24px; }
         .search-bar { display: flex; border: 1px solid var(--border); background: var(--bg-card); }
         .search-bar-input { flex: 1; background: none; border: none; outline: none; padding: 12px 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; color: var(--text-primary); letter-spacing: 1px; }
@@ -300,6 +306,25 @@ export default function Home() {
           .footer-top { grid-template-columns: 1fr; gap: 32px; }
           footer { padding: 40px 20px; }
           .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+          .featured-card { padding: 28px 20px !important; }
+          .featured-card .card-title { font-size: 26px !important; }
+          .osint-stats { flex-wrap: wrap; gap: 16px; }
+          .creds-strip { padding: 10px 16px; }
+          .creds-inner { flex-wrap: wrap; gap: 10px; }
+          .creds-label { display: none; }
+          .articles-toolbar-row { flex-direction: column; align-items: stretch; }
+          .articles-toolbar-title { border-right: none !important; border-bottom: 1px solid rgba(30,158,255,0.1); padding: 14px 16px !important; }
+          .articles-toolbar-filters { overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid rgba(30,158,255,0.08); flex-wrap: nowrap !important; }
+          .articles-toolbar-filters::-webkit-scrollbar { display: none; }
+          .articles-toolbar-search { border-left: none !important; border-top: 1px solid rgba(30,158,255,0.08); width: 100%; }
+          .articles-toolbar-search input { width: 100% !important; padding: 14px 16px !important; }
+          .cat-filter-btn { white-space: nowrap; }
+        }
+        @media (max-width: 480px) {
+          .hero-title { font-size: 46px !important; }
+          .osint-router-row { flex-direction: column; }
+          .osint-router-input { border-right: 1px solid rgba(30,158,255,0.2) !important; }
+          .osint-router-btn { width: 100%; }
         }
       `}</style>
 
@@ -566,25 +591,23 @@ export default function Home() {
       <section id="articles-section" style={{paddingTop: '0', paddingBottom: '80px'}}>
         <div className="section-inner">
           {/* Compact toolbar */}
-          <div style={{ borderTop: '1px solid rgba(30,158,255,0.12)', borderBottom: '1px solid rgba(30,158,255,0.12)', padding: '0', marginBottom: '24px', background: 'rgba(7,13,18,0.6)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0', flexWrap: 'wrap' }}>
-              <div key={activeCategory} style={{ padding: '16px 24px', borderRight: '1px solid rgba(30,158,255,0.12)', flexShrink: 0 }}>
-                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '16px', fontWeight: 700, color: '#c0cfe0', whiteSpace: 'nowrap' }}>
-                  {searchQuery ? `"${searchQuery}"` : activeCategory === 'All' ? 'All Reports' : `${activeCategory}`}
-                </div>
+          <div className="articles-toolbar">
+            <div className="articles-toolbar-row">
+              <div key={activeCategory} className="articles-toolbar-title">
+                {searchQuery ? `"${searchQuery}"` : activeCategory === 'All' ? 'All Reports' : `${activeCategory}`}
               </div>
-              <div style={{ display: 'flex', gap: '0', flex: 1, flexWrap: 'wrap' }}>
+              <div className="articles-toolbar-filters">
                 {CATEGORIES.map(cat => (
                   <button key={cat} onClick={() => setActiveCategory(cat)}
                     className={`cat-filter-btn${activeCategory === cat ? ' cat-filter-btn--active' : ''}`}
-                    style={{ borderRadius: 0, borderTop: 'none', borderBottom: 'none', borderLeft: 'none', padding: '18px 16px' }}>
+                    style={{ borderRadius: 0, borderTop: 'none', borderBottom: 'none', borderLeft: 'none', padding: '18px 14px', whiteSpace: 'nowrap' }}>
                     {cat}
                   </button>
                 ))}
               </div>
-              <div style={{ display: 'flex', borderLeft: '1px solid rgba(30,158,255,0.12)', flexShrink: 0 }}>
+              <div className="articles-toolbar-search">
                 <input
-                  style={{ background: 'transparent', border: 'none', outline: 'none', padding: '18px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '1px', color: '#c0cfe0', width: '220px' }}
+                  style={{ background: 'transparent', border: 'none', outline: 'none', padding: '18px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '1px', color: '#c0cfe0', width: '200px' }}
                   placeholder="Search reports..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}

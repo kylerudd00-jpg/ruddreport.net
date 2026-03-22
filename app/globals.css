@@ -150,6 +150,20 @@ body::after {
   .hamburger { display: flex; }
 }
 
+/* Search modal — full screen on mobile */
+@media (max-width: 768px) {
+  .search-modal-wrap { padding-top: 0 !important; align-items: stretch !important; }
+  .search-modal-box { max-width: 100% !important; height: 100dvh; display: flex; flex-direction: column; }
+  .search-modal-box > div:nth-child(2) { flex: 1; overflow-y: auto; }
+}
+
+/* Prevent iOS input zoom (font-size must be >= 16px on mobile) */
+@media (max-width: 768px) {
+  input, select, textarea { font-size: 16px !important; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  nav { height: 60px; }
+}
+
 /* Article section category filter buttons */
 .cat-filter-btn {
   font-family: 'Share Tech Mono', monospace;

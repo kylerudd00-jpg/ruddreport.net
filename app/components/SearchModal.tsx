@@ -86,8 +86,11 @@ export default function SearchModal() {
 
   if (!open) {
     return (
-      <button
-        onClick={() => setOpen(true)}
+      <>
+        <style>{`@media (max-width: 768px) { .search-float-btn { display: none !important; } }`}</style>
+        <button
+          className="search-float-btn"
+          onClick={() => setOpen(true)}
         style={{
           position: 'fixed', bottom: '28px', right: '28px', zIndex: 200,
           background: 'rgba(10,21,32,0.95)', border: '1px solid rgba(30,158,255,0.25)',
@@ -113,19 +116,21 @@ export default function SearchModal() {
           fontFamily: 'monospace',
         }}>⌘K</kbd>
       </button>
+      </>
     );
   }
 
   return (
     <div
+      className="search-modal-wrap"
       style={{
-        position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(3,6,8,0.85)',
+        position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(3,6,8,0.9)',
         backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'flex-start',
         justifyContent: 'center', paddingTop: '80px',
       }}
       onClick={e => { if (e.target === e.currentTarget) setOpen(false); }}
     >
-      <div style={{
+      <div className="search-modal-box" style={{
         width: '100%', maxWidth: '680px', background: '#070d12',
         border: '1px solid rgba(30,158,255,0.25)', overflow: 'hidden',
         boxShadow: '0 40px 100px rgba(0,0,0,0.7)',
