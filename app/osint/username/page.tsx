@@ -1,5 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const HISTORY_KEY = 'osint_username_history';
 
 const PLATFORMS = [
   // Social
@@ -59,6 +61,13 @@ export default function UsernameHunter() {
   const [scanning, setScanning] = useState(false);
   const [filter, setFilter] = useState('All');
   const [copied, setCopied] = useState(false);
+  const [history, setHistory] = useState<string[]>([]);
+
+  useEffect(() => {
+    try { setHistory(JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]')); } catch {}
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setUsername(q); setTimeout(() => startScan(q), 100); }
+  }, []);
 
   const copyFound = () => {
     const found = results.filter(r => r.status === 'found');
@@ -69,14 +78,24 @@ export default function UsernameHunter() {
     });
   };
 
-  const scan = async () => {
-    if (!username.trim()) return;
+  const startScan = (override?: string) => scan(override);
+
+  const scan = async (override?: string) => {
+    const target = (override || username).trim();
+    if (!target) return;
+    if (override) setUsername(target);
     setScanning(true);
     setFilter('All');
+    // Save to history
+    setHistory(prev => {
+      const next = [target, ...prev.filter(h => h !== target)].slice(0, 6);
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch {}
+      return next;
+    });
 
     const initial: Result[] = PLATFORMS.map(p => ({
       platform: p.name,
-      url: p.url.replace('{}', username.trim()),
+      url: p.url.replace('{}', target),
       category: p.category,
       status: p.checkable === false ? 'manual' : 'checking',
     }));
@@ -88,7 +107,7 @@ export default function UsernameHunter() {
       PLATFORMS.map(async (p, i) => {
         if (p.checkable === false) return;
         try {
-          const res = await fetch(`/api/username?username=${encodeURIComponent(username.trim())}&platform=${encodeURIComponent(p.name.toLowerCase())}`);
+          const res = await fetch(`/api/username?username=${encodeURIComponent(target)}&platform=${encodeURIComponent(p.name.toLowerCase())}`);
           const data = await res.json();
           updated[i] = { ...updated[i], status: data.found ? 'found' : 'not_found' };
         } catch {
@@ -244,10 +263,22 @@ export default function UsernameHunter() {
               onChange={e => setUsername(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && scan()}
             />
-            <button className="search-btn" onClick={scan} disabled={scanning}>
+            <button className="search-btn" onClick={() => scan()} disabled={scanning}>
               {scanning ? 'Scanning...' : 'Hunt →'}
             </button>
           </div>
+          {history.length > 0 && (
+            <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: '#3d5870', textTransform: 'uppercase' }}>Recent:</span>
+              {history.map(h => (
+                <button key={h} onClick={() => { setUsername(h); scan(h); }}
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#7a9bb5', background: 'rgba(30,158,255,0.06)', border: '1px solid rgba(30,158,255,0.15)', padding: '3px 10px', cursor: 'pointer', letterSpacing: '1px' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#1e9eff')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#7a9bb5')}
+                >{h}</button>
+              ))}
+            </div>
+          )}
         </div>
 
         {results.length > 0 && (

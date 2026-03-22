@@ -1,7 +1,27 @@
 'use client';
+import { useState } from 'react';
 import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone } from 'lucide-react';
 
+function detectAndRoute(raw: string) {
+  const q = raw.trim();
+  if (!q) return;
+  const ipRx = /^(\d{1,3}\.){3}\d{1,3}$/;
+  const hashRx = /^[0-9a-fA-F]{32}$|^[0-9a-fA-F]{40}$|^[0-9a-fA-F]{64}$/;
+  const domainRx = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/i;
+  const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const urlRx = /^https?:\/\//i;
+
+  if (urlRx.test(q)) { window.location.href = `/osint/url?q=${encodeURIComponent(q)}`; return; }
+  if (emailRx.test(q)) { window.location.href = `/osint/email-headers?q=${encodeURIComponent(q)}`; return; }
+  if (ipRx.test(q)) { window.location.href = `/osint/ip?q=${encodeURIComponent(q)}`; return; }
+  if (hashRx.test(q)) { window.location.href = `/osint/hash?q=${encodeURIComponent(q)}`; return; }
+  if (domainRx.test(q)) { window.location.href = `/osint/whois?q=${encodeURIComponent(q)}`; return; }
+  // Default: username hunter
+  window.location.href = `/osint/username?q=${encodeURIComponent(q)}`;
+}
+
 export default function OSINTHub() {
+  const [routerQuery, setRouterQuery] = useState('');
   return (
     <>
       <style>{`
@@ -61,6 +81,16 @@ export default function OSINTHub() {
         .tool-action { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1.5px; color: #1e9eff; text-transform: uppercase; }
         .tool-card.live .tool-action { color: #1e9eff; }
         .tool-card.coming .tool-action { color: #3d5870; }
+        .router-wrap { margin-top: 40px; padding: 24px; border: 1px solid rgba(30,158,255,0.15); background: rgba(10,21,32,0.6); }
+        .router-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
+        .router-row { display: flex; gap: 2px; }
+        .router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 12px 16px; outline: none; transition: border-color 0.2s; }
+        .router-input:focus { border-color: rgba(30,158,255,0.5); }
+        .router-input::placeholder { color: #3d5870; }
+        .router-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 12px 24px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
+        .router-btn:hover { background: #4db3ff; }
+        .router-hint { margin-top: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; }
+        .router-hint span { color: #1e9eff; }
         .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(30,158,255,0.2), transparent); }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
@@ -129,6 +159,26 @@ export default function OSINTHub() {
               <div className="hero-stat">
                 <div className="hero-stat-num">6</div>
                 <div className="hero-stat-label">News Sources</div>
+              </div>
+            </div>
+
+            {/* Smart Router */}
+            <div className="router-wrap">
+              <div className="router-label">Quick Lookup — paste anything</div>
+              <div className="router-row">
+                <input
+                  className="router-input"
+                  placeholder="IP address, domain, URL, hash, username, or email..."
+                  value={routerQuery}
+                  onChange={e => setRouterQuery(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && detectAndRoute(routerQuery)}
+                />
+                <button className="router-btn" onClick={() => detectAndRoute(routerQuery)}>
+                  Investigate →
+                </button>
+              </div>
+              <div className="router-hint">
+                Auto-routes to the right tool — <span>IP</span> → Geolocation · <span>domain</span> → WHOIS · <span>hash</span> → Hash ID · <span>username</span> → Username Hunter
               </div>
             </div>
           </div>

@@ -1,11 +1,14 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 
+const HISTORY_KEY = 'osint_ip_history';
+
 export default function IPGeo() {
   const [ip, setIp] = useState('');
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [history, setHistory] = useState<string[]>([]);
   const mapRef = useRef<any>(null);
   const mapInstanceRef = useRef<any>(null);
 
@@ -15,6 +18,11 @@ export default function IPGeo() {
       link.rel = 'stylesheet';
       link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
       document.head.appendChild(link);
+      // Load history
+      try { setHistory(JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]')); } catch {}
+      // Auto-run if ?q= param present
+      const q = new URLSearchParams(window.location.search).get('q');
+      if (q) { setIp(q); setTimeout(() => lookup(q), 100); }
     }
   }, []);
 
@@ -32,6 +40,12 @@ export default function IPGeo() {
       const enriched = { ...data, lat, lon };
       setResult(enriched);
       if (lat && lon) initMap(lat, lon, enriched);
+      // Save to history
+      setHistory(prev => {
+        const next = [target, ...prev.filter(h => h !== target)].slice(0, 6);
+        try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch {}
+        return next;
+      });
     } catch (e: any) {
       setError(`${e.message || 'Could not retrieve data for this IP address.'}`);
     }
@@ -226,6 +240,18 @@ export default function IPGeo() {
             </button>
           </div>
           <button className="myip-btn" onClick={myIp}>⊕ Use My IP Address</button>
+          {history.length > 0 && (
+            <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: '#3d5870', textTransform: 'uppercase' }}>Recent:</span>
+              {history.map(h => (
+                <button key={h} onClick={() => { setIp(h); lookup(h); }}
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#7a9bb5', background: 'rgba(30,158,255,0.06)', border: '1px solid rgba(30,158,255,0.15)', padding: '3px 10px', cursor: 'pointer', transition: 'all 0.2s', letterSpacing: '1px' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#1e9eff')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#7a9bb5')}
+                >{h}</button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="results">

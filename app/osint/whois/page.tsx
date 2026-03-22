@@ -1,28 +1,45 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const HISTORY_KEY = 'osint_whois_history';
 
 export default function WHOISLookup() {
   const [domain, setDomain] = useState('');
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [history, setHistory] = useState<string[]>([]);
 
-  const lookup = async () => {
-    if (!domain.trim()) return;
+  useEffect(() => {
+    try { setHistory(JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]')); } catch {}
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setDomain(q); setTimeout(() => runLookup(q), 100); }
+  }, []);
+
+  const runLookup = async (override?: string) => {
+    const target = (override || domain).trim();
+    if (!target) return;
     setLoading(true);
     setError('');
     setResult(null);
     try {
-      const clean = domain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
+      const clean = target.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
       const res = await fetch(`https://rdap.org/domain/${clean}`);
       if (!res.ok) throw new Error('Not found');
       const data = await res.json();
       setResult(data);
+      setHistory(prev => {
+        const next = [clean, ...prev.filter(h => h !== clean)].slice(0, 6);
+        try { localStorage.setItem(HISTORY_KEY, JSON.stringify(next)); } catch {}
+        return next;
+      });
     } catch (e) {
       setError('Could not retrieve WHOIS data. The domain may not exist or the registry may be unavailable.');
     }
     setLoading(false);
   };
+
+  const lookup = runLookup;
 
   const getDate = (data: any, eventType: string) => {
     const event = (data?.events || []).find((e: any) => e.eventAction === eventType);
@@ -214,10 +231,22 @@ export default function WHOISLookup() {
               onChange={e => setDomain(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && lookup()}
             />
-            <button className="search-btn" onClick={lookup} disabled={loading}>
+            <button className="search-btn" onClick={() => lookup()} disabled={loading}>
               {loading ? 'Scanning...' : 'Lookup →'}
             </button>
           </div>
+          {history.length > 0 && (
+            <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: '#3d5870', textTransform: 'uppercase' }}>Recent:</span>
+              {history.map(h => (
+                <button key={h} onClick={() => { setDomain(h); runLookup(h); }}
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#7a9bb5', background: 'rgba(30,158,255,0.06)', border: '1px solid rgba(30,158,255,0.15)', padding: '3px 10px', cursor: 'pointer', letterSpacing: '1px' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#1e9eff')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#7a9bb5')}
+                >{h}</button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="results">

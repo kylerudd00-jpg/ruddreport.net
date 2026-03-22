@@ -201,8 +201,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <ShareButtons title={article.title} slug={article.slug} />
             </div>
 
+            {/* AUTHOR BYLINE */}
+            <div style={{ marginTop: '48px', paddingTop: '32px', borderTop: '1px solid rgba(30,158,255,0.12)', display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(30,158,255,0.1)', border: '1px solid rgba(30,158,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Playfair Display', serif", fontSize: '18px', fontWeight: 700, color: '#1e9eff', flexShrink: 0 }}>K</div>
+              <div>
+                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '15px', fontWeight: 700, color: '#c0cfe0', marginBottom: '4px' }}>Kyle Rudd</div>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '2px', color: '#3d5870', textTransform: 'uppercase' }}>Intelligence Researcher · DHS · Cambridge · ODNI IC-CAE</div>
+              </div>
+            </div>
+
             {/* SIGN-OFF */}
-            <div className="article-sign-off">
+            <div className="article-sign-off" style={{ marginTop: '24px' }}>
               Analysis by Kyle Rudd — The Rudd Report
             </div>
           </div>

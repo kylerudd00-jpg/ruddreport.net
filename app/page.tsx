@@ -487,8 +487,8 @@ export default function Home() {
               <ul className="footer-links">
                 <li><a href="https://x.com/KyleRudd44" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
                 <li><a href="https://www.linkedin.com/in/kyle-rudd-68209b252/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="#">RSS Feed</a></li>
-                <li><a href="#">Newsletter</a></li>
+                <li><a href="/feed.xml">RSS Feed</a></li>
+                <li></li>
               </ul>
             </div>
           </div>
