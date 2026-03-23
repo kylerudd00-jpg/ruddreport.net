@@ -62,6 +62,8 @@ export default function PersonLookup() {
   const [courtResults, setCourtResults] = useState<CourtRecord[]>([]);
   const [courtError, setCourtError] = useState('');
 
+  const [activeProfile, setActiveProfile] = useState<number | null>(null);
+
   const enc = (s: string) => encodeURIComponent(s);
   const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
 
@@ -76,6 +78,7 @@ export default function PersonLookup() {
     setFecError('');
     setCourtResults([]);
     setCourtError('');
+    setActiveProfile(null);
 
     const fullName = `${fn} ${ln}`;
 
@@ -106,7 +109,7 @@ export default function PersonLookup() {
   const ln = lastName.trim();
   const fullName = fn && ln ? `${fn} ${ln}` : '';
 
-  // Deduplicate FEC by city+state+zip+employer combo for a cleaner profile view
+  // Deduplicate FEC by city+state+zip for a cleaner profile view
   const uniqueLocations = fecResults.reduce<{ city: string; state: string; zip: string; employer: string; occupation: string }[]>((acc, r) => {
     const key = `${r.contributor_city}|${r.contributor_state}|${r.contributor_zip}`;
     if (!acc.find(x => `${x.city}|${x.state}|${x.zip}` === key)) {
@@ -120,6 +123,15 @@ export default function PersonLookup() {
     }
     return acc;
   }, []);
+
+  const activeLocation = activeProfile !== null ? uniqueLocations[activeProfile] : null;
+  const filteredFecResults = activeLocation
+    ? fecResults.filter(r =>
+        r.contributor_city === activeLocation.city &&
+        r.contributor_state === activeLocation.state &&
+        r.contributor_zip === activeLocation.zip
+      )
+    : fecResults;
 
   return (
     <>
@@ -166,8 +178,16 @@ export default function PersonLookup() {
         .section-wrap { margin-bottom: 40px; }
         .empty-state { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #3d5870; background: #0a1520; border: 1px solid rgba(30,158,255,0.06); text-align: center; }
         .error-state { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; color: #ff6060; background: rgba(255,60,60,0.04); border: 1px solid rgba(255,60,60,0.15); }
+        .disambig-banner { background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.2); padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+        .disambig-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
+        .disambig-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; margin-top: 4px; }
+        .show-all-btn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #7a9bb5; background: none; border: 1px solid rgba(122,155,181,0.3); padding: 6px 14px; cursor: pointer; text-transform: uppercase; white-space: nowrap; transition: all 0.2s; }
+        .show-all-btn:hover { color: #c0cfe0; border-color: rgba(192,207,224,0.4); }
         .loc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-bottom: 16px; }
-        .loc-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); border-top: 2px solid #1e9eff; padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+        .loc-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); border-top: 2px solid #1e9eff; padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+        .loc-card:hover { border-color: rgba(30,158,255,0.35); background: #0d1e30; }
+        .loc-card.active { border-color: #1e9eff; background: #0d1e30; border-top-width: 3px; }
+        .loc-card.inactive { opacity: 0.35; }
         .loc-field { display: flex; flex-direction: column; gap: 3px; }
         .loc-key { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
         .loc-val { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #c0cfe0; letter-spacing: 0.5px; }
@@ -279,41 +299,60 @@ export default function PersonLookup() {
                   <div className="empty-state">No FEC campaign finance records found for {fullName}{state ? ` in ${state}` : ''}. This source only covers individuals who have donated $200+ to federal political campaigns.</div>
                 )}
 
+                {uniqueLocations.length > 1 && (
+                  <div className="disambig-banner">
+                    <div>
+                      <div className="disambig-label">{uniqueLocations.length} different people found</div>
+                      <div className="disambig-sub">Click a location card below to focus on one person — or show all records.</div>
+                    </div>
+                    {activeProfile !== null && (
+                      <button className="show-all-btn" onClick={() => setActiveProfile(null)}>Show All</button>
+                    )}
+                  </div>
+                )}
+
                 {uniqueLocations.length > 0 && (
                   <>
-                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', marginBottom: '10px'}}>Known Locations</div>
+                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', marginBottom: '10px'}}>
+                      {uniqueLocations.length > 1 ? 'Select a Person — Click to Filter' : 'Known Location'}
+                    </div>
                     <div className="loc-grid">
-                      {uniqueLocations.map((loc, i) => (
-                        <div key={i} className="loc-card">
-                          <div className="loc-field">
-                            <div className="loc-key">City</div>
-                            <div className="loc-val highlight">{loc.city}</div>
+                      {uniqueLocations.map((loc, i) => {
+                        const cardClass = activeProfile === null ? 'loc-card' : activeProfile === i ? 'loc-card active' : 'loc-card inactive';
+                        return (
+                          <div key={i} className={cardClass} onClick={() => setActiveProfile(activeProfile === i ? null : i)}>
+                            <div className="loc-field">
+                              <div className="loc-key">City</div>
+                              <div className="loc-val highlight">{loc.city}</div>
+                            </div>
+                            <div className="loc-field">
+                              <div className="loc-key">State</div>
+                              <div className="loc-val highlight">{loc.state}</div>
+                            </div>
+                            <div className="loc-field">
+                              <div className="loc-key">ZIP</div>
+                              <div className="loc-val">{loc.zip}</div>
+                            </div>
+                            <div className="loc-field">
+                              <div className="loc-key">Employer</div>
+                              <div className="loc-val">{loc.employer}</div>
+                            </div>
+                            <div className="loc-field" style={{gridColumn: '1 / -1'}}>
+                              <div className="loc-key">Occupation</div>
+                              <div className="loc-val">{loc.occupation}</div>
+                            </div>
                           </div>
-                          <div className="loc-field">
-                            <div className="loc-key">State</div>
-                            <div className="loc-val highlight">{loc.state}</div>
-                          </div>
-                          <div className="loc-field">
-                            <div className="loc-key">ZIP</div>
-                            <div className="loc-val">{loc.zip}</div>
-                          </div>
-                          <div className="loc-field">
-                            <div className="loc-key">Employer</div>
-                            <div className="loc-val">{loc.employer}</div>
-                          </div>
-                          <div className="loc-field" style={{gridColumn: '1 / -1'}}>
-                            <div className="loc-key">Occupation</div>
-                            <div className="loc-val">{loc.occupation}</div>
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </>
                 )}
 
-                {fecResults.length > 0 && (
+                {filteredFecResults.length > 0 && (
                   <>
-                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', margin: '16px 0 10px'}}>Full Donation History</div>
+                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', margin: '16px 0 10px'}}>
+                      {activeProfile !== null ? `Donation History — ${activeLocation?.city}, ${activeLocation?.state}` : 'Full Donation History'}
+                    </div>
                     <div className="fec-table-wrap">
                       <table className="fec-table">
                         <thead>
@@ -329,7 +368,7 @@ export default function PersonLookup() {
                           </tr>
                         </thead>
                         <tbody>
-                          {fecResults.map((r, i) => (
+                          {filteredFecResults.map((r, i) => (
                             <tr key={i}>
                               <td className="name-col">{r.contributor_name || '—'}</td>
                               <td>{r.contributor_city || '—'}</td>
