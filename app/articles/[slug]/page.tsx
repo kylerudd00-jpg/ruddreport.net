@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import ShareButtons from './ShareButtons';
 import ArticleNav from './ArticleNav';
+import TocSidebar from './TocSidebar';
 
 export async function generateStaticParams() {
   return ARTICLES.map(a => ({ slug: a.slug }));
@@ -228,18 +229,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
 
           {/* TOC SIDEBAR */}
-          {toc.length > 0 && (
-            <aside className="toc-sidebar">
-              <div className="toc-label">Contents</div>
-              <ul className="toc-list">
-                {toc.map(item => (
-                  <li key={item.id} className="toc-item">
-                    <a href={`#${item.id}`}>{item.text}</a>
-                  </li>
-                ))}
-              </ul>
-            </aside>
-          )}
+          <TocSidebar toc={toc} />
         </div>
       </div>
 
