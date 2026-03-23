@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, FingerprintPattern, Footprints, type LucideIcon } from 'lucide-react';
 
 function detectAndRoute(raw: string) {
@@ -94,6 +94,12 @@ export default function OSINTHub() {
   const [activeCategory, setActiveCategory] = useState<Category>('All');
   const [search, setSearch] = useState('');
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('cat') as Category | null;
+    if (cat && CATEGORIES.includes(cat)) setActiveCategory(cat);
+  }, []);
+
   const filtered = useMemo(() => {
     let list = activeCategory === 'All' ? TOOLS : TOOLS.filter(t => t.category === activeCategory);
     if (search.trim()) {
@@ -174,14 +180,14 @@ export default function OSINTHub() {
         /* TOOLS GRID */
         .tools-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 40px 80px; }
         .results-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 20px; }
-        .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-        .tool-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 22px 22px 18px; text-decoration: none; display: flex; flex-direction: column; gap: 0; transition: all 0.25s; overflow: hidden; }
+        .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .tool-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 28px 28px 22px; text-decoration: none; display: flex; flex-direction: column; gap: 0; transition: all 0.25s; overflow: hidden; }
         .tool-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
         .tool-card:hover { background: #0d1e30; border-color: rgba(30,158,255,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
         .tool-card:hover::after { transform: scaleX(1); }
         .tool-cat-line { height: 2px; width: 24px; margin-bottom: 16px; border-radius: 1px; }
         .tool-icon-wrap { margin-bottom: 12px; }
-        .tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; color: #c0cfe0; margin-bottom: 7px; transition: color 0.2s; line-height: 1.2; }
+        .tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0.5px; color: #c0cfe0; margin-bottom: 8px; transition: color 0.2s; line-height: 1.2; }
         .tool-card:hover .tool-name { color: #fff; }
         .tool-desc { font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 400; color: #5a7a90; line-height: 1.55; flex: 1; margin-bottom: 16px; }
         .tool-footer { display: flex; align-items: center; justify-content: space-between; }
@@ -201,7 +207,7 @@ export default function OSINTHub() {
 
         @media (max-width: 1024px) {
           .hero-inner { grid-template-columns: 1fr; gap: 32px; }
-          .tools-grid { grid-template-columns: repeat(3, 1fr); }
+          .tools-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
@@ -348,7 +354,7 @@ export default function OSINTHub() {
                   <style>{`.tool-card:hover::after { background: ${color}; }`}</style>
                   <div className="tool-cat-line" style={{ background: color }} />
                   <div className="tool-icon-wrap" style={{ color }}>
-                    <Icon size={22} strokeWidth={1.5} />
+                    <Icon size={26} strokeWidth={1.5} />
                   </div>
                   <div className="tool-name">{tool.name}</div>
                   <div className="tool-desc">{tool.desc}</div>

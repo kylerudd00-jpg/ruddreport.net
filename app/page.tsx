@@ -1,6 +1,6 @@
 ﻿'use client';
 import { useEffect, useRef, useState } from 'react';
-import { Lock, Eye, Globe, Shield, TrendingUp, LayoutDashboard, MapPin, User, FileText, Map, ScanSearch, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { ARTICLES, type Article, getReadingTime } from '@/lib/articles';
 
 const CATEGORIES = ['All', 'Cybersecurity', 'Intelligence', 'Geopolitics', 'National Security', 'Economic Security'] as const;
@@ -236,18 +236,18 @@ export default function Home() {
         .osint-router-btn:hover { background: #4db3ff; }
         .osint-router-hint { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: var(--text-muted); }
         .osint-router-hint span { color: var(--accent); }
-        .osint-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .osint-tool { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 20px 22px; text-decoration: none; display: flex; align-items: center; gap: 16px; transition: all 0.25s; position: relative; overflow: hidden; }
-        .osint-tool::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom; }
-        .osint-tool:hover { background: #0d1e30; border-color: rgba(30,158,255,0.25); transform: translateX(3px); }
-        .osint-tool:hover::before { transform: scaleY(1); }
-        .osint-tool-icon { color: var(--accent); flex-shrink: 0; }
-        .osint-tool-body { min-width: 0; }
-        .osint-tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; color: var(--silver); margin-bottom: 3px; transition: color 0.2s; }
-        .osint-tool:hover .osint-tool-name { color: var(--accent); }
-        .osint-tool-desc { font-family: 'Barlow', sans-serif; font-size: 11px; color: var(--text-muted); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .osint-tool-arrow { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-muted); flex-shrink: 0; transition: all 0.2s; }
-        .osint-tool:hover .osint-tool-arrow { color: var(--accent); transform: translateX(3px); }
+        .osint-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .osint-cat { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px 26px; text-decoration: none; display: flex; flex-direction: column; gap: 0; transition: all 0.25s; position: relative; overflow: hidden; }
+        .osint-cat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+        .osint-cat:hover { background: #0d1e30; border-color: rgba(30,158,255,0.25); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+        .osint-cat:hover::before { transform: scaleX(1); }
+        .osint-cat-count { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; margin-bottom: 12px; font-weight: 600; }
+        .osint-cat-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; margin-bottom: 8px; letter-spacing: 0.3px; transition: color 0.2s; }
+        .osint-cat:hover .osint-cat-name { color: #fff; }
+        .osint-cat-desc { font-family: 'Barlow', sans-serif; font-size: 12px; color: #5a7a94; line-height: 1.55; }
+        .osint-cat-footer { display: flex; align-items: center; justify-content: flex-end; margin-top: 16px; }
+        .osint-cat-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a7a94; transition: all 0.2s; }
+        .osint-cat:hover .osint-cat-arrow { transform: translateX(3px); }
         .osint-view-all { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px; padding: 16px; border: 1px solid rgba(30,158,255,0.1); background: rgba(3,6,8,0.4); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; transition: all 0.2s; }
         .osint-view-all:hover { background: rgba(30,158,255,0.06); border-color: rgba(30,158,255,0.25); }
         .creds-strip { border-top: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.08); padding: 14px 40px; background: rgba(3,6,8,0.7); }
@@ -280,7 +280,7 @@ export default function Home() {
         }
         @media (max-width: 1024px) {
           .osint-header { grid-template-columns: 1fr; gap: 32px; }
-          .osint-tools { grid-template-columns: repeat(2, 1fr); }
+          .osint-cats { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
@@ -292,7 +292,7 @@ export default function Home() {
           .section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
           .featured-grid, .intel-grid { grid-template-columns: 1fr; }
           .osint-section { padding: 60px 20px; }
-          .osint-tools { grid-template-columns: 1fr; }
+          .osint-cats { grid-template-columns: 1fr 1fr; }
           .topics-grid { grid-template-columns: 1fr 1fr !important; }
           .topic-card:first-child { grid-column: span 2; min-height: 200px !important; }
           .topic-card { padding: 24px 20px !important; min-height: 160px !important; }
@@ -456,22 +456,23 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="osint-tools">
+          <div className="osint-cats">
             {[
-              { icon: LayoutDashboard, name: 'Corporate Intel Dashboard', desc: 'Full company research — filings, patents, contracts', href: '/osint/company' },
-              { icon: FileText, name: 'SEC EDGAR Search', desc: '10-Ks, 8-Ks, proxies, insider transactions', href: '/osint/edgar' },
-              { icon: MapPin, name: 'IP Geolocation', desc: 'Location, ISP, ASN for any IP address', href: '/osint/ip' },
-              { icon: User, name: 'Username Hunter', desc: 'Check 39 platforms simultaneously', href: '/osint/username' },
-              { icon: Map, name: 'Conflict Tracker', desc: 'Live conflict zones with GDELT & ACLED data', href: '/osint/conflict' },
-              { icon: ScanSearch, name: 'Subdomain Scanner', desc: 'Enumerate infrastructure via CT logs', href: '/osint/subdomains' },
-            ].map(tool => (
-              <a key={tool.href} href={tool.href} className="osint-tool">
-                <div className="osint-tool-icon"><tool.icon size={20} strokeWidth={1.5} /></div>
-                <div className="osint-tool-body">
-                  <div className="osint-tool-name">{tool.name}</div>
-                  <div className="osint-tool-desc">{tool.desc}</div>
+              { name: 'Corporate', count: 8, color: '#ffaa00', desc: 'Company filings, SEC records, government contracts, court records, and exec research.', href: '/osint?cat=Corporate' },
+              { name: 'Network', count: 7, color: '#1e9eff', desc: 'WHOIS, DNS, IP geolocation, subdomains, SSL certs, and URL redirect tracing.', href: '/osint?cat=Network' },
+              { name: 'Cyber', count: 10, color: '#ff4444', desc: 'Hashes, CVEs, email headers, breach lookup, username search, and Google dorks.', href: '/osint?cat=Cyber' },
+              { name: 'Live & Tracking', count: 6, color: '#22cc66', desc: 'Satellites, flights, vessels, conflict zones, prediction markets, and news feeds.', href: '/osint?cat=Live+%26+Tracking' },
+              { name: 'Economic', count: 4, color: '#00c9b0', desc: 'Currency rates, commodity prices, country economic profiles, and sanctions screening.', href: '/osint?cat=Economic' },
+              { name: 'Utilities', count: 4, color: '#b464ff', desc: 'Subnet calculator, JWT decoder, Base64 encoder, and phone number lookup.', href: '/osint?cat=Utilities' },
+            ].map(cat => (
+              <a key={cat.name} href={cat.href} className="osint-cat" style={{ ['--cat-color' as string]: cat.color }}>
+                <style>{`.osint-cat:hover::before { background: ${cat.color}; }`}</style>
+                <div className="osint-cat-count" style={{ color: cat.color }}>{cat.count} tools</div>
+                <div className="osint-cat-name">{cat.name}</div>
+                <div className="osint-cat-desc">{cat.desc}</div>
+                <div className="osint-cat-footer">
+                  <div className="osint-cat-arrow" style={{ color: cat.color }}>→</div>
                 </div>
-                <div className="osint-tool-arrow">→</div>
               </a>
             ))}
           </div>
