@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SearchModal from "./components/SearchModal";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "The Rudd Report",
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body>
         {children}
         <SearchModal />
+        <Analytics />
       </body>
     </html>
   );
