@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 const US_STATES = [
-  { abbr: '', label: 'Select State' },
+  { abbr: '', label: 'Any State' },
   { abbr: 'AL', label: 'Alabama' }, { abbr: 'AK', label: 'Alaska' }, { abbr: 'AZ', label: 'Arizona' },
   { abbr: 'AR', label: 'Arkansas' }, { abbr: 'CA', label: 'California' }, { abbr: 'CO', label: 'Colorado' },
   { abbr: 'CT', label: 'Connecticut' }, { abbr: 'DE', label: 'Delaware' }, { abbr: 'FL', label: 'Florida' },
@@ -22,80 +22,104 @@ const US_STATES = [
   { abbr: 'WI', label: 'Wisconsin' }, { abbr: 'WY', label: 'Wyoming' },
 ];
 
-export default function AddressLookup() {
+interface FecRecord {
+  contributor_name?: string;
+  contributor_city?: string;
+  contributor_state?: string;
+  contributor_zip?: string;
+  contributor_employer?: string;
+  contributor_occupation?: string;
+  contribution_receipt_amount?: number;
+  contribution_receipt_date?: string;
+  committee?: { name?: string };
+}
+
+interface CourtRecord {
+  case_name?: string;
+  court?: string;
+  date_filed?: string;
+  absolute_url?: string;
+  docket_number?: string;
+}
+
+function fmt(d?: string) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
+  catch { return d; }
+}
+
+export default function PersonLookup() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [tab, setTab] = useState<'address' | 'name'>('address');
-
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [addrState, setAddrState] = useState('');
-  const [addrSubmitted, setAddrSubmitted] = useState<{ street: string; city: string; state: string } | null>(null);
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [nameState, setNameState] = useState('');
-  const [nameSubmitted, setNameSubmitted] = useState<{ fn: string; ln: string; state: string } | null>(null);
+  const [state, setState] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
+
+  const [fecResults, setFecResults] = useState<FecRecord[]>([]);
+  const [fecError, setFecError] = useState('');
+
+  const [courtResults, setCourtResults] = useState<CourtRecord[]>([]);
+  const [courtError, setCourtError] = useState('');
 
   const enc = (s: string) => encodeURIComponent(s);
   const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
 
-  const handleAddrSubmit = () => {
-    if (!street.trim() || !city.trim()) return;
-    setAddrSubmitted({ street: street.trim(), city: city.trim(), state: addrState });
-  };
-  const handleNameSubmit = () => {
-    if (!firstName.trim() || !lastName.trim()) return;
-    setNameSubmitted({ fn: firstName.trim(), ln: lastName.trim(), state: nameState });
-  };
+  const runSearch = useCallback(async () => {
+    const fn = firstName.trim();
+    const ln = lastName.trim();
+    if (!fn || !ln) return;
 
-  const a = addrSubmitted;
-  const fullAddr = a ? `${a.street}, ${a.city}${a.state ? ', ' + a.state : ''}` : '';
-  const streetSlug = a ? slug(a.street) : '';
-  const citySlug = a ? slug(a.city) : '';
-  const n = nameSubmitted;
+    setLoading(true);
+    setSearched(false);
+    setFecResults([]);
+    setFecError('');
+    setCourtResults([]);
+    setCourtError('');
 
-  type CardColor = 'blue' | 'green' | 'orange';
-  const colorMap: Record<CardColor, { border: string; btn: string; btnBorder: string }> = {
-    green:  { border: '#00ff88', btn: '#00ff88', btnBorder: 'rgba(0,255,136,0.4)' },
-    blue:   { border: '#1e9eff', btn: '#1e9eff', btnBorder: 'rgba(30,158,255,0.4)' },
-    orange: { border: '#ffaa00', btn: '#ffaa00', btnBorder: 'rgba(255,170,0,0.4)' },
-  };
+    const fullName = `${fn} ${ln}`;
 
-  const addrServices: { name: string; what: string; color: CardColor; url: () => string }[] = [
-    { name: 'TruePeopleSearch', what: 'Who lives here — residents, history, relatives', color: 'green',
-      url: () => `https://www.truepeoplesearch.com/results?streetaddress=${enc(a!.street)}&citystatezip=${enc(a!.city + (a!.state ? ' ' + a!.state : ''))}` },
-    { name: 'FastPeopleSearch', what: 'Reverse address — current and past residents', color: 'green',
-      url: () => `https://www.fastpeoplesearch.com/address/${streetSlug}_${citySlug}${a!.state ? '_' + a!.state : ''}` },
-    { name: 'WhitePages Reverse', what: 'Current residents and phone numbers', color: 'blue',
-      url: () => `https://www.whitepages.com/address/${streetSlug}/${citySlug}${a!.state ? '-' + a!.state : ''}` },
-    { name: 'Radaris', what: 'Property history, residents, ownership', color: 'blue',
-      url: () => `https://radaris.com/address/${enc(a!.street)}/${enc(a!.city)}/${a!.state || ''}/` },
-    { name: 'Google Maps Satellite', what: 'Aerial view of the property', color: 'blue',
-      url: () => `https://www.google.com/maps/search/${enc(fullAddr)}` },
-    { name: 'Google Street View', what: 'Street-level exterior imagery', color: 'blue',
-      url: () => `https://www.google.com/maps?q=${enc(fullAddr)}&layer=c` },
-    { name: 'Zillow', what: 'Property value, owner history, listing data', color: 'blue',
-      url: () => `https://www.zillow.com/homes/${enc(fullAddr)}_rb/` },
-    { name: 'Redfin', what: 'Sale history, property records, estimated value', color: 'blue',
-      url: () => `https://www.redfin.com/search#location=${enc(fullAddr)}` },
-    { name: 'County Assessor', what: 'Official tax records — owner, valuation, lot size', color: 'orange',
-      url: () => `https://www.google.com/search?q=${enc((a!.city || '') + ' ' + (a!.state || '') + ' county assessor property search ' + a!.street)}` },
-  ];
+    const [fecRes, courtRes] = await Promise.allSettled([
+      fetch(`/api/osint/fec?name=${enc(fullName)}${state ? `&state=${enc(state)}` : ''}`).then(r => r.json()),
+      fetch(`/api/osint/courtlistener?q=${enc('"' + fullName + '"')}&type=r`).then(r => r.json()),
+    ]);
 
-  const nameServices: { name: string; what: string; color: CardColor; url: () => string }[] = [
-    { name: 'TruePeopleSearch', what: 'Current and past addresses — free, no paywall', color: 'green',
-      url: () => `https://www.truepeoplesearch.com/results?name=${enc(n!.fn + ' ' + n!.ln)}${n!.state ? `&citystatezip=${enc(n!.state)}` : ''}` },
-    { name: 'FamilyTreeNow', what: 'Addresses + DOB + relatives — completely free', color: 'green',
-      url: () => `https://www.familytreenow.com/search/genealogy/results?first=${enc(n!.fn)}&last=${enc(n!.ln)}${n!.state ? `&state=${enc(n!.state)}` : ''}` },
-    { name: 'FastPeopleSearch', what: 'Current address, age, household members', color: 'green',
-      url: () => `https://www.fastpeoplesearch.com/name/${slug(n!.fn)}-${slug(n!.ln)}${n!.state ? '_' + n!.state : ''}` },
-    { name: 'Radaris', what: 'Full address history and previous locations', color: 'blue',
-      url: () => `https://radaris.com/p/${enc(n!.fn)}/${enc(n!.ln)}/` },
-    { name: 'WhitePages', what: 'Address and phone number by name and state', color: 'blue',
-      url: () => n!.state ? `https://www.whitepages.com/name/${slug(n!.fn)}-${slug(n!.ln)}/${n!.state}` : `https://www.whitepages.com/name/${slug(n!.fn)}-${slug(n!.ln)}` },
-    { name: 'ZabaSearch', what: 'Public record address search by name', color: 'blue',
-      url: () => `https://www.zabasearch.com/people/${enc(n!.fn)}+${enc(n!.ln)}/${n!.state ? enc(n!.state) : ''}` },
-  ];
+    if (fecRes.status === 'fulfilled') {
+      if (fecRes.value.error) setFecError(fecRes.value.error);
+      else setFecResults(fecRes.value.results || []);
+    } else {
+      setFecError('FEC lookup failed');
+    }
+
+    if (courtRes.status === 'fulfilled') {
+      if (courtRes.value.error) setCourtError(courtRes.value.error);
+      else setCourtResults(courtRes.value.results || []);
+    } else {
+      setCourtError('Court lookup failed');
+    }
+
+    setLoading(false);
+    setSearched(true);
+  }, [firstName, lastName, state]);
+
+  const fn = firstName.trim();
+  const ln = lastName.trim();
+  const fullName = fn && ln ? `${fn} ${ln}` : '';
+
+  // Deduplicate FEC by city+state+zip+employer combo for a cleaner profile view
+  const uniqueLocations = fecResults.reduce<{ city: string; state: string; zip: string; employer: string; occupation: string }[]>((acc, r) => {
+    const key = `${r.contributor_city}|${r.contributor_state}|${r.contributor_zip}`;
+    if (!acc.find(x => `${x.city}|${x.state}|${x.zip}` === key)) {
+      acc.push({
+        city: r.contributor_city || '—',
+        state: r.contributor_state || '—',
+        zip: r.contributor_zip || '—',
+        employer: r.contributor_employer || '—',
+        occupation: r.contributor_occupation || '—',
+      });
+    }
+    return acc;
+  }, []);
 
   return (
     <>
@@ -126,40 +150,63 @@ export default function AddressLookup() {
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
         .main-wrap { max-width: 1100px; margin: 0 auto; padding: 40px; }
-        .tab-row { display: flex; gap: 2px; margin-bottom: 28px; }
-        .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 10px 24px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #3d5870; cursor: pointer; transition: all 0.2s; }
-        .tab-btn.active { background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.4); color: #1e9eff; }
-        .tab-btn:hover:not(.active) { border-color: rgba(30,158,255,0.3); color: #c0cfe0; }
-        .form-grid { display: grid; gap: 12px; margin-bottom: 32px; align-items: end; }
-        .fg-addr { grid-template-columns: 2fr 1fr 0.6fr auto; }
-        .fg-name { grid-template-columns: 1fr 1fr 1fr auto; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; margin-bottom: 32px; }
         .form-field { display: flex; flex-direction: column; gap: 6px; }
         .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
         .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; transition: border-color 0.2s; }
         .form-input:focus { border-color: rgba(30,158,255,0.6); }
         .form-input::placeholder { color: #2d4055; }
         .form-select { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d8e8f5; cursor: pointer; }
-        .run-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; white-space: nowrap; height: 49px; transition: background 0.3s; }
+        .run-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 0 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; height: 49px; }
         .run-btn:hover { background: #4db8ff; }
         .run-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
-        .target-bar { padding: 14px 20px; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.2); margin-bottom: 28px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-        .target-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
-        .target-value { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #1e9eff; }
-        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(30,158,255,0.1); }
-        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px; display: flex; flex-direction: column; gap: 10px; }
-        .card-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; }
-        .card-what { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; flex: 1; }
-        .card-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; border: 1px solid; background: none; padding: 8px 18px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
-        .card-btn.disabled { color: #3d5870 !important; border-color: rgba(30,158,255,0.1) !important; cursor: not-allowed; pointer-events: none; }
+        .loading-bar { padding: 24px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); margin-bottom: 24px; }
+        .section-hdr { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid rgba(30,158,255,0.1); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .section-count { font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .section-wrap { margin-bottom: 40px; }
+        .empty-state { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #3d5870; background: #0a1520; border: 1px solid rgba(30,158,255,0.06); text-align: center; }
+        .error-state { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; color: #ff6060; background: rgba(255,60,60,0.04); border: 1px solid rgba(255,60,60,0.15); }
+        .loc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-bottom: 16px; }
+        .loc-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); border-top: 2px solid #1e9eff; padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+        .loc-field { display: flex; flex-direction: column; gap: 3px; }
+        .loc-key { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .loc-val { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #c0cfe0; letter-spacing: 0.5px; }
+        .loc-val.highlight { color: #1e9eff; }
+        .fec-table-wrap { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); overflow: auto; }
+        .fec-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        .fec-table th { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; padding: 12px 16px; text-align: left; background: rgba(30,158,255,0.04); border-bottom: 1px solid rgba(30,158,255,0.12); white-space: nowrap; }
+        .fec-table td { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9ab0c4; padding: 11px 16px; border-bottom: 1px solid rgba(30,158,255,0.05); letter-spacing: 0.5px; }
+        .fec-table tr:last-child td { border-bottom: none; }
+        .fec-table tr:hover td { background: rgba(30,158,255,0.02); }
+        .fec-table td.name-col { color: #c0cfe0; font-weight: 500; }
+        .fec-table td.amount-col { color: #00ff88; }
+        .court-list { display: flex; flex-direction: column; gap: 2px; }
+        .court-item { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.2s; }
+        .court-item:hover { border-color: rgba(30,158,255,0.25); }
+        .court-case { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 600; color: #c0cfe0; }
+        .court-case a { color: #c0cfe0; text-decoration: none; }
+        .court-case a:hover { color: #1e9eff; }
+        .court-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+        .court-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+        .court-meta-item span { color: #7a9bb5; }
+        .sources-note { margin-top: 8px; padding: 14px 20px; background: rgba(30,158,255,0.03); border: 1px solid rgba(30,158,255,0.1); }
+        .sources-note-text { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; line-height: 1.8; }
+        .sources-note-text strong { color: #7a9bb5; }
+        .deepdive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .dd-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+        .dd-name { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; color: #c0cfe0; }
+        .dd-what { font-family: 'Barlow', sans-serif; font-size: 11px; color: #7a9bb5; flex: 1; }
+        .dd-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); background: none; padding: 7px 16px; cursor: pointer; text-decoration: none; display: inline-block; align-self: flex-start; transition: all 0.2s; }
+        .dd-btn:hover { background: rgba(30,158,255,0.08); }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
         .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
-        @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } .fg-addr,.fg-name { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 900px) { .form-row { grid-template-columns: 1fr 1fr; } .loc-grid { grid-template-columns: 1fr; } .deepdive-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) {
           nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
           .back-bar { padding: 16px 20px; } .tool-hero { padding: 40px 20px; } .main-wrap { padding: 24px 20px; }
-          .fg-addr,.fg-name { grid-template-columns: 1fr; } .cards-grid { grid-template-columns: 1fr; }
+          .form-row { grid-template-columns: 1fr; } .deepdive-grid { grid-template-columns: 1fr; }
+          .loc-card { grid-template-columns: 1fr; }
           footer { padding: 30px 20px; } .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
         }
       `}</style>
@@ -188,90 +235,176 @@ export default function AddressLookup() {
 
         <div className="tool-hero">
           <div className="tool-hero-inner">
-            <div className="eyebrow"><div className="eyebrow-line" /><div className="eyebrow-text">Location Intelligence</div></div>
-            <div className="tool-title">Address &amp; Property Lookup</div>
-            <p className="tool-desc">Two modes: look up who lives at a specific address, or find all known addresses linked to a person's name. Searches public records, property databases, and people-search aggregators.</p>
+            <div className="eyebrow"><div className="eyebrow-line" /><div className="eyebrow-text">Person Intelligence</div></div>
+            <div className="tool-title">Person Lookup</div>
+            <p className="tool-desc">Enter a name to pull real public records directly onto this page — campaign finance filings (city, state, zip, employer), federal court appearances, and more. Data sourced live from FEC and CourtListener.</p>
           </div>
         </div>
 
         <div className="main-wrap">
-          <div className="tab-row">
-            <button className={`tab-btn${tab === 'address' ? ' active' : ''}`} onClick={() => setTab('address')}>By Address — Who Lives Here?</button>
-            <button className={`tab-btn${tab === 'name' ? ' active' : ''}`} onClick={() => setTab('name')}>By Name — Find Addresses</button>
+          <div className="form-row">
+            <div className="form-field">
+              <label className="form-label">First Name *</label>
+              <input className="form-input" placeholder="John" value={firstName} onChange={e => setFirstName(e.target.value)} onKeyDown={e => e.key === 'Enter' && runSearch()} />
+            </div>
+            <div className="form-field">
+              <label className="form-label">Last Name *</label>
+              <input className="form-input" placeholder="Smith" value={lastName} onChange={e => setLastName(e.target.value)} onKeyDown={e => e.key === 'Enter' && runSearch()} />
+            </div>
+            <div className="form-field">
+              <label className="form-label">State (optional)</label>
+              <select className="form-select" value={state} onChange={e => setState(e.target.value)}>
+                {US_STATES.map(s => <option key={s.abbr} value={s.abbr}>{s.label}</option>)}
+              </select>
+            </div>
+            <button className="run-btn" onClick={runSearch} disabled={loading || !firstName.trim() || !lastName.trim()}>
+              {loading ? 'Searching...' : 'Search →'}
+            </button>
           </div>
 
-          {tab === 'address' && (
-            <>
-              <div className="form-grid fg-addr">
-                <div className="form-field">
-                  <label className="form-label">Street Address *</label>
-                  <input className="form-input" placeholder="123 Main St" value={street} onChange={e => setStreet(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAddrSubmit()} />
-                </div>
-                <div className="form-field">
-                  <label className="form-label">City *</label>
-                  <input className="form-input" placeholder="Dallas" value={city} onChange={e => setCity(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAddrSubmit()} />
-                </div>
-                <div className="form-field">
-                  <label className="form-label">State</label>
-                  <select className="form-select" value={addrState} onChange={e => setAddrState(e.target.value)}>
-                    {US_STATES.map(s => <option key={s.abbr} value={s.abbr}>{s.abbr || '—'}</option>)}
-                  </select>
-                </div>
-                <button className="run-btn" onClick={handleAddrSubmit} disabled={!street.trim() || !city.trim()}>Search →</button>
-              </div>
-              {addrSubmitted && <div className="target-bar"><div className="target-label">Address</div><div className="target-value">{fullAddr}</div></div>}
-              <div className="section-label">Address Search Results</div>
-              <div className="cards-grid">
-                {addrServices.map(svc => {
-                  const c = colorMap[svc.color];
-                  return (
-                    <div key={svc.name} className="card" style={{borderTop: `2px solid ${c.border}`}}>
-                      <div className="card-name">{svc.name}</div>
-                      <div className="card-what">{svc.what}</div>
-                      {addrSubmitted
-                        ? <a href={svc.url()} target="_blank" rel="noopener noreferrer" className="card-btn" style={{color: c.btn, borderColor: c.btnBorder}}>Search →</a>
-                        : <span className="card-btn disabled">Search →</span>}
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          )}
+          {loading && <div className="loading-bar">Querying FEC campaign finance + federal court records...</div>}
 
-          {tab === 'name' && (
+          {searched && !loading && (
             <>
-              <div className="form-grid fg-name">
-                <div className="form-field">
-                  <label className="form-label">First Name *</label>
-                  <input className="form-input" placeholder="John" value={firstName} onChange={e => setFirstName(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleNameSubmit()} />
+              {/* ── FEC Campaign Finance / Address Data ── */}
+              <div className="section-wrap">
+                <div className="section-hdr">
+                  <span>Campaign Finance Records — City, State, ZIP, Employer</span>
+                  <span className="section-count">{fecResults.length} records found</span>
                 </div>
-                <div className="form-field">
-                  <label className="form-label">Last Name *</label>
-                  <input className="form-input" placeholder="Smith" value={lastName} onChange={e => setLastName(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleNameSubmit()} />
-                </div>
-                <div className="form-field">
-                  <label className="form-label">State (optional)</label>
-                  <select className="form-select" value={nameState} onChange={e => setNameState(e.target.value)}>
-                    {US_STATES.map(s => <option key={s.abbr} value={s.abbr}>{s.label}</option>)}
-                  </select>
-                </div>
-                <button className="run-btn" onClick={handleNameSubmit} disabled={!firstName.trim() || !lastName.trim()}>Search →</button>
-              </div>
-              {nameSubmitted && <div className="target-bar"><div className="target-label">Subject</div><div className="target-value">{n!.fn} {n!.ln}{n!.state ? ` — ${n!.state}` : ''}</div></div>}
-              <div className="section-label">Address Search Results</div>
-              <div className="cards-grid">
-                {nameServices.map(svc => {
-                  const c = colorMap[svc.color];
-                  return (
-                    <div key={svc.name} className="card" style={{borderTop: `2px solid ${c.border}`}}>
-                      <div className="card-name">{svc.name}</div>
-                      <div className="card-what">{svc.what}</div>
-                      {nameSubmitted
-                        ? <a href={svc.url()} target="_blank" rel="noopener noreferrer" className="card-btn" style={{color: c.btn, borderColor: c.btnBorder}}>Search →</a>
-                        : <span className="card-btn disabled">Search →</span>}
+
+                {fecError && <div className="error-state">{fecError}</div>}
+
+                {!fecError && fecResults.length === 0 && (
+                  <div className="empty-state">No FEC campaign finance records found for {fullName}{state ? ` in ${state}` : ''}. This source only covers individuals who have donated $200+ to federal political campaigns.</div>
+                )}
+
+                {uniqueLocations.length > 0 && (
+                  <>
+                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', marginBottom: '10px'}}>Known Locations</div>
+                    <div className="loc-grid">
+                      {uniqueLocations.map((loc, i) => (
+                        <div key={i} className="loc-card">
+                          <div className="loc-field">
+                            <div className="loc-key">City</div>
+                            <div className="loc-val highlight">{loc.city}</div>
+                          </div>
+                          <div className="loc-field">
+                            <div className="loc-key">State</div>
+                            <div className="loc-val highlight">{loc.state}</div>
+                          </div>
+                          <div className="loc-field">
+                            <div className="loc-key">ZIP</div>
+                            <div className="loc-val">{loc.zip}</div>
+                          </div>
+                          <div className="loc-field">
+                            <div className="loc-key">Employer</div>
+                            <div className="loc-val">{loc.employer}</div>
+                          </div>
+                          <div className="loc-field" style={{gridColumn: '1 / -1'}}>
+                            <div className="loc-key">Occupation</div>
+                            <div className="loc-val">{loc.occupation}</div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  );
-                })}
+                  </>
+                )}
+
+                {fecResults.length > 0 && (
+                  <>
+                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', margin: '16px 0 10px'}}>Full Donation History</div>
+                    <div className="fec-table-wrap">
+                      <table className="fec-table">
+                        <thead>
+                          <tr>
+                            <th>Name on Record</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>ZIP</th>
+                            <th>Employer</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Committee</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {fecResults.map((r, i) => (
+                            <tr key={i}>
+                              <td className="name-col">{r.contributor_name || '—'}</td>
+                              <td>{r.contributor_city || '—'}</td>
+                              <td>{r.contributor_state || '—'}</td>
+                              <td>{r.contributor_zip || '—'}</td>
+                              <td>{r.contributor_employer || '—'}</td>
+                              <td className="amount-col">{r.contribution_receipt_amount ? `$${r.contribution_receipt_amount.toLocaleString()}` : '—'}</td>
+                              <td>{fmt(r.contribution_receipt_date)}</td>
+                              <td>{r.committee?.name || '—'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* ── Federal Court Records ── */}
+              <div className="section-wrap">
+                <div className="section-hdr">
+                  <span>Federal Court Records — CourtListener / PACER</span>
+                  <span className="section-count">{courtResults.length} cases found</span>
+                </div>
+
+                {courtError && <div className="error-state">{courtError}</div>}
+
+                {!courtError && courtResults.length === 0 && (
+                  <div className="empty-state">No federal court filings found for &quot;{fullName}&quot;. CourtListener indexes PACER federal court cases only — state court records require separate state-level searches.</div>
+                )}
+
+                {courtResults.length > 0 && (
+                  <div className="court-list">
+                    {courtResults.map((r, i) => (
+                      <div key={i} className="court-item">
+                        <div className="court-case">
+                          {r.absolute_url
+                            ? <a href={`https://www.courtlistener.com${r.absolute_url}`} target="_blank" rel="noopener noreferrer">{r.case_name || 'Unnamed Case'}</a>
+                            : (r.case_name || 'Unnamed Case')}
+                        </div>
+                        <div className="court-meta">
+                          {r.docket_number && <div className="court-meta-item">Docket: <span>{r.docket_number}</span></div>}
+                          {r.court && <div className="court-meta-item">Court: <span>{r.court}</span></div>}
+                          {r.date_filed && <div className="court-meta-item">Filed: <span>{fmt(r.date_filed)}</span></div>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* ── Data source note ── */}
+              <div className="sources-note" style={{marginBottom: '40px'}}>
+                <div className="sources-note-text">
+                  <strong>Data sources:</strong> Federal Election Commission (FEC) — all federal campaign contributions $200+ are public record per 52 U.S.C. §30102. CourtListener/PACER — federal court filings only. <strong>Limitations:</strong> FEC only covers political donors. Court records cover federal dockets only, not state courts, criminal records, or local courts. For deeper searches use the links below.
+                </div>
+              </div>
+
+              {/* ── Deep dive links ── */}
+              <div className="section-hdr" style={{marginBottom: '16px'}}><span>Go Deeper — External Databases</span></div>
+              <div className="deepdive-grid">
+                {[
+                  { name: 'TruePeopleSearch', what: 'Address history, DOB, relatives — free, no paywall', url: `https://www.truepeoplesearch.com/results?name=${enc(fullName)}${state ? `&citystatezip=${enc(state)}` : ''}` },
+                  { name: 'FamilyTreeNow', what: 'Full date of birth, addresses, relatives — free', url: `https://www.familytreenow.com/search/genealogy/results?first=${enc(fn)}&last=${enc(ln)}${state ? `&state=${enc(state)}` : ''}` },
+                  { name: 'FastPeopleSearch', what: 'Current address, age, household members — free', url: `https://www.fastpeoplesearch.com/name/${slug(fn)}-${slug(ln)}${state ? '_' + state : ''}` },
+                  { name: 'Radaris', what: 'Full address history and previous locations', url: `https://radaris.com/p/${enc(fn)}/${enc(ln)}/` },
+                  { name: 'WhitePages', what: 'Address + phone number', url: state ? `https://www.whitepages.com/name/${slug(fn)}-${slug(ln)}/${state}` : `https://www.whitepages.com/name/${slug(fn)}-${slug(ln)}` },
+                  { name: 'State Court Records', what: 'Criminal + civil — search your state court system', url: `https://www.google.com/search?q=${enc(fn + ' ' + ln + ' ' + (state || '') + ' court records criminal')}` },
+                ].map(d => (
+                  <div key={d.name} className="dd-card">
+                    <div className="dd-name">{d.name}</div>
+                    <div className="dd-what">{d.what}</div>
+                    <a href={d.url} target="_blank" rel="noopener noreferrer" className="dd-btn">Open →</a>
+                  </div>
+                ))}
               </div>
             </>
           )}
