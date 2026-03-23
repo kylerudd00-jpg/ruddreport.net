@@ -43,12 +43,14 @@ interface CourtRecord {
 }
 
 interface MelissaRecord {
-  FirstName?: string;
-  LastName?: string;
+  NameFirst?: string;
+  NameLast?: string;
   AddressLine1?: string;
+  AddressLine2?: string;
   City?: string;
   State?: string;
   PostalCode?: string;
+  Plus4?: string;
   PhoneNumber?: string;
   DateOfBirth?: string;
   Results?: string;
@@ -326,22 +328,24 @@ export default function PersonLookup() {
                   </div>
                   {melissaError && <div className="error-state">{melissaError}{melissaError.includes('502') || melissaError.includes('Melissa') ? ' — add MELISSA_API_KEY env var to enable this source' : ''}</div>}
                   {melissaRecord && !melissaError && (() => {
-                    const hasData = melissaRecord.AddressLine1 || melissaRecord.PhoneNumber || melissaRecord.DateOfBirth;
+                    const hasData = melissaRecord.AddressLine1 || melissaRecord.PhoneNumber || melissaRecord.DateOfBirth || melissaRecord.NameFirst;
                     if (!hasData) return (
-                      <div className="empty-state">No verified record found — Melissa requires a valid API key and the person must be in their database. Add MELISSA_API_KEY to your environment variables.</div>
+                      <div className="empty-state">No record found for {fullName} — this person may not be in the Melissa database, or the name/state didn't match.</div>
                     );
+                    const zip = melissaRecord.PostalCode ? (melissaRecord.Plus4 ? `${melissaRecord.PostalCode}-${melissaRecord.Plus4}` : melissaRecord.PostalCode) : '';
+                    const addrLine2 = [melissaRecord.City, melissaRecord.State, zip].filter(Boolean).join(', ');
                     return (
                       <div className="melissa-card">
-                        {melissaRecord.FirstName && (
+                        {melissaRecord.NameFirst && (
                           <div className="melissa-field">
-                            <div className="melissa-key">Name</div>
-                            <div className="melissa-val plain">{melissaRecord.FirstName} {melissaRecord.LastName}</div>
+                            <div className="melissa-key">Verified Name</div>
+                            <div className="melissa-val plain">{melissaRecord.NameFirst} {melissaRecord.NameLast}</div>
                           </div>
                         )}
                         {melissaRecord.AddressLine1 && (
                           <div className="melissa-field" style={{gridColumn: '1 / -1'}}>
                             <div className="melissa-key">Address</div>
-                            <div className="melissa-val">{melissaRecord.AddressLine1}, {melissaRecord.City}, {melissaRecord.State} {melissaRecord.PostalCode}</div>
+                            <div className="melissa-val">{melissaRecord.AddressLine1}{addrLine2 ? `, ${addrLine2}` : ''}</div>
                           </div>
                         )}
                         {melissaRecord.PhoneNumber && (
