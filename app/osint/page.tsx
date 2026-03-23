@@ -1,6 +1,6 @@
 'use client';
 import { useState, useMemo } from 'react';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, type LucideIcon } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, FingerprintPattern, Footprints, type LucideIcon } from 'lucide-react';
 
 function detectAndRoute(raw: string) {
   const q = raw.trim();
@@ -68,6 +68,9 @@ const TOOLS: Tool[] = [
   { icon: Image, name: 'Reverse Image Search', desc: 'Launch Google, TinEye, Yandex, Bing, and Baidu simultaneously', href: '/osint/reverse-image', category: 'Cyber' },
   { icon: ShieldAlert, name: 'Breach Lookup', desc: 'Check email exposure across HIBP, DeHashed, IntelligenceX, and more', href: '/osint/breach', category: 'Cyber' },
   { icon: Users, name: 'People Search', desc: 'Aggregate public records, court data, and social profiles by name', href: '/osint/people', category: 'Corporate' },
+  { icon: FingerprintPattern, name: 'Background Check Hub', desc: 'Federal court records, criminal history, sex offender registry, voter records, incarceration', href: '/osint/background', category: 'Corporate' },
+  { icon: Home, name: 'Address & Property Lookup', desc: 'Reverse address search, property ownership, county assessor, aerial imagery', href: '/osint/address', category: 'Corporate' },
+  { icon: Footprints, name: 'Digital Footprint OSINT', desc: 'Social media profiles, news mentions, professional presence, Google dorks by name', href: '/osint/social-footprint', category: 'Cyber' },
   // Economic Intelligence
   { icon: DollarSign, name: 'Currency Tracker', desc: 'Live exchange rates — sanctions pressure, capital flight, currency collapse', href: '/osint/currency', category: 'Economic' },
   { icon: BarChart2, name: 'Country Economic Profile', desc: 'World Bank data — GDP, inflation, debt, trade for 200+ countries', href: '/osint/economics', category: 'Economic' },
