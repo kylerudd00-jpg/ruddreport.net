@@ -373,6 +373,428 @@ The alliance also faces questions about extending benefits to close partners out
 Five Eyes remains, despite these complications, the most effective sustained intelligence cooperation arrangement in history — a model that has survived Cold War tensions, post-Cold War drift, and the strains of divergent responses to terrorism and digital surveillance. Its durability reflects both the genuine value of the cooperation and the trust that eight decades of shared secrets creates.`,
   },
 
+  // ── EDUCATIONAL ──────────────────────────────────────────────────────────
+  {
+    slug: 'how-the-internet-works',
+    title: 'How the Internet Actually Works',
+    excerpt: 'Most people use the internet every day without knowing what\'s actually happening beneath the surface. Here\'s a plain-language breakdown of how data moves from one computer to another across the globe.',
+    category: 'Cybersecurity',
+    date: 'MAR 22, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `When you type a URL into your browser and hit enter, a lot happens in roughly the time it takes to blink. Data travels from your computer to servers potentially thousands of miles away and back again, often in under a second. Understanding how that works isn't just a technical curiosity — it's the foundation for understanding almost every cybersecurity concept that matters.
+
+The internet is not a single thing. It is a network of networks — tens of thousands of independently operated computer networks, owned by universities, corporations, governments, and internet service providers, that have agreed to interconnect and exchange traffic using a shared set of rules. Those rules are called protocols.
+
+## IP Addresses: The Postal System of the Internet
+
+Every device connected to the internet has an IP address — a numerical label that works like a mailing address. When your computer sends data somewhere, it attaches both the destination IP address and its own address to each piece of data, so responses can find their way back.
+
+IP addresses come in two main versions. IPv4 addresses look like four numbers separated by dots — 192.168.1.1, for example. IPv6 addresses are longer, designed to accommodate the reality that the world was going to run out of IPv4 addresses as billions of devices came online. Most of the internet now runs on both, with IPv6 handling the overflow.
+
+## DNS: The Internet's Phone Book
+
+You don't type IP addresses into your browser. You type domain names like google.com. Something has to translate that human-readable name into a machine-readable IP address. That something is the Domain Name System.
+
+When you request a website, your computer first contacts a DNS resolver — usually one operated by your internet service provider — and asks: what is the IP address for this domain name? The resolver checks its cache, and if it doesn't have a recent answer, it queries a chain of authoritative DNS servers until it gets one. The whole process typically takes milliseconds.
+
+This is why DNS is a frequent target for attackers. If you can poison a DNS cache — substitute a false IP address for a legitimate one — you can redirect traffic intended for a real site to a malicious one without the user ever knowing.
+
+## Packets: How Data Actually Travels
+
+Data doesn't travel across the internet as one continuous stream. It gets broken into small chunks called packets, each of which contains a portion of the data, the destination address, and information about how to reassemble the pieces at the other end.
+
+Those packets take whatever route is available. Two packets from the same email might travel through entirely different countries before arriving at the same destination. The receiving end reassembles them in the correct order. This design is intentional — it means the network can route around damage or congestion without any single point of failure bringing everything down.
+
+## Routers: The Traffic Directors
+
+Routers are the devices that move packets from one network to the next. Each router knows about the networks it's directly connected to and has information about how to reach more distant networks. When a packet arrives, the router checks the destination address and forwards it in the right direction. Repeat that process across dozens of routers, and a packet gets from your home in Ohio to a server in Frankfurt in about 90 milliseconds.
+
+## HTTPS and the Security Layer
+
+When you see the padlock icon in your browser and a URL that starts with https, that means the connection is encrypted using a protocol called TLS — Transport Layer Security. Without it, anyone positioned between your computer and the server could read everything you send and receive. With it, the data is scrambled in a way that only you and the server can unscramble.
+
+The S in HTTPS stands for secure. It does not mean the website you're visiting is trustworthy. It means the connection to that website is encrypted. A perfectly well-crafted phishing site can have a valid HTTPS certificate.
+
+## Why This Matters
+
+Every attack on the internet — phishing, man-in-the-middle interception, DNS spoofing, DDoS floods, BGP hijacking — makes more sense once you understand the underlying architecture. The internet was designed for resilience and openness, not security. The security mechanisms were layered on top after the fact. That foundational tension explains a lot about why securing it is so hard.`,
+  },
+  {
+    slug: 'how-encryption-works',
+    title: 'What is Encryption? A Plain-Language Explanation',
+    excerpt: 'Encryption is everywhere — in your messages, your banking, your passwords. Understanding how it works takes the mystery out of one of the most important technologies protecting your data.',
+    category: 'Cybersecurity',
+    date: 'MAR 21, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `Encryption is the process of scrambling data so that only someone with the right key can unscramble and read it. That's the whole concept. Everything else — the algorithms, the key lengths, the certificate authorities — is implementation detail.
+
+The idea is ancient. Julius Caesar used a simple cipher that shifted letters by a fixed number of positions. Write A as D, B as E, and so on. The recipient knew the shift value — the key — and could reverse the process. An interceptor who didn't know the shift had to try 25 possible values, which was a manageable brute-force attack even in antiquity.
+
+Modern encryption is Caesar's cipher made so mathematically complex that brute force is effectively impossible. The principles are similar. The mathematics is categorically different.
+
+## Symmetric Encryption: One Key for Both Sides
+
+The simplest form of modern encryption uses a single key for both encrypting and decrypting data. You scramble a message with the key, send the scrambled version, and the recipient uses the same key to unscramble it. This is called symmetric encryption.
+
+The obvious problem is getting the key to the recipient safely. If you send it over an unencrypted channel, anyone intercepting it can read your messages. If you need to meet in person to exchange keys, the system doesn't scale. Symmetric encryption is fast and efficient but has a fundamental key distribution problem.
+
+## Asymmetric Encryption: The Lock-and-Key Trick
+
+Asymmetric encryption — also called public-key cryptography — solves the key distribution problem with a clever mathematical trick. Each party generates two mathematically linked keys: a public key they share openly with anyone, and a private key they never share with anyone.
+
+Here's how it works: if you want to send someone an encrypted message, you use their public key to encrypt it. The mathematics are designed so that only their private key can decrypt it. You never need to exchange secrets. The public key can be posted on a website for anyone to see.
+
+This system powers nearly everything on the modern internet. When your browser establishes an HTTPS connection, it uses asymmetric encryption to securely exchange the symmetric key it will use for the actual data transfer. Asymmetric encryption is computationally expensive, so it handles the key exchange. Symmetric encryption handles the bulk data.
+
+## Hashing: A Related but Different Concept
+
+Hashing is often confused with encryption but serves a different purpose. A hash function takes input of any length and produces a fixed-length output. It's a one-way operation — you cannot reverse a hash to get the original input.
+
+Hashes are used to verify integrity rather than to protect confidentiality. Websites store hashed versions of your password rather than the password itself. When you log in, they hash what you typed and compare it to the stored hash. If someone steals the database, they get hashes, not passwords — and recovering passwords from hashes requires brute force or precomputed tables.
+
+## End-to-End Encryption
+
+End-to-end encryption means the data is encrypted on your device and decrypted only on the recipient's device. The service provider in the middle — the messaging app, the email provider — handles encrypted data they cannot read. Signal, WhatsApp, and iMessage all use end-to-end encryption for messages.
+
+The practical significance is that even if the service provider's servers are compromised, or the provider is served with a legal demand, they cannot hand over readable message content. They only have ciphertext.
+
+## Why It's Not Magic
+
+Encryption protects data in transit and at rest. It does not protect against attacks that occur before encryption or after decryption. If malware on your device is capturing keystrokes before they're encrypted, encryption doesn't help. If an attacker compromises the server at the other end, they get the decrypted data. Encryption is a powerful tool with well-defined limits.`,
+  },
+  {
+    slug: 'how-gps-works',
+    title: 'How GPS Actually Works',
+    excerpt: 'Your phone can pinpoint your location to within a few meters using signals from satellites orbiting 20,000 kilometers above Earth. The physics behind it are fascinating and not as complicated as you might think.',
+    category: 'National Security',
+    date: 'MAR 20, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `The Global Positioning System is a network of satellites, ground control stations, and receivers that together can tell you where you are on the surface of the Earth to within a few meters, sometimes better. Your phone, your car's navigation, aircraft guidance systems, and precision munitions all depend on it. The core technology is a clever application of physics that dates back to the 1970s and was developed entirely by the U.S. military.
+
+GPS is not the only such system in the world. Russia operates GLONASS, the European Union operates Galileo, and China operates BeiDou. Your phone likely uses signals from several of these simultaneously to improve accuracy. But GPS was first, and the term has become generic the way Kleenex has for facial tissue.
+
+## The Satellite Constellation
+
+The GPS constellation consists of at least 24 operational satellites orbiting Earth at an altitude of roughly 20,200 kilometers, arranged in six orbital planes. The arrangement ensures that from anywhere on Earth, at least four satellites are above the horizon at any given time. In practice, many more are usually visible.
+
+Each satellite continuously broadcasts two things: its precise location, and the exact time the signal was transmitted. The satellites carry atomic clocks accurate to within a few nanoseconds. That precision is not incidental — it is the foundation of the whole system.
+
+## Trilateration: Measuring Distance with Time
+
+When your GPS receiver picks up a satellite signal, it compares the time the signal was transmitted to the time it arrived. Since radio signals travel at the speed of light, that time difference translates to a distance. If the satellite is 20,000 kilometers away and the signal travels at roughly 300,000 kilometers per second, you can calculate the travel time and thus the distance.
+
+Knowing your distance from one satellite tells you that you're somewhere on a sphere of that radius centered on the satellite. A second satellite gives you a second sphere. The intersection of two spheres is a circle. A third satellite narrows that circle to two points, one of which is usually obviously wrong — deep in space, or underground. A fourth satellite is used to correct for the imprecision of the receiver's own clock, which is far less accurate than the atomic clocks on the satellites.
+
+This process — determining position from multiple distance measurements — is called trilateration, not triangulation. Triangulation uses angles. Trilateration uses distances. The distinction is minor in practice but matters to anyone who works with the technology.
+
+## Why Four Satellites Instead of Three
+
+Your receiver's clock is a chip on a circuit board, not an atomic clock. It drifts. The small timing errors it introduces create positional errors. The fourth satellite signal provides a mathematical check that allows the receiver to solve for its clock error as a fourth unknown, alongside latitude, longitude, and altitude. Four equations, four unknowns.
+
+## Accuracy and Its Limits
+
+A standard GPS receiver in a modern smartphone is accurate to about three to five meters under good conditions. Military receivers using encrypted GPS signals can achieve sub-meter accuracy. The limiting factors are atmospheric interference — the ionosphere and troposphere slow signals slightly and unpredictably — and the geometry of the satellites visible at a given moment. A bad satellite geometry (all bunched up in one part of the sky) produces worse accuracy than a good one (evenly distributed).
+
+Augmentation systems improve civilian accuracy further. The FAA's Wide Area Augmentation System provides corrections that bring aircraft GPS accuracy to within about one meter, which is sufficient for precision instrument approaches.
+
+## The Strategic Dimension
+
+GPS was built by the military and is operated by the U.S. Space Force. The civilian signal, which anyone in the world can use for free, was originally intentionally degraded until 2000, when President Clinton ordered selective availability turned off. The reasoning was that commercial applications had made the degraded signal an economic liability.
+
+The dependence of civilian infrastructure on GPS — financial systems use it for timestamping transactions, power grids use it for synchronization, telecommunications networks depend on it for timing — has made the system a high-value target. Jamming and spoofing attacks on GPS signals are a growing concern, particularly in conflict zones where adversaries have both the capability and the incentive to disrupt navigation.`,
+  },
+  {
+    slug: 'how-the-federal-reserve-works',
+    title: 'What the Federal Reserve Actually Does',
+    excerpt: 'The Federal Reserve shapes borrowing costs for every American, influences the value of the dollar, and can reshape the economy with a single decision. Here\'s how it works, without the jargon.',
+    category: 'Economic Security',
+    date: 'MAR 19, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `The Federal Reserve is the central bank of the United States. It was created by Congress in 1913 in response to a series of financial panics that had repeatedly destabilized the American economy. Its job, broadly, is to keep the financial system stable and the economy running without either overheating into inflation or stalling into recession. It does this primarily by influencing the cost of borrowing money.
+
+The Fed is not a government agency and not a private bank. It occupies a deliberately awkward middle ground: a quasi-governmental institution that is independent from day-to-day political pressure but ultimately accountable to Congress. The chair is appointed by the president and confirmed by the Senate, but once in office, the Fed makes its policy decisions without requiring approval from anyone in the executive branch.
+
+## The Dual Mandate
+
+Congress gave the Federal Reserve two objectives: maximum employment and stable prices. These goals are often in tension. A very strong job market can push wages up and fuel inflation. Fighting inflation by raising interest rates can cool job growth and tip the economy into recession.
+
+The Fed is constantly calibrating between these two goals. When inflation is the primary concern, it raises rates. When unemployment is the primary concern, it lowers them. Most of modern monetary policy is the management of that trade-off.
+
+The Fed's informal inflation target is two percent per year. Not zero. A small amount of inflation is considered healthy because it encourages spending and investment rather than hoarding cash. Deflation — falling prices — sounds good but can be economically catastrophic, since people delay purchases expecting prices to fall further, which causes the economy to seize up.
+
+## The Federal Funds Rate
+
+The Fed's main policy tool is the federal funds rate — the interest rate at which banks lend money to each other overnight. Banks are required to keep a certain amount of reserves. Sometimes they have too much; sometimes too little. They lend excess reserves to each other to balance out. The rate they charge for those loans is the federal funds rate.
+
+The Fed doesn't exactly set this rate. It sets a target range and uses various tools to push the actual market rate toward that target. When it raises rates, borrowing throughout the economy gets more expensive — mortgages, car loans, corporate bonds, credit cards. When it lowers rates, borrowing gets cheaper and spending and investment tend to increase.
+
+This is why mortgage rates move when the Fed acts. The federal funds rate is the foundation on which all other interest rates are built.
+
+## Open Market Operations
+
+One of the Fed's primary tools for controlling the federal funds rate is buying and selling U.S. government bonds in the open market. When the Fed buys bonds, it injects money into the banking system, which tends to push rates down. When it sells bonds, it pulls money out, which tends to push rates up.
+
+During the 2008 financial crisis and again in 2020, the Fed expanded this tool dramatically through what it called quantitative easing — purchasing not just short-term government bonds but also longer-term bonds and mortgage-backed securities in massive quantities, to push down long-term interest rates and support the housing market.
+
+## The Fed as Lender of Last Resort
+
+One of the Fed's original purposes was to serve as the lender of last resort during financial panics — to provide emergency liquidity to banks facing runs so that a localized crisis doesn't cascade into a systemic collapse. In 2008, this function expanded in ways Congress had not explicitly anticipated, with the Fed providing emergency lending to non-bank financial institutions to prevent broader market seizure.
+
+Whether the Fed should have this much implicit power over the financial system without more democratic oversight is a genuine policy debate. What is not debated is that the function it served in 2008 and 2020 prevented the kind of cascading failures that turned previous financial crises into multi-year depressions.`,
+  },
+  {
+    slug: 'how-nuclear-reactors-work',
+    title: 'How a Nuclear Reactor Works',
+    excerpt: 'Nuclear power plants generate about ten percent of the world\'s electricity. The physics behind them is elegant, the engineering is formidable, and the safety record is better than most people realize.',
+    category: 'National Security',
+    date: 'MAR 18, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `A nuclear power plant is, at its most fundamental level, a very sophisticated way to boil water. The steam from that boiling water spins a turbine, which generates electricity. The difference between a nuclear plant and a coal plant is what's doing the boiling. In a coal plant, it's combustion. In a nuclear plant, it's fission — the splitting of atomic nuclei.
+
+That distinction matters enormously in terms of energy density. A kilogram of uranium fuel contains roughly three million times as much energy as a kilogram of coal. That single fact explains most of why nuclear power exists despite its complexity and public controversy.
+
+## Fission: Where the Energy Comes From
+
+An atom consists of a nucleus — protons and neutrons packed tightly together — surrounded by a cloud of electrons. The strong nuclear force holds the nucleus together, and releasing that force releases enormous energy. Fission is the process of splitting a heavy nucleus into smaller fragments, a reaction that releases energy and also produces additional neutrons.
+
+Those neutrons can then strike other nuclei, causing additional fission events, which produce more neutrons, which cause more fissions. This chain reaction is what makes nuclear energy possible — and what makes nuclear weapons possible. The difference between a reactor and a bomb is control.
+
+In a reactor, the chain reaction is managed so that exactly one neutron from each fission event causes exactly one subsequent fission. This is called a critical state. Fewer than one and the reaction dies out. More than one and the reaction accelerates. The goal is precise balance.
+
+## Control Rods and Moderation
+
+Two key mechanisms keep the chain reaction controlled. Control rods, made of materials like boron or hafnium that absorb neutrons, are inserted into or withdrawn from the reactor core to adjust the reaction rate. Pushing rods in absorbs more neutrons and slows the reaction. Withdrawing them allows more neutrons to cause fission and speeds it up.
+
+The moderator is a material — typically water — that slows fast neutrons down. Slowing neutrons increases their probability of causing fission in uranium fuel. Most commercial reactors use ordinary water as both moderator and coolant. This design has an inherent safety feature: if the coolant is lost, the moderation is also lost, and the reaction slows. The reactor tends to shut itself down under the conditions most likely to cause overheating.
+
+## Light Water Reactors: The Standard Design
+
+The vast majority of commercial nuclear reactors operating today are light water reactors, which use ordinary water as coolant and moderator. There are two main variants.
+
+Pressurized water reactors keep the coolant under high pressure so it doesn't boil even at reactor temperatures. The hot pressurized water passes through a heat exchanger, which heats a separate water circuit to produce steam for the turbine. The reactor coolant and the steam circuit never mix.
+
+Boiling water reactors allow the coolant to boil directly inside the reactor, producing steam that goes directly to the turbine. The design is simpler but means the turbine is exposed to mildly radioactive steam.
+
+## What Meltdown Actually Means
+
+A meltdown does not mean an explosion in the conventional sense. It means the reactor core has overheated to the point where the fuel rods begin to melt. The Three Mile Island accident in 1979 involved a partial core meltdown. No one died. Chernobyl in 1986 involved a core explosion driven by a specific combination of design flaws and operator errors that released large quantities of radioactive material. The Fukushima accident in 2011 involved three core meltdowns driven by loss of cooling power after the tsunami, with far smaller public health consequences than Chernobyl despite the scale of the accident.
+
+Modern reactor designs include passive safety systems — cooling mechanisms that work without electricity or operator action, driven by gravity and natural convection — specifically to prevent the loss-of-cooling scenarios that caused those accidents.
+
+## Nuclear Waste
+
+The spent fuel from a reactor is intensely radioactive and remains hazardous for thousands of years. This is the genuinely difficult problem that nuclear power has never fully solved. The United States has no permanent geological repository for high-level nuclear waste. Spent fuel sits in cooling pools and dry storage casks at reactor sites across the country.
+
+The volume of waste is smaller than most people expect — all the spent nuclear fuel produced in the United States over 60 years of commercial nuclear power would fit within a single football field to a depth of about ten yards. The duration of hazard, not the volume, is what makes permanent disposal challenging.`,
+  },
+  {
+    slug: 'what-is-a-vpn',
+    title: 'What a VPN Actually Does — And What It Doesn\'t',
+    excerpt: 'VPNs are heavily marketed as privacy and security tools. Some of that marketing is accurate. A lot of it is not. Here\'s an honest explanation of what a VPN does and when you actually need one.',
+    category: 'Cybersecurity',
+    date: 'MAR 17, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `A Virtual Private Network creates an encrypted tunnel between your device and a server operated by the VPN provider. All your internet traffic travels through that tunnel. From the outside, it looks like your traffic is coming from the VPN server's location, not your own. That's the whole mechanism. The privacy and security claims advertised by VPN providers all flow from that one technical reality — and so do the limits.
+
+The VPN industry spends a remarkable amount on advertising, and much of that advertising overstates what VPNs actually protect against. Understanding what a VPN genuinely does is more useful than believing the marketing.
+
+## What a VPN Actually Protects
+
+A VPN meaningfully protects your traffic from two parties: your internet service provider, and anyone on the local network you're using.
+
+Your ISP can see every domain you visit without a VPN. With one, they see only that you're connected to a VPN server. The actual sites you visit are hidden from them. This matters if you're concerned about ISP data collection or in a jurisdiction where ISPs are required to log your browsing history.
+
+On public Wi-Fi — in coffee shops, airports, hotels — a VPN encrypts your traffic so that other users on the same network can't intercept it. This was more significant before HTTPS became standard. Most websites now encrypt their own connections, so the incremental protection from a VPN on public Wi-Fi is smaller than it used to be. That said, a VPN on an untrusted network is still reasonable practice.
+
+## What a VPN Does Not Protect
+
+A VPN does not make you anonymous. It shifts who can see your traffic from your ISP to your VPN provider. If the VPN provider keeps logs — and many do, despite claiming otherwise — those logs can be subpoenaed, obtained through data breach, or handed over under the laws of whatever country the provider operates in. You are trusting the VPN provider the same way you previously trusted your ISP.
+
+A VPN does not protect you from tracking by websites. Cookies, browser fingerprinting, login sessions, and advertising trackers follow you regardless of what IP address your traffic appears to come from. If you're logged into Google, Google knows your activity whether you're using a VPN or not.
+
+A VPN does not protect you from malware. A VPN running on a compromised device is useless for the purposes of protecting sensitive communications. The malware operates at a layer above the VPN.
+
+## What VPNs Are Actually Good For
+
+The most legitimate and common use case for consumer VPNs is bypassing geographic restrictions on content. Streaming services license content by country. A VPN lets you appear to be in a country where content is available.
+
+In countries with aggressive internet censorship — China, Iran, Russia — VPNs provide access to blocked content and, with caveats, some protection from surveillance. The caveats are significant: using an unauthorized VPN in some of these countries is itself illegal, and the VPN provider may be cooperating with local authorities.
+
+For journalists, activists, or anyone operating in environments with genuine adversarial surveillance, a VPN is one tool among many — not a solution by itself. Proper operational security in high-threat environments requires tools designed for that purpose and an understanding of the threat model you're defending against.
+
+## Choosing a VPN
+
+The most important factor in choosing a VPN provider is jurisdiction and logging policy. A provider headquartered in a country with strong privacy laws that has been audited by independent security researchers and demonstrated a no-logs policy in legal proceedings is meaningfully different from a provider you found in an ad with no public information about its ownership or logging practices.
+
+Free VPNs present a specific problem: operating VPN infrastructure costs real money. If you're not paying for the service, the service is typically funded by your data — which entirely defeats the stated purpose.`,
+  },
+  {
+    slug: 'how-satellites-stay-in-orbit',
+    title: 'How Satellites Stay in Orbit Without Falling Down',
+    excerpt: 'Satellites don\'t just sit still in space. They\'re falling constantly — they just keep missing the Earth. Here\'s the physics that makes that possible, and why it matters for GPS, communications, and national security.',
+    category: 'National Security',
+    date: 'MAR 16, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `The simplest accurate description of orbital mechanics is this: a satellite in orbit is falling. It is in free fall, accelerating toward Earth due to gravity. It just happens to be moving sideways so fast that as it falls, the Earth curves away beneath it at the same rate. It falls, the Earth curves, and the satellite never actually gets any closer to the surface. This balance between gravity and velocity is what an orbit is.
+
+Isaac Newton described the basic concept in the 17th century with a thought experiment about a cannon on a very tall mountain. Fire a cannonball horizontally: it follows a curved arc and hits the ground some distance away. Fire it faster: it goes farther before hitting. Fire it fast enough — about 7.9 kilometers per second at Earth's surface — and it's moving so fast that the curvature of its fall exactly matches the curvature of the Earth. It orbits.
+
+## Orbital Altitude and Speed
+
+There's a counterintuitive relationship between altitude and orbital speed. Higher orbits are slower. The reason is that gravity weakens with distance, so at higher altitudes you don't need as much sideways velocity to keep from falling.
+
+A satellite in low Earth orbit — roughly 200 to 2,000 kilometers altitude — travels at about 7 to 8 kilometers per second and completes an orbit every 90 minutes or so. The International Space Station is in low Earth orbit, about 400 kilometers up. It laps the Earth every 92 minutes.
+
+At about 35,786 kilometers altitude, the orbital period exactly equals one day. A satellite at this altitude, orbiting directly over the equator, appears to hang motionless over a single point on Earth's surface. This is called geostationary orbit, and it's where most communications and weather satellites live. They cover a fixed area continuously but are so far away that signals take noticeable fractions of a second to travel there and back — an issue for applications requiring low latency.
+
+GPS satellites orbit at about 20,200 kilometers, between low Earth orbit and geostationary. Their 12-hour period means they're not fixed in the sky, so the system requires enough of them distributed across multiple orbital planes to ensure coverage everywhere on Earth at all times.
+
+## Why Satellites Eventually Fall
+
+Low Earth orbit isn't empty. There are traces of atmosphere even at 400 kilometers — thin, but enough to create drag that slows satellites slightly with every pass. As they slow, their orbits lower. As orbits lower, they encounter more drag. Without periodic boosts from onboard thrusters, they spiral downward and eventually burn up in the atmosphere.
+
+The ISS requires regular re-boosts to maintain its altitude. Satellites without propulsion systems decay in months to years depending on altitude. Higher satellites, above roughly 600 kilometers, experience so little atmospheric drag that they can remain in orbit for centuries without correction.
+
+## Orbital Debris: A Growing Problem
+
+There are roughly 27,000 pieces of trackable orbital debris currently in Earth orbit, plus hundreds of thousands of smaller fragments too small to track but large enough to damage or destroy satellites. A bolt traveling at 7 kilometers per second hits with more kinetic energy than a bullet.
+
+The concern among space agencies is Kessler Syndrome — a theoretical cascade in which a collision between two objects creates a debris cloud, which causes more collisions, which creates more debris, which eventually makes certain orbital altitudes unusable. The 2009 collision between an active Iridium satellite and a defunct Russian satellite was the most significant real-world demonstration of the problem.
+
+Managing orbital debris is increasingly a national security issue as space becomes more congested and as adversaries explore anti-satellite capabilities that would deliberately create debris fields.`,
+  },
+  {
+    slug: 'how-the-stock-market-works',
+    title: 'How the Stock Market Works',
+    excerpt: 'The stock market moves the news every day and influences retirement accounts for hundreds of millions of Americans. Here\'s a clear, plain-language explanation of what it actually is and how it functions.',
+    category: 'Economic Security',
+    date: 'MAR 15, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `A stock represents ownership. When you buy one share of a company's stock, you own a small fraction of that company — its assets, its earnings, its future. If the company does well, your share becomes more valuable. If it does poorly, your share loses value. That relationship between ownership and performance is the core logic of the stock market.
+
+Companies issue stock to raise money. Rather than borrowing from a bank, they sell pieces of themselves to the public. The initial sale — an Initial Public Offering, or IPO — raises capital that the company can use to grow. After that, the shares trade between investors on exchanges, and the company itself is not directly involved in those transactions.
+
+## What Exchanges Actually Are
+
+A stock exchange is a marketplace where buyers and sellers meet to trade shares. The New York Stock Exchange and Nasdaq are the most prominent in the United States. Most actual trading no longer happens on a physical floor — it's electronic, with orders matched by computers in milliseconds.
+
+The price of a stock at any moment is simply what someone was willing to pay for it most recently. That price is determined by supply and demand. When more people want to buy a stock than sell it, the price rises. When more want to sell than buy, it falls. Those shifts in supply and demand are driven by expectations about the company's future earnings, broader economic conditions, news events, interest rates, and the collective psychology of millions of investors.
+
+## Why Stock Prices Move
+
+Stock prices represent expectations about the future, not just the present. A company can be profitable today and still see its stock fall if investors believe future profits will be lower. A company can be losing money and still see its stock rise if investors believe it will be highly profitable eventually.
+
+This forward-looking nature is why the stock market often seems to move contrary to the headlines. When the economy is in recession and unemployment is high, the stock market sometimes rallies — because investors are anticipating the recovery that hasn't happened yet. When the economy is strong and unemployment is low, the market sometimes falls — because investors are pricing in the expectation that interest rates will rise to control inflation, making corporate borrowing more expensive.
+
+## Indexes: The Summary Statistics
+
+When news reports say "the market was up today," they're usually referring to an index — a number that represents the aggregate performance of a defined set of stocks. The Dow Jones Industrial Average tracks 30 large American companies. The S&P 500 tracks 500 large companies. The Nasdaq Composite is weighted toward technology companies.
+
+These indexes are useful summaries but imperfect ones. A few very large companies have an outsized effect on the S&P 500 because the index is weighted by market capitalization — a company worth ten times as much has ten times the influence on the index. When people say "the market," they usually mean large American companies, which is not the same as the entire economy.
+
+## Bonds, the Other Half
+
+The stock market often gets most of the attention, but the bond market is larger and equally important. Bonds are loans. When a company or government issues a bond, they're borrowing money from investors and promising to pay it back with interest. The interest rate on a bond reflects the perceived riskiness of the borrower.
+
+Bonds and stocks tend to move in opposite directions during periods of stress — investors sell stocks and move into bonds as a safer alternative. This relationship is why a balanced portfolio typically holds both.
+
+## Why It Matters Beyond Investments
+
+The stock market affects the broader economy in ways that extend beyond individual investors. When stock prices fall sharply, consumer confidence often falls too, reducing spending. Companies find it harder and more expensive to raise capital. Pension funds and retirement accounts shrink, which can reduce spending by retirees. The market is both a reflection of economic expectations and a factor that influences the economy it's reflecting.`,
+  },
+  {
+    slug: 'what-is-the-dark-web',
+    title: 'What is the Dark Web?',
+    excerpt: 'The dark web has a reputation built mostly on misunderstanding. Here\'s what it actually is, how it works, and the difference between the dark web, the deep web, and the ordinary internet you use every day.',
+    category: 'Cybersecurity',
+    date: 'MAR 14, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `Three terms get conflated constantly in news coverage: the internet, the deep web, and the dark web. They are distinct things, and the confusion between them distorts public understanding of online privacy, security, and criminal activity.
+
+The internet is everything connected to it — public websites, private servers, streaming platforms, email systems, cloud storage. When most people say "the internet," they mean the part indexed by search engines and accessible through a browser without special tools. This is sometimes called the surface web or the clearnet.
+
+## The Deep Web
+
+The deep web is the part of the internet not indexed by search engines. It's a much larger slice than most people realize, and almost none of it is criminal. Your email inbox is the deep web. Your online bank account is the deep web. Medical records, private databases, corporate intranets, academic repositories behind paywalls — all deep web. The defining characteristic is simply that search engines can't index it, usually because it's behind authentication or dynamically generated content.
+
+The reason the "deep web" developed a sinister reputation in early internet journalism is that writers conflated it with the dark web, which is a specific, smaller subset with distinct technical characteristics.
+
+## The Dark Web
+
+The dark web refers to content accessible only through overlay networks that require specific software and configurations. The most well-known is Tor — The Onion Router — which routes traffic through a series of volunteer-operated relays, encrypting it at each step, so that neither the origin nor the destination of the traffic is easily traceable.
+
+Websites on the Tor network use .onion addresses rather than conventional domain names. They are not accessible through a standard browser. They don't appear in search engine results. To access them you need the Tor Browser, which is free, legal, and widely used.
+
+## Who Actually Uses Tor
+
+The population of Tor users is not primarily criminals. It includes journalists protecting sources and themselves in authoritarian countries, political dissidents in states that surveil and punish opposition, ordinary citizens in places like Iran and Russia accessing blocked content, cybersecurity researchers, and people who simply prefer not to have their browsing activity logged.
+
+The criminal markets that made the dark web famous — Silk Road and its successors, which sold drugs, stolen credentials, and other illegal goods — are real and were a genuine law enforcement problem. Most of the major ones have been shut down through coordinated international investigations, precisely because the anonymity Tor provides, while real, is not absolute. Operational security failures, exit node monitoring, and good investigative work have taken down many significant dark web markets.
+
+## The Limits of Anonymity
+
+Tor provides meaningful anonymity against network-level surveillance — your ISP cannot see what you're visiting, and the destination cannot see your IP address. It does not protect against:
+
+Identity revealed through account information or personal details you share. Malware that compromises your device before traffic is encrypted. JavaScript exploits that can de-anonymize users through browser vulnerabilities. Operational security failures of the kind that have taken down most major dark web operations.
+
+Law enforcement has become increasingly effective at dark web investigations not by breaking Tor itself, but by focusing on the human and operational vulnerabilities around it. Bitcoin transaction tracing, undercover operations, and cooperation with exchanges have proven more effective than attacking the underlying cryptography.
+
+## Why It Matters for Security
+
+Understanding the dark web matters for cybersecurity professionals because stolen credentials, malware kits, and access to compromised systems are routinely sold there. Organizations increasingly monitor dark web sources for mentions of their own data to detect breaches early. The dark web is a real part of the threat landscape — it's just not the cartoon villain it's often portrayed as.`,
+  },
+  {
+    slug: 'how-central-banks-fight-inflation',
+    title: 'How Central Banks Fight Inflation',
+    excerpt: 'When inflation rises, central banks raise interest rates. That\'s the news. Here\'s the actual mechanism — why raising rates slows price growth, what the risks are, and why it\'s harder than it sounds.',
+    category: 'Economic Security',
+    date: 'MAR 13, 2026',
+    relevance: 'LOW',
+    featured: false,
+    content: `Inflation is the general increase in prices across an economy over time. A small amount is normal and considered healthy — the Federal Reserve targets about two percent annually. When inflation runs significantly above that, the purchasing power of money erodes. Savings become worth less. Fixed incomes lose real value. The cost of living rises faster than wages for many workers.
+
+Central banks fight inflation primarily by raising interest rates. The connection between interest rates and inflation is real but operates through several indirect channels, which is part of why monetary policy is difficult to calibrate and why its effects are felt with a delay.
+
+## Why Higher Rates Slow Inflation
+
+The basic mechanism works through borrowing and spending. When interest rates rise, borrowing becomes more expensive. Mortgages cost more. Auto loans cost more. Business loans cost more. Credit card balances cost more to carry. People and companies borrow less, and therefore spend less.
+
+Less spending means less demand for goods and services. When demand falls relative to supply, the upward pressure on prices eases. Inflation is fundamentally a supply-demand imbalance — too many dollars chasing too few goods — and reducing demand is the central bank's lever for correcting it.
+
+Higher rates also strengthen the currency. Foreign investors seeking higher returns move money into the country to take advantage of the higher rates, buying the currency in the process. A stronger currency makes imports cheaper, which directly reduces some categories of prices.
+
+## The Lag Problem
+
+The effects of rate changes don't appear immediately. It takes time for higher mortgage rates to slow the housing market. It takes time for businesses to respond to higher borrowing costs. It takes time for reduced corporate investment to show up in employment. Economists estimate that the full economic effect of a rate change takes twelve to eighteen months to work through the system.
+
+This creates a significant challenge for central bankers. By the time you can see whether your previous rate hikes are working, you've already had to decide whether to raise rates again. Raise too aggressively, and you might tip the economy into recession — which you won't discover until it's already happening. Not raise enough, and inflation becomes entrenched.
+
+## Entrenched Inflation and Expectations
+
+The most dangerous form of inflation is entrenched inflation — where businesses and workers start assuming inflation will remain high and build those expectations into their planning. Workers demand higher wages to compensate for expected future inflation. Businesses raise prices preemptively to cover expected higher costs. The expectations become self-fulfilling.
+
+Central banks try to prevent this by demonstrating commitment to their inflation targets. The credibility of the commitment matters: if people believe the central bank will do whatever it takes to bring inflation down, expectations stay anchored and the job is easier. If credibility is lost, restoring it requires much more aggressive — and economically painful — action.
+
+The Federal Reserve's experience in the early 1980s is the canonical example. Chair Paul Volcker raised the federal funds rate to nearly 20 percent to break the entrenched inflation of the 1970s. It worked, but the cure produced the deepest recession since the Great Depression.
+
+## The Recession Risk
+
+Every campaign to fight inflation through rate increases carries recession risk. The goal is to cool the economy enough to reduce price pressures without cooling it so much that employment collapses. This is sometimes called a soft landing — an outcome that is achievable in theory but difficult in practice.
+
+The difficulty is that central banks are operating with incomplete information, with significant time lags between their actions and observed effects, and in an economy where exogenous events — energy price shocks, supply chain disruptions, geopolitical crises — can suddenly change the inflation picture in ways monetary policy can't quickly address.
+
+The phrase "the Fed will raise rates until something breaks" reflects a real concern among market participants: that the Fed, focused on inflation, will tighten past the point of comfort and discover the damage only after it has already occurred.`,
+  },
+
   // ── ECONOMIC SECURITY (additional) ───────────────────────────────────────
   {
     slug: 'rare-earth-supply-chain-war',
