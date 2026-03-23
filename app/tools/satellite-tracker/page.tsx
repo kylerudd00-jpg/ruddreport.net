@@ -148,7 +148,7 @@ function drawSkyPlot(
     ctx.setLineDash([4, 4]);
     ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = '#3d5870';
+    ctx.fillStyle = '#5a7a94';
     ctx.font = '9px Share Tech Mono';
     ctx.fillText(`${el}°`, cx + 4, cy - r + 11);
   }
@@ -174,7 +174,7 @@ function drawSkyPlot(
     ctx.lineWidth = 1;
     ctx.stroke();
     const isMain = d.az % 90 === 0;
-    ctx.fillStyle = isMain ? '#7a9bb5' : '#3d5870';
+    ctx.fillStyle = isMain ? '#7a9bb5' : '#5a7a94';
     ctx.font = isMain ? 'bold 11px Share Tech Mono' : '9px Share Tech Mono';
     const lx = cx + (R + 18) * Math.cos(rad) - (d.label.length * 3);
     const ly = cy + (R + 18) * Math.sin(rad) + 4;
@@ -813,7 +813,7 @@ export default function SatelliteTracker() {
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 12px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; align-items: center; justify-content: space-between; }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #00ff88; }
         .utc-clock { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1e9eff; }
         .tool-hero { padding: 48px 40px 36px; border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -827,16 +827,16 @@ export default function SatelliteTracker() {
         .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
         .hero-stat { display: flex; flex-direction: column; gap: 4px; }
         .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #00ff88; }
-        .hero-stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .hero-stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .main-wrap { max-width: 1300px; margin: 0 auto; padding: 32px 40px 80px; }
         .search-row { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; margin-bottom: 14px; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 13px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
-        .search-input::placeholder { color: #3d5870; }
+        .search-input::placeholder { color: #5a7a94; }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 13px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
+        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; align-items: center; }
-        .preset-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .preset-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .preset-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #00ff88; background: none; border: 1px solid rgba(0,255,136,0.22); padding: 6px 13px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
         .preset-btn:hover { background: rgba(0,255,136,0.08); border-color: #00ff88; }
         .search-results { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); margin-bottom: 20px; }
@@ -844,25 +844,25 @@ export default function SatelliteTracker() {
         .search-result-item:last-child { border-bottom: none; }
         .search-result-item:hover { background: rgba(30,158,255,0.06); }
         .sat-name { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #c0cfe0; }
-        .sat-norad { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; white-space: nowrap; }
+        .sat-norad { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; white-space: nowrap; }
         .content-grid { display: grid; grid-template-columns: 1fr 380px; gap: 0; margin-bottom: 2px; border: 1px solid rgba(30,158,255,0.18); }
         .viz-panel { background: #050d14; border-right: 1px solid rgba(30,158,255,0.18); position: relative; display: flex; flex-direction: column; align-self: stretch; }
         .passes-preview { flex: 1; border-top: 1px solid rgba(30,158,255,0.15); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
         .passes-preview-header { padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(30,158,255,0.08); flex-shrink: 0; }
         .passes-preview-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .passes-preview-hint { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #3d5870; }
+        .passes-preview-hint { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #5a7a94; }
         .passes-preview-list { display: flex; flex-direction: column; overflow-y: auto; flex: 1; }
         .pass-preview-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; border-bottom: 1px solid rgba(30,158,255,0.05); padding: 10px 20px; align-items: center; }
         .pass-preview-row:last-child { border-bottom: none; }
         .pass-preview-time { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #c0cfe0; letter-spacing: 0.5px; }
-        .pass-preview-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #3d5870; margin-top: 2px; }
+        .pass-preview-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #5a7a94; margin-top: 2px; }
         .pass-preview-el { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #00ff88; }
-        .pass-preview-el-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: #3d5870; letter-spacing: 2px; }
+        .pass-preview-el-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: #5a7a94; letter-spacing: 2px; }
         .pass-preview-dir { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a9bb5; }
         .pass-preview-vis { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; }
-        .passes-preview-empty { flex: 1; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; text-align: center; padding: 20px; line-height: 2; }
+        .passes-preview-empty { flex: 1; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; text-align: center; padding: 20px; line-height: 2; }
         .viz-tabs { display: flex; border-bottom: 1px solid rgba(30,158,255,0.18); flex-shrink: 0; background: #070e16; }
-        .viz-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 12px 24px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #3d5870; border-right: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; position: relative; }
+        .viz-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 12px 24px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #5a7a94; border-right: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; position: relative; }
         .viz-tab.active { color: #00ffff; background: rgba(0,255,255,0.04); }
         .viz-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #00ffff; }
         .viz-tab:hover:not(.active) { color: #7a9bb5; background: rgba(30,158,255,0.03); }
@@ -878,7 +878,7 @@ export default function SatelliteTracker() {
         .leaflet-control-zoom { border: 1px solid rgba(30,158,255,0.25) !important; border-radius: 0 !important; overflow: hidden; }
         .leaflet-control-zoom a { background: rgba(7,14,22,0.92) !important; color: #1e9eff !important; border-bottom: 1px solid rgba(30,158,255,0.15) !important; font-size: 16px !important; font-weight: 400 !important; width: 28px !important; height: 28px !important; line-height: 28px !important; transition: background 0.2s; }
         .leaflet-control-zoom a:hover { background: rgba(30,158,255,0.15) !important; color: #fff !important; }
-        .leaflet-control-attribution { background: rgba(3,6,8,0.7) !important; color: #3d5870 !important; font-size: 9px !important; backdrop-filter: blur(8px); border: none !important; padding: 3px 8px !important; }
+        .leaflet-control-attribution { background: rgba(3,6,8,0.7) !important; color: #5a7a94 !important; font-size: 9px !important; backdrop-filter: blur(8px); border: none !important; padding: 3px 8px !important; }
         .leaflet-control-attribution a { color: #1e9eff !important; }
         .sky-canvas-wrap { display: flex; align-items: center; justify-content: center; padding: 12px; height: 520px; background: #030608; }
         .info-panel { background: #070e16; display: flex; flex-direction: column; overflow-y: auto; }
@@ -886,7 +886,7 @@ export default function SatelliteTracker() {
         .info-sat-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; word-break: break-all; line-height: 1.3; }
         .info-sat-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
         .info-sat-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 3px 9px; text-transform: uppercase; }
-        .badge-norad { color: #3d5870; border: 1px solid rgba(30,158,255,0.15); }
+        .badge-norad { color: #5a7a94; border: 1px solid rgba(30,158,255,0.15); }
         .badge-orbit { color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); background: rgba(245,158,11,0.05); }
         .badge-live { color: #00ff88; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.05); }
         .info-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 12px 22px 8px; background: rgba(30,158,255,0.03); border-bottom: 1px solid rgba(30,158,255,0.06); border-top: 1px solid rgba(30,158,255,0.06); }
@@ -894,7 +894,7 @@ export default function SatelliteTracker() {
         .info-field { padding: 12px 22px; border-bottom: 1px solid rgba(30,158,255,0.05); border-right: 1px solid rgba(30,158,255,0.05); }
         .info-field:nth-child(even) { border-right: none; }
         .info-field.full { grid-column: 1 / -1; border-right: none; }
-        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 5px; }
+        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 5px; }
         .field-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #c0cfe0; letter-spacing: 1px; }
         .field-value.cyan { color: #00ffff; }
         .field-value.green { color: #00ff88; }
@@ -903,17 +903,17 @@ export default function SatelliteTracker() {
         .field-value.purple { color: #a78bfa; }
         .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; margin-right: 8px; animation: pulse 2s infinite; vertical-align: middle; }
         .countdown-box { padding: 14px 22px; border-bottom: 1px solid rgba(30,158,255,0.08); background: rgba(0,255,136,0.03); }
-        .countdown-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 4px; }
+        .countdown-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 4px; }
         .countdown-value { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #00ff88; letter-spacing: 2px; }
         .telem-cell { padding: 14px 20px; border-right: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; flex-direction: column; gap: 5px; }
-        .telem-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .telem-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .telem-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 1px; color: #c0cfe0; }
         .observer-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); margin-bottom: 2px; }
         .observer-main { padding: 24px 28px; }
         .observer-modify-bar { border-top: 1px solid rgba(30,158,255,0.08); padding: 12px 28px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; }
         .observer-modify-bar:hover { background: rgba(30,158,255,0.03); }
         .observer-modify-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .observer-modify-toggle { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .observer-modify-toggle { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
         .observer-postal-form { border-top: 1px solid rgba(30,158,255,0.1); padding: 20px 28px; background: rgba(30,158,255,0.02); }
         .postal-form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #7a9bb5; text-transform: uppercase; margin-bottom: 14px; }
         .postal-inputs { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
@@ -921,16 +921,16 @@ export default function SatelliteTracker() {
         .postal-select:focus { border-color: rgba(30,158,255,0.5); }
         .postal-input { background: #050d14; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 9px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 2px; width: 160px; }
         .postal-input:focus { border-color: rgba(30,158,255,0.5); }
-        .postal-input::placeholder { color: #3d5870; }
+        .postal-input::placeholder { color: #5a7a94; }
         .postal-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.3); padding: 9px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
         .postal-btn:hover { background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.6); }
-        .postal-btn:disabled { color: #3d5870; border-color: rgba(30,158,255,0.1); cursor: not-allowed; }
+        .postal-btn:disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; }
         .postal-result { margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #00ff88; letter-spacing: 1px; }
         .section-header-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #00ff88; text-transform: uppercase; margin-bottom: 5px; }
         .section-header-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px; }
         .obs-inputs { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
         .obs-field { display: flex; flex-direction: column; gap: 5px; }
-        .obs-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .obs-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .obs-input { background: #050d14; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 9px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; width: 136px; }
         .obs-input:focus { border-color: rgba(30,158,255,0.5); }
         .obs-input.narrow { width: 80px; }
@@ -938,21 +938,21 @@ export default function SatelliteTracker() {
         .geo-btn:hover { border-color: rgba(30,158,255,0.4); color: #1e9eff; }
         .predict-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #00ff88; border: none; padding: 10px 22px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .predict-btn:hover { background: #33ffaa; }
-        .predict-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
+        .predict-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .passes-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); margin-bottom: 2px; }
         .passes-header { padding: 18px 28px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); }
         .pass-card { border-bottom: 1px solid rgba(30,158,255,0.06); padding: 18px 28px; transition: background 0.2s; }
         .pass-card:last-child { border-bottom: none; }
         .pass-card:hover { background: rgba(30,158,255,0.025); }
         .pass-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; flex-wrap: wrap; }
-        .pass-num { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; color: #3d5870; }
+        .pass-num { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; color: #5a7a94; }
         .pass-badges { display: flex; gap: 6px; flex-wrap: wrap; }
         .pass-vis { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 3px 10px; text-transform: uppercase; }
         .pass-vis.night { color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); background: rgba(30,158,255,0.06); }
         .pass-vis.daylight { color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); background: rgba(245,158,11,0.06); }
         .pass-vis.twilight { color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); background: rgba(167,139,250,0.06); }
         .pass-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-        .pass-field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 5px; }
+        .pass-field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 5px; }
         .pass-field-value { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #c0cfe0; }
         .pass-field-value.accent { font-size: 20px; color: #00ff88; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; }
         .show-more-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; background: none; border: none; cursor: pointer; padding: 14px 28px; text-transform: uppercase; width: 100%; text-align: left; border-top: 1px solid rgba(30,158,255,0.08); transition: color 0.2s; }
@@ -960,7 +960,7 @@ export default function SatelliteTracker() {
         .tle-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); margin-bottom: 2px; }
         .tle-header { padding: 16px 28px; border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
         .tle-header:hover { background: rgba(30,158,255,0.03); }
-        .tle-toggle { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .tle-toggle { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .tle-body { padding: 20px 28px; }
         .tle-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #7a9bb5; letter-spacing: 1px; margin-bottom: 8px; line-height: 1.8; word-break: break-all; }
         .tle-line span { color: #1e9eff; margin-right: 12px; }
@@ -980,10 +980,10 @@ export default function SatelliteTracker() {
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
         .loading-bars span { width: 3px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
         .loading-bars span:nth-child(1){animation-delay:0s} .loading-bars span:nth-child(2){animation-delay:.15s} .loading-bars span:nth-child(3){animation-delay:.3s} .loading-bars span:nth-child(4){animation-delay:.45s} .loading-bars span:nth-child(5){animation-delay:.6s}
-        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; animation: blink 1.5s infinite; }
+        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; animation: blink 1.5s infinite; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
@@ -1030,7 +1030,7 @@ export default function SatelliteTracker() {
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: '9px', letterSpacing: '2px', color: '#3d5870' }}>
+            <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: '9px', letterSpacing: '2px', color: '#5a7a94' }}>
               Inspired by{' '}
               <a href="https://github.com/sgoudelis/ground-station" target="_blank" rel="noopener noreferrer" style={{ color: '#1e9eff', textDecoration: 'none' }}>Ground Station</a>
               {' '}by Efstratios Goudelis
@@ -1145,7 +1145,7 @@ export default function SatelliteTracker() {
                 <canvas ref={skyCanvasRef} width={420} height={420} style={{ maxWidth: '100%', maxHeight: '420px' }} />
               </div>
               {activeView === 'skyplot' && passes.length === 0 && (
-                <div style={{ position: 'absolute', bottom: '16px', left: 0, right: 0, textAlign: 'center', fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '2px', color: '#3d5870', pointerEvents: 'none' }}>
+                <div style={{ position: 'absolute', bottom: '16px', left: 0, right: 0, textAlign: 'center', fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '2px', color: '#5a7a94', pointerEvents: 'none' }}>
                   Run Pass Predictor to populate sky track
                 </div>
               )}
@@ -1171,7 +1171,7 @@ export default function SatelliteTracker() {
                         { label: 'Orbit Number', value: `#${orbitNum.toLocaleString()}`, color: '#00ffff' },
                         { label: 'Ground Speed', value: `${groundSpeedKmh.toLocaleString()} km/h`, color: '#c0cfe0' },
                         { label: 'Coverage Footprint', value: `${footprintDiamKm.toLocaleString()} km`, color: '#f59e0b' },
-                        { label: 'Signal Delay', value: lightMs ? `${lightMs} ms` : '— set observer', color: lightMs ? '#c0cfe0' : '#3d5870' },
+                        { label: 'Signal Delay', value: lightMs ? `${lightMs} ms` : '— set observer', color: lightMs ? '#c0cfe0' : '#5a7a94' },
                         { label: 'TLE Epoch', value: epochDate.toUTCString().replace(' GMT','').split(', ')[1]?.split(' ').slice(0,3).join(' ') || '—', color: tleAgeH < 24 ? '#00ff88' : tleAgeH < 72 ? '#f59e0b' : '#ff3a3a' },
                         { label: 'Data Age', value: tleAgeH < 24 ? `${tleAgeH.toFixed(1)}h old` : `${(tleAgeH/24).toFixed(1)}d old`, color: tleAgeH < 24 ? '#00ff88' : tleAgeH < 72 ? '#f59e0b' : '#ff3a3a' },
                       ].map(({ label, value, color }) => (
@@ -1280,7 +1280,7 @@ export default function SatelliteTracker() {
                         {lookAngles && (
                           <div className="info-field full" style={{ borderRight: 'none' }}>
                             <div className="field-label">Naked-Eye Visible Now</div>
-                            <div className="field-value" style={{ color: position.sunlit && lookAngles.el > 5 && getVisibility(new Date(), parseFloat(observerLat), parseFloat(observerLon)) !== 'Daylight' ? '#00ff88' : '#3d5870' }}>
+                            <div className="field-value" style={{ color: position.sunlit && lookAngles.el > 5 && getVisibility(new Date(), parseFloat(observerLat), parseFloat(observerLon)) !== 'Daylight' ? '#00ff88' : '#5a7a94' }}>
                               {position.sunlit && lookAngles.el > 5 && getVisibility(new Date(), parseFloat(observerLat), parseFloat(observerLon)) !== 'Daylight'
                                 ? '✓ Yes — look ' + fmtAz(lookAngles.az) + ' at ' + lookAngles.el.toFixed(0) + '° elevation'
                                 : position.sunlit && lookAngles.el <= 0 ? 'Below horizon'
@@ -1346,7 +1346,7 @@ export default function SatelliteTracker() {
                       <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '28px', fontWeight: 700, color: GROUP_COLORS[PRESETS.find(p => p.label === allSatsMode)?.group || ''] || '#00ffff', marginBottom: '8px' }}>
                         {allSatsCount.toLocaleString()}
                       </div>
-                      <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '2px', color: '#3d5870', marginBottom: '20px' }}>
+                      <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '2px', color: '#5a7a94', marginBottom: '20px' }}>
                         satellites plotted · updates every 60s
                       </div>
                       <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '1.5px', color: '#7a9bb5', lineHeight: 2 }}>
@@ -1361,7 +1361,7 @@ export default function SatelliteTracker() {
                   )}
                 </div>
               ) : (
-                <div style={{ padding: '32px 22px', color: '#3d5870', fontFamily: "'Share Tech Mono',monospace", fontSize: '11px', letterSpacing: '2px', lineHeight: 2 }}>
+                <div style={{ padding: '32px 22px', color: '#5a7a94', fontFamily: "'Share Tech Mono',monospace", fontSize: '11px', letterSpacing: '2px', lineHeight: 2 }}>
                   Select a satellite above to begin tracking
                 </div>
               )}
@@ -1479,19 +1479,19 @@ export default function SatelliteTracker() {
                     <div className="pass-num">Pass {String(i + 1).padStart(2, '0')}</div>
                     <div className="pass-badges">
                       <div className={`pass-vis ${p.visibility.toLowerCase()}`}>{p.visibility}</div>
-                      <div className="pass-vis" style={{ color: '#3d5870', border: '1px solid rgba(30,158,255,0.1)' }}>{p.direction}</div>
+                      <div className="pass-vis" style={{ color: '#5a7a94', border: '1px solid rgba(30,158,255,0.1)' }}>{p.direction}</div>
                     </div>
                   </div>
                   <div className="pass-grid">
                     <div>
                       <div className="pass-field-label">AOS</div>
                       <div className="pass-field-value">{fmt(p.aos)}</div>
-                      <div className="pass-field-value" style={{ fontSize: '10px', color: '#3d5870', marginTop: '3px' }}>Az {p.azAtAos.toFixed(0)}° {fmtAz(p.azAtAos)}</div>
+                      <div className="pass-field-value" style={{ fontSize: '10px', color: '#5a7a94', marginTop: '3px' }}>Az {p.azAtAos.toFixed(0)}° {fmtAz(p.azAtAos)}</div>
                     </div>
                     <div>
                       <div className="pass-field-label">LOS</div>
                       <div className="pass-field-value">{fmt(p.los)}</div>
-                      <div className="pass-field-value" style={{ fontSize: '10px', color: '#3d5870', marginTop: '3px' }}>Az {p.azAtLos.toFixed(0)}° {fmtAz(p.azAtLos)}</div>
+                      <div className="pass-field-value" style={{ fontSize: '10px', color: '#5a7a94', marginTop: '3px' }}>Az {p.azAtLos.toFixed(0)}° {fmtAz(p.azAtLos)}</div>
                     </div>
                     <div>
                       <div className="pass-field-label">Max Elevation</div>

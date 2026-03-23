@@ -13,7 +13,7 @@
   --silver-dim: #6a7f94;
   --text-primary: #d8e8f5;
   --text-secondary: #7a9bb5;
-  --text-muted: #3d5870;
+  --text-muted: #5a7a94;
   --border: rgba(30, 158, 255, 0.12);
   --border-bright: rgba(30, 158, 255, 0.4);
   --red: #ff3a3a;
@@ -172,7 +172,7 @@ body::after {
   padding: 6px 14px;
   border: 1px solid rgba(30,158,255,0.15);
   background: none;
-  color: #3d5870;
+  color: #5a7a94;
   cursor: pointer;
   text-transform: uppercase;
   transition: all 0.2s;

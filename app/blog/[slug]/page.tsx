@@ -14,7 +14,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
           body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
           .not-found { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 24px; }
           .nf-code { font-family: 'Barlow Condensed', sans-serif; font-size: 80px; font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(30,158,255,0.4); }
-          .nf-text { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; }
+          .nf-text { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; }
           .nf-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; color: #1e9eff; text-decoration: none; border: 1px solid rgba(30,158,255,0.3); padding: 12px 24px; text-transform: uppercase; }
         `}</style>
         <div className="not-found">
@@ -47,11 +47,11 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .article-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); max-width: 900px; margin: 0 auto; }
-        .article-back { display: inline-flex; align-items: center; gap: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; margin-bottom: 32px; transition: color 0.3s; }
+        .article-back { display: inline-flex; align-items: center; gap: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; margin-bottom: 32px; transition: color 0.3s; }
         .article-back:hover { color: #1e9eff; }
         .article-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
         .article-category { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 4px 12px; background: rgba(30,158,255,0.08); }
-        .article-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .article-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
         .threat-high { color: #ff3a3a; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
         .threat-med { color: #ffaa00; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
         .threat-low { color: #1e9eff; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
@@ -63,11 +63,11 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
         .article-paragraph { font-size: 17px; font-weight: 400; color: #b8ccdc; line-height: 1.95; }
         .article-divider { width: 60px; height: 1px; background: #1e9eff; margin: 60px 0;  }
         .article-footer { max-width: 900px; margin: 0 auto; padding: 40px; border-top: 1px solid rgba(30,158,255,0.12); display: flex; align-items: center; justify-content: space-between; }
-        .article-author { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .article-author { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .article-author span { color: #1e9eff; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }

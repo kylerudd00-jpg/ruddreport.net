@@ -146,7 +146,7 @@ export default function BreachLookup() {
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
@@ -158,17 +158,17 @@ export default function BreachLookup() {
         .main-wrap { max-width: 1100px; margin: 0 auto; padding: 40px; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 18px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
-        .search-input::placeholder { color: #3d5870; }
+        .search-input::placeholder { color: #5a7a94; }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 18px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
+        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .disclaimer { margin-top: 16px; display: flex; align-items: flex-start; gap: 12px; padding: 14px 20px; background: rgba(255,60,60,0.06); border: 1px solid rgba(255,60,60,0.2); }
         .disclaimer-icon { font-size: 14px; color: #ff6060; flex-shrink: 0; padding-top: 2px; }
         .disclaimer-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #9ab0c4; line-height: 1.7; }
         .disclaimer-text strong { color: #ff6060; }
         .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.1); }
         .target-display { margin-bottom: 32px; padding: 16px 20px; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.2); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-        .target-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .target-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .target-value { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #1e9eff; letter-spacing: 2px; }
         .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 60px; }
         .service-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 28px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.3s; position: relative; overflow: hidden; }
@@ -187,7 +187,7 @@ export default function BreachLookup() {
         .service-btn.manual-btn:hover { background: rgba(255,170,0,0.08); border-color: #ffaa00; }
         .service-btn.paid-btn { color: #9ab0c4; border-color: rgba(154,176,196,0.3); }
         .service-btn.paid-btn:hover { background: rgba(154,176,196,0.08); border-color: #9ab0c4; }
-        .service-btn.disabled { color: #3d5870; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
+        .service-btn.disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
         .breach-table-wrap { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); overflow: hidden; }
         .breach-table { width: 100%; border-collapse: collapse; }
         .breach-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; padding: 14px 20px; text-align: left; background: rgba(30,158,255,0.05); border-bottom: 1px solid rgba(30,158,255,0.15); }
@@ -198,13 +198,13 @@ export default function BreachLookup() {
         .breach-table td:nth-child(3) { color: #1e9eff; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         .tab-row { display: flex; gap: 2px; margin-bottom: 28px; }
-        .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 10px 24px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #3d5870; cursor: pointer; transition: all 0.2s; }
+        .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 10px 24px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #5a7a94; cursor: pointer; transition: all 0.2s; }
         .tab-btn.active { background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.4); color: #1e9eff; }
         .tab-btn:hover:not(.active) { border-color: rgba(30,158,255,0.4); color: #c0cfe0; }
-        .pw-privacy-note { margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #3d5870; line-height: 1.7; }
+        .pw-privacy-note { margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #5a7a94; line-height: 1.7; }
         .pw-result { margin-top: 24px; padding: 32px; text-align: center; border: 1px solid; }
         .pw-result.found { border-color: rgba(255,58,58,0.4); background: rgba(255,58,58,0.04); }
         .pw-result.safe { border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.03); }
@@ -214,7 +214,7 @@ export default function BreachLookup() {
         .pw-status.safe { color: #00ff88; }
         .pw-count { font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #7a9bb5; margin-bottom: 8px; }
         .pw-count span { color: #ff3a3a; font-size: 17px; }
-        .pw-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #3d5870; line-height: 1.8; margin-top: 16px; }
+        .pw-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #5a7a94; line-height: 1.8; margin-top: 16px; }
         .pw-error { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #ff3a3a; margin-top: 16px; }
         @media (max-width: 900px) {
           .services-grid { grid-template-columns: repeat(2, 1fr); }

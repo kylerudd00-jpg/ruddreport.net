@@ -160,7 +160,7 @@ export default function PersonLookup() {
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
@@ -172,23 +172,23 @@ export default function PersonLookup() {
         .main-wrap { max-width: 1100px; margin: 0 auto; padding: 40px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; margin-bottom: 32px; }
         .form-field { display: flex; flex-direction: column; gap: 6px; }
-        .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; transition: border-color 0.2s; }
         .form-input:focus { border-color: rgba(30,158,255,0.6); }
         .form-input::placeholder { color: #2d4055; }
         .form-select { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d8e8f5; cursor: pointer; }
         .run-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 0 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; height: 49px; }
         .run-btn:hover { background: #4db8ff; }
-        .run-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
-        .loading-bar { padding: 24px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); margin-bottom: 24px; }
+        .run-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
+        .loading-bar { padding: 24px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); margin-bottom: 24px; }
         .section-hdr { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid rgba(30,158,255,0.1); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
-        .section-count { font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .section-count { font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .section-wrap { margin-bottom: 40px; }
-        .empty-state { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #3d5870; background: #0a1520; border: 1px solid rgba(30,158,255,0.06); text-align: center; }
+        .empty-state { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.06); text-align: center; }
         .error-state { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; color: #ff6060; background: rgba(255,60,60,0.04); border: 1px solid rgba(255,60,60,0.15); }
         .disambig-banner { background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.2); padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
         .disambig-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .disambig-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; margin-top: 4px; }
+        .disambig-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #5a7a94; margin-top: 4px; }
         .show-all-btn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #7a9bb5; background: none; border: 1px solid rgba(122,155,181,0.3); padding: 6px 14px; cursor: pointer; text-transform: uppercase; white-space: nowrap; transition: all 0.2s; }
         .show-all-btn:hover { color: #c0cfe0; border-color: rgba(192,207,224,0.4); }
         .loc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-bottom: 16px; }
@@ -197,7 +197,7 @@ export default function PersonLookup() {
         .loc-card.active { border-color: #1e9eff; background: #0d1e30; border-top-width: 3px; }
         .loc-card.inactive { opacity: 0.35; }
         .loc-field { display: flex; flex-direction: column; gap: 3px; }
-        .loc-key { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .loc-key { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .loc-val { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #c0cfe0; letter-spacing: 0.5px; }
         .loc-val.highlight { color: #1e9eff; }
         .fec-table-wrap { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); overflow: auto; }
@@ -215,10 +215,10 @@ export default function PersonLookup() {
         .court-case a { color: #c0cfe0; text-decoration: none; }
         .court-case a:hover { color: #1e9eff; }
         .court-meta { display: flex; gap: 20px; flex-wrap: wrap; }
-        .court-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+        .court-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
         .court-meta-item span { color: #7a9bb5; }
         .sources-note { margin-top: 8px; padding: 14px 20px; background: rgba(30,158,255,0.03); border: 1px solid rgba(30,158,255,0.1); }
-        .sources-note-text { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; line-height: 1.8; }
+        .sources-note-text { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: #5a7a94; line-height: 1.8; }
         .sources-note-text strong { color: #7a9bb5; }
         .deepdive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .dd-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px; display: flex; flex-direction: column; gap: 8px; }
@@ -228,7 +228,7 @@ export default function PersonLookup() {
         .dd-btn:hover { background: rgba(30,158,255,0.08); }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         @media (max-width: 900px) { .form-row { grid-template-columns: 1fr 1fr; } .loc-grid { grid-template-columns: 1fr; } .deepdive-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) {
           nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
@@ -327,7 +327,7 @@ export default function PersonLookup() {
 
                 {uniqueLocations.length > 0 && (
                   <>
-                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', marginBottom: '10px'}}>
+                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#5a7a94', textTransform: 'uppercase', marginBottom: '10px'}}>
                       {uniqueLocations.length > 1 ? 'Select a Person — Click to Filter' : 'Known Location'}
                     </div>
                     <div className="loc-grid">
@@ -364,7 +364,7 @@ export default function PersonLookup() {
 
                 {filteredFecResults.length > 0 && (
                   <>
-                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', margin: '16px 0 10px'}}>
+                    <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#5a7a94', textTransform: 'uppercase', margin: '16px 0 10px'}}>
                       {activeProfile !== null ? `Donation History — ${activeLocation?.city}, ${activeLocation?.state}` : 'Full Donation History'}
                     </div>
                     <div className="fec-table-wrap">
@@ -466,7 +466,7 @@ export default function PersonLookup() {
         <footer>
           <div className="footer-inner">
             <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
-            <div className="footer-copy">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
       </div>

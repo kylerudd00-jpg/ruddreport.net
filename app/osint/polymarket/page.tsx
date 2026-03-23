@@ -279,7 +279,7 @@ export default function PolymarketTracker() {
 
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
 
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -293,20 +293,20 @@ export default function PolymarketTracker() {
         .search-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
-        .search-input::placeholder { color: #3d5870; }
+        .search-input::placeholder { color: #5a7a94; }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
+        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
 
         .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1100px; margin: 0 auto; border: 1px solid rgba(30,158,255,0.1); background: rgba(10,21,32,0.8); }
         .status-scanning { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; animation: blink 1s infinite; }
         .status-done { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .status-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .status-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .status-chip { color: #1e9eff; }
 
         .filters { display: flex; gap: 2px; padding: 20px 40px 0; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; }
         .filters.secondary { padding-top: 8px; }
-        .filter-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .filter-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .filter-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
         .filter-btn.active { color: #1e9eff; border-color: #1e9eff; background: rgba(30,158,255,0.08); }
         .filter-btn.hot.active { color: #1e9eff; border-color: rgba(30,158,255,0.7); background: rgba(30,158,255,0.08); }
@@ -323,14 +323,14 @@ export default function PolymarketTracker() {
         .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
         .card-platform { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #c0cfe0; line-height: 1.2; }
         .card-actions { display: flex; align-items: center; gap: 6px; }
-        .card-category { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.1); padding: 2px 6px; white-space: nowrap; height: fit-content; }
-        .pin-btn { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.12); padding: 2px 6px; background: none; color: #3d5870; cursor: pointer; }
+        .card-category { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.1); padding: 2px 6px; white-space: nowrap; height: fit-content; }
+        .pin-btn { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.12); padding: 2px 6px; background: none; color: #5a7a94; cursor: pointer; }
         .pin-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.35); }
         .pin-btn.active { color: #1e9eff; border-color: rgba(30,158,255,0.55); background: rgba(30,158,255,0.06); }
 
         .card-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2px; }
         .metric { border: 1px solid rgba(30,158,255,0.10); background: rgba(3,6,8,0.25); padding: 10px 10px; }
-        .metric-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .metric-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .metric-value { margin-top: 6px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 1px; color: #d8e8f5; }
         .metric-value.green { color: #1e9eff; }
         .metric-value.blue { color: #1e9eff; }
@@ -338,7 +338,7 @@ export default function PolymarketTracker() {
         .card-status { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
         .card-status.up { color: #1e9eff; }
         .card-status.down { color: #1e9eff; }
-        .card-status.flat { color: #3d5870; }
+        .card-status.flat { color: #5a7a94; }
         .card-status.loading { color: #1e9eff; animation: blink 1s infinite; }
 
         .card-link { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #1e9eff; text-decoration: none; transition: color 0.3s; margin-top: 2px; }
@@ -346,7 +346,7 @@ export default function PolymarketTracker() {
 
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }

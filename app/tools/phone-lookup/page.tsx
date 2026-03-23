@@ -14,7 +14,7 @@ const TYPE_LABELS: Record<string, string> = {
 const TYPE_COLORS: Record<string, string> = {
   MOBILE: '#00ff88', FIXED_LINE: '#1e9eff', FIXED_LINE_OR_MOBILE: '#1e9eff',
   TOLL_FREE: '#a78bfa', PREMIUM_RATE: '#ff3a3a', VOIP: '#f59e0b',
-  PERSONAL_NUMBER: '#00ffff', UNKNOWN: '#3d5870',
+  PERSONAL_NUMBER: '#00ffff', UNKNOWN: '#5a7a94',
 };
 
 // Likely use inferred from number type
@@ -29,7 +29,7 @@ function getLikelyUse(type: string): { label: string; color: string } {
     case 'SHARED_COST': return { label: 'Shared Cost Service (Business)', color: '#f59e0b' };
     case 'PERSONAL_NUMBER': return { label: 'Personal Follow-Me Number', color: '#00ffff' };
     case 'UAN': return { label: 'Business Universal Access Number', color: '#a78bfa' };
-    default: return { label: 'Unknown', color: '#3d5870' };
+    default: return { label: 'Unknown', color: '#5a7a94' };
   }
 }
 
@@ -185,7 +185,7 @@ export default function PhoneLookup() {
     setResult(r);
   };
 
-  const typeColor = result ? (TYPE_COLORS[result.type] || '#3d5870') : '#3d5870';
+  const typeColor = result ? (TYPE_COLORS[result.type] || '#5a7a94') : '#5a7a94';
   const use = result ? getLikelyUse(result.type) : null;
   const numForLinks = result ? result.e164.replace('+', '') : '';
   const intlEncoded = result ? encodeURIComponent(result.international) : '';
@@ -220,11 +220,11 @@ export default function PhoneLookup() {
         .tool-section { padding: 32px 40px 48px; max-width: 920px; margin: 0 auto; }
         .search-row { display: flex; gap: 2px; margin-bottom: 8px; }
         .search-input { flex: 1; background: #0a1520; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 15px 22px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #d8e8f5; letter-spacing: 3px; }
-        .search-input::placeholder { color: #3d5870; letter-spacing: 1px; }
+        .search-input::placeholder { color: #5a7a94; letter-spacing: 1px; }
         .search-input:focus { border-color: rgba(30,158,255,0.5); }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 15px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .hint { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; margin-bottom: 24px; }
+        .hint { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-bottom: 24px; }
         .hint span { color: #1e9eff; }
         .error-bar { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.2); padding: 12px 18px; margin-bottom: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; }
         .result-card { border: 1px solid rgba(30,158,255,0.2); background: #0a1520; }
@@ -241,26 +241,26 @@ export default function PhoneLookup() {
         .info-field:nth-child(3n) { border-right: none; }
         .info-field.two { grid-column: span 2; }
         .info-field.full { grid-column: 1/-1; border-right: none; }
-        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 6px; }
+        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 6px; }
         .field-value { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #c0cfe0; word-break: break-word; line-height: 1.4; }
         .field-value.cyan { color: #00ffff; } .field-value.green { color: #00ff88; }
         .field-value.amber { color: #f59e0b; } .field-value.blue { color: #1e9eff; }
-        .field-value.muted { color: #3d5870; font-size: 11px; }
+        .field-value.muted { color: #5a7a94; font-size: 11px; }
         .use-block { margin: 0 28px 16px; padding: 14px 18px; background: #050d14; border-left: 3px solid; margin-top: 14px; }
-        .use-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 4px; }
+        .use-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 4px; }
         .use-value { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 600; }
-        .carrier-note { padding: 14px 28px 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #3d5870; line-height: 1.7; }
+        .carrier-note { padding: 14px 28px 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #5a7a94; line-height: 1.7; }
         .carrier-note a { color: #1e9eff; text-decoration: none; }
         .osint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 16px 28px 20px; }
         .osint-link { display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; background: #050d14; border: 1px solid rgba(30,158,255,0.1); text-decoration: none; transition: all 0.2s; }
         .osint-link:hover { border-color: rgba(30,158,255,0.3); background: rgba(30,158,255,0.05); }
         .osint-link-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 600; color: #c0cfe0; }
-        .osint-link-desc { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; }
+        .osint-link-desc { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #5a7a94; }
         .osint-link-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #1e9eff; margin-top: 6px; }
-        .privacy-note { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; padding: 12px 28px 18px; border-top: 1px solid rgba(30,158,255,0.06); line-height: 1.8; }
+        .privacy-note { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #5a7a94; padding: 12px 28px 18px; border-top: 1px solid rgba(30,158,255,0.06); line-height: 1.8; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 32px 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }

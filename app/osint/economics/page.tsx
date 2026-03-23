@@ -263,7 +263,7 @@ export default function CountryEconomicProfile() {
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
 
         /* ── Hero ── */
@@ -280,7 +280,7 @@ export default function CountryEconomicProfile() {
 
         /* ── Search area ── */
         .search-section { max-width: 1200px; margin: 0 auto; padding: 40px 40px 0; }
-        .search-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
+        .search-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; margin-bottom: 12px; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 14px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
         .search-input::placeholder { color: #2a4155; }
@@ -288,7 +288,7 @@ export default function CountryEconomicProfile() {
         .search-btn:hover { background: #45aaff; }
 
         /* ── Quick-select grid ── */
-        .quick-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
+        .quick-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
         .quick-grid { display: flex; flex-wrap: wrap; gap: 6px; }
         .quick-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.18); color: #7a9bb5; padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
         .quick-btn:hover { background: rgba(30,158,255,0.12); border-color: rgba(30,158,255,0.4); color: #1e9eff; }
@@ -299,17 +299,17 @@ export default function CountryEconomicProfile() {
         .country-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .country-name { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 900; color: #fff; letter-spacing: 2px; text-transform: uppercase; }
         .country-code-badge { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.4); padding: 4px 12px; background: rgba(30,158,255,0.08); text-transform: uppercase; }
-        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 16px; }
+        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; }
 
         /* ── Indicator cards ── */
         .indicators-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 32px; }
         .ind-card { background: #080f18; border: 1px solid rgba(30,158,255,0.1); padding: 20px; position: relative; overflow: hidden; }
         .ind-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: rgba(30,158,255,0.3); }
-        .ind-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
+        .ind-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
         .ind-value { font-family: 'IBM Plex Mono', monospace; font-size: 22px; color: #1e9eff; font-weight: 500; margin-bottom: 4px; line-height: 1; }
         .ind-value.no-data { color: #2a4155; font-size: 14px; }
         .ind-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-        .ind-year { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .ind-year { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
         .ind-trend { font-size: 14px; }
         .ind-trend.up { color: #00d68f; }
         .ind-trend.down { color: #ff4d4d; }
@@ -345,7 +345,7 @@ export default function CountryEconomicProfile() {
         .loading-bars span:nth-child(3) { animation-delay: 0.3s; }
         .loading-bars span:nth-child(4) { animation-delay: 0.45s; }
         .loading-bars span:nth-child(5) { animation-delay: 0.6s; }
-        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; animation: blink 1.5s infinite; }
+        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; animation: blink 1.5s infinite; }
 
         /* ── Empty state ── */
         .empty-state { max-width: 1200px; margin: 0 auto; padding: 64px 40px; text-align: center; }
@@ -355,7 +355,7 @@ export default function CountryEconomicProfile() {
         /* ── Footer ── */
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         /* ── Animations ── */

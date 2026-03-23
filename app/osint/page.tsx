@@ -142,7 +142,7 @@ export default function OSINTHub() {
         .hero-sub { font-size: 15px; font-weight: 400; color: #7a9bb5; line-height: 1.7; margin-bottom: 28px; }
         .hero-stats { display: flex; gap: 32px; }
         .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: #1e9eff; }
-        .hero-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; text-transform: uppercase; margin-top: 2px; }
+        .hero-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #5a7a94; text-transform: uppercase; margin-top: 2px; }
 
         /* ROUTER */
         .router-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 28px; }
@@ -151,11 +151,11 @@ export default function OSINTHub() {
         .router-row { display: flex; gap: 0; }
         .router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 13px 16px; outline: none; transition: border-color 0.2s; }
         .router-input:focus { border-color: rgba(30,158,255,0.5); }
-        .router-input::placeholder { color: #3d5870; font-size: 12px; }
+        .router-input::placeholder { color: #5a7a94; font-size: 12px; }
         .router-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 13px 22px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: background 0.2s; }
         .router-btn:hover { background: #4db3ff; }
         .router-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
-        .router-chip { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; border: 1px solid rgba(30,158,255,0.1); padding: 3px 8px; }
+        .router-chip { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #5a7a94; border: 1px solid rgba(30,158,255,0.1); padding: 3px 8px; }
         .router-chip span { color: #1e9eff; }
 
         /* FILTER BAR */
@@ -169,11 +169,11 @@ export default function OSINTHub() {
         .search-wrap { margin-left: auto; padding: 10px 0; }
         .tool-search { background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.12); color: #d8e8f5; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1px; padding: 7px 14px; outline: none; width: 200px; transition: border-color 0.2s; }
         .tool-search:focus { border-color: rgba(30,158,255,0.4); }
-        .tool-search::placeholder { color: #3d5870; }
+        .tool-search::placeholder { color: #5a7a94; }
 
         /* TOOLS GRID */
         .tools-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 40px 80px; }
-        .results-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 20px; }
+        .results-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 20px; }
         .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
         .tool-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 22px 22px 18px; text-decoration: none; display: flex; flex-direction: column; gap: 0; transition: all 0.25s; overflow: hidden; }
         .tool-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
@@ -186,16 +186,16 @@ export default function OSINTHub() {
         .tool-desc { font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 400; color: #5a7a90; line-height: 1.55; flex: 1; margin-bottom: 16px; }
         .tool-footer { display: flex; align-items: center; justify-content: space-between; }
         .tool-cat-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px; border: 1px solid; }
-        .tool-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #3d5870; transition: all 0.2s; }
+        .tool-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a7a94; transition: all 0.2s; }
         .tool-card:hover .tool-arrow { color: #1e9eff; transform: translateX(3px); }
 
         .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; }
-        .empty-state-text { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+        .empty-state-text { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
 
         .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(30,158,255,0.15), transparent); }
         footer { border-top: 1px solid rgba(30,158,255,0.1); padding: 32px 40px; background: #070d12; }
         .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
 
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
@@ -256,10 +256,10 @@ export default function OSINTHub() {
             <div>
               <div className="hero-eyebrow">
                 <div className="hero-eyebrow-line" />
-                <div className="hero-eyebrow-text">Open Source Intelligence</div>
+                <div className="hero-eyebrow-text">Free Tools</div>
               </div>
               <div className="hero-title">OSINT <span>Hub</span></div>
-              <p className="hero-sub">38 free tools for intelligence gathering, corporate research, network analysis, economic intelligence, and real-time situational awareness. No sign-up required.</p>
+              <p className="hero-sub">38 free tools for researching companies, networks, people, and live events. No account required.</p>
               <div className="hero-stats">
                 <div>
                   <div className="hero-stat-num">38</div>
@@ -270,7 +270,7 @@ export default function OSINTHub() {
                   <div className="hero-stat-label">No Sign-Up</div>
                 </div>
                 <div>
-                  <div className="hero-stat-num">5</div>
+                  <div className="hero-stat-num">6</div>
                   <div className="hero-stat-label">Categories</div>
                 </div>
               </div>

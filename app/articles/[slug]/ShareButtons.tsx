@@ -64,7 +64,7 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
         fontFamily: "'IBM Plex Mono', monospace",
         fontSize: '9px',
         letterSpacing: '3px',
-        color: '#3d5870',
+        color: '#5a7a94',
         textTransform: 'uppercase',
       }}>
         SHARE //

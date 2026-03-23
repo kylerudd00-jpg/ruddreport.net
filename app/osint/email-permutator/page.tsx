@@ -155,7 +155,7 @@ export default function EmailPermutator() {
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
@@ -167,22 +167,22 @@ export default function EmailPermutator() {
         .form-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
         .form-field { display: flex; flex-direction: column; }
-        .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; padding: 10px 20px 0; background: #0a1520; border: 1px solid rgba(30,158,255,0.18); border-bottom: none; }
+        .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; padding: 10px 20px 0; background: #0a1520; border: 1px solid rgba(30,158,255,0.18); border-bottom: none; }
         .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.18); border-top: none; outline: none; padding: 10px 20px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 1px; width: 100%; transition: border-color 0.3s; }
         .form-input:focus { border-color: rgba(30,158,255,0.5); }
-        .form-input::placeholder { color: #3d5870; }
+        .form-input::placeholder { color: #5a7a94; }
         .domain-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 16px; }
         .btn-row { display: flex; gap: 12px; margin-top: 16px; }
         .generate-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 14px 36px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
         .generate-btn:hover { background: #4db8ff; }
-        .generate-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
-        .reset-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .generate-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
+        .reset-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .reset-btn:hover { color: #7a9bb5; border-color: rgba(30,158,255,0.3); }
         .results-wrap { padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
         .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; }
+        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; }
         .count-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; background: rgba(30,158,255,0.1); border: 1px solid rgba(30,158,255,0.2); padding: 4px 12px; }
-        .copy-all-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .copy-all-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .copy-all-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
         .copy-all-btn.copied { color: #1e9eff; border-color: #1e9eff; }
         .email-list { display: flex; flex-direction: column; gap: 2px; }
@@ -193,7 +193,7 @@ export default function EmailPermutator() {
         .email-row.primary-row .email-text { color: #e8f4ff; }
         .primary-badge { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.3); padding: 2px 8px; margin-left: 12px; white-space: nowrap; }
         .email-left { display: flex; align-items: center; min-width: 0; }
-        .copy-icon-btn { background: none; border: 1px solid rgba(30,158,255,0.1); color: #3d5870; padding: 6px 10px; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; transition: all 0.25s; white-space: nowrap; flex-shrink: 0; margin-left: 16px; }
+        .copy-icon-btn { background: none; border: 1px solid rgba(30,158,255,0.1); color: #5a7a94; padding: 6px 10px; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; transition: all 0.25s; white-space: nowrap; flex-shrink: 0; margin-left: 16px; }
         .copy-icon-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
         .copy-icon-btn.active { color: #1e9eff; border-color: #1e9eff; }
         .tips-panel { background: #070d12; border: 1px solid rgba(30,158,255,0.15); padding: 24px 28px; }
@@ -206,7 +206,7 @@ export default function EmailPermutator() {
         .top-bar-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }

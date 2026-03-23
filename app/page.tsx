@@ -90,7 +90,7 @@ export default function Home() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
-        :root { --accent: #1e9eff; --accent-dim: rgba(30,158,255,0.25); --accent-glow: rgba(30,158,255,0.06); --border: rgba(30,158,255,0.12); --border-bright: rgba(30,158,255,0.35); --bg: #030608; --bg-card: #070d12; --bg-card-hover: #0a1520; --bg-secondary: #070d12; --silver: #c0cfe0; --text-primary: #d8e8f5; --text-secondary: #7a9bb5; --text-muted: #3d5870; --red: #ff3a3a; }
+        :root { --accent: #1e9eff; --accent-dim: rgba(30,158,255,0.25); --accent-glow: rgba(30,158,255,0.06); --border: rgba(30,158,255,0.12); --border-bright: rgba(30,158,255,0.35); --bg: #030608; --bg-card: #070d12; --bg-card-hover: #0a1520; --bg-secondary: #070d12; --silver: #c0cfe0; --text-primary: #d8e8f5; --text-secondary: #7a9bb5; --text-muted: #5a7a94; --red: #ff3a3a; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: var(--bg); color: var(--text-primary); font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
@@ -211,9 +211,7 @@ export default function Home() {
         .cat-filter-btn:hover { border-color: rgba(30,158,255,0.5); color: var(--silver); }
         .cat-filter-btn--active { background: rgba(30,158,255,0.1); border-color: rgba(30,158,255,0.5); color: var(--accent); }
         /* OSINT HUB SECTION */
-        .osint-section { background: #050c14; border-top: 1px solid rgba(30,158,255,0.12); border-bottom: 1px solid rgba(30,158,255,0.12); padding: 80px 40px; position: relative; overflow: hidden; }
-        .osint-section::before { content: ''; position: absolute; top: -100px; left: -100px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(30,158,255,0.04) 0%, transparent 65%); pointer-events: none; }
-        .osint-section::after { content: ''; position: absolute; bottom: -80px; right: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(30,158,255,0.03) 0%, transparent 65%); pointer-events: none; }
+        .osint-section { background: #050c14; border-top: 1px solid rgba(30,158,255,0.12); border-bottom: 1px solid rgba(30,158,255,0.12); padding: 80px 40px; }
         .osint-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
         .osint-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 48px; }
         .osint-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
@@ -254,7 +252,7 @@ export default function Home() {
         .osint-view-all:hover { background: rgba(30,158,255,0.06); border-color: rgba(30,158,255,0.25); }
         .creds-strip { border-top: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.08); padding: 14px 40px; background: rgba(3,6,8,0.7); }
         .creds-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 24px; }
-        .creds-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; white-space: nowrap; }
+        .creds-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; white-space: nowrap; }
         .creds-items { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
         .cred-item { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #7a9bb5; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
         .cred-dot { width: 4px; height: 4px; border-radius: 50%; background: #1e9eff; opacity: 0.5; }
@@ -367,7 +365,7 @@ export default function Home() {
             The Rudd
             <span className="accent-word">Report</span>
           </h1>
-          <p className="hero-subtitle">Unclassified intelligence. Strategic analysis on cybersecurity, national security, geopolitics, and the forces reshaping the global order.</p>
+          <p className="hero-subtitle">Independent writing on cybersecurity, national security, and geopolitics.</p>
           <div className="hero-tags">
             {CATEGORIES.map(cat => (
               <button
@@ -391,7 +389,7 @@ export default function Home() {
 
       {/* TICKER */}
       <div className="ticker-wrap">
-        <div className="ticker-label">INTEL FEED</div>
+        <div className="ticker-label">LATEST</div>
         <div className="ticker-track">
           {[...ARTICLES, ...ARTICLES].map((a, i) => (
             <div className="ticker-item" key={i}>{a.title}</div>
@@ -419,16 +417,16 @@ export default function Home() {
             <div>
               <div className="osint-eyebrow">
                 <div className="osint-eyebrow-line" />
-                <div className="osint-eyebrow-text">Open Source Intelligence</div>
+                <div className="osint-eyebrow-text">Tools</div>
               </div>
               <div className="osint-title">The OSINT <span>Hub</span></div>
-              <p className="osint-sub" style={{marginTop: '14px'}}>38 free intelligence tools for corporate research, network analysis, economic intelligence, and real-time situational awareness. No accounts, no API keys, no cost.</p>
+              <p className="osint-sub" style={{marginTop: '14px'}}>38 free tools covering companies, networks, live tracking, and more. No account needed.</p>
               <div className="osint-stats" style={{marginBottom: '28px'}} ref={statsRef}>
                 <div className="osint-stat"><div className="osint-stat-num">{toolCount}</div><div className="osint-stat-label">Live Tools</div></div>
                 <div className="osint-stat"><div className="osint-stat-num">{catCount}</div><div className="osint-stat-label">Categories</div></div>
                 <div className="osint-stat"><div className="osint-stat-num">Free</div><div className="osint-stat-label">No Sign-Up</div></div>
               </div>
-              <a href="/osint" className="osint-cta">Enter OSINT Hub <ChevronRight size={14} /></a>
+              <a href="/osint" className="osint-cta">Browse Tools <ChevronRight size={14} /></a>
             </div>
             <div className="osint-right">
               <div className="osint-router-label">Quick Investigate — paste anything</div>
@@ -449,7 +447,7 @@ export default function Home() {
                   className="osint-router-btn"
                   onClick={() => { const q = osintQuery.trim(); if (q) window.location.href = `/osint?q=${encodeURIComponent(q)}`; }}
                 >
-                  Investigate →
+                  Search →
                 </button>
               </div>
               <div className="osint-router-hint">
@@ -491,8 +489,8 @@ export default function Home() {
         <div className="section-inner">
           <div className="section-header reveal">
             <div>
-              <div className="section-label">Latest Intelligence</div>
-              <div className="section-title">Featured Analysis</div>
+              <div className="section-label">Latest</div>
+              <div className="section-title">Featured</div>
             </div>
             <a href="/articles" className="section-link">View All Reports →</a>
           </div>
@@ -500,7 +498,7 @@ export default function Home() {
             {!currentFeatured ? (
               <div className="no-articles">No reports published yet</div>
             ) : (
-            <a href={`/articles/${currentFeatured.slug}`} className="article-card featured-card reveal">
+            <a href={`/articles/${currentFeatured.slug}`} className="article-card featured-card reveal" style={{gridTemplateColumns: '1fr'}}>
               <div>
                 <div className="card-meta">
                   <div className="card-category" style={{color: getCategoryColor(currentFeatured.category), borderColor: `${getCategoryColor(currentFeatured.category)}40`, background: `${getCategoryColor(currentFeatured.category)}10`}}>{currentFeatured.category}</div>
@@ -509,9 +507,9 @@ export default function Home() {
                 <div className="card-title">{currentFeatured.title}</div>
                 <div className="card-excerpt">{currentFeatured.excerpt}</div>
                 <div className="card-footer">
-                  <div className="card-read">Read Analysis →</div>
-                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: relevanceColor(currentFeatured.relevance), letterSpacing: '2px' }}>
-                    ■ {currentFeatured.relevance} RELEVANCE
+                  <div className="card-read">Read →</div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', color: relevanceColor(currentFeatured.relevance), letterSpacing: '2px' }}>
+                    {currentFeatured.relevance}
                   </div>
                 </div>
                 {featured.length > 1 && (
@@ -521,46 +519,6 @@ export default function Home() {
                     ))}
                   </div>
                 )}
-              </div>
-              <div className="featured-visual">
-                <div className="featured-visual-inner">
-                  <svg className="globe-svg" viewBox="0 0 200 200" fill="none">
-                    {/* Outer glow ring */}
-                    <circle cx="100" cy="100" r="82" stroke="#1e9eff" strokeWidth="0.3" opacity="0.15"/>
-                    {/* Main sphere */}
-                    <circle cx="100" cy="100" r="80" stroke="#1e9eff" strokeWidth="0.75" strokeDasharray="4 4"/>
-                    {/* Longitude lines */}
-                    <ellipse cx="100" cy="100" rx="80" ry="27" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="3 4" opacity="0.5"/>
-                    <ellipse cx="100" cy="100" rx="80" ry="55" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="3 4" opacity="0.4"/>
-                    {/* Latitude lines */}
-                    <ellipse cx="100" cy="100" rx="30" ry="80" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="3 3" opacity="0.5"/>
-                    <ellipse cx="100" cy="100" rx="62" ry="80" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="3 3" opacity="0.4"/>
-                    {/* Equator — solid */}
-                    <ellipse cx="100" cy="100" rx="80" ry="18" stroke="#1e9eff" strokeWidth="0.6" opacity="0.35"/>
-                    {/* Poles */}
-                    <line x1="100" y1="20" x2="100" y2="180" stroke="#1e9eff" strokeWidth="0.4" strokeDasharray="2 4" opacity="0.25"/>
-                    {/* Node points */}
-                    <circle cx="58" cy="68" r="3" fill="#1e9eff" opacity="0.9"/>
-                    <circle cx="142" cy="78" r="3" fill="#1e9eff" opacity="0.9"/>
-                    <circle cx="118" cy="132" r="2.5" fill="#ff3a3a" opacity="0.9"/>
-                    <circle cx="75" cy="118" r="2" fill="#1e9eff" opacity="0.7"/>
-                    <circle cx="148" cy="108" r="2" fill="#1e9eff" opacity="0.7"/>
-                    <circle cx="90" cy="52" r="2" fill="#ffaa00" opacity="0.8"/>
-                    {/* Connection lines */}
-                    <line x1="58" y1="68" x2="142" y2="78" stroke="#1e9eff" strokeWidth="0.5" opacity="0.4" strokeDasharray="2 3"/>
-                    <line x1="142" y1="78" x2="118" y2="132" stroke="#ff3a3a" strokeWidth="0.5" opacity="0.4" strokeDasharray="2 3"/>
-                    <line x1="58" y1="68" x2="75" y2="118" stroke="#1e9eff" strokeWidth="0.5" opacity="0.3" strokeDasharray="2 3"/>
-                    <line x1="142" y1="78" x2="148" y2="108" stroke="#1e9eff" strokeWidth="0.5" opacity="0.3" strokeDasharray="2 3"/>
-                    <line x1="90" y1="52" x2="58" y2="68" stroke="#ffaa00" strokeWidth="0.5" opacity="0.3" strokeDasharray="2 3"/>
-                    {/* Pulse rings on red node */}
-                    <circle cx="118" cy="132" r="6" stroke="#ff3a3a" strokeWidth="0.5" opacity="0.4"/>
-                    <circle cx="118" cy="132" r="10" stroke="#ff3a3a" strokeWidth="0.3" opacity="0.2"/>
-                    {/* Center cross */}
-                    <line x1="96" y1="100" x2="104" y2="100" stroke="#1e9eff" strokeWidth="0.75" opacity="0.6"/>
-                    <line x1="100" y1="96" x2="100" y2="104" stroke="#1e9eff" strokeWidth="0.75" opacity="0.6"/>
-                  </svg>
-                </div>
-                <div className="visual-label">Strategic Mapping Active</div>
               </div>
             </a>
 
@@ -576,10 +534,10 @@ export default function Home() {
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                    <div className="card-read">Read Analysis →</div>
-                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'9px',letterSpacing:'2px',color:'#3d5870'}}>{getReadingTime(a.content)} MIN</div>
+                    <div className="card-read">Read →</div>
+                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'9px',letterSpacing:'2px',color:'#5a7a94'}}>{getReadingTime(a.content)} MIN</div>
                   </div>
-                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>{a.relevance}</div>
                 </div>
               </a>
             ))}
@@ -613,7 +571,7 @@ export default function Home() {
                   onChange={e => setSearchQuery(e.target.value)}
                 />
                 {searchQuery && (
-                  <button onClick={() => setSearchQuery('')} style={{ background: 'none', border: 'none', color: '#3d5870', cursor: 'pointer', padding: '0 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px' }}>✕</button>
+                  <button onClick={() => setSearchQuery('')} style={{ background: 'none', border: 'none', color: '#5a7a94', cursor: 'pointer', padding: '0 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px' }}>✕</button>
                 )}
               </div>
             </div>
@@ -632,9 +590,9 @@ export default function Home() {
                 <div className="card-footer">
                   <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
                     <div className="card-read">Read →</div>
-                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'9px',letterSpacing:'2px',color:'#3d5870'}}>{getReadingTime(a.content)} MIN</div>
+                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'9px',letterSpacing:'2px',color:'#5a7a94'}}>{getReadingTime(a.content)} MIN</div>
                   </div>
-                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>■ {a.relevance}</div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>{a.relevance}</div>
                 </div>
               </a>
             ))}
@@ -647,8 +605,8 @@ export default function Home() {
           <div className="footer-top">
             <div>
               <div className="footer-brand-name">The Rudd Report</div>
-              <div className="footer-brand-tag">Independent Strategic Analysis</div>
-              <p className="footer-desc">Unclassified analysis on the intelligence, security, and geopolitical forces shaping our world.</p>
+              <div className="footer-brand-tag">Independent Analysis</div>
+              <p className="footer-desc">Independent coverage of security, intelligence, and world affairs.</p>
             </div>
             <div>
               <div className="footer-col-title">Coverage</div>

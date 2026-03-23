@@ -21,7 +21,7 @@ export async function GET() {
   <channel>
     <title>The Rudd Report</title>
     <link>${base}</link>
-    <description>Unclassified intelligence. Strategic analysis on cybersecurity, national security, geopolitics, and the forces reshaping the global order.</description>
+    <description>Independent writing on cybersecurity, national security, and geopolitics.</description>
     <language>en-us</language>
     <atom:link href="${base}/feed.xml" rel="self" type="application/rss+xml" />
     <image>

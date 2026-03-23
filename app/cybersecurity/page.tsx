@@ -17,7 +17,7 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
         .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: #1e9eff; transform: scaleX(0); transition: transform 0.3s; }
         .nav-links a:hover { color: #1e9eff; }
         .nav-links a:hover::after { transform: scaleX(1); }
-        .nav-status { display: flex; align-items: center; gap: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; color: #3d5870; letter-spacing: 2px; }
+        .nav-status { display: flex; align-items: center; gap: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; color: #5a7a94; letter-spacing: 2px; }
         .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #1e9eff;  animation: pulse 2s infinite; }
         .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
         .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
@@ -36,7 +36,7 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
         .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 72px); font-weight: 700; color: #c0cfe0; letter-spacing: -0.5px; line-height: 1.05; margin-bottom: 12px; }
         .hero-tagline { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 28px; }
         .hero-blurb { font-size: 16px; font-weight: 400; color: #9ab0c4; line-height: 1.9; margin-bottom: 24px; }
-        .hero-note { font-size: 14px; font-weight: 400; line-height: 1.8; padding: 20px 24px; border-left: 2px solid #1e9eff; background: rgba(30,158,255,0.04); font-style: italic; color: #3d5870; }
+        .hero-note { font-size: 14px; font-weight: 400; line-height: 1.8; padding: 20px 24px; border-left: 2px solid #1e9eff; background: rgba(30,158,255,0.04); font-style: italic; color: #5a7a94; }
         .hero-icon-box { display: flex; align-items: center; justify-content: center; opacity: 0.1; color: #1e9eff; }
         .articles { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
         .articles-header { margin-bottom: 48px; padding-bottom: 20px; border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -49,7 +49,7 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
         .article-card:hover::before { transform: scaleX(1); }
         .card-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
         .card-category { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid #0d5a9e; padding: 3px 10px; background: rgba(30,158,255,0.08); }
-        .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
         .card-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #d8e8f5; line-height: 1.2; margin-bottom: 12px; transition: color 0.3s; }
         .article-card:hover .card-title { color: #1e9eff; }
         .card-excerpt { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.8; margin-bottom: 24px; }
@@ -59,10 +59,10 @@ function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, icon, a
         .threat-med { color: #ffaa00; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
         .threat-low { color: #1e9eff; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; }
         .coming-soon { text-align: center; padding: 60px 40px; border: 1px dashed rgba(30,158,255,0.2); margin-top: 2px; }
-        .coming-soon-text { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; }
+        .coming-soon-text { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 80px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @media (max-width: 768px) {

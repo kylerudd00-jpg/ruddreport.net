@@ -27,10 +27,10 @@ const STYLE = `
   .hero-title span { color: #1e9eff; }
   .hero-sub { font-size: 14px; font-weight: 400; color: #7a9bb5; line-height: 1.7; }
   .tool-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 40px 80px; }
-  .panel-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
+  .panel-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
   textarea { width: 100%; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.15); color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 12px; padding: 14px; outline: none; resize: vertical; min-height: 100px; line-height: 1.6; transition: border-color 0.2s; }
   textarea:focus { border-color: rgba(30,158,255,0.4); }
-  textarea::placeholder { color: #3d5870; }
+  textarea::placeholder { color: #5a7a94; }
   .btn-row { display: flex; gap: 8px; margin: 12px 0 24px; }
   .btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 10px 22px; border: 1px solid rgba(30,158,255,0.4); background: transparent; color: #1e9eff; cursor: pointer; font-weight: 700; transition: all 0.2s; }
   .btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
@@ -43,10 +43,10 @@ const STYLE = `
   .jwt-section-name { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; color: #9ab0c4; text-transform: uppercase; }
   .jwt-json { font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.8; white-space: pre-wrap; word-break: break-all; }
   .jwt-sig { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 24px; margin-top: 2px; }
-  .sig-val { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #3d5870; word-break: break-all; margin-top: 8px; }
+  .sig-val { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a7a94; word-break: break-all; margin-top: 8px; }
   .claims-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 2px; }
   .claim-cell { background: rgba(3,6,8,0.5); padding: 12px 16px; }
-  .claim-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 5px; }
+  .claim-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 5px; }
   .claim-val { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #9ab0c4; }
   .claim-val.expired { color: #ff4444; }
   .claim-val.valid { color: #22cc66; }
@@ -179,7 +179,7 @@ export default function JWTDecoder() {
                   <div className="jwt-section-header">
                     <div className="jwt-section-dot" style={{ background: dotColors[2] }} />
                     <div className="jwt-section-name">Signature</div>
-                    <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '1px', color: '#3d5870', marginLeft: '8px' }}>(not verified — signature check requires the secret key)</span>
+                    <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '1px', color: '#5a7a94', marginLeft: '8px' }}>(not verified — signature check requires the secret key)</span>
                   </div>
                   <div className="sig-val">{sig}</div>
                 </div>

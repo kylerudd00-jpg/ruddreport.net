@@ -85,7 +85,7 @@ export default function SocialFootprint() {
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
@@ -98,13 +98,13 @@ export default function SocialFootprint() {
         .form-row { display: flex; gap: 12px; margin-bottom: 16px; }
         .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
         .form-field { display: flex; flex-direction: column; gap: 6px; flex: 1; }
-        .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d8e8f5; letter-spacing: 1px; transition: border-color 0.2s; }
         .form-input:focus { border-color: rgba(30,158,255,0.6); }
         .form-input::placeholder { color: #2d4055; }
         .run-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 14px 36px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
         .run-btn:hover { background: #4db8ff; }
-        .run-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
+        .run-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.1); }
         .section-wrap { margin-bottom: 48px; }
         .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
@@ -121,9 +121,9 @@ export default function SocialFootprint() {
         .service-desc { font-family: 'Barlow', sans-serif; font-size: 11px; color: #7a9bb5; line-height: 1.6; flex: 1; }
         .service-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); background: none; padding: 8px 16px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
         .service-btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
-        .service-btn.disabled { color: #3d5870; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
+        .service-btn.disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
         .target-display { margin-bottom: 32px; padding: 16px 20px; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.2); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-        .target-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .target-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .target-value { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #1e9eff; letter-spacing: 2px; }
         .news-list { display: flex; flex-direction: column; gap: 2px; }
         .news-item { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.2s; }
@@ -132,9 +132,9 @@ export default function SocialFootprint() {
         .news-title a { color: #c0cfe0; text-decoration: none; transition: color 0.2s; }
         .news-title a:hover { color: #1e9eff; }
         .news-meta { display: flex; gap: 20px; flex-wrap: wrap; }
-        .news-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+        .news-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
         .news-meta-item span { color: #7a9bb5; }
-        .news-status { padding: 32px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #3d5870; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); }
+        .news-status { padding: 32px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); }
         .dork-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .dork-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); border-left: 3px solid #9966ff; padding: 20px; display: flex; flex-direction: column; gap: 8px; transition: border-color 0.3s; }
         .dork-card:hover { border-color: rgba(153,102,255,0.3); }
@@ -142,10 +142,10 @@ export default function SocialFootprint() {
         .dork-query { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a9bb5; letter-spacing: 0.5px; line-height: 1.5; word-break: break-all; }
         .dork-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #9966ff; border: 1px solid rgba(153,102,255,0.3); background: none; padding: 7px 16px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
         .dork-btn:hover { background: rgba(153,102,255,0.08); border-color: #9966ff; }
-        .dork-btn.disabled { color: #3d5870; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
+        .dork-btn.disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         @media (max-width: 1100px) {
           .services-grid { grid-template-columns: repeat(2, 1fr); }
           .services-grid-5 { grid-template-columns: repeat(3, 1fr); }

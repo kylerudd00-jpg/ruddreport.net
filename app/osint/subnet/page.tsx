@@ -30,19 +30,19 @@ const STYLE = `
   .input-row { display: flex; gap: 2px; margin-bottom: 2px; }
   .cidr-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 16px; padding: 14px 18px; outline: none; transition: border-color 0.2s; letter-spacing: 1px; }
   .cidr-input:focus { border-color: rgba(30,158,255,0.5); }
-  .cidr-input::placeholder { color: #3d5870; font-size: 13px; letter-spacing: 0; }
+  .cidr-input::placeholder { color: #5a7a94; font-size: 13px; letter-spacing: 0; }
   .calc-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 14px 28px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
   .calc-btn:hover { background: #4db3ff; }
-  .hint { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1.5px; color: #3d5870; margin-top: 10px; }
+  .hint { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1.5px; color: #5a7a94; margin-top: 10px; }
   .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 16px; }
   .result-cell { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 20px 22px; }
-  .result-cell-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 8px; }
+  .result-cell-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 8px; }
   .result-cell-val { font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #c0cfe0; }
   .result-cell.accent .result-cell-val { color: #1e9eff; }
   .result-cell.full { grid-column: 1 / -1; }
   .error-box { background: rgba(255,60,60,0.06); border: 1px solid rgba(255,60,60,0.2); padding: 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1px; color: #ff6666; margin-top: 16px; }
   .quick-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-  .quick-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #3d5870; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 5px 12px; cursor: pointer; transition: all 0.2s; }
+  .quick-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 5px 12px; cursor: pointer; transition: all 0.2s; }
   .quick-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
   @media (max-width: 768px) { nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; } .hero { padding: 40px 20px 30px; } .tool-wrap { padding: 24px 20px 60px; } .result-grid { grid-template-columns: 1fr; } .input-row { flex-direction: column; } }
 `;

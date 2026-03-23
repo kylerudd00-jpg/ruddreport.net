@@ -28,10 +28,10 @@ const NAV_STYLE = `
   .hero-sub { font-size: 14px; font-weight: 400; color: #7a9bb5; line-height: 1.7; }
   .tool-wrap { max-width: 900px; margin: 0 auto; padding: 40px 40px 80px; }
   .panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 28px; margin-bottom: 2px; }
-  .panel-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
+  .panel-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
   textarea { width: 100%; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.15); color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 14px; outline: none; resize: vertical; min-height: 140px; line-height: 1.6; transition: border-color 0.2s; }
   textarea:focus { border-color: rgba(30,158,255,0.4); }
-  textarea::placeholder { color: #3d5870; }
+  textarea::placeholder { color: #5a7a94; }
   .btn-row { display: flex; gap: 8px; margin-top: 16px; }
   .btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 10px 22px; border: 1px solid rgba(30,158,255,0.4); background: transparent; color: #1e9eff; cursor: pointer; font-weight: 700; transition: all 0.2s; }
   .btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
@@ -40,7 +40,7 @@ const NAV_STYLE = `
   .btn-sm { padding: 7px 16px; font-size: 10px; }
   .error-msg { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1px; color: #ff4444; margin-top: 10px; }
   .info-row { display: flex; gap: 20px; margin-top: 12px; flex-wrap: wrap; }
-  .info-chip { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #3d5870; }
+  .info-chip { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a7a94; }
   .info-chip span { color: #9ab0c4; }
   @media (max-width: 768px) { nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; } .hero { padding: 40px 20px 30px; } .tool-wrap { padding: 24px 20px 60px; } }
 `;

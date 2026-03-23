@@ -142,7 +142,7 @@ export default function EmailHeaderAnalyzer() {
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
@@ -152,36 +152,36 @@ export default function EmailHeaderAnalyzer() {
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
         .input-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
-        .input-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
+        .input-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
         .header-textarea { width: 100%; background: #0a1520; border: 1px solid rgba(30,158,255,0.3); color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.6; padding: 16px 20px; resize: vertical; outline: none; min-height: 200px; }
-        .header-textarea::placeholder { color: #3d5870; }
+        .header-textarea::placeholder { color: #5a7a94; }
         .btn-row { display: flex; gap: 12px; margin-top: 16px; }
         .analyze-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
         .analyze-btn:hover { background: #4db8ff; }
-        .reset-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .reset-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .reset-btn:hover { color: #7a9bb5; border-color: rgba(30,158,255,0.3); }
         .results-wrap { padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
-        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
+        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .auth-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .auth-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px 24px; }
-        .auth-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 8px; }
+        .auth-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 8px; }
         .auth-value { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
         .summary-row { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 14px 20px; }
-        .summary-key { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 4px; }
+        .summary-key { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 4px; }
         .summary-val { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #c0cfe0; word-break: break-all; }
         .hop-list { display: flex; flex-direction: column; gap: 2px; }
         .hop-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 16px 20px; display: grid; grid-template-columns: 32px 1fr; gap: 16px; align-items: start; }
-        .hop-num { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: #3d5870; }
+        .hop-num { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: #5a7a94; }
         .hop-from { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #c0cfe0; margin-bottom: 4px; }
         .hop-by { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a9bb5; margin-bottom: 4px; }
         .hop-ip { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #1e9eff; margin-bottom: 4px; }
-        .hop-ts { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #3d5870; }
+        .hop-ts { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #5a7a94; }
         .ip-lookup { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #1e9eff; text-decoration: none; margin-left: 12px; }
         .ip-lookup:hover { color: #4db8ff; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
@@ -319,7 +319,7 @@ export default function EmailHeaderAnalyzer() {
             )}
 
             {hops.length === 0 && (
-              <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', letterSpacing: '2px', color: '#3d5870'}}>
+              <div style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', letterSpacing: '2px', color: '#5a7a94'}}>
                 No Received headers found — paste the full email header block
               </div>
             )}

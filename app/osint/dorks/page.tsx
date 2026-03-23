@@ -217,7 +217,7 @@ export default function DorkBuilder() {
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
 
         /* ── Hero ── */
@@ -234,17 +234,17 @@ export default function DorkBuilder() {
         .target-row { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; padding: 20px 24px; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.25); }
         .target-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; white-space: nowrap; }
         .target-input { flex: 1; background: none; border: none; outline: none; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
-        .target-input::placeholder { color: #3d5870; }
-        .target-hint { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; white-space: nowrap; }
+        .target-input::placeholder { color: #5a7a94; }
+        .target-hint { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; white-space: nowrap; }
 
         .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
         .field-block { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 20px 24px; }
         .field-block.full { grid-column: 1 / -1; }
-        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
         .field-label-op { color: #1e9eff; font-size: 10px; }
         .field-input { width: 100%; background: none; border: none; border-bottom: 1px solid rgba(30,158,255,0.15); outline: none; padding: 8px 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; transition: border-color 0.3s; }
         .field-input:focus { border-bottom-color: #1e9eff; }
-        .field-input::placeholder { color: #3d5870; font-size: 11px; }
+        .field-input::placeholder { color: #5a7a94; font-size: 11px; }
         .field-select { width: 100%; background: #0a1520; border: none; border-bottom: 1px solid rgba(30,158,255,0.15); outline: none; padding: 8px 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; cursor: pointer; transition: border-color 0.3s; appearance: none; }
         .field-select:focus { border-bottom-color: #1e9eff; }
         .field-select option { background: #0a1520; }
@@ -254,7 +254,7 @@ export default function DorkBuilder() {
         .preview-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
         .preview-label::after { content: ''; flex: 1; height: 1px; background: rgba(30,158,255,0.15); }
         .preview-query { font-family: 'IBM Plex Mono', monospace; font-size: clamp(13px, 1.5vw, 16px); color: #c0cfe0; line-height: 1.7; word-break: break-all; min-height: 52px; user-select: all; cursor: text; }
-        .preview-query.empty { color: #3d5870; font-size: 12px; letter-spacing: 1px; }
+        .preview-query.empty { color: #5a7a94; font-size: 12px; letter-spacing: 1px; }
 
         /* ── Actions ── */
         .actions-row { display: flex; gap: 2px; }
@@ -280,14 +280,14 @@ export default function DorkBuilder() {
         .template-cat { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
         .template-name { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 1px; margin-bottom: 8px; }
         .template-desc { font-family: 'Barlow', sans-serif; font-size: 12px; color: #5a7a94; line-height: 1.6; margin-bottom: 14px; }
-        .template-preview { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #3d5870; letter-spacing: 0.5px; word-break: break-all; line-height: 1.6; }
+        .template-preview { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a7a94; letter-spacing: 0.5px; word-break: break-all; line-height: 1.6; }
         .template-apply { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-top: 14px; opacity: 0; transition: opacity 0.25s; }
         .template-card:hover .template-apply { opacity: 1; }
 
         /* ── Footer ── */
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 0; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         /* ── Mobile ── */

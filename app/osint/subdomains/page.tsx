@@ -57,7 +57,7 @@ export default function SubdomainScanner() {
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1000px; margin: 0 auto; }
@@ -69,30 +69,30 @@ export default function SubdomainScanner() {
         .search-wrap { padding: 40px; max-width: 1000px; margin: 0 auto; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
-        .search-input::placeholder { color: #3d5870; }
+        .search-input::placeholder { color: #5a7a94; }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #33ffaa; }
-        .search-btn:disabled { background: #0d3322; color: #3d5870; cursor: not-allowed; }
+        .search-btn:disabled { background: #0d3322; color: #5a7a94; cursor: not-allowed; }
         .results { max-width: 1000px; margin: 0 auto; padding: 0 40px 80px; }
         .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .results-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .results-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .results-meta span { color: #1e9eff; }
         .results-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .filter-box { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); padding: 10px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d8e8f5; letter-spacing: 1px; outline: none; width: 240px; }
-        .filter-box::placeholder { color: #3d5870; }
-        .copy-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 10px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
+        .filter-box::placeholder { color: #5a7a94; }
+        .copy-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 10px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
         .copy-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
         .copy-btn.copied { color: #1e9eff; border-color: #1e9eff; }
         .subdomain-table { width: 100%; border-collapse: collapse; }
-        .subdomain-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(30,158,255,0.12); background: rgba(30,158,255,0.03); }
+        .subdomain-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(30,158,255,0.12); background: rgba(30,158,255,0.03); }
         .subdomain-table td { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #c0cfe0; padding: 10px 16px; border-bottom: 1px solid rgba(30,158,255,0.05); letter-spacing: 0.5px; word-break: break-all; }
         .subdomain-table tr:hover td { background: rgba(30,158,255,0.03); }
         .subdomain-name { color: #1e9eff; }
         .subdomain-wildcard { color: #ffaa00; }
-        .date-cell { color: #3d5870; font-size: 10px; white-space: nowrap; }
+        .date-cell { color: #5a7a94; font-size: 10px; white-space: nowrap; }
         .error-msg { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff3a3a; padding: 20px 0; text-transform: uppercase; line-height: 1.8; }
         .loading-wrap { display: flex; align-items: center; gap: 16px; padding: 40px 0; }
-        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; animation: blink 1.5s infinite; }
+        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; animation: blink 1.5s infinite; }
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
         .loading-bars span { width: 3px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
         .loading-bars span:nth-child(1) { animation-delay: 0s; }
@@ -100,10 +100,10 @@ export default function SubdomainScanner() {
         .loading-bars span:nth-child(3) { animation-delay: 0.3s; }
         .loading-bars span:nth-child(4) { animation-delay: 0.45s; }
         .loading-bars span:nth-child(5) { animation-delay: 0.6s; }
-        .info-box { background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.15); padding: 16px 20px; margin-bottom: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; line-height: 1.8; }
+        .info-box { background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.15); padding: 16px 20px; margin-bottom: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; line-height: 1.8; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @keyframes loadBar { 0%, 100% { height: 4px; } 50% { height: 20px; } }
@@ -229,7 +229,7 @@ export default function SubdomainScanner() {
                   {filtered.map((s: any, i: number) => (
                     <tr key={i}>
                       <td className={s.name.startsWith('*') ? 'subdomain-wildcard' : 'subdomain-name'}>{s.name}</td>
-                      <td style={{color:'#3d5870', fontSize:'10px'}}>{s.issuer.replace(/^.*CN=/, '').split(',')[0] || '—'}</td>
+                      <td style={{color:'#5a7a94', fontSize:'10px'}}>{s.issuer.replace(/^.*CN=/, '').split(',')[0] || '—'}</td>
                       <td className="date-cell">{s.notBefore ? new Date(s.notBefore).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'}) : '—'}</td>
                       <td className="date-cell">{s.notAfter ? new Date(s.notAfter).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'}) : '—'}</td>
                     </tr>

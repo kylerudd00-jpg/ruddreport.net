@@ -42,14 +42,14 @@ export default function Image() {
         </div>
         {/* Subtitle */}
         <div style={{ fontFamily: 'sans-serif', fontSize: 22, color: '#7a9bb5', lineHeight: 1.5, maxWidth: 720 }}>
-          Unclassified intelligence. Strategic analysis on cybersecurity, national security, geopolitics, and the forces reshaping the global order.
+          Independent writing on cybersecurity, national security, and geopolitics.
         </div>
         {/* Bottom bar */}
         <div style={{ position: 'absolute', bottom: 48, left: 80, right: 80, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: 'sans-serif', fontSize: 14, color: '#3d5870', letterSpacing: 2 }}>ruddreport.net</span>
+          <span style={{ fontFamily: 'sans-serif', fontSize: 14, color: '#5a7a94', letterSpacing: 2 }}>ruddreport.net</span>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
             {['Cybersecurity', 'Intelligence', 'Geopolitics'].map(cat => (
-              <span key={cat} style={{ fontFamily: 'sans-serif', fontSize: 11, color: '#3d5870', letterSpacing: 2, border: '1px solid rgba(30,158,255,0.2)', padding: '4px 10px' }}>{cat.toUpperCase()}</span>
+              <span key={cat} style={{ fontFamily: 'sans-serif', fontSize: 11, color: '#5a7a94', letterSpacing: 2, border: '1px solid rgba(30,158,255,0.2)', padding: '4px 10px' }}>{cat.toUpperCase()}</span>
             ))}
           </div>
         </div>

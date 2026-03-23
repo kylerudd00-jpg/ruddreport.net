@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "The Rudd Report",
-  description: "Unclassified intelligence. Strategic analysis on cybersecurity, national security, geopolitics, and the forces reshaping the global order.",
+  description: "Independent writing on cybersecurity, national security, and geopolitics.",
   metadataBase: new URL('https://ruddreport.net'),
   icons: {
     icon: '/icon.svg',

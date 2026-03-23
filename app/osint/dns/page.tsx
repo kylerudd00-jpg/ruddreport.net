@@ -52,7 +52,7 @@ export default function DNSIntel() {
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
@@ -64,20 +64,20 @@ export default function DNSIntel() {
         .search-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
-        .search-input::placeholder { color: #3d5870; }
+        .search-input::placeholder { color: #5a7a94; }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
+        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .results { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
         .tabs { display: flex; gap: 2px; margin-bottom: 2px; }
-        .tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 10px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 10px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .tab:hover { color: #1e9eff; }
         .tab.active { color: #1e9eff; border-color: #1e9eff; background: rgba(30,158,255,0.08); }
         .intel-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
         .intel-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 28px; }
         .intel-card.full { grid-column: 1 / -1; }
         .intel-card.highlight { border-color: rgba(30,158,255,0.2); background: #0a1f18; }
-        .intel-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
+        .intel-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
         .intel-value { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #1e9eff; margin-bottom: 4px; }
         .intel-value.blue { color: #1e9eff; }
         .intel-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
@@ -91,21 +91,21 @@ export default function DNSIntel() {
         .record-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); }
         .record-header { padding: 16px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .record-type-badge { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 4px 12px; border: 1px solid; }
-        .record-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .record-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .record-rows { display: flex; flex-direction: column; }
         .record-row { padding: 12px 24px; border-bottom: 1px solid rgba(30,158,255,0.04); display: grid; grid-template-columns: 80px 60px 1fr; gap: 16px; align-items: start; }
         .record-row:last-child { border-bottom: none; }
-        .record-name { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #3d5870; letter-spacing: 1px; word-break: break-all; }
-        .record-ttl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #3d5870; }
+        .record-name { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a7a94; letter-spacing: 1px; word-break: break-all; }
+        .record-ttl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a7a94; }
         .record-data { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #c0cfe0; letter-spacing: 1px; word-break: break-all; line-height: 1.6; }
         .domain-header { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 24px 28px; margin-bottom: 2px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
         .domain-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; }
         .record-count-pills { display: flex; gap: 6px; flex-wrap: wrap; }
         .count-pill { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; padding: 3px 10px; border: 1px solid; }
-        .raw-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #3d5870; margin-bottom: 8px; word-break: break-all; letter-spacing: 1px; }
+        .raw-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a7a94; margin-bottom: 8px; word-break: break-all; letter-spacing: 1px; }
         .error-msg { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff3a3a; padding: 20px 0; text-transform: uppercase; }
         .loading-wrap { display: flex; align-items: center; gap: 16px; padding: 40px 0; }
-        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; animation: blink 1.5s infinite; }
+        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; animation: blink 1.5s infinite; }
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
         .loading-bars span { width: 3px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
         .loading-bars span:nth-child(1) { animation-delay: 0s; }
@@ -115,7 +115,7 @@ export default function DNSIntel() {
         .loading-bars span:nth-child(5) { animation-delay: 0.6s; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         @keyframes loadBar { 0%, 100% { height: 4px; } 50% { height: 20px; } }
@@ -269,7 +269,7 @@ export default function DNSIntel() {
                   {!result.intelligence.emailProvider && !result.intelligence.dnsProvider && result.intelligence.services.length === 0 && !result.intelligence.spfDecoded && !result.intelligence.dmarcDecoded && (
                     <div className="intel-card full">
                       <div className="intel-label">Intelligence</div>
-                      <div style={{fontFamily:'IBM Plex Mono', fontSize:'11px', color:'#3d5870', letterSpacing:'2px'}}>Limited intelligence available. Check Raw Records tab.</div>
+                      <div style={{fontFamily:'IBM Plex Mono', fontSize:'11px', color:'#5a7a94', letterSpacing:'2px'}}>Limited intelligence available. Check Raw Records tab.</div>
                     </div>
                   )}
                 </div>

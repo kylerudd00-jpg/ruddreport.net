@@ -66,10 +66,10 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         </div>
         {/* Bottom */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative' }}>
-          <span style={{ fontFamily: 'sans-serif', fontSize: 14, color: '#3d5870', letterSpacing: 2 }}>
+          <span style={{ fontFamily: 'sans-serif', fontSize: 14, color: '#5a7a94', letterSpacing: 2 }}>
             ruddreport.net · Kyle Rudd
           </span>
-          <span style={{ fontFamily: 'sans-serif', fontSize: 12, color: '#3d5870', letterSpacing: 2, border: '1px solid rgba(30,158,255,0.15)', padding: '4px 12px' }}>
+          <span style={{ fontFamily: 'sans-serif', fontSize: 12, color: '#5a7a94', letterSpacing: 2, border: '1px solid rgba(30,158,255,0.15)', padding: '4px 12px' }}>
             READ FULL ANALYSIS →
           </span>
         </div>

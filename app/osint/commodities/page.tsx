@@ -247,7 +247,7 @@ export default function CommodityMonitor() {
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .inner { max-width: 1200px; margin: 0 auto; }
 
@@ -267,7 +267,7 @@ export default function CommodityMonitor() {
         .section-line { width: 32px; height: 1px; background: #1e9eff; }
         .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
-        .section-subtitle { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; margin-bottom: 24px; }
+        .section-subtitle { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-bottom: 24px; }
         .reference-badge { display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 5px 14px; text-transform: uppercase; background: rgba(255,170,0,0.04); margin-bottom: 24px; }
         .reference-badge::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ffaa00; animation: blink 2s infinite; }
 
@@ -279,9 +279,9 @@ export default function CommodityMonitor() {
         .commodity-cat { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
         .commodity-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #d8e8f5; letter-spacing: 1px; margin-bottom: 10px; }
         .commodity-price { font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 500; color: #1e9eff; margin-bottom: 2px; letter-spacing: -0.5px; }
-        .commodity-unit { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 12px; }
+        .commodity-unit { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
         .commodity-note { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; margin-bottom: 14px; border-left: 2px solid rgba(30,158,255,0.2); padding-left: 10px; }
-        .commodity-link { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px; }
+        .commodity-link { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px; }
         .commodity-link:hover { color: #1e9eff; }
         .commodity-link::after { content: '↗'; font-size: 11px; }
 
@@ -297,7 +297,7 @@ export default function CommodityMonitor() {
         .crypto-change.pos { color: #4ade80; }
         .crypto-change.neg { color: #ff4444; }
         .crypto-note { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; border-left: 2px solid rgba(30,158,255,0.2); padding-left: 10px; }
-        .crypto-loading { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; animation: blink 1.5s infinite; text-transform: uppercase; }
+        .crypto-loading { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; animation: blink 1.5s infinite; text-transform: uppercase; }
         .crypto-error { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff6b35; text-transform: uppercase; }
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; margin-bottom: 8px; }
         .loading-bars span { width: 3px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
@@ -328,7 +328,7 @@ export default function CommodityMonitor() {
         /* ── Footer ── */
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 20px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         /* ── Animations ── */
@@ -613,7 +613,7 @@ export default function CommodityMonitor() {
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: '10px',
                 letterSpacing: '2px',
-                color: '#3d5870',
+                color: '#5a7a94',
                 marginBottom: '0',
               }}
             >
@@ -646,7 +646,7 @@ export default function CommodityMonitor() {
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: '10px',
                 letterSpacing: '2px',
-                color: '#3d5870',
+                color: '#5a7a94',
               }}
             >
               Prices are reference data — verify with live sources

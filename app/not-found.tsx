@@ -13,7 +13,7 @@ export default function NotFound() {
         .label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 6px; color: #ff3a3a; text-transform: uppercase; margin-bottom: 32px; }
         .title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(18px, 3vw, 28px); font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
         .message { font-size: 16px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 500px; margin-bottom: 12px; }
-        .submessage { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #3d5870; letter-spacing: 2px; margin-bottom: 48px; }
+        .submessage { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5a7a94; letter-spacing: 2px; margin-bottom: 48px; }
         .btn { display: inline-block; padding: 14px 32px; border: 1px solid rgba(30,158,255,0.4); font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #1e9eff; text-decoration: none; text-transform: uppercase; transition: all 0.3s; }
         .btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; box-shadow: 0 0 20px rgba(30,158,255,0.2); }
         @keyframes flicker {

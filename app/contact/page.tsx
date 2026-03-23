@@ -43,14 +43,14 @@ export default function Contact() {
         .card-action { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
 
         .email-section { border-top: 1px solid rgba(30,158,255,0.12); padding-top: 40px; }
-        .email-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 16px; }
+        .email-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; }
         .email-link { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #c0cfe0; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; transition: color 0.3s; }
         .email-link:hover { color: #1e9eff; }
-        .email-note { margin-top: 12px; font-size: 13px; color: #3d5870; line-height: 1.7; }
+        .email-note { margin-top: 12px; font-size: 13px; color: #5a7a94; line-height: 1.7; }
 
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: auto; }
         .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
 
         @media (max-width: 768px) {
           nav { padding: 0 16px; }

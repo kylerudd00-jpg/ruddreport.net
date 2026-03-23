@@ -101,7 +101,7 @@ export default function ReverseImageSearch() {
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
@@ -113,13 +113,13 @@ export default function ReverseImageSearch() {
         .main-wrap { max-width: 1100px; margin: 0 auto; padding: 40px; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
         .search-input { flex: 1; background: none; border: none; outline: none; padding: 18px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
-        .search-input::placeholder { color: #3d5870; }
+        .search-input::placeholder { color: #5a7a94; }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 18px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
+        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .open-all-btn { margin-top: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; display: inline-block; }
         .open-all-btn:hover { background: #4db8ff; }
-        .open-all-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
+        .open-all-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.1); }
         .engines-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 60px; }
         .engine-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 28px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.3s; position: relative; overflow: hidden; }
@@ -135,7 +135,7 @@ export default function ReverseImageSearch() {
         .engine-btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
         .engine-btn.manual-btn { color: #ffaa00; border-color: rgba(255,170,0,0.3); }
         .engine-btn.manual-btn:hover { background: rgba(255,170,0,0.08); border-color: #ffaa00; }
-        .engine-btn.disabled { color: #3d5870; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
+        .engine-btn.disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
         .tips-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 32px; }
         .tips-header { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
         .tips-list { display: flex; flex-direction: column; gap: 12px; }
@@ -144,7 +144,7 @@ export default function ReverseImageSearch() {
         .tip-text { font-family: 'Barlow', sans-serif; font-size: 13px; color: #9ab0c4; line-height: 1.7; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @media (max-width: 900px) {
           .engines-grid { grid-template-columns: repeat(2, 1fr); }
@@ -228,7 +228,7 @@ export default function ReverseImageSearch() {
                 >
                   {openingAll ? 'Opening...' : 'Search All Engines →'}
                 </button>
-                <span style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: '#3d5870', textTransform: 'uppercase'}}>
+                <span style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: '#5a7a94', textTransform: 'uppercase'}}>
                   Opens all in new tabs with 300ms delay
                 </span>
               </div>

@@ -82,7 +82,7 @@ const STYLE = `
   .page-wrap { padding-top: 70px; min-height: 100vh; display: flex; flex-direction: column; }
   .page-content { flex: 1; }
   .back-bar { padding: 14px 40px; border-bottom: 1px solid rgba(30,158,255,0.07); }
-  .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+  .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
   .back-link:hover { color: #1e9eff; }
   .hero { padding: 56px 40px 36px; border-bottom: 1px solid rgba(30,158,255,0.1); }
   .hero-inner { max-width: 1100px; margin: 0 auto; }
@@ -95,26 +95,26 @@ const STYLE = `
   .search-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 40px 0; }
   .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: rgba(10,21,32,0.8); }
   .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #c0cfe0; letter-spacing: 2px; }
-  .search-input::placeholder { color: #3d5870; letter-spacing: 1px; }
+  .search-input::placeholder { color: #5a7a94; letter-spacing: 1px; }
   .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #000; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; white-space: nowrap; }
   .search-btn:hover { background: #4db3ff; }
-  .search-btn:disabled { background: #0d2233; color: #3d5870; cursor: not-allowed; }
+  .search-btn:disabled { background: #0d2233; color: #5a7a94; cursor: not-allowed; }
   .history-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-  .history-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+  .history-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
   .history-chip { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #7a9bb5; background: rgba(30,158,255,0.06); border: 1px solid rgba(30,158,255,0.15); padding: 3px 10px; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; }
   .history-chip:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
   .status-row { max-width: 1100px; margin: 24px auto 0; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .status-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
   .status-text.scanning { animation: blink 1.2s infinite; }
-  .status-meta { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
-  .copy-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 6px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+  .status-meta { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+  .copy-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 6px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
   .copy-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
   .copy-btn.copied { color: #00ff88; border-color: rgba(0,255,136,0.4); }
   .progress-wrap { max-width: 1100px; margin: 10px auto 0; padding: 0 40px; }
   .progress-track { height: 2px; background: rgba(30,158,255,0.08); width: 100%; }
   .progress-fill { height: 2px; background: linear-gradient(90deg, #1e9eff, #00ff88); transition: width 0.4s ease; }
   .filters { max-width: 1100px; margin: 20px auto 0; padding: 0 40px; display: flex; gap: 2px; flex-wrap: wrap; }
-  .filter-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+  .filter-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
   .filter-btn:hover { color: #c0cfe0; border-color: rgba(30,158,255,0.3); }
   .filter-btn.active { color: #1e9eff; border-color: rgba(30,158,255,0.5); background: rgba(30,158,255,0.06); }
   .filter-btn.found-filter.active { color: #00ff88; border-color: rgba(0,255,136,0.5); background: rgba(0,255,136,0.05); }
@@ -160,12 +160,12 @@ const STYLE = `
   .popup-hint:hover .popup-hint-tooltip { display: block; }
   .manual-note { font-family: 'Barlow', sans-serif; font-size: 13px; color: #4a6880; line-height: 1.6; max-width: 700px; }
   .legend { max-width: 1100px; margin: 0 auto; padding: 16px 40px 16px; display: flex; gap: 20px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: #3d5870; text-transform: uppercase; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: #5a7a94; text-transform: uppercase; }
   .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
   footer { border-top: 1px solid rgba(30,158,255,0.1); padding: 32px 40px; background: #040810; }
   .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-  .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
-  .footer-class { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+  .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+  .footer-class { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
   @media (max-width: 900px) { .results-grid { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 768px) {
@@ -383,7 +383,7 @@ export default function UsernameHunter() {
             <div className="legend">
               <div className="legend-item"><div className="legend-dot" style={{background:'#00ff88'}} />Confirmed found</div>
               <div className="legend-item"><div className="legend-dot" style={{background:'#ffaa00'}} />Blocked — verify manually</div>
-              <div className="legend-item"><div className="legend-dot" style={{background:'#3d5870'}} />Not found</div>
+              <div className="legend-item"><div className="legend-dot" style={{background:'#5a7a94'}} />Not found</div>
               <div className="legend-item"><div className="legend-dot" style={{background:'#1e6090'}} />Manual check required</div>
             </div>
             {!scanning && manualResults.length > 0 && (
@@ -428,7 +428,7 @@ export default function UsernameHunter() {
         <footer>
           <div className="footer-inner">
             <div className="footer-copy">© 2026 The Rudd Report</div>
-            <div className="footer-class">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
       </div>

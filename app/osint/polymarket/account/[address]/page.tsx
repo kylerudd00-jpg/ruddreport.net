@@ -107,7 +107,7 @@ export default function AccountPage() {
 
         .page-wrap { padding-top: 70px; min-height: 100vh; background: #030608; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; align-items: center; justify-content: space-between; }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .sync-status { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
         .sync-status.live { color: #1e9eff; }
@@ -117,11 +117,11 @@ export default function AccountPage() {
         .profile-hero-inner { max-width: 1100px; margin: 0 auto; }
         .profile-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 12px; }
         .profile-name { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(24px, 3vw, 42px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
-        .profile-addr { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #3d5870; letter-spacing: 2px; margin-bottom: 24px; }
+        .profile-addr { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5a7a94; letter-spacing: 2px; margin-bottom: 24px; }
 
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 0; }
         .stat-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px 24px; }
-        .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 10px; }
+        .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
         .stat-value { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #d8e8f5; letter-spacing: 1px; }
         .stat-value.green { color: #1e9eff; }
         .stat-value.blue { color: #1e9eff; }
@@ -131,18 +131,18 @@ export default function AccountPage() {
         .content-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 40px 80px; }
 
         .tabs { display: flex; gap: 2px; margin-bottom: 24px; }
-        .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 10px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 10px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .tab-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
         .tab-btn.active { color: #1e9eff; border-color: rgba(30,158,255,0.5); background: rgba(30,158,255,0.06); }
 
         .table-wrap { border: 1px solid rgba(30,158,255,0.1); overflow: hidden; }
         .table-header { display: grid; padding: 12px 16px; background: rgba(10,21,32,0.8); border-bottom: 1px solid rgba(30,158,255,0.1); }
-        .table-header span { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .table-header span { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
         .table-row { display: grid; padding: 14px 16px; border-bottom: 1px solid rgba(30,158,255,0.06); background: #0a1520; transition: background 0.2s; }
         .table-row:hover { background: #0f1e2e; }
         .table-row:last-child { border-bottom: none; }
         .cell-main { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; color: #c0cfe0; line-height: 1.3; }
-        .cell-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #3d5870; margin-top: 4px; letter-spacing: 1px; }
+        .cell-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a7a94; margin-top: 4px; letter-spacing: 1px; }
         .cell-value { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; color: #d8e8f5; text-align: right; }
         .cell-value.green { color: #1e9eff; }
         .cell-value.blue { color: #1e9eff; }
@@ -152,13 +152,13 @@ export default function AccountPage() {
         .trades-grid { grid-template-columns: 1fr 80px 100px 100px; }
         .activity-grid { grid-template-columns: 1fr 120px 100px; }
 
-        .empty-state { padding: 48px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; background: #0a1520; border: 1px solid rgba(30,158,255,0.08); }
+        .empty-state { padding: 48px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; background: #0a1520; border: 1px solid rgba(30,158,255,0.08); }
 
         .loading-pulse { animation: blink 1s infinite; }
 
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }

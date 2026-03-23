@@ -98,12 +98,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         /* HEADER */
         .article-header { padding: 120px 40px 60px; border-bottom: 1px solid rgba(30,158,255,0.12); background: linear-gradient(180deg, rgba(30,158,255,0.04) 0%, transparent 100%); }
         .article-header-inner { max-width: 860px; margin: 0 auto; }
-        .back-link { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; display: inline-block; margin-bottom: 32px; transition: color 0.3s; }
+        .back-link { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; display: inline-block; margin-bottom: 32px; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .article-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
         .meta-category { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 3px 10px; text-transform: uppercase; }
-        .meta-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
-        .meta-time { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
+        .meta-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
+        .meta-time { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
         .meta-sep { color: #1e2a35; }
         .article-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4.5vw, 52px); font-weight: 700; color: #c0cfe0; line-height: 1.15; margin-bottom: 24px; letter-spacing: -0.5px; }
         .article-excerpt { font-size: 18px; font-weight: 400; color: #9ab0c4; line-height: 1.7; border-left: 2px solid #1e9eff; padding-left: 20px; }
@@ -118,33 +118,33 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         .content-p { font-size: 16px; font-weight: 400; color: #b8ccdc; line-height: 1.95; margin-bottom: 22px; }
 
         /* SHARE + FOOTER */
-        .article-sign-off { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(30,158,255,0.12); font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
+        .article-sign-off { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(30,158,255,0.12); font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
 
         /* RELATED ARTICLES */
         .related { max-width: 1200px; margin: 0 auto; padding: 60px 40px 100px; border-top: 1px solid rgba(30,158,255,0.08); }
-        .related-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 4px; color: #3d5870; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+        .related-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
         .related-label::after { content: ''; flex: 1; height: 1px; background: rgba(30,158,255,0.1); }
         .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; }
         .related-card { display: block; text-decoration: none; background: rgba(10,21,32,0.5); border: 1px solid rgba(30,158,255,0.1); padding: 24px; transition: all 0.3s; }
         .related-card:hover { border-color: rgba(30,158,255,0.3); background: rgba(10,21,32,0.8); }
         .related-card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
         .related-card-cat { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .related-card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 2px; color: #3d5870; }
+        .related-card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 2px; color: #5a7a94; }
         .related-card-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #c0cfe0; line-height: 1.2; margin-bottom: 8px; transition: color 0.3s; }
         .related-card:hover .related-card-title { color: #fff; }
         .related-card-excerpt { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.65; }
 
         /* TOC SIDEBAR */
         .toc-sidebar { position: sticky; top: 90px; }
-        .toc-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .toc-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .toc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
-        .toc-item a { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1px; color: #3d5870; text-decoration: none; padding: 6px 0 6px 12px; border-left: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; line-height: 1.5; }
+        .toc-item a { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1px; color: #5a7a94; text-decoration: none; padding: 6px 0 6px 12px; border-left: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; line-height: 1.5; }
         .toc-item a:hover { color: #1e9eff; border-left-color: rgba(30,158,255,0.5); padding-left: 16px; }
 
         /* FOOTER */
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; }
         .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         @media (max-width: 1024px) {
@@ -218,7 +218,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(30,158,255,0.1)', border: '1px solid rgba(30,158,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Playfair Display', serif", fontSize: '18px', fontWeight: 700, color: '#1e9eff', flexShrink: 0 }}>K</div>
               <div>
                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '15px', fontWeight: 700, color: '#c0cfe0', marginBottom: '4px' }}>Kyle Rudd</div>
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '2px', color: '#3d5870', textTransform: 'uppercase' }}>Intelligence Researcher · DHS · Cambridge · ODNI IC-CAE</div>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '2px', color: '#5a7a94', textTransform: 'uppercase' }}>Intelligence Researcher · DHS · Cambridge · ODNI IC-CAE</div>
               </div>
             </div>
 

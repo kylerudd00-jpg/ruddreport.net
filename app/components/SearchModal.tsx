@@ -134,7 +134,7 @@ export default function SearchModal() {
       }}>
         {/* Search input */}
         <div style={{ display: 'flex', alignItems: 'center', borderBottom: '1px solid rgba(30,158,255,0.12)', padding: '0 20px' }}>
-          <span style={{ color: '#3d5870', fontSize: '18px', marginRight: '12px' }}>⌕</span>
+          <span style={{ color: '#5a7a94', fontSize: '18px', marginRight: '12px' }}>⌕</span>
           <input
             ref={inputRef}
             value={query}
@@ -148,7 +148,7 @@ export default function SearchModal() {
           />
           <button
             onClick={() => setOpen(false)}
-            style={{ background: 'none', border: '1px solid rgba(30,158,255,0.15)', color: '#3d5870', cursor: 'pointer', padding: '4px 8px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '1px' }}
+            style={{ background: 'none', border: '1px solid rgba(30,158,255,0.15)', color: '#5a7a94', cursor: 'pointer', padding: '4px 8px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '1px' }}
           >
             ESC
           </button>
@@ -157,20 +157,20 @@ export default function SearchModal() {
         {/* Results */}
         <div style={{ maxHeight: '480px', overflowY: 'auto' }}>
           {!query.trim() && (
-            <div style={{ padding: '32px 20px', textAlign: 'center', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase' }}>
+            <div style={{ padding: '32px 20px', textAlign: 'center', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '3px', color: '#5a7a94', textTransform: 'uppercase' }}>
               Type to search reports and tools
             </div>
           )}
 
           {showEmpty && (
-            <div style={{ padding: '32px 20px', textAlign: 'center', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase' }}>
+            <div style={{ padding: '32px 20px', textAlign: 'center', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '3px', color: '#5a7a94', textTransform: 'uppercase' }}>
               No results for "{query}"
             </div>
           )}
 
           {results.articles.length > 0 && (
             <div>
-              <div style={{ padding: '12px 20px 8px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', borderBottom: '1px solid rgba(30,158,255,0.06)' }}>
+              <div style={{ padding: '12px 20px 8px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '3px', color: '#5a7a94', textTransform: 'uppercase', borderBottom: '1px solid rgba(30,158,255,0.06)' }}>
                 Reports
               </div>
               {results.articles.map(a => (
@@ -190,10 +190,10 @@ export default function SearchModal() {
                     <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '15px', fontWeight: 700, color: '#c0cfe0', marginBottom: '3px', lineHeight: 1.2 }}>{a.title}</div>
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                       <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '2px', color: CAT_COLOR[a.category] || '#1e9eff', textTransform: 'uppercase' }}>{a.category}</span>
-                      <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '1px', color: '#3d5870' }}>{a.date}</span>
+                      <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '1px', color: '#5a7a94' }}>{a.date}</span>
                     </div>
                   </div>
-                  <div style={{ marginLeft: 'auto', color: '#3d5870', fontSize: '12px' }}>→</div>
+                  <div style={{ marginLeft: 'auto', color: '#5a7a94', fontSize: '12px' }}>→</div>
                 </a>
               ))}
             </div>
@@ -201,7 +201,7 @@ export default function SearchModal() {
 
           {results.tools.length > 0 && (
             <div>
-              <div style={{ padding: '12px 20px 8px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '3px', color: '#3d5870', textTransform: 'uppercase', borderBottom: '1px solid rgba(30,158,255,0.06)' }}>
+              <div style={{ padding: '12px 20px 8px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '3px', color: '#5a7a94', textTransform: 'uppercase', borderBottom: '1px solid rgba(30,158,255,0.06)' }}>
                 OSINT Tools
               </div>
               {results.tools.map(t => (
@@ -222,7 +222,7 @@ export default function SearchModal() {
                   </div>
                   <div>
                     <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '13px', fontWeight: 700, letterSpacing: '0.5px', color: '#c0cfe0', marginBottom: '2px' }}>{t.name}</div>
-                    <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: '11px', color: '#3d5870' }}>{t.desc}</div>
+                    <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: '11px', color: '#5a7a94' }}>{t.desc}</div>
                   </div>
                   <span style={{ marginLeft: 'auto', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '8px', letterSpacing: '2px', color: CAT_COLOR[t.cat] || '#1e9eff', textTransform: 'uppercase', border: `1px solid ${CAT_COLOR[t.cat] || '#1e9eff'}30`, padding: '2px 8px', whiteSpace: 'nowrap' }}>{t.cat}</span>
                 </a>
@@ -233,9 +233,9 @@ export default function SearchModal() {
 
         {/* Footer hint */}
         <div style={{ padding: '10px 20px', borderTop: '1px solid rgba(30,158,255,0.08)', display: 'flex', gap: '20px' }}>
-          <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '2px', color: '#3d5870' }}>↵ SELECT</span>
-          <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '2px', color: '#3d5870' }}>ESC CLOSE</span>
-          <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '2px', color: '#3d5870' }}>⌘K TOGGLE</span>
+          <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '2px', color: '#5a7a94' }}>↵ SELECT</span>
+          <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '2px', color: '#5a7a94' }}>ESC CLOSE</span>
+          <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '9px', letterSpacing: '2px', color: '#5a7a94' }}>⌘K TOGGLE</span>
         </div>
       </div>
     </div>
