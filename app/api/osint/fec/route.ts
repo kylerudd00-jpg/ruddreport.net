@@ -22,6 +22,7 @@ export async function GET(req: Request) {
       headers: { Accept: 'application/json' },
       signal: AbortSignal.timeout(15000),
     });
+    if (r.status === 429) throw new Error('FEC_RATE_LIMIT');
     if (!r.ok) throw new Error(`FEC ${r.status}`);
     const data = await r.json();
     return NextResponse.json({ results: data.results || [], pagination: data.pagination });

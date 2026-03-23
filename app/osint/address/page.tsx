@@ -301,7 +301,13 @@ export default function PersonLookup() {
                   <span className="section-count">{fecResults.length} records · employer is self-reported</span>
                 </div>
 
-                {fecError && <div className="error-state">{fecError}</div>}
+                {fecError && (
+                  <div className="error-state">
+                    {fecError === 'FEC_RATE_LIMIT'
+                      ? 'FEC rate limit hit — the demo API key only allows 40 requests/hour. Get a free key at api.data.gov/signup and add it as FEC_API_KEY in your Vercel environment variables.'
+                      : fecError}
+                  </div>
+                )}
 
                 {!fecError && fecResults.length === 0 && (
                   <div className="empty-state">No FEC campaign finance records found for {fullName}{state ? ` in ${state}` : ''}. This source only covers individuals who have donated $200+ to federal political campaigns.</div>
