@@ -1,6 +1,6 @@
 'use client';
 import { useState, useMemo, useEffect } from 'react';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, FingerprintPattern, Footprints, type LucideIcon } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, FingerprintPattern, Footprints, Car, type LucideIcon } from 'lucide-react';
 
 function detectAndRoute(raw: string) {
   const q = raw.trim();
@@ -62,6 +62,7 @@ const TOOLS: Tool[] = [
   { icon: KeyRound, name: 'JWT Decoder', desc: 'Decode JWT tokens and inspect claims client-side', href: '/osint/jwt', category: 'Utilities' },
   { icon: Binary, name: 'Base64 Tool', desc: 'Encode or decode Base64 strings — Unicode supported, client-side', href: '/osint/base64', category: 'Utilities' },
   { icon: Phone, name: 'Phone Number OSINT', desc: 'Identify carrier and line type, launch into OSINT databases', href: '/tools/phone-lookup', category: 'Utilities' },
+  { icon: Car, name: 'VIN Decoder', desc: 'Decode any vehicle VIN — make, model, year, engine, trim via NHTSA', href: '/osint/vin', category: 'Utilities' },
   // Simple High-Value Tools
   { icon: Search, name: 'Google Dork Builder', desc: 'Build advanced search operators — find exposed files, logins, leaked data', href: '/osint/dorks', category: 'Cyber' },
   { icon: AtSign, name: 'Email Permutator', desc: 'Generate every possible email format from a name + company domain', href: '/osint/email-permutator', category: 'Corporate' },
@@ -266,10 +267,10 @@ export default function OSINTHub() {
                 <div className="hero-eyebrow-text">Free Tools</div>
               </div>
               <div className="hero-title">OSINT <span>Hub</span></div>
-              <p className="hero-sub">38 free tools for researching companies, networks, people, and live events. No account required.</p>
+              <p className="hero-sub">39 free tools for researching companies, networks, people, and live events. No account required.</p>
               <div className="hero-stats">
                 <div>
-                  <div className="hero-stat-num">38</div>
+                  <div className="hero-stat-num">39</div>
                   <div className="hero-stat-label">Live Tools</div>
                 </div>
                 <div>
@@ -374,7 +375,7 @@ export default function OSINTHub() {
         <footer>
           <div className="footer-inner">
             <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
-            <div className="footer-copy">OSINT Hub · <span style={{color:'#1e9eff'}}>38 Live Tools</span></div>
+            <div className="footer-copy">OSINT Hub · <span style={{color:'#1e9eff'}}>39 Live Tools</span></div>
           </div>
         </footer>
       </div>
