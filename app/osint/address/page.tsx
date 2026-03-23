@@ -42,19 +42,6 @@ interface CourtRecord {
   docket_number?: string;
 }
 
-interface MelissaRecord {
-  NameFirst?: string;
-  NameLast?: string;
-  AddressLine1?: string;
-  AddressLine2?: string;
-  City?: string;
-  State?: string;
-  PostalCode?: string;
-  Plus4?: string;
-  PhoneNumber?: string;
-  DateOfBirth?: string;
-  Results?: string;
-}
 
 function fmt(d?: string) {
   if (!d) return '—';
@@ -78,8 +65,6 @@ export default function PersonLookup() {
 
   const [activeProfile, setActiveProfile] = useState<number | null>(null);
 
-  const [melissaRecord, setMelissaRecord] = useState<MelissaRecord | null>(null);
-  const [melissaError, setMelissaError] = useState('');
 
   const enc = (s: string) => encodeURIComponent(s);
   const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
@@ -95,16 +80,13 @@ export default function PersonLookup() {
     setFecError('');
     setCourtResults([]);
     setCourtError('');
-    setMelissaRecord(null);
-    setMelissaError('');
     setActiveProfile(null);
 
     const fullName = `${fn} ${ln}`;
 
-    const [fecRes, courtRes, melissaRes] = await Promise.allSettled([
+    const [fecRes, courtRes] = await Promise.allSettled([
       fetch(`/api/osint/fec?name=${enc(fullName)}${state ? `&state=${enc(state)}` : ''}`).then(r => r.json()),
       fetch(`/api/osint/courtlistener?q=${enc('"' + fullName + '"')}&type=r`).then(r => r.json()),
-      fetch(`/api/osint/melissa?first=${enc(fn)}&last=${enc(ln)}${state ? `&state=${enc(state)}` : ''}`).then(r => r.json()),
     ]);
 
     if (fecRes.status === 'fulfilled') {
@@ -121,13 +103,6 @@ export default function PersonLookup() {
       setCourtError('Court lookup failed');
     }
 
-    if (melissaRes.status === 'fulfilled') {
-      if (melissaRes.value.error) setMelissaError(melissaRes.value.error);
-      else setMelissaRecord(melissaRes.value.record || null);
-    } else {
-      setMelissaError('Melissa lookup failed');
-    }
-
     setLoading(false);
     setSearched(true);
   }, [firstName, lastName, state]);
@@ -136,17 +111,23 @@ export default function PersonLookup() {
   const ln = lastName.trim();
   const fullName = fn && ln ? `${fn} ${ln}` : '';
 
-  // Deduplicate FEC by city+state+zip for a cleaner profile view
+  // Deduplicate FEC by state + 5-digit zip prefix (same person may have zip+4 variants)
   const uniqueLocations = fecResults.reduce<{ city: string; state: string; zip: string; employer: string; occupation: string }[]>((acc, r) => {
-    const key = `${r.contributor_city}|${r.contributor_state}|${r.contributor_zip}`;
-    if (!acc.find(x => `${x.city}|${x.state}|${x.zip}` === key)) {
+    const zip5 = (r.contributor_zip || '').slice(0, 5);
+    const key = `${r.contributor_state}|${zip5}`;
+    const existing = acc.find(x => `${x.state}|${x.zip.slice(0, 5)}` === key);
+    if (!existing) {
       acc.push({
         city: r.contributor_city || '—',
         state: r.contributor_state || '—',
-        zip: r.contributor_zip || '—',
+        zip: zip5 || '—',
         employer: r.contributor_employer || '—',
         occupation: r.contributor_occupation || '—',
       });
+    } else {
+      // Fill in employer/occupation if the existing slot is blank
+      if (existing.employer === '—' && r.contributor_employer) existing.employer = r.contributor_employer;
+      if (existing.occupation === '—' && r.contributor_occupation) existing.occupation = r.contributor_occupation;
     }
     return acc;
   }, []);
@@ -205,12 +186,6 @@ export default function PersonLookup() {
         .section-wrap { margin-bottom: 40px; }
         .empty-state { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #3d5870; background: #0a1520; border: 1px solid rgba(30,158,255,0.06); text-align: center; }
         .error-state { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; color: #ff6060; background: rgba(255,60,60,0.04); border: 1px solid rgba(255,60,60,0.15); }
-        .melissa-card { background: #0a1520; border: 1px solid rgba(0,255,136,0.2); border-top: 3px solid #00ff88; padding: 24px 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 28px; margin-bottom: 32px; }
-        .melissa-field { display: flex; flex-direction: column; gap: 4px; }
-        .melissa-key { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; }
-        .melissa-val { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #00ff88; letter-spacing: 0.5px; }
-        .melissa-val.plain { color: #c0cfe0; }
-        .melissa-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #00ff88; border: 1px solid rgba(0,255,136,0.3); padding: 3px 8px; text-transform: uppercase; margin-bottom: 12px; }
         .disambig-banner { background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.2); padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
         .disambig-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
         .disambig-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; margin-top: 4px; }
@@ -315,62 +290,15 @@ export default function PersonLookup() {
             </button>
           </div>
 
-          {loading && <div className="loading-bar">Querying Melissa Data + FEC campaign finance + federal court records...</div>}
+          {loading && <div className="loading-bar">Querying FEC campaign finance + federal court records...</div>}
 
           {searched && !loading && (
             <>
-              {/* ── Melissa Data ── */}
-              {(melissaRecord || melissaError) && (
-                <div className="section-wrap">
-                  <div className="section-hdr">
-                    <span>Melissa Data — Verified Contact Record</span>
-                    {melissaRecord?.Results && <span className="section-count">{melissaRecord.Results}</span>}
-                  </div>
-                  {melissaError && <div className="error-state">{melissaError}{melissaError.includes('502') || melissaError.includes('Melissa') ? ' — add MELISSA_API_KEY env var to enable this source' : ''}</div>}
-                  {melissaRecord && !melissaError && (() => {
-                    const hasData = melissaRecord.AddressLine1 || melissaRecord.PhoneNumber || melissaRecord.DateOfBirth || melissaRecord.NameFirst;
-                    if (!hasData) return (
-                      <div className="empty-state">No record found for {fullName} — this person may not be in the Melissa database, or the name/state didn't match.</div>
-                    );
-                    const zip = melissaRecord.PostalCode ? (melissaRecord.Plus4 ? `${melissaRecord.PostalCode}-${melissaRecord.Plus4}` : melissaRecord.PostalCode) : '';
-                    const addrLine2 = [melissaRecord.City, melissaRecord.State, zip].filter(Boolean).join(', ');
-                    return (
-                      <div className="melissa-card">
-                        {melissaRecord.NameFirst && (
-                          <div className="melissa-field">
-                            <div className="melissa-key">Verified Name</div>
-                            <div className="melissa-val plain">{melissaRecord.NameFirst} {melissaRecord.NameLast}</div>
-                          </div>
-                        )}
-                        {melissaRecord.AddressLine1 && (
-                          <div className="melissa-field" style={{gridColumn: '1 / -1'}}>
-                            <div className="melissa-key">Address</div>
-                            <div className="melissa-val">{melissaRecord.AddressLine1}{addrLine2 ? `, ${addrLine2}` : ''}</div>
-                          </div>
-                        )}
-                        {melissaRecord.PhoneNumber && (
-                          <div className="melissa-field">
-                            <div className="melissa-key">Phone</div>
-                            <div className="melissa-val">{melissaRecord.PhoneNumber}</div>
-                          </div>
-                        )}
-                        {melissaRecord.DateOfBirth && (
-                          <div className="melissa-field">
-                            <div className="melissa-key">Date of Birth</div>
-                            <div className="melissa-val plain">{melissaRecord.DateOfBirth}</div>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })()}
-                </div>
-              )}
-
               {/* ── FEC Campaign Finance / Address Data ── */}
               <div className="section-wrap">
                 <div className="section-hdr">
                   <span>Campaign Finance Records — City, State, ZIP, Employer</span>
-                  <span className="section-count">{fecResults.length} records found</span>
+                  <span className="section-count">{fecResults.length} records · employer is self-reported</span>
                 </div>
 
                 {fecError && <div className="error-state">{fecError}</div>}
