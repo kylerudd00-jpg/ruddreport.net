@@ -1,6 +1,6 @@
 'use client';
 import { useState, useMemo, useEffect } from 'react';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, FingerprintPattern, Footprints, type LucideIcon } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, FingerprintPattern, Footprints, Car, UserSearch, Share2, type LucideIcon } from 'lucide-react';
 
 function detectAndRoute(raw: string) {
   const q = raw.trim();
@@ -71,6 +71,9 @@ const TOOLS: Tool[] = [
   { icon: FingerprintPattern, name: 'Background Check Hub', desc: 'Federal court records, criminal history, sex offender registry, voter records, incarceration', href: '/osint/background', category: 'Corporate' },
   { icon: Home, name: 'Address & Property Lookup', desc: 'Reverse address search, property ownership, county assessor, aerial imagery', href: '/osint/address', category: 'Corporate' },
   { icon: Footprints, name: 'Digital Footprint OSINT', desc: 'Social media profiles, news mentions, professional presence, Google dorks by name', href: '/osint/social-footprint', category: 'Cyber' },
+  { icon: UserSearch, name: 'Name Search', desc: 'Search WhitePages, Spokeo, FastPeopleSearch, Intelius, and 8 more simultaneously', href: '/osint/name-search', category: 'Corporate' },
+  { icon: Share2, name: 'Social Media Name Search', desc: 'Find someone on Facebook, LinkedIn, Instagram, TikTok, Twitter, and Reddit by real name', href: '/osint/social-search', category: 'Cyber' },
+  { icon: Car, name: 'VIN Decoder', desc: 'Decode any vehicle VIN — make, model, year, engine, trim via NHTSA', href: '/osint/vin', category: 'Utilities' },
   // Economic Intelligence
   { icon: DollarSign, name: 'Currency Tracker', desc: 'Live exchange rates — sanctions pressure, capital flight, currency collapse', href: '/osint/currency', category: 'Economic' },
   { icon: BarChart2, name: 'Country Economic Profile', desc: 'World Bank data — GDP, inflation, debt, trade for 200+ countries', href: '/osint/economics', category: 'Economic' },
@@ -265,10 +268,10 @@ export default function OSINTHub() {
                 <div className="hero-eyebrow-text">Free Tools</div>
               </div>
               <div className="hero-title">OSINT <span>Hub</span></div>
-              <p className="hero-sub">38 free tools for researching companies, networks, people, and live events. No account required.</p>
+              <p className="hero-sub">41 free tools for researching companies, networks, people, and live events. No account required.</p>
               <div className="hero-stats">
                 <div>
-                  <div className="hero-stat-num">38</div>
+                  <div className="hero-stat-num">41</div>
                   <div className="hero-stat-label">Live Tools</div>
                 </div>
                 <div>
@@ -373,7 +376,7 @@ export default function OSINTHub() {
         <footer>
           <div className="footer-inner">
             <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
-            <div className="footer-copy">OSINT Hub · <span style={{color:'#1e9eff'}}>38 Live Tools</span></div>
+            <div className="footer-copy">OSINT Hub · <span style={{color:'#1e9eff'}}>41 Live Tools</span></div>
           </div>
         </footer>
       </div>
