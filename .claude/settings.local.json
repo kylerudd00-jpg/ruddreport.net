@@ -53,7 +53,21 @@
       "Bash(cd C:/Users/kerud/ruddreport && vercel link --yes 2>&1)",
       "Bash(cd C:/Users/kerud/ruddreport && echo \"104598953eb956b70c158f32ca1395f478947f40\" | vercel env add AISSTREAM_API_KEY production 2>&1)",
       "Bash(cd C:/Users/kerud/ruddreport && vercel --prod 2>&1 | tail -10)",
-      "Bash(cd C:/Users/kerud/ruddreport && vercel deploy --prod 2>&1 | tail -5)"
+      "Bash(cd C:/Users/kerud/ruddreport && vercel deploy --prod 2>&1 | tail -5)",
+      "Bash(xargs wc:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:apidocs.hashnode.com)",
+      "Bash(curl:*)",
+      "Bash(git commit:*)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:moderndiplomacy.eu)",
+      "WebFetch(domain:www.postman.com)",
+      "WebFetch(domain:docs.melissa.com)",
+      "WebFetch(domain:www.mssqltips.com)",
+      "WebFetch(domain:ruddreport.net)",
+      "Bash(xargs sed:*)",
+      "Bash(sed -i 's/41 free tools for researching/38 free tools for researching/g; s/<div className=\"\"hero-stat-num\"\">41<\\\\/div>/<div className=\"\"hero-stat-num\"\">38<\\\\/div>/g; s/>41 Live Tools</>38 Live Tools</g' app/osint/page.tsx)",
+      "Bash(sed -i 's/Math.round\\(41 \\\\* eased\\)/Math.round\\(38 * eased\\)/g; s/41 free tools covering/38 free tools covering/g; s/View all 41 tools/View all 38 tools/g' app/page.tsx)"
     ]
   }
 }

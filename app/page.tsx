@@ -74,7 +74,7 @@ export default function Home() {
           step++;
           const progress = step / steps;
           const eased = 1 - Math.pow(1 - progress, 3);
-          setToolCount(Math.round(41 * eased));
+          setToolCount(Math.round(38 * eased));
           setCatCount(Math.round(6 * eased));
           if (step >= steps) clearInterval(timer);
         }, 1000 / fps);
@@ -420,7 +420,7 @@ export default function Home() {
                 <div className="osint-eyebrow-text">Tools</div>
               </div>
               <div className="osint-title">The OSINT <span>Hub</span></div>
-              <p className="osint-sub" style={{marginTop: '14px'}}>41 free tools covering companies, networks, live tracking, and more. No account needed.</p>
+              <p className="osint-sub" style={{marginTop: '14px'}}>38 free tools covering companies, networks, live tracking, and more. No account needed.</p>
               <div className="osint-stats" style={{marginBottom: '28px'}} ref={statsRef}>
                 <div className="osint-stat"><div className="osint-stat-num">{toolCount}</div><div className="osint-stat-label">Live Tools</div></div>
                 <div className="osint-stat"><div className="osint-stat-num">{catCount}</div><div className="osint-stat-label">Categories</div></div>
@@ -478,7 +478,7 @@ export default function Home() {
           </div>
 
           <a href="/osint" className="osint-view-all">
-            View all 41 tools in the OSINT Hub →
+            View all 38 tools in the OSINT Hub →
           </a>
         </div>
       </div>
