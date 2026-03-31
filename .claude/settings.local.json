@@ -67,7 +67,12 @@
       "WebFetch(domain:ruddreport.net)",
       "Bash(xargs sed:*)",
       "Bash(sed -i 's/41 free tools for researching/38 free tools for researching/g; s/<div className=\"\"hero-stat-num\"\">41<\\\\/div>/<div className=\"\"hero-stat-num\"\">38<\\\\/div>/g; s/>41 Live Tools</>38 Live Tools</g' app/osint/page.tsx)",
-      "Bash(sed -i 's/Math.round\\(41 \\\\* eased\\)/Math.round\\(38 * eased\\)/g; s/41 free tools covering/38 free tools covering/g; s/View all 41 tools/View all 38 tools/g' app/page.tsx)"
+      "Bash(sed -i 's/Math.round\\(41 \\\\* eased\\)/Math.round\\(38 * eased\\)/g; s/41 free tools covering/38 free tools covering/g; s/View all 41 tools/View all 38 tools/g' app/page.tsx)",
+      "Bash(sed -i 's/38 free tools for researching/39 free tools for researching/g; s/<div className=\"\"hero-stat-num\"\">38<\\\\/div>/<div className=\"\"hero-stat-num\"\">39<\\\\/div>/g; s/>38 Live Tools</>39 Live Tools</g' app/osint/page.tsx)",
+      "Bash(sed -i 's/Math.round\\(38 \\\\* eased\\)/Math.round\\(39 * eased\\)/g; s/38 free tools covering/39 free tools covering/g; s/View all 38 tools/View all 39 tools/g' app/page.tsx)",
+      "Bash(python3 -m json.tool)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(f''''[{m[\"\"id\"\"]}] {m[\"\"text\"\"][:120]}''''\\) for m in d[''''messages'''']]\")",
+      "Bash(node -e \"const chunks=[]; process.stdin.on\\(''''data'''',c=>chunks.push\\(c\\)\\); process.stdin.on\\(''''end'''',\\(\\)=>{ const d=JSON.parse\\(Buffer.concat\\(chunks\\)\\); d.messages.forEach\\(m=>console.log\\(''''[''''+m.id+'''']'''',m.text.slice\\(0,120\\)\\)\\); }\\)\")"
     ]
   }
 }

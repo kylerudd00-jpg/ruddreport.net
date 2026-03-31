@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SearchModal from "./components/SearchModal";
+import Nav from "./components/Nav";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Nav />
         {children}
         <SearchModal />
         <Analytics />

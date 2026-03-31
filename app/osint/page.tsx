@@ -144,13 +144,13 @@ export default function OSINTHub() {
         .hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
         .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
         .hero-eyebrow-line { width: 32px; height: 1px; background: #1e9eff; }
-        .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
+        .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
         .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 4vw, 60px); font-weight: 700; color: #c0cfe0; line-height: 1.05; margin-bottom: 14px; letter-spacing: -0.5px; }
         .hero-title span { color: #1e9eff; }
-        .hero-sub { font-size: 15px; font-weight: 400; color: #7a9bb5; line-height: 1.7; margin-bottom: 28px; }
+        .hero-sub { font-size: 16px; font-weight: 400; color: #7a9bb5; line-height: 1.7; margin-bottom: 28px; }
         .hero-stats { display: flex; gap: 32px; }
         .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: #1e9eff; }
-        .hero-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #5a7a94; text-transform: uppercase; margin-top: 2px; }
+        .hero-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1.5px; color: #5a7a94; text-transform: uppercase; margin-top: 2px; }
 
         /* ROUTER */
         .router-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 28px; }
@@ -163,25 +163,25 @@ export default function OSINTHub() {
         .router-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 13px 22px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: background 0.2s; }
         .router-btn:hover { background: #4db3ff; }
         .router-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
-        .router-chip { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #5a7a94; border: 1px solid rgba(30,158,255,0.1); padding: 3px 8px; }
+        .router-chip { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1.5px; color: #5a7a94; border: 1px solid rgba(30,158,255,0.1); padding: 4px 10px; }
         .router-chip span { color: #1e9eff; }
 
         /* FILTER BAR */
         .filter-bar { position: sticky; top: 70px; z-index: 50; background: rgba(3,6,8,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.1); }
         .filter-bar-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 0; }
-        .filter-tab { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 16px 20px; color: #5a7a90; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
+        .filter-tab { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 16px 20px; color: #5a7a90; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
         .filter-tab:hover { color: #9ab0c4; }
         .filter-tab.active { color: #fff; border-bottom-color: #1e9eff; }
-        .filter-tab-count { font-family: 'IBM Plex Mono', monospace; font-size: 9px; background: rgba(30,158,255,0.1); padding: 1px 6px; color: #1e9eff; }
+        .filter-tab-count { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: rgba(30,158,255,0.1); padding: 2px 6px; color: #1e9eff; }
         .filter-tab.active .filter-tab-count { background: rgba(30,158,255,0.2); }
         .search-wrap { margin-left: auto; padding: 10px 0; }
-        .tool-search { background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.12); color: #d8e8f5; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1px; padding: 7px 14px; outline: none; width: 200px; transition: border-color 0.2s; }
+        .tool-search { background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.12); color: #d8e8f5; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 1px; padding: 8px 14px; outline: none; width: 210px; transition: border-color 0.2s; }
         .tool-search:focus { border-color: rgba(30,158,255,0.4); }
         .tool-search::placeholder { color: #5a7a94; }
 
         /* TOOLS GRID */
         .tools-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 40px 80px; }
-        .results-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 20px; }
+        .results-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 20px; }
         .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .tool-card { position: relative; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 28px 28px 22px; text-decoration: none; display: flex; flex-direction: column; gap: 0; transition: all 0.25s; overflow: hidden; }
         .tool-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
@@ -189,21 +189,21 @@ export default function OSINTHub() {
         .tool-card:hover::after { transform: scaleX(1); }
         .tool-cat-line { height: 2px; width: 24px; margin-bottom: 16px; border-radius: 1px; }
         .tool-icon-wrap { margin-bottom: 12px; }
-        .tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0.5px; color: #c0cfe0; margin-bottom: 8px; transition: color 0.2s; line-height: 1.2; }
+        .tool-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; color: #c0cfe0; margin-bottom: 8px; transition: color 0.2s; line-height: 1.2; }
         .tool-card:hover .tool-name { color: #fff; }
-        .tool-desc { font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 400; color: #5a7a90; line-height: 1.55; flex: 1; margin-bottom: 16px; }
+        .tool-desc { font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 400; color: #5a7a90; line-height: 1.6; flex: 1; margin-bottom: 16px; }
         .tool-footer { display: flex; align-items: center; justify-content: space-between; }
-        .tool-cat-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px; border: 1px solid; }
-        .tool-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a7a94; transition: all 0.2s; }
+        .tool-cat-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border: 1px solid; }
+        .tool-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5a7a94; transition: all 0.2s; }
         .tool-card:hover .tool-arrow { color: #1e9eff; transform: translateX(3px); }
 
         .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; }
-        .empty-state-text { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
+        .empty-state-text { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
 
         .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(30,158,255,0.15), transparent); }
         footer { border-top: 1px solid rgba(30,158,255,0.1); padding: 32px 40px; background: #070d12; }
         .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: #5a7a94; }
 
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 

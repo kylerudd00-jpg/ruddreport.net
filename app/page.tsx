@@ -89,7 +89,7 @@ export default function Home() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         :root { --accent: #1e9eff; --accent-dim: rgba(30,158,255,0.25); --accent-glow: rgba(30,158,255,0.06); --border: rgba(30,158,255,0.12); --border-bright: rgba(30,158,255,0.35); --bg: #030608; --bg-card: #070d12; --bg-card-hover: #0a1520; --bg-secondary: #070d12; --silver: #c0cfe0; --text-primary: #d8e8f5; --text-secondary: #7a9bb5; --text-muted: #5a7a94; --red: #ff3a3a; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: var(--bg); color: var(--text-primary); font-family: 'Barlow', sans-serif; }
@@ -128,7 +128,7 @@ export default function Home() {
         section { padding: 100px 40px; }
         .section-inner { max-width: 1200px; margin: 0 auto; }
         .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 60px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-        .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+        .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
         .section-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--silver); letter-spacing: 0; }
         .section-link { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; color: var(--accent); text-decoration: none; text-transform: uppercase; display: flex; align-items: center; gap: 8px; transition: gap 0.3s; }
         .section-link:hover { gap: 14px; }
@@ -145,14 +145,14 @@ export default function Home() {
         .globe-svg { width: 200px; height: 200px; opacity: 0.6; animation: rotateSlow 20s linear infinite; }
         .visual-label { position: absolute; bottom: 16px; left: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; z-index: 2; opacity: 0.6; }
         .card-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
-        .card-category { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-dim); padding: 3px 10px; background: var(--accent-glow); }
-        .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--text-muted); }
+        .card-category { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-dim); padding: 4px 10px; background: var(--accent-glow); }
+        .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--text-muted); }
         .card-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1.2; letter-spacing: -0.3px; margin-bottom: 16px; transition: color 0.3s; }
         .article-card:hover .card-title { color: var(--accent); }
         .featured-card .card-title { font-size: 42px; line-height: 1.1; }
         .card-excerpt { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.75; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
-        .card-read { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+        .card-read { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
         .visual-label { position: absolute; bottom: 16px; left: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; z-index: 2; opacity: 0.6; }
         .rotate-dots { display: flex; gap: 8px; margin-top: 16px; }
         .rotate-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(30,158,255,0.2); cursor: pointer; transition: background 0.3s; border: 1px solid rgba(30,158,255,0.3); }
@@ -192,7 +192,7 @@ export default function Home() {
         .footer-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
         .footer-links a:hover { color: var(--accent); }
         .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Barlow', sans-serif; font-size: 12px; color: var(--text-muted); }
+        .footer-copy { font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--text-muted); }
         .footer-copy span { color: var(--text-secondary); }
         .no-articles { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; color: var(--text-muted); text-align: center; padding: 60px 20px; border: 1px solid var(--border); grid-column: 1 / -1; }
         .articles-toolbar { border-top: 1px solid rgba(30,158,255,0.12); border-bottom: 1px solid rgba(30,158,255,0.12); margin-bottom: 24px; background: rgba(7,13,18,0.6); }
@@ -210,6 +210,29 @@ export default function Home() {
         .cat-filter-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border: 1px solid rgba(30,158,255,0.2); background: transparent; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
         .cat-filter-btn:hover { border-color: rgba(30,158,255,0.5); color: var(--silver); }
         .cat-filter-btn--active { background: rgba(30,158,255,0.1); border-color: rgba(30,158,255,0.5); color: var(--accent); }
+        /* ALADDIN BRIEF BANNER */
+        .aladdin-banner { position: relative; background: #040a0f; border-top: 1px solid rgba(255,170,0,0.2); border-bottom: 1px solid rgba(255,170,0,0.2); overflow: hidden; }
+        .aladdin-banner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(255,170,0,0.05) 0%, transparent 70%); pointer-events: none; }
+        .aladdin-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; align-items: stretch; }
+        .aladdin-badge { background: #ffaa00; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 28px; gap: 6px; flex-shrink: 0; }
+        .aladdin-badge-title { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 900; color: #000; letter-spacing: 3px; writing-mode: vertical-rl; transform: rotate(180deg); text-transform: uppercase; }
+        .aladdin-body { flex: 1; padding: 28px 36px; border-left: 1px solid rgba(255,170,0,0.12); }
+        .aladdin-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #ffaa00; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .aladdin-live { width: 6px; height: 6px; border-radius: 50%; background: #ffaa00; animation: aladdin-pulse 1.5s ease-in-out infinite; flex-shrink: 0; }
+        @keyframes aladdin-pulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,170,0,0.4); } 50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(255,170,0,0); } }
+        .aladdin-heading { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; margin-bottom: 6px; }
+        .aladdin-heading span { color: #ffaa00; }
+        .aladdin-desc { font-family: 'Barlow', sans-serif; font-size: 13px; color: #7a9bb5; line-height: 1.6; }
+        .aladdin-cta { display: flex; align-items: center; padding: 28px 36px; border-left: 1px solid rgba(255,170,0,0.12); flex-shrink: 0; }
+        .aladdin-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #000; background: #ffaa00; padding: 12px 24px; text-decoration: none; transition: background 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+        .aladdin-btn:hover { background: #ffc300; }
+        @media (max-width: 768px) {
+          .aladdin-inner { flex-direction: column; }
+          .aladdin-badge { flex-direction: row; writing-mode: horizontal-tb; transform: none; padding: 14px 20px; gap: 10px; }
+          .aladdin-badge-title { writing-mode: horizontal-tb; transform: none; font-size: 10px; }
+          .aladdin-body { padding: 20px; border-left: none; border-top: 1px solid rgba(255,170,0,0.12); }
+          .aladdin-cta { padding: 16px 20px; border-left: none; border-top: 1px solid rgba(255,170,0,0.12); }
+        }
         /* OSINT HUB SECTION */
         .osint-section { background: #050c14; border-top: 1px solid rgba(30,158,255,0.12); border-bottom: 1px solid rgba(30,158,255,0.12); padding: 80px 40px; }
         .osint-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
@@ -225,26 +248,26 @@ export default function Home() {
         .osint-stats { display: flex; gap: 28px; }
         .osint-stat { border-left: 2px solid rgba(30,158,255,0.2); padding-left: 16px; }
         .osint-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; color: var(--accent); }
-        .osint-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; }
+        .osint-stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; }
         .osint-right { display: flex; flex-direction: column; gap: 0; }
-        .osint-router-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+        .osint-router-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
         .osint-router-row { display: flex; gap: 0; margin-bottom: 10px; }
         .osint-router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: var(--text-primary); font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 13px 16px; outline: none; transition: border-color 0.2s; }
         .osint-router-input:focus { border-color: rgba(30,158,255,0.5); }
         .osint-router-input::placeholder { color: var(--text-muted); font-size: 11px; }
         .osint-router-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: var(--accent); border: 1px solid var(--accent); color: #000; padding: 13px 22px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: background 0.2s; }
         .osint-router-btn:hover { background: #4db3ff; }
-        .osint-router-hint { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: var(--text-muted); }
+        .osint-router-hint { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1.5px; color: var(--text-muted); }
         .osint-router-hint span { color: var(--accent); }
         .osint-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .osint-cat { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px 26px; text-decoration: none; display: flex; flex-direction: column; gap: 0; transition: all 0.25s; position: relative; overflow: hidden; }
         .osint-cat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
         .osint-cat:hover { background: #0d1e30; border-color: rgba(30,158,255,0.25); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
         .osint-cat:hover::before { transform: scaleX(1); }
-        .osint-cat-count { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; margin-bottom: 12px; font-weight: 600; }
+        .osint-cat-count { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 2px; margin-bottom: 12px; font-weight: 600; }
         .osint-cat-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; margin-bottom: 8px; letter-spacing: 0.3px; transition: color 0.2s; }
         .osint-cat:hover .osint-cat-name { color: #fff; }
-        .osint-cat-desc { font-family: 'Barlow', sans-serif; font-size: 12px; color: #5a7a94; line-height: 1.55; }
+        .osint-cat-desc { font-family: 'Barlow', sans-serif; font-size: 13px; color: #5a7a94; line-height: 1.6; }
         .osint-cat-footer { display: flex; align-items: center; justify-content: flex-end; margin-top: 16px; }
         .osint-cat-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a7a94; transition: all 0.2s; }
         .osint-cat:hover .osint-cat-arrow { transform: translateX(3px); }
@@ -335,6 +358,7 @@ export default function Home() {
           <li><a href="/geopolitics">Geopolitics</a></li>
           <li><a href="/national-security">National Security</a></li>
           <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
+          <li><a href="/brief" style={{ color: '#ffaa00' }}>Aladdin Brief</a></li>
           <li><a href="/about">About</a></li>
         </ul>
         <div className="hamburger" onClick={() => document.getElementById('mobileMenu')?.classList.toggle('open')}>
@@ -351,6 +375,7 @@ export default function Home() {
         <a href="/geopolitics">Geopolitics</a>
         <a href="/national-security">National Security</a>
         <a href="/osint">OSINT Hub</a>
+        <a href="/brief">Aladdin Brief</a>
         <a href="/about">About</a>
       </div>
 
@@ -386,6 +411,26 @@ export default function Home() {
           <div className="hero-scroll-line" />
         </div>
       </section>
+
+      {/* ALADDIN BRIEF BANNER */}
+      <div className="aladdin-banner">
+        <div className="aladdin-inner">
+          <div className="aladdin-badge">
+            <div className="aladdin-badge-title">Aladdin</div>
+          </div>
+          <div className="aladdin-body">
+            <div className="aladdin-eyebrow">
+              <div className="aladdin-live" />
+              Daily Intelligence Brief // Magic Carpet
+            </div>
+            <div className="aladdin-heading">Morning <span>Brief</span></div>
+            <div className="aladdin-desc">Your daily open-source intelligence summary — geopolitics, cyber, and national security. Posted every morning at 0600.</div>
+          </div>
+          <div className="aladdin-cta">
+            <a href="/brief" className="aladdin-btn">Read Today's Brief →</a>
+          </div>
+        </div>
+      </div>
 
       {/* TICKER */}
       <div className="ticker-wrap">
