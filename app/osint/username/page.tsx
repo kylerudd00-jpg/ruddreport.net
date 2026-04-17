@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState, useEffect, useRef } from 'react';
 
 const HISTORY_KEY = 'osint_username_history';
@@ -64,7 +64,7 @@ type Result = {
 };
 
 const STYLE = `
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: #030608; color: #c0cfe0; font-family: 'Barlow', sans-serif; }
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }

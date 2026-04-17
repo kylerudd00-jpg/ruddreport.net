@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -8,8 +8,8 @@ const LINKS = [
   { href: '/intelligence', label: 'Intelligence' },
   { href: '/geopolitics', label: 'Geopolitics' },
   { href: '/national-security', label: 'National Security' },
-  { href: '/osint', label: 'OSINT Hub' },
-  { href: '/brief', label: 'Aladdin Brief' },
+  { href: '/osint', label: 'OSINT Hub', color: '#00ff88' },
+  { href: '/brief', label: 'Aladdin Brief', color: '#ffaa00' },
   { href: '/about', label: 'About' },
 ];
 
@@ -150,11 +150,12 @@ export default function Nav() {
           <span className="sn-logo-text">The Rudd <em>Report</em></span>
         </a>
         <ul className="sn-links">
-          {LINKS.map(({ href, label }) => (
+          {LINKS.map(({ href, label, color }) => (
             <li key={href}>
               <a
                 href={href}
                 className={isActive(href, pathname) ? 'sn-active' : ''}
+                style={color ? { color } : undefined}
               >
                 {label}
               </a>
@@ -170,11 +171,12 @@ export default function Nav() {
         <button className="smm-close" onClick={() => setMobileOpen(false)}>✕ Close</button>
         <div className="smm-accent-bar" />
         <a href="/" onClick={() => setMobileOpen(false)}>Home</a>
-        {LINKS.map(({ href, label }) => (
+        {LINKS.map(({ href, label, color }) => (
           <a
             key={href}
             href={href}
             className={isActive(href, pathname) ? 'sn-active' : ''}
+            style={color ? { color } : undefined}
             onClick={() => setMobileOpen(false)}
           >
             {label}

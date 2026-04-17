@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 
 const STYLE = `
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -29,7 +29,7 @@ const STYLE = `
   .tool-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 40px 80px; }
   .search-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 28px; margin-bottom: 16px; }
   .search-row { display: flex; gap: 2px; margin-bottom: 14px; }
-  .search-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 14px; padding: 13px 18px; outline: none; transition: border-color 0.2s; }
+  .search-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); color: #d8e8f5; font-family: 'Share Tech Mono', monospace; font-size: 14px; padding: 13px 18px; outline: none; transition: border-color 0.2s; }
   .search-input:focus { border-color: rgba(30,158,255,0.5); }
   .search-input::placeholder { color: #5a7a94; font-size: 12px; }
   .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 13px 28px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
@@ -41,12 +41,12 @@ const STYLE = `
   .filter-btn:hover { border-color: rgba(30,158,255,0.4); color: #9ab0c4; }
   .filter-btn.active { background: rgba(30,158,255,0.1); border-color: rgba(30,158,255,0.4); color: #1e9eff; }
   .quick-searches { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-  .quick-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a7a94; background: rgba(3,6,8,0.5); border: 1px solid rgba(30,158,255,0.08); padding: 4px 10px; cursor: pointer; transition: all 0.2s; }
+  .quick-btn { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #5a7a94; background: rgba(3,6,8,0.5); border: 1px solid rgba(30,158,255,0.08); padding: 4px 10px; cursor: pointer; transition: all 0.2s; }
   .quick-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.25); }
   .summary-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 16px; }
   .summary-cell { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 16px 20px; }
   .summary-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 6px; }
-  .summary-val { font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: #1e9eff; }
+  .summary-val { font-family: 'Share Tech Mono', monospace; font-size: 18px; color: #1e9eff; }
   .results-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .results-count { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
   .contract-list { display: flex; flex-direction: column; gap: 2px; }
@@ -55,9 +55,9 @@ const STYLE = `
   .contract-recipient { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: #c0cfe0; margin-bottom: 5px; }
   .contract-desc { font-size: 13px; font-weight: 400; color: #7a9bb5; line-height: 1.5; margin-bottom: 10px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
   .contract-meta { display: flex; gap: 16px; flex-wrap: wrap; }
-  .contract-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a7a94; }
+  .contract-meta-item { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #5a7a94; }
   .contract-meta-item span { color: #5a7a90; }
-  .contract-amount { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 500; color: #22cc66; text-align: right; white-space: nowrap; }
+  .contract-amount { font-family: 'Share Tech Mono', monospace; font-size: 20px; font-weight: 500; color: #22cc66; text-align: right; white-space: nowrap; }
   .contract-type { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #5a7a94; text-transform: uppercase; text-align: right; margin-top: 4px; }
   .error-box { background: rgba(255,60,60,0.06); border: 1px solid rgba(255,60,60,0.2); padding: 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1px; color: #ff6666; }
   .loading { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; padding: 40px 0; text-align: center; animation: pulse 1.5s infinite; }

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { getArticlesByCategory } from '@/lib/articles';
 import { Globe } from 'lucide-react';
 
@@ -6,7 +6,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { margin: 0; padding: 0; background: var(--bg-primary, #030608); color: var(--text-primary, #d8e8f5); font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -144,7 +144,7 @@ export function CategoryPage({ category, eyebrow, tagline, blurb, personalNote, 
         </div>
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
             
           </div>
         </footer>

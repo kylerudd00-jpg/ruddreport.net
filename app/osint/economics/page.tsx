@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
 
@@ -242,7 +242,7 @@ export default function CountryEconomicProfile() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
 
@@ -258,12 +258,12 @@ export default function CountryEconomicProfile() {
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
 
         /* ── Hero ── */
@@ -271,24 +271,24 @@ export default function CountryEconomicProfile() {
         .tool-hero-inner { max-width: 1200px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
-        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(30px, 5vw, 58px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; line-height: 1; }
         .tool-title span { color: #1e9eff; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
         .source-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-        .source-tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 4px 12px; text-transform: uppercase; background: rgba(30,158,255,0.06); }
+        .source-tag { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 4px 12px; text-transform: uppercase; background: rgba(30,158,255,0.06); }
 
         /* ── Search area ── */
         .search-section { max-width: 1200px; margin: 0 auto; padding: 40px 40px 0; }
-        .search-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
+        .search-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; margin-bottom: 12px; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 14px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
+        .search-input { flex: 1; background: none; border: none; outline: none; padding: 14px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
         .search-input::placeholder { color: #2a4155; }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 14px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #45aaff; }
 
         /* ── Quick-select grid ── */
-        .quick-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
+        .quick-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
         .quick-grid { display: flex; flex-wrap: wrap; gap: 6px; }
         .quick-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.18); color: #7a9bb5; padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
         .quick-btn:hover { background: rgba(30,158,255,0.12); border-color: rgba(30,158,255,0.4); color: #1e9eff; }
@@ -298,34 +298,34 @@ export default function CountryEconomicProfile() {
         .dashboard { max-width: 1200px; margin: 0 auto; padding: 40px 40px 0; }
         .country-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .country-name { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 900; color: #fff; letter-spacing: 2px; text-transform: uppercase; }
-        .country-code-badge { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.4); padding: 4px 12px; background: rgba(30,158,255,0.08); text-transform: uppercase; }
-        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; }
+        .country-code-badge { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.4); padding: 4px 12px; background: rgba(30,158,255,0.08); text-transform: uppercase; }
+        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; }
 
         /* ── Indicator cards ── */
         .indicators-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 32px; }
         .ind-card { background: #080f18; border: 1px solid rgba(30,158,255,0.1); padding: 20px; position: relative; overflow: hidden; }
         .ind-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: rgba(30,158,255,0.3); }
-        .ind-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
-        .ind-value { font-family: 'IBM Plex Mono', monospace; font-size: 22px; color: #1e9eff; font-weight: 500; margin-bottom: 4px; line-height: 1; }
+        .ind-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
+        .ind-value { font-family: 'Share Tech Mono', monospace; font-size: 22px; color: #1e9eff; font-weight: 500; margin-bottom: 4px; line-height: 1; }
         .ind-value.no-data { color: #2a4155; font-size: 14px; }
         .ind-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-        .ind-year { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
+        .ind-year { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
         .ind-trend { font-size: 14px; }
         .ind-trend.up { color: #00d68f; }
         .ind-trend.down { color: #ff4d4d; }
         .ind-trend.flat { color: #7a9bb5; }
-        .ind-unit { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #2a4155; text-transform: uppercase; margin-top: 2px; }
-        .ind-loading { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #2a4155; animation: blink 1.4s infinite; }
-        .ind-error { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a2a2a; }
+        .ind-unit { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #2a4155; text-transform: uppercase; margin-top: 2px; }
+        .ind-loading { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #2a4155; animation: blink 1.4s infinite; }
+        .ind-error { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a2a2a; }
 
         /* ── Assessment panel ── */
         .assessment-panel { background: #070d12; border: 1px solid rgba(30,158,255,0.15); margin-bottom: 32px; }
         .assessment-header { padding: 16px 24px; border-bottom: 1px solid rgba(30,158,255,0.1); display: flex; align-items: center; gap: 12px; }
         .assessment-header-icon { width: 8px; height: 8px; border-radius: 50%; background: #1e9eff; box-shadow: 0 0 10px #1e9eff; flex-shrink: 0; }
-        .assessment-header-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; }
+        .assessment-header-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; }
         .assessment-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; }
         .assessment-item { display: flex; gap: 12px; align-items: flex-start; }
-        .assessment-bullet { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #1e9eff; margin-top: 2px; flex-shrink: 0; }
+        .assessment-bullet { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #1e9eff; margin-top: 2px; flex-shrink: 0; }
         .assessment-text { font-family: 'Barlow', sans-serif; font-size: 14px; color: #9ab0c4; line-height: 1.7; }
 
         /* ── Context note ── */
@@ -333,7 +333,7 @@ export default function CountryEconomicProfile() {
         .context-note-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
         .context-note-body { font-size: 14px; color: #7a9bb5; line-height: 1.8; }
         .context-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 16px; }
-        .context-item-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-bottom: 4px; }
+        .context-item-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-bottom: 4px; }
         .context-item-text { font-size: 13px; color: #6a8499; line-height: 1.6; }
 
         /* ── Loading spinner ── */
@@ -345,17 +345,17 @@ export default function CountryEconomicProfile() {
         .loading-bars span:nth-child(3) { animation-delay: 0.3s; }
         .loading-bars span:nth-child(4) { animation-delay: 0.45s; }
         .loading-bars span:nth-child(5) { animation-delay: 0.6s; }
-        .loading-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; animation: blink 1.5s infinite; }
+        .loading-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; animation: blink 1.5s infinite; }
 
         /* ── Empty state ── */
         .empty-state { max-width: 1200px; margin: 0 auto; padding: 64px 40px; text-align: center; }
         .empty-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #2a4155; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
-        .empty-sub { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1e3048; }
+        .empty-sub { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1e3048; }
 
         /* ── Footer ── */
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         /* ── Animations ── */
@@ -494,7 +494,7 @@ export default function CountryEconomicProfile() {
         {/* ── Error ───────────────────────────────────────────────────────── */}
         {fetchError && !globalLoading && (
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 40px' }}>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '11px', letterSpacing: '3px', color: '#ff4d4d', textTransform: 'uppercase' }}>
+            <div style={{ fontFamily: 'Share Tech Mono, monospace', fontSize: '11px', letterSpacing: '3px', color: '#ff4d4d', textTransform: 'uppercase' }}>
               Error: {fetchError}
             </div>
           </div>
@@ -622,7 +622,7 @@ export default function CountryEconomicProfile() {
         <footer>
           <div className="footer-inner">
             <div className="footer-copy">
-              © 2026 <span>The Rudd Report</span> — All Rights Reserved
+              © 2026 The Rudd Report
             </div>
             <div className="footer-copy">
               Data: <span>World Bank Open Data</span> — No API key required

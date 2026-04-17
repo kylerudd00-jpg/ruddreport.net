@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 
 interface DorkFields {
@@ -194,7 +194,7 @@ export default function DorkBuilder() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
 
@@ -212,12 +212,12 @@ export default function DorkBuilder() {
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
         .mobile-menu a:hover { color: #1e9eff; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
 
         /* ── Hero ── */
@@ -225,35 +225,35 @@ export default function DorkBuilder() {
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
 
         /* ── Builder ── */
         .builder-wrap { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
         .target-row { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; padding: 20px 24px; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.25); }
-        .target-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; white-space: nowrap; }
-        .target-input { flex: 1; background: none; border: none; outline: none; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
+        .target-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; white-space: nowrap; }
+        .target-input { flex: 1; background: none; border: none; outline: none; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
         .target-input::placeholder { color: #5a7a94; }
-        .target-hint { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; white-space: nowrap; }
+        .target-hint { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; white-space: nowrap; }
 
         .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
         .field-block { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 20px 24px; }
         .field-block.full { grid-column: 1 / -1; }
-        .field-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .field-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
         .field-label-op { color: #1e9eff; font-size: 10px; }
-        .field-input { width: 100%; background: none; border: none; border-bottom: 1px solid rgba(30,158,255,0.15); outline: none; padding: 8px 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; transition: border-color 0.3s; }
+        .field-input { width: 100%; background: none; border: none; border-bottom: 1px solid rgba(30,158,255,0.15); outline: none; padding: 8px 0; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; transition: border-color 0.3s; }
         .field-input:focus { border-bottom-color: #1e9eff; }
         .field-input::placeholder { color: #5a7a94; font-size: 11px; }
-        .field-select { width: 100%; background: #0a1520; border: none; border-bottom: 1px solid rgba(30,158,255,0.15); outline: none; padding: 8px 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; cursor: pointer; transition: border-color 0.3s; appearance: none; }
+        .field-select { width: 100%; background: #0a1520; border: none; border-bottom: 1px solid rgba(30,158,255,0.15); outline: none; padding: 8px 0; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; cursor: pointer; transition: border-color 0.3s; appearance: none; }
         .field-select:focus { border-bottom-color: #1e9eff; }
         .field-select option { background: #0a1520; }
 
         /* ── Preview ── */
         .preview-block { background: #060e16; border: 1px solid rgba(30,158,255,0.2); padding: 24px; margin-bottom: 2px; }
-        .preview-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+        .preview-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
         .preview-label::after { content: ''; flex: 1; height: 1px; background: rgba(30,158,255,0.15); }
-        .preview-query { font-family: 'IBM Plex Mono', monospace; font-size: clamp(13px, 1.5vw, 16px); color: #c0cfe0; line-height: 1.7; word-break: break-all; min-height: 52px; user-select: all; cursor: text; }
+        .preview-query { font-family: 'Share Tech Mono', monospace; font-size: clamp(13px, 1.5vw, 16px); color: #c0cfe0; line-height: 1.7; word-break: break-all; min-height: 52px; user-select: all; cursor: text; }
         .preview-query.empty { color: #5a7a94; font-size: 12px; letter-spacing: 1px; }
 
         /* ── Actions ── */
@@ -277,17 +277,17 @@ export default function DorkBuilder() {
         .template-card:hover { border-color: rgba(30,158,255,0.3); background: #0d1d2e; }
         .template-card-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.25s; }
         .template-card:hover .template-card-bar { opacity: 1; }
-        .template-cat { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
+        .template-cat { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
         .template-name { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 1px; margin-bottom: 8px; }
         .template-desc { font-family: 'Barlow', sans-serif; font-size: 12px; color: #5a7a94; line-height: 1.6; margin-bottom: 14px; }
-        .template-preview { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5a7a94; letter-spacing: 0.5px; word-break: break-all; line-height: 1.6; }
-        .template-apply { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-top: 14px; opacity: 0; transition: opacity 0.25s; }
+        .template-preview { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #5a7a94; letter-spacing: 0.5px; word-break: break-all; line-height: 1.6; }
+        .template-apply { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-top: 14px; opacity: 0; transition: opacity 0.25s; }
         .template-card:hover .template-apply { opacity: 1; }
 
         /* ── Footer ── */
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 0; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         /* ── Mobile ── */
@@ -545,7 +545,7 @@ export default function DorkBuilder() {
         {/* ── Footer ── */}
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
       </div>

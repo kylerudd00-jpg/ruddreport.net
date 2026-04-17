@@ -1,10 +1,10 @@
-'use client';
+﻿'use client';
 
 export default function Contact() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; min-height: 100vh; }
 
@@ -39,7 +39,7 @@ export default function Contact() {
         .card-platform { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-bottom: 12px; }
         .card-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #c0cfe0; margin-bottom: 8px; transition: color 0.3s; }
         .contact-card:hover .card-name { color: #fff; }
-        .card-handle { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #7a9bb5; margin-bottom: 16px; }
+        .card-handle { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #7a9bb5; margin-bottom: 16px; }
         .card-action { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
 
         .email-section { border-top: 1px solid rgba(30,158,255,0.12); padding-top: 40px; }
@@ -123,7 +123,7 @@ export default function Contact() {
 
         <footer>
           <div className="footer-inner">
-            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
       </div>

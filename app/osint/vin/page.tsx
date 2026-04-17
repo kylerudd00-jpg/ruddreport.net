@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 
 interface VinResult {
@@ -71,7 +71,7 @@ export default function VinDecoder() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -85,40 +85,40 @@ export default function VinDecoder() {
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
         .main-wrap { max-width: 800px; margin: 0 auto; padding: 40px; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; margin-bottom: 16px; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 18px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #d8e8f5; letter-spacing: 3px; text-transform: uppercase; }
+        .search-input { flex: 1; background: none; border: none; outline: none; padding: 18px 20px; font-family: 'Share Tech Mono', monospace; font-size: 15px; color: #d8e8f5; letter-spacing: 3px; text-transform: uppercase; }
         .search-input::placeholder { color: #5a7a94; letter-spacing: 1px; text-transform: none; font-size: 13px; }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #000; background: #1e9eff; border: none; padding: 18px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .error-box { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.3); padding: 16px 20px; font-family: 'Barlow', sans-serif; font-size: 13px; color: #ff6b6b; margin-bottom: 24px; }
-        .loading { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; padding: 40px 0; text-align: center; }
+        .loading { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; padding: 40px 0; text-align: center; }
         .result-header { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); padding: 28px 32px; margin-bottom: 2px; }
         .result-vehicle { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 700; color: #fff; letter-spacing: 1px; margin-bottom: 6px; }
-        .result-vin { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #1e9eff; }
+        .result-vin { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #1e9eff; }
         .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
         .result-field { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 18px 22px; }
         .field-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 6px; }
-        .field-value { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #c0cfe0; }
+        .field-value { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #c0cfe0; }
         .info-box { background: #070d12; border: 1px solid rgba(30,158,255,0.1); padding: 24px; margin-top: 32px; }
         .info-title { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 2px; color: #7a9bb5; text-transform: uppercase; margin-bottom: 12px; }
         .info-text { font-size: 13px; color: #5a7a94; line-height: 1.7; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
           .back-bar { padding: 16px 20px; } .tool-hero { padding: 40px 20px; } .main-wrap { padding: 24px 20px; }

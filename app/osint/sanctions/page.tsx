@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useMemo } from 'react';
 
@@ -132,7 +132,7 @@ export default function SanctionsScreener() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
 
@@ -148,12 +148,12 @@ export default function SanctionsScreener() {
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
 
         /* ── Hero ── */
@@ -161,7 +161,7 @@ export default function SanctionsScreener() {
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .tool-eyebrow-line { width: 40px; height: 1px; background: #ff3a3a; box-shadow: 0 0 8px rgba(255,58,58,0.5); }
-        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #ff3a3a; text-transform: uppercase; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #ff3a3a; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 56px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; line-height: 1; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 700px; }
 
@@ -171,20 +171,20 @@ export default function SanctionsScreener() {
         /* ── Search ── */
         .search-section { margin-bottom: 28px; }
         .search-box { display: flex; border: 1px solid rgba(255,58,58,0.3); background: #0a1520; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 1px; }
+        .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 1px; }
         .search-input::placeholder { color: #5a7a94; }
-        .search-clear { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #5a7a94; background: none; border: none; border-left: 1px solid rgba(255,58,58,0.15); padding: 0 20px; cursor: pointer; transition: color 0.2s; white-space: nowrap; }
+        .search-clear { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #5a7a94; background: none; border: none; border-left: 1px solid rgba(255,58,58,0.15); padding: 0 20px; cursor: pointer; transition: color 0.2s; white-space: nowrap; }
         .search-clear:hover { color: #ff3a3a; }
-        .search-hint { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-top: 10px; }
+        .search-hint { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-top: 10px; }
 
         /* ── Filters ── */
         .filters-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
-        .filter-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 7px 16px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #7a9bb5; cursor: pointer; transition: all 0.2s; }
+        .filter-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 7px 16px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #7a9bb5; cursor: pointer; transition: all 0.2s; }
         .filter-btn:hover { border-color: rgba(30,158,255,0.5); color: #1e9eff; }
         .filter-btn.active { background: rgba(255,58,58,0.1); border-color: rgba(255,58,58,0.5); color: #ff3a3a; }
 
         /* ── Results count ── */
-        .results-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; }
+        .results-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; }
         .results-count span { color: #ff3a3a; }
 
         /* ── Cards grid ── */
@@ -195,41 +195,41 @@ export default function SanctionsScreener() {
         .card-inner { padding: 20px 20px 20px 24px; }
         .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
         .card-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #d8e8f5; letter-spacing: 0.5px; line-height: 1.2; }
-        .card-type-badge { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; padding: 3px 9px; text-transform: uppercase; border: 1px solid; flex-shrink: 0; margin-top: 2px; }
+        .card-type-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; padding: 3px 9px; text-transform: uppercase; border: 1px solid; flex-shrink: 0; margin-top: 2px; }
         .card-type-individual { color: #1e9eff; border-color: rgba(30,158,255,0.4); background: rgba(30,158,255,0.07); }
         .card-type-entity { color: #c084fc; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.07); }
         .card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-        .card-country { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #9ab0c4; }
-        .card-year { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
-        .card-list-badge { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; padding: 2px 8px; text-transform: uppercase; border: 1px solid; }
+        .card-country { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #9ab0c4; }
+        .card-year { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
+        .card-list-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; padding: 2px 8px; text-transform: uppercase; border: 1px solid; }
         .card-notes { font-family: 'Barlow', sans-serif; font-size: 13px; color: #7a9bb5; line-height: 1.6; margin-bottom: 10px; }
         .card-programs { display: flex; flex-wrap: wrap; gap: 5px; }
-        .program-tag { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #5a7a94; border: 1px solid rgba(61,88,112,0.3); padding: 2px 7px; text-transform: uppercase; background: rgba(61,88,112,0.05); }
+        .program-tag { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #5a7a94; border: 1px solid rgba(61,88,112,0.3); padding: 2px 7px; text-transform: uppercase; background: rgba(61,88,112,0.05); }
 
         /* ── No results ── */
         .no-results { grid-column: 1 / -1; padding: 48px; text-align: center; border: 1px solid rgba(30,158,255,0.1); background: #0a1520; }
         .no-results-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-        .no-results-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .no-results-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
 
         /* ── Official sources ── */
         .sources-section { margin-bottom: 40px; }
-        .sources-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
+        .sources-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .sources-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .source-btn { display: block; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 18px 20px; text-decoration: none; transition: all 0.2s; }
         .source-btn:hover { background: #0f1e2e; border-color: rgba(30,158,255,0.35); }
         .source-btn-label { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; color: #c0cfe0; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
         .source-btn-label span { color: #5a7a94; font-size: 12px; }
-        .source-btn-desc { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
+        .source-btn-desc { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
 
         /* ── Disclaimer ── */
         .disclaimer { background: rgba(255,170,0,0.04); border: 1px solid rgba(255,170,0,0.2); padding: 16px 20px; margin-bottom: 0; }
-        .disclaimer-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a6a3a; line-height: 1.7; }
+        .disclaimer-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a6a3a; line-height: 1.7; }
         .disclaimer-text strong { color: #ffaa00; }
 
         /* ── Footer ── */
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         /* ── Responsive ── */
@@ -425,7 +425,7 @@ export default function SanctionsScreener() {
         {/* ── Footer ── */}
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 <span>The Rudd Report</span> — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
 

@@ -1,85 +1,53 @@
-import { getArticleBySlug, getReadingTime, getTableOfContents, getRelatedArticles, ARTICLES } from '@/lib/articles';
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
-import ShareButtons from './ShareButtons';
-import ArticleNav from './ArticleNav';
-import TocSidebar from './TocSidebar';
+﻿'use client';
+import { useState, useMemo } from 'react';
+import { ARTICLES, Article, getReadingTime } from '@/lib/articles';
 
-export async function generateStaticParams() {
-  return ARTICLES.map(a => ({ slug: a.slug }));
+const CATEGORIES = [
+  'All',
+  'Cybersecurity',
+  'Intelligence',
+  'Geopolitics',
+  'National Security',
+  'Economic Security',
+] as const;
+
+const rc = (relevance: string) =>
+  relevance === 'HIGH' ? '#ff3a3a' : relevance === 'MED' ? '#ffaa00' : '#1e9eff';
+
+function getCategoryColor(cat: string): string {
+  switch (cat) {
+    case 'Cybersecurity': return '#ff4444';
+    case 'Intelligence': return '#b464ff';
+    case 'Geopolitics': return '#ffaa00';
+    case 'National Security': return '#22cc66';
+    case 'Economic Security': return '#00c9b0';
+    default: return '#1e9eff';
+  }
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
-  const article = getArticleBySlug(slug);
-  if (!article) return {};
-  const url = `https://ruddreport.net/articles/${article.slug}`;
-  return {
-    title: `${article.title} | The Rudd Report`,
-    description: article.excerpt,
-    openGraph: {
-      title: article.title,
-      description: article.excerpt,
-      url,
-      siteName: 'The Rudd Report',
-      type: 'article',
-      publishedTime: article.date,
-      authors: ['Kyle Rudd'],
-      tags: [article.category],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: article.title,
-      description: article.excerpt,
-      site: '@KyleRudd44',
-      creator: '@KyleRudd44',
-    },
-    alternates: { canonical: url },
-  };
-}
+export default function ArticlesPage() {
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
 
-export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const article = getArticleBySlug(slug);
-  if (!article) notFound();
-
-  const readingTime = getReadingTime(article.content);
-  const toc = getTableOfContents(article.content);
-  const related = getRelatedArticles(slug);
-  const relevanceColor =
-    article.relevance === 'HIGH' ? '#ff3a3a' : article.relevance === 'MED' ? '#ffaa00' : '#1e9eff';
-
-  const categoryColor = (() => {
-    switch (article.category) {
-      case 'Cybersecurity': return '#ff4444';
-      case 'Intelligence': return '#b464ff';
-      case 'Geopolitics': return '#ffaa00';
-      case 'National Security': return '#22cc66';
-      case 'Economic Security': return '#00c9b0';
-      default: return '#1e9eff';
-    }
-  })();
-
-  // Build content blocks with anchor IDs on headings
-  const blocks = article.content.split('\n\n').map((block, i) => {
-    if (block.startsWith('## ')) {
-      const text = block.slice(3).trim();
-      const id = text
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, '')
-        .trim()
-        .replace(/\s+/g, '-');
-      return { type: 'heading' as const, text, id, key: i };
-    }
-    return { type: 'paragraph' as const, text: block, key: i };
-  });
+  const filtered = useMemo(() => {
+    return ARTICLES.filter(a => {
+      const matchesCategory = activeCategory === 'All' || a.category === activeCategory;
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        !q ||
+        a.title.toLowerCase().includes(q) ||
+        a.excerpt.toLowerCase().includes(q) ||
+        a.content.toLowerCase().includes(q);
+      return matchesCategory && matchesSearch;
+    }).sort((a, b) => b.date.localeCompare(a.date));
+  }, [activeCategory, searchQuery]);
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
+        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; min-height: 100vh; }
 
         /* NAV */
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -95,51 +63,54 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
         .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
-        /* HEADER */
-        .article-header { padding: 120px 40px 60px; border-bottom: 1px solid rgba(30,158,255,0.12); background: linear-gradient(180deg, rgba(30,158,255,0.04) 0%, transparent 100%); }
-        .article-header-inner { max-width: 860px; margin: 0 auto; }
-        .back-link { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; display: inline-block; margin-bottom: 32px; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
-        .article-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
-        .meta-category { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 3px 10px; text-transform: uppercase; }
-        .meta-date { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
-        .meta-time { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
-        .meta-sep { color: #1e2a35; }
-        .article-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4.5vw, 52px); font-weight: 700; color: #c0cfe0; line-height: 1.15; margin-bottom: 24px; letter-spacing: -0.5px; }
-        .article-excerpt { font-size: 18px; font-weight: 400; color: #9ab0c4; line-height: 1.7; border-left: 2px solid #1e9eff; padding-left: 20px; }
+        /* PAGE HEADER */
+        .page-header { padding: 120px 40px 60px; background: linear-gradient(180deg, rgba(30,158,255,0.05) 0%, transparent 100%); border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .page-header-inner { max-width: 1200px; margin: 0 auto; }
+        .page-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+        .page-eyebrow::before { content: ''; display: inline-block; width: 40px; height: 1px; background: #1e9eff; }
+        .page-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 52px); font-weight: 700; color: #c0cfe0; letter-spacing: -0.5px; margin-bottom: 16px; }
+        .page-subtitle { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
+        .page-subtitle span { color: #1e9eff; }
 
-        /* BODY LAYOUT */
-        .article-body { padding: 60px 40px 80px; }
-        .article-body-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 240px; gap: 60px; align-items: start; }
+        /* CONTROLS */
+        .controls { padding: 28px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); background: rgba(3,6,8,0.85); position: sticky; top: 70px; z-index: 50; backdrop-filter: blur(20px); }
+        .controls-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+        .search-wrap { position: relative; }
+        .search-prefix { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1px; color: #5a7a94; pointer-events: none; }
+        .search-input { width: 100%; background: rgba(10,21,32,0.8); border: 1px solid rgba(30,158,255,0.15); color: #d8e8f5; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1px; padding: 11px 16px 11px 90px; outline: none; transition: border-color 0.3s; }
+        .search-input::placeholder { color: #5a7a94; }
+        .search-input:focus { border-color: rgba(30,158,255,0.4); }
+        .category-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+        .filter-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; padding: 6px 14px; border: 1px solid rgba(30,158,255,0.2); background: transparent; color: #7a9bb5; cursor: pointer; transition: all 0.2s; }
+        .filter-btn:hover { border-color: rgba(30,158,255,0.5); color: #c0cfe0; }
+        .filter-btn.active { background: rgba(30,158,255,0.12); border-color: rgba(30,158,255,0.5); color: #1e9eff; }
 
-        /* ARTICLE CONTENT */
-        .article-content { min-width: 0; }
-        .content-h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #c0cfe0; letter-spacing: -0.2px; margin: 48px 0 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.12); scroll-margin-top: 90px; }
-        .content-p { font-size: 16px; font-weight: 400; color: #b8ccdc; line-height: 1.95; margin-bottom: 22px; }
+        /* RESULTS BAR */
+        .results-bar { max-width: 1200px; margin: 0 auto; padding: 20px 40px 0; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
+        .results-bar span { color: #1e9eff; }
 
-        /* SHARE + FOOTER */
-        .article-sign-off { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(30,158,255,0.12); font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
+        /* ARTICLES GRID */
+        .articles-grid { max-width: 1200px; margin: 24px auto 0; padding: 0 40px 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1px; }
+        .article-card { display: block; text-decoration: none; background: rgba(10,21,32,0.5); border: 1px solid rgba(30,158,255,0.1); padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; }
+        .article-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(30,158,255,0.4), transparent); opacity: 0; transition: opacity 0.3s; }
+        .article-card:hover { border-color: rgba(30,158,255,0.3); background: rgba(10,21,32,0.8); }
+        .article-card:hover::before { opacity: 1; }
+        .card-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+        .card-category { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 3px 10px; background: rgba(30,158,255,0.06); }
+        .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 2px; color: #5a7a94; }
+        .card-featured { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 3px 10px; }
+        .card-title { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #c0cfe0; line-height: 1.2; margin-bottom: 10px; transition: color 0.3s; }
+        .article-card:hover .card-title { color: #fff; }
+        .card-excerpt { font-size: 14px; font-weight: 400; color: #9ab0c4; line-height: 1.75; margin-bottom: 20px; }
+        .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid rgba(30,158,255,0.08); }
+        .card-time { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
+        .card-read { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #1e9eff; transition: letter-spacing 0.3s; }
+        .article-card:hover .card-read { letter-spacing: 3px; }
 
-        /* RELATED ARTICLES */
-        .related { max-width: 1200px; margin: 0 auto; padding: 60px 40px 100px; border-top: 1px solid rgba(30,158,255,0.08); }
-        .related-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
-        .related-label::after { content: ''; flex: 1; height: 1px; background: rgba(30,158,255,0.1); }
-        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; }
-        .related-card { display: block; text-decoration: none; background: rgba(10,21,32,0.5); border: 1px solid rgba(30,158,255,0.1); padding: 24px; transition: all 0.3s; }
-        .related-card:hover { border-color: rgba(30,158,255,0.3); background: rgba(10,21,32,0.8); }
-        .related-card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-        .related-card-cat { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .related-card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 8px; letter-spacing: 2px; color: #5a7a94; }
-        .related-card-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #c0cfe0; line-height: 1.2; margin-bottom: 8px; transition: color 0.3s; }
-        .related-card:hover .related-card-title { color: #fff; }
-        .related-card-excerpt { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.65; }
-
-        /* TOC SIDEBAR */
-        .toc-sidebar { position: sticky; top: 90px; }
-        .toc-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .toc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
-        .toc-item a { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1px; color: #5a7a94; text-decoration: none; padding: 6px 0 6px 12px; border-left: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; line-height: 1.5; }
-        .toc-item a:hover { color: #1e9eff; border-left-color: rgba(30,158,255,0.5); padding-left: 16px; }
+        /* EMPTY STATE */
+        .empty-state { grid-column: 1 / -1; text-align: center; padding: 80px 20px; }
+        .empty-title { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
+        .empty-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; color: #1e2a35; }
 
         /* FOOTER */
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; }
@@ -147,128 +118,151 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         .footer-copy { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
-        @media (max-width: 1024px) {
-          .article-body-inner { grid-template-columns: 1fr; }
-          .toc-sidebar { position: static; background: rgba(10,21,32,0.5); border: 1px solid rgba(30,158,255,0.1); padding: 20px; margin-bottom: 40px; order: -1; }
-        }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
-          .article-header { padding: 90px 20px 32px; }
-          .article-excerpt { font-size: 15px; }
-          .article-body { padding: 32px 20px 48px; }
-          .article-body-inner { grid-template-columns: 1fr; }
-          .toc-sidebar { position: static; background: rgba(10,21,32,0.5); border: 1px solid rgba(30,158,255,0.1); padding: 16px; margin-bottom: 32px; order: -1; }
-          .content-h2 { font-size: 17px; }
-          .content-p { font-size: 15px; }
-          .related { padding: 32px 20px 48px; }
-          .related-grid { grid-template-columns: 1fr; }
+          .page-header { padding: 100px 20px 40px; }
+          .controls { padding: 20px 16px; top: 70px; }
+          .results-bar { padding: 16px 20px 0; }
+          .articles-grid { padding: 0 16px 60px; grid-template-columns: 1fr; }
           footer { padding: 30px 20px; }
           .footer-inner { flex-direction: column; gap: 10px; }
         }
       `}</style>
 
       {/* NAV */}
-      <ArticleNav />
+      <nav>
+        <a href="/" className="nav-logo">
+          <div className="nav-logo-text">The Rudd Report</div>
+        </a>
+        <ul className="nav-links">
+          <li><a href="/cybersecurity">Cybersecurity</a></li>
+          <li><a href="/intelligence">Intelligence</a></li>
+          <li><a href="/geopolitics">Geopolitics</a></li>
+          <li><a href="/national-security">National Security</a></li>
+          <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+        <div
+          className="hamburger"
+          onClick={() => document.getElementById('articlesMobileMenu')?.classList.toggle('open')}
+        >
+          <span /><span /><span />
+        </div>
+      </nav>
+
+      <div className="mobile-menu" id="articlesMobileMenu">
+        <button
+          className="mobile-menu-close"
+          onClick={() => document.getElementById('articlesMobileMenu')?.classList.remove('open')}
+        >
+          ✕ Close
+        </button>
+        <a href="/">Home</a>
+        <a href="/cybersecurity">Cybersecurity</a>
+        <a href="/intelligence">Intelligence</a>
+        <a href="/geopolitics">Geopolitics</a>
+        <a href="/national-security">National Security</a>
+        <a href="/osint">OSINT Hub</a>
+        <a href="/about">About</a>
+      </div>
 
       {/* HEADER */}
-      <div className="article-header">
-        <div className="article-header-inner">
-          <a href="/articles" className="back-link">← All Reports</a>
-          <div className="article-meta">
-            <span className="meta-category" style={{color: categoryColor, borderColor: `${categoryColor}50`, background: `${categoryColor}10`}}>{article.category}</span>
-            <span className="meta-date">{article.date}</span>
-            <span className="meta-sep">·</span>
-            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: relevanceColor }}>
-              ■ {article.relevance} RELEVANCE
-            </span>
-            <span className="meta-sep">·</span>
-            <span className="meta-time">{readingTime} MIN READ</span>
+      <div className="page-header">
+        <div className="page-header-inner">
+          <div className="page-eyebrow">Intelligence Database</div>
+          <h1 className="page-title">All Reports</h1>
+          <div className="page-subtitle">
+            <span>{ARTICLES.length}</span> Reports Published
           </div>
-          <h1 className="article-title">{article.title}</h1>
-          <p className="article-excerpt">{article.excerpt}</p>
         </div>
       </div>
 
-      {/* BODY */}
-      <div className="article-body">
-        <div className="article-body-inner">
-          {/* MAIN CONTENT */}
-          <div className="article-content">
-            {blocks.map(block =>
-              block.type === 'heading' ? (
-                <h2 key={block.key} id={block.id} className="content-h2">
-                  {block.text}
-                </h2>
-              ) : (
-                <p key={block.key} className="content-p">
-                  {block.text}
-                </p>
-              ),
-            )}
-
-            {/* SHARE BUTTONS */}
-            <div style={{ marginTop: '48px' }}>
-              <ShareButtons title={article.title} slug={article.slug} />
-            </div>
-
-            {/* AUTHOR BYLINE */}
-            <div style={{ marginTop: '48px', paddingTop: '32px', borderTop: '1px solid rgba(30,158,255,0.12)', display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(30,158,255,0.1)', border: '1px solid rgba(30,158,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Playfair Display', serif", fontSize: '18px', fontWeight: 700, color: '#1e9eff', flexShrink: 0 }}>K</div>
-              <div>
-                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '15px', fontWeight: 700, color: '#c0cfe0', marginBottom: '4px' }}>Kyle Rudd</div>
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', letterSpacing: '2px', color: '#5a7a94', textTransform: 'uppercase' }}>Intelligence Researcher · DHS · Cambridge · ODNI IC-CAE</div>
-              </div>
-            </div>
-
-            {/* SIGN-OFF */}
-            <div className="article-sign-off" style={{ marginTop: '24px' }}>
-              Analysis by Kyle Rudd — The Rudd Report
-            </div>
+      {/* CONTROLS */}
+      <div className="controls">
+        <div className="controls-inner">
+          <div className="search-wrap">
+            <span className="search-prefix">Search</span>
+            <input
+              className="search-input"
+              type="text"
+              placeholder="Search by title, topic, or keyword..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+            />
           </div>
-
-          {/* TOC SIDEBAR */}
-          <TocSidebar toc={toc} />
+          <div className="category-filters">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                className={`filter-btn${activeCategory === cat ? ' active' : ''}`}
+                style={activeCategory === cat && cat !== 'All' ? {
+                  color: getCategoryColor(cat),
+                  borderColor: `${getCategoryColor(cat)}60`,
+                  background: `${getCategoryColor(cat)}12`,
+                } : {}}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* RELATED ARTICLES */}
-      {related.length > 0 && (
-        <div className="related">
-          <div className="related-label">Related Reports</div>
-          <div className="related-grid">
-            {related.map(r => {
-              const rColor =
-                r.relevance === 'HIGH' ? '#ff3a3a' : r.relevance === 'MED' ? '#ffaa00' : '#1e9eff';
-              const rCatColor = (() => { switch (r.category) { case 'Cybersecurity': return '#ff4444'; case 'Intelligence': return '#b464ff'; case 'Geopolitics': return '#ffaa00'; case 'National Security': return '#22cc66'; case 'Economic Security': return '#00c9b0'; default: return '#1e9eff'; } })();
-              return (
-                <a key={r.slug} href={`/articles/${r.slug}`} className="related-card">
-                  <div className="related-card-meta">
-                    <span className="related-card-cat" style={{color: rCatColor}}>{r.category}</span>
-                    <span style={{ color: '#1e2a35' }}>·</span>
-                    <span className="related-card-date">{r.date}</span>
-                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '8px', letterSpacing: '2px', color: rColor }}>
-                      ■ {r.relevance}
-                    </span>
-                  </div>
-                  <div className="related-card-title">{r.title}</div>
-                  <div className="related-card-excerpt">{r.excerpt}</div>
-                </a>
-              );
-            })}
+      {/* RESULTS COUNT */}
+      <div className="results-bar">
+        <span>{filtered.length}</span> REPORT{filtered.length !== 1 ? 'S' : ''} FOUND
+        {searchQuery.trim() && (
+          <span style={{ color: '#5a7a94' }}> — "{searchQuery}"</span>
+        )}
+      </div>
+
+      {/* GRID */}
+      <div className="articles-grid">
+        {filtered.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-title">No Reports Found</div>
+            <div className="empty-sub">Adjust your search or filter criteria</div>
           </div>
-        </div>
-      )}
+        ) : (
+          filtered.map(article => <ArticleCard key={article.slug} article={article} />)
+        )}
+      </div>
 
       <footer>
         <div className="footer-inner">
           <div className="footer-copy">
-            © 2026 The Rudd Report — All Rights Reserved
+            © 2026 The Rudd Report
           </div>
           
         </div>
       </footer>
     </>
+  );
+}
+
+function ArticleCard({ article }: { article: Article }) {
+  const readingTime = getReadingTime(article.content);
+  const color = rc(article.relevance);
+
+  return (
+    <a href={`/articles/${article.slug}`} className="article-card">
+      <div className="card-meta">
+        <span className="card-category" style={{color: getCategoryColor(article.category), borderColor: `${getCategoryColor(article.category)}40`, background: `${getCategoryColor(article.category)}10`}}>{article.category}</span>
+        <span className="card-date">{article.date}</span>
+        <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '8px', letterSpacing: '2px', color }}>
+          ■ {article.relevance}
+        </span>
+        {article.featured && <span className="card-featured">FEATURED</span>}
+      </div>
+      <h2 className="card-title">{article.title}</h2>
+      <p className="card-excerpt">{article.excerpt}</p>
+      <div className="card-footer">
+        <span className="card-time">{readingTime} MIN READ</span>
+        <span className="card-read">READ REPORT →</span>
+      </div>
+    </a>
   );
 }

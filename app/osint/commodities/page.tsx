@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 
@@ -226,7 +226,7 @@ export default function CommodityMonitor() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
 
@@ -242,12 +242,12 @@ export default function CommodityMonitor() {
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .inner { max-width: 1200px; margin: 0 auto; }
 
@@ -255,20 +255,20 @@ export default function CommodityMonitor() {
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
-        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 5vw, 58px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; margin-bottom: 24px; }
         .source-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .source-tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 4px 12px; text-transform: uppercase; background: rgba(30,158,255,0.06); }
+        .source-tag { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 4px 12px; text-transform: uppercase; background: rgba(30,158,255,0.06); }
 
         /* ── Section labels ── */
         .section { padding: 48px 40px; }
         .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
         .section-line { width: 32px; height: 1px; background: #1e9eff; }
-        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
-        .section-subtitle { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-bottom: 24px; }
-        .reference-badge { display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 5px 14px; text-transform: uppercase; background: rgba(255,170,0,0.04); margin-bottom: 24px; }
+        .section-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-bottom: 24px; }
+        .reference-badge { display: inline-flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 5px 14px; text-transform: uppercase; background: rgba(255,170,0,0.04); margin-bottom: 24px; }
         .reference-badge::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ffaa00; animation: blink 2s infinite; }
 
         /* ── Commodity grid ── */
@@ -276,12 +276,12 @@ export default function CommodityMonitor() {
         .commodity-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 22px; position: relative; overflow: hidden; transition: border-color 0.3s; }
         .commodity-card:hover { border-color: rgba(30,158,255,0.3); }
         .commodity-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
-        .commodity-cat { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+        .commodity-cat { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
         .commodity-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #d8e8f5; letter-spacing: 1px; margin-bottom: 10px; }
-        .commodity-price { font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 500; color: #1e9eff; margin-bottom: 2px; letter-spacing: -0.5px; }
-        .commodity-unit { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
+        .commodity-price { font-family: 'Share Tech Mono', monospace; font-size: 26px; font-weight: 500; color: #1e9eff; margin-bottom: 2px; letter-spacing: -0.5px; }
+        .commodity-unit { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
         .commodity-note { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; margin-bottom: 14px; border-left: 2px solid rgba(30,158,255,0.2); padding-left: 10px; }
-        .commodity-link { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px; }
+        .commodity-link { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px; }
         .commodity-link:hover { color: #1e9eff; }
         .commodity-link::after { content: '↗'; font-size: 11px; }
 
@@ -290,15 +290,15 @@ export default function CommodityMonitor() {
         .crypto-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px; position: relative; overflow: hidden; transition: border-color 0.3s; }
         .crypto-card:hover { border-color: rgba(30,158,255,0.25); }
         .crypto-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
-        .crypto-symbol { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; }
+        .crypto-symbol { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; }
         .crypto-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #d8e8f5; letter-spacing: 1px; margin-bottom: 12px; }
-        .crypto-price { font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 500; color: #1e9eff; margin-bottom: 4px; letter-spacing: -0.5px; }
-        .crypto-change { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; margin-bottom: 14px; }
+        .crypto-price { font-family: 'Share Tech Mono', monospace; font-size: 28px; font-weight: 500; color: #1e9eff; margin-bottom: 4px; letter-spacing: -0.5px; }
+        .crypto-change { font-family: 'Share Tech Mono', monospace; font-size: 12px; font-weight: 500; margin-bottom: 14px; }
         .crypto-change.pos { color: #4ade80; }
         .crypto-change.neg { color: #ff4444; }
         .crypto-note { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; border-left: 2px solid rgba(30,158,255,0.2); padding-left: 10px; }
-        .crypto-loading { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; animation: blink 1.5s infinite; text-transform: uppercase; }
-        .crypto-error { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff6b35; text-transform: uppercase; }
+        .crypto-loading { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; animation: blink 1.5s infinite; text-transform: uppercase; }
+        .crypto-error { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff6b35; text-transform: uppercase; }
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; margin-bottom: 8px; }
         .loading-bars span { width: 3px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
         .loading-bars span:nth-child(1) { animation-delay: 0s; }
@@ -318,7 +318,7 @@ export default function CommodityMonitor() {
         /* ── Data sources ── */
         .source-section { padding: 0 40px 60px; }
         .source-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-        .source-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 10px 20px; text-transform: uppercase; background: rgba(30,158,255,0.04); text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .source-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 10px 20px; text-transform: uppercase; background: rgba(30,158,255,0.04); text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
         .source-btn:hover { background: rgba(30,158,255,0.12); border-color: rgba(30,158,255,0.6); color: #fff; }
         .source-btn::after { content: '↗'; font-size: 12px; }
 
@@ -328,7 +328,7 @@ export default function CommodityMonitor() {
         /* ── Footer ── */
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 20px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         /* ── Animations ── */
@@ -610,7 +610,7 @@ export default function CommodityMonitor() {
             </div>
             <div
               style={{
-                fontFamily: "'IBM Plex Mono', monospace",
+                fontFamily: "'Share Tech Mono', monospace",
                 fontSize: '10px',
                 letterSpacing: '2px',
                 color: '#5a7a94',
@@ -639,11 +639,11 @@ export default function CommodityMonitor() {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">
-              © 2026 <span>The Rudd Report</span> — All Rights Reserved
+              © 2026 The Rudd Report
             </div>
             <div
               style={{
-                fontFamily: "'IBM Plex Mono', monospace",
+                fontFamily: "'Share Tech Mono', monospace",
                 fontSize: '10px',
                 letterSpacing: '2px',
                 color: '#5a7a94',

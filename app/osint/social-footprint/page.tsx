@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState, useCallback } from 'react';
 
 interface GdeltArticle {
@@ -68,7 +68,7 @@ export default function SocialFootprint() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -82,30 +82,30 @@ export default function SocialFootprint() {
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
         .main-wrap { max-width: 1100px; margin: 0 auto; padding: 40px; }
         .form-row { display: flex; gap: 12px; margin-bottom: 16px; }
         .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
         .form-field { display: flex; flex-direction: column; gap: 6px; flex: 1; }
-        .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d8e8f5; letter-spacing: 1px; transition: border-color 0.2s; }
+        .form-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
+        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 12px 16px; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #d8e8f5; letter-spacing: 1px; transition: border-color 0.2s; }
         .form-input:focus { border-color: rgba(30,158,255,0.6); }
         .form-input::placeholder { color: #2d4055; }
         .run-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 14px 36px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
         .run-btn:hover { background: #4db8ff; }
         .run-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.1); }
+        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.1); }
         .section-wrap { margin-bottom: 48px; }
         .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
         .services-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
@@ -116,15 +116,15 @@ export default function SocialFootprint() {
         .service-card.purple-card { border-left-color: #9966ff; }
         .service-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
         .service-name { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 0.5px; }
-        .service-badge { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border: 1px solid; flex-shrink: 0; }
-        .service-platform { font-family: 'IBM Plex Mono', monospace; font-size: 18px; margin-bottom: 2px; }
+        .service-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border: 1px solid; flex-shrink: 0; }
+        .service-platform { font-family: 'Share Tech Mono', monospace; font-size: 18px; margin-bottom: 2px; }
         .service-desc { font-family: 'Barlow', sans-serif; font-size: 11px; color: #7a9bb5; line-height: 1.6; flex: 1; }
         .service-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); background: none; padding: 8px 16px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
         .service-btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
         .service-btn.disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
         .target-display { margin-bottom: 32px; padding: 16px 20px; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.2); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-        .target-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .target-value { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #1e9eff; letter-spacing: 2px; }
+        .target-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
+        .target-value { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #1e9eff; letter-spacing: 2px; }
         .news-list { display: flex; flex-direction: column; gap: 2px; }
         .news-item { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.2s; }
         .news-item:hover { border-color: rgba(30,158,255,0.25); }
@@ -132,20 +132,20 @@ export default function SocialFootprint() {
         .news-title a { color: #c0cfe0; text-decoration: none; transition: color 0.2s; }
         .news-title a:hover { color: #1e9eff; }
         .news-meta { display: flex; gap: 20px; flex-wrap: wrap; }
-        .news-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
+        .news-meta-item { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
         .news-meta-item span { color: #7a9bb5; }
-        .news-status { padding: 32px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); }
+        .news-status { padding: 32px; text-align: center; font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); }
         .dork-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .dork-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); border-left: 3px solid #9966ff; padding: 20px; display: flex; flex-direction: column; gap: 8px; transition: border-color 0.3s; }
         .dork-card:hover { border-color: rgba(153,102,255,0.3); }
         .dork-label { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #c0cfe0; letter-spacing: 0.5px; }
-        .dork-query { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a9bb5; letter-spacing: 0.5px; line-height: 1.5; word-break: break-all; }
+        .dork-query { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #7a9bb5; letter-spacing: 0.5px; line-height: 1.5; word-break: break-all; }
         .dork-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #9966ff; border: 1px solid rgba(153,102,255,0.3); background: none; padding: 7px 16px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
         .dork-btn:hover { background: rgba(153,102,255,0.08); border-color: #9966ff; }
         .dork-btn.disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         @media (max-width: 1100px) {
           .services-grid { grid-template-columns: repeat(2, 1fr); }
           .services-grid-5 { grid-template-columns: repeat(3, 1fr); }
@@ -419,7 +419,7 @@ export default function SocialFootprint() {
 
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
       </div>

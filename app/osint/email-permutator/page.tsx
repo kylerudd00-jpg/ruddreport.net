@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState, useMemo } from 'react';
 
 const PRIMARY_PATTERNS = new Set([
@@ -138,7 +138,7 @@ export default function EmailPermutator() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -152,23 +152,23 @@ export default function EmailPermutator() {
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
         .form-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
         .form-field { display: flex; flex-direction: column; }
-        .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; padding: 10px 20px 0; background: #0a1520; border: 1px solid rgba(30,158,255,0.18); border-bottom: none; }
-        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.18); border-top: none; outline: none; padding: 10px 20px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 1px; width: 100%; transition: border-color 0.3s; }
+        .form-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; padding: 10px 20px 0; background: #0a1520; border: 1px solid rgba(30,158,255,0.18); border-bottom: none; }
+        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.18); border-top: none; outline: none; padding: 10px 20px 14px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 1px; width: 100%; transition: border-color 0.3s; }
         .form-input:focus { border-color: rgba(30,158,255,0.5); }
         .form-input::placeholder { color: #5a7a94; }
         .domain-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 16px; }
@@ -176,37 +176,37 @@ export default function EmailPermutator() {
         .generate-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 14px 36px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
         .generate-btn:hover { background: #4db8ff; }
         .generate-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .reset-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .reset-btn { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .reset-btn:hover { color: #7a9bb5; border-color: rgba(30,158,255,0.3); }
         .results-wrap { padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
         .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; }
-        .count-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; background: rgba(30,158,255,0.1); border: 1px solid rgba(30,158,255,0.2); padding: 4px 12px; }
-        .copy-all-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; }
+        .count-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; background: rgba(30,158,255,0.1); border: 1px solid rgba(30,158,255,0.2); padding: 4px 12px; }
+        .copy-all-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .copy-all-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
         .copy-all-btn.copied { color: #1e9eff; border-color: #1e9eff; }
         .email-list { display: flex; flex-direction: column; gap: 2px; }
         .email-row { display: flex; align-items: center; justify-content: space-between; background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 14px 20px; transition: border-color 0.2s; }
         .email-row:hover { border-color: rgba(30,158,255,0.2); }
         .email-row.primary-row { border-left: 3px solid #1e9eff; background: rgba(10,25,40,0.9); }
-        .email-text { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #c0cfe0; letter-spacing: 0.5px; }
+        .email-text { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; letter-spacing: 0.5px; }
         .email-row.primary-row .email-text { color: #e8f4ff; }
-        .primary-badge { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.3); padding: 2px 8px; margin-left: 12px; white-space: nowrap; }
+        .primary-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.3); padding: 2px 8px; margin-left: 12px; white-space: nowrap; }
         .email-left { display: flex; align-items: center; min-width: 0; }
-        .copy-icon-btn { background: none; border: 1px solid rgba(30,158,255,0.1); color: #5a7a94; padding: 6px 10px; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; transition: all 0.25s; white-space: nowrap; flex-shrink: 0; margin-left: 16px; }
+        .copy-icon-btn { background: none; border: 1px solid rgba(30,158,255,0.1); color: #5a7a94; padding: 6px 10px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; transition: all 0.25s; white-space: nowrap; flex-shrink: 0; margin-left: 16px; }
         .copy-icon-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
         .copy-icon-btn.active { color: #1e9eff; border-color: #1e9eff; }
         .tips-panel { background: #070d12; border: 1px solid rgba(30,158,255,0.15); padding: 24px 28px; }
-        .tips-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; margin-bottom: 10px; }
+        .tips-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; margin-bottom: 10px; }
         .tips-text { font-family: 'Barlow', sans-serif; font-size: 14px; color: #7a9bb5; line-height: 1.7; margin-bottom: 16px; }
         .tips-links { display: flex; gap: 16px; flex-wrap: wrap; }
-        .tips-link { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1e9eff; text-decoration: none; border-bottom: 1px solid rgba(30,158,255,0.3); padding-bottom: 1px; transition: color 0.3s; }
+        .tips-link { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1e9eff; text-decoration: none; border-bottom: 1px solid rgba(30,158,255,0.3); padding-bottom: 1px; transition: color 0.3s; }
         .tips-link:hover { color: #4db8ff; border-color: #4db8ff; }
         .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1100px; margin: 0 auto 0; border: 1px solid rgba(30,158,255,0.08); background: rgba(10,21,32,0.6); }
-        .top-bar-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
+        .top-bar-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         @media (max-width: 768px) {
           nav { padding: 0 16px; }
@@ -406,7 +406,7 @@ export default function EmailPermutator() {
 
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">&#x00A9; 2026 The Rudd Report &#x2014; All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
       </div>

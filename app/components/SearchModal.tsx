@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useEffect, useState, useRef, useMemo } from 'react';
 import { ARTICLES } from '@/lib/articles';
 

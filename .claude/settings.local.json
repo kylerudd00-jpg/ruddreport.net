@@ -72,7 +72,20 @@
       "Bash(sed -i 's/Math.round\\(38 \\\\* eased\\)/Math.round\\(39 * eased\\)/g; s/38 free tools covering/39 free tools covering/g; s/View all 38 tools/View all 39 tools/g' app/page.tsx)",
       "Bash(python3 -m json.tool)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(f''''[{m[\"\"id\"\"]}] {m[\"\"text\"\"][:120]}''''\\) for m in d[''''messages'''']]\")",
-      "Bash(node -e \"const chunks=[]; process.stdin.on\\(''''data'''',c=>chunks.push\\(c\\)\\); process.stdin.on\\(''''end'''',\\(\\)=>{ const d=JSON.parse\\(Buffer.concat\\(chunks\\)\\); d.messages.forEach\\(m=>console.log\\(''''[''''+m.id+'''']'''',m.text.slice\\(0,120\\)\\)\\); }\\)\")"
+      "Bash(node -e \"const chunks=[]; process.stdin.on\\(''''data'''',c=>chunks.push\\(c\\)\\); process.stdin.on\\(''''end'''',\\(\\)=>{ const d=JSON.parse\\(Buffer.concat\\(chunks\\)\\); d.messages.forEach\\(m=>console.log\\(''''[''''+m.id+'''']'''',m.text.slice\\(0,120\\)\\)\\); }\\)\")",
+      "Bash(powershell -Command \":*)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(echo \"=== $f ===\")",
+      "Read(//c/Users/kerud/ruddreport/app/osint/$f/**)",
+      "Bash(done)",
+      "Bash(node -e \"console.log\\(''node works''\\)\")",
+      "Bash(grep:*)",
+      "Bash(head -20 grep -n \"footer\\\\|Footer\\\\|footer-inner\\\\|footer-bottom\\\\|footer-copy\\\\|footer-class\" /c/Users/kerud/ruddreport/app/osint/mac/page.tsx)",
+      "Bash(head -20 grep -n \"footer\\\\|Footer\\\\|footer-inner\\\\|footer-bottom\\\\|footer-copy\\\\|footer-class\" /c/Users/kerud/ruddreport/app/osint/jwt/page.tsx)",
+      "Bash(node:*)",
+      "Bash(do echo:*)",
+      "Bash(python3:*)"
     ]
   }
 }

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState, useMemo } from 'react';
 import { ARTICLES, Article, getReadingTime } from '@/lib/articles';
 
@@ -45,7 +45,7 @@ export default function ArticlesPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; min-height: 100vh; }
 
@@ -234,7 +234,7 @@ export default function ArticlesPage() {
       <footer>
         <div className="footer-inner">
           <div className="footer-copy">
-            © 2026 The Rudd Report — All Rights Reserved
+            © 2026 The Rudd Report
           </div>
           
         </div>
@@ -252,7 +252,7 @@ function ArticleCard({ article }: { article: Article }) {
       <div className="card-meta">
         <span className="card-category" style={{color: getCategoryColor(article.category), borderColor: `${getCategoryColor(article.category)}40`, background: `${getCategoryColor(article.category)}10`}}>{article.category}</span>
         <span className="card-date">{article.date}</span>
-        <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '8px', letterSpacing: '2px', color }}>
+        <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '8px', letterSpacing: '2px', color }}>
           ■ {article.relevance}
         </span>
         {article.featured && <span className="card-featured">FEATURED</span>}

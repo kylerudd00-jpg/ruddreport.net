@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 
 const STYLE = `
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -28,7 +28,7 @@ const STYLE = `
   .hero-sub { font-size: 14px; font-weight: 400; color: #7a9bb5; line-height: 1.7; }
   .tool-wrap { max-width: 900px; margin: 0 auto; padding: 40px 40px 80px; }
   .input-row { display: flex; gap: 2px; margin-bottom: 2px; }
-  .mac-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); color: #d8e8f5; font-family: 'IBM Plex Mono', monospace; font-size: 14px; padding: 14px 18px; outline: none; transition: border-color 0.2s; letter-spacing: 1px; }
+  .mac-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); color: #d8e8f5; font-family: 'Share Tech Mono', monospace; font-size: 14px; padding: 14px 18px; outline: none; transition: border-color 0.2s; letter-spacing: 1px; }
   .mac-input:focus { border-color: rgba(30,158,255,0.5); }
   .mac-input::placeholder { color: #5a7a94; font-size: 12px; letter-spacing: 0; }
   .lookup-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 14px 28px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
@@ -37,11 +37,11 @@ const STYLE = `
   .result-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 32px; }
   .result-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 24px; }
   .result-vendor { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #c0cfe0; margin-bottom: 8px; }
-  .result-oui { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #1e9eff; margin-bottom: 20px; }
+  .result-oui { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #1e9eff; margin-bottom: 20px; }
   .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 16px; }
   .info-cell { background: rgba(3,6,8,0.5); padding: 14px 16px; }
   .info-cell-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 6px; }
-  .info-cell-val { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #9ab0c4; }
+  .info-cell-val { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #9ab0c4; }
   .error-box { background: rgba(255,60,60,0.06); border: 1px solid rgba(255,60,60,0.2); padding: 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1px; color: #ff6666; }
   .hint { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1.5px; color: #5a7a94; margin-top: 10px; }
   @media (max-width: 768px) { nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; } .hero { padding: 40px 20px 30px; } .tool-wrap { padding: 24px 20px 60px; } .info-grid { grid-template-columns: 1fr; } .input-row { flex-direction: column; } }

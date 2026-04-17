@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 
 const SERVICES = [
@@ -129,7 +129,7 @@ export default function BreachLookup() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
@@ -143,33 +143,33 @@ export default function BreachLookup() {
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
         .main-wrap { max-width: 1100px; margin: 0 auto; padding: 40px; }
         .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 18px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
+        .search-input { flex: 1; background: none; border: none; outline: none; padding: 18px 20px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
         .search-input::placeholder { color: #5a7a94; }
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 18px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .disclaimer { margin-top: 16px; display: flex; align-items: flex-start; gap: 12px; padding: 14px 20px; background: rgba(255,60,60,0.06); border: 1px solid rgba(255,60,60,0.2); }
         .disclaimer-icon { font-size: 14px; color: #ff6060; flex-shrink: 0; padding-top: 2px; }
-        .disclaimer-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #9ab0c4; line-height: 1.7; }
+        .disclaimer-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #9ab0c4; line-height: 1.7; }
         .disclaimer-text strong { color: #ff6060; }
-        .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.1); }
+        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.1); }
         .target-display { margin-bottom: 32px; padding: 16px 20px; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.2); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-        .target-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .target-value { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #1e9eff; letter-spacing: 2px; }
+        .target-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
+        .target-value { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #1e9eff; letter-spacing: 2px; }
         .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 60px; }
         .service-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 28px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.3s; position: relative; overflow: hidden; }
         .service-card:hover { border-color: rgba(30,158,255,0.3); }
@@ -179,7 +179,7 @@ export default function BreachLookup() {
         .service-card.paid-card:hover { border-color: rgba(154,176,196,0.3); }
         .service-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
         .service-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; letter-spacing: 1px; }
-        .service-badge { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border: 1px solid; flex-shrink: 0; }
+        .service-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border: 1px solid; flex-shrink: 0; }
         .service-desc { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; flex: 1; }
         .service-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); background: none; padding: 10px 20px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
         .service-btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
@@ -190,21 +190,21 @@ export default function BreachLookup() {
         .service-btn.disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
         .breach-table-wrap { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); overflow: hidden; }
         .breach-table { width: 100%; border-collapse: collapse; }
-        .breach-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; padding: 14px 20px; text-align: left; background: rgba(30,158,255,0.05); border-bottom: 1px solid rgba(30,158,255,0.15); }
-        .breach-table td { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9ab0c4; padding: 12px 20px; border-bottom: 1px solid rgba(30,158,255,0.06); letter-spacing: 1px; }
+        .breach-table th { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; padding: 14px 20px; text-align: left; background: rgba(30,158,255,0.05); border-bottom: 1px solid rgba(30,158,255,0.15); }
+        .breach-table td { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #9ab0c4; padding: 12px 20px; border-bottom: 1px solid rgba(30,158,255,0.06); letter-spacing: 1px; }
         .breach-table tr:last-child td { border-bottom: none; }
         .breach-table tr:hover td { background: rgba(30,158,255,0.03); }
         .breach-table td:first-child { color: #c0cfe0; font-weight: 500; }
         .breach-table td:nth-child(3) { color: #1e9eff; }
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
         .tab-row { display: flex; gap: 2px; margin-bottom: 28px; }
-        .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 10px 24px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #5a7a94; cursor: pointer; transition: all 0.2s; }
+        .tab-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 10px 24px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #5a7a94; cursor: pointer; transition: all 0.2s; }
         .tab-btn.active { background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.4); color: #1e9eff; }
         .tab-btn:hover:not(.active) { border-color: rgba(30,158,255,0.4); color: #c0cfe0; }
-        .pw-privacy-note { margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #5a7a94; line-height: 1.7; }
+        .pw-privacy-note { margin-top: 14px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #5a7a94; line-height: 1.7; }
         .pw-result { margin-top: 24px; padding: 32px; text-align: center; border: 1px solid; }
         .pw-result.found { border-color: rgba(255,58,58,0.4); background: rgba(255,58,58,0.04); }
         .pw-result.safe { border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.03); }
@@ -212,10 +212,10 @@ export default function BreachLookup() {
         .pw-status { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 900; letter-spacing: 3px; margin-bottom: 10px; }
         .pw-status.found { color: #ff3a3a; }
         .pw-status.safe { color: #00ff88; }
-        .pw-count { font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #7a9bb5; margin-bottom: 8px; }
+        .pw-count { font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #7a9bb5; margin-bottom: 8px; }
         .pw-count span { color: #ff3a3a; font-size: 17px; }
-        .pw-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #5a7a94; line-height: 1.8; margin-top: 16px; }
-        .pw-error { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #ff3a3a; margin-top: 16px; }
+        .pw-note { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #5a7a94; line-height: 1.8; margin-top: 16px; }
+        .pw-error { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #ff3a3a; margin-top: 16px; }
         @media (max-width: 900px) {
           .services-grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -425,7 +425,7 @@ export default function BreachLookup() {
 
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
       </div>

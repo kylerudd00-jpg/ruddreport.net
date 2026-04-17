@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 
 const US_STATES = [
@@ -259,7 +259,7 @@ export default function PeopleSearch() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
 
@@ -274,19 +274,19 @@ export default function PeopleSearch() {
         .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         .page-wrap { padding-top: 70px; }
 
         .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
         .back-link:hover { color: #1e9eff; }
 
         .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
+        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
         .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 740px; }
 
@@ -294,11 +294,11 @@ export default function PeopleSearch() {
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
         .form-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
         .form-field { display: flex; flex-direction: column; gap: 8px; }
-        .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; outline: none; transition: border-color 0.3s; width: 100%; }
+        .form-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
+        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); padding: 12px 16px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; outline: none; transition: border-color 0.3s; width: 100%; }
         .form-input:focus { border-color: rgba(30,158,255,0.5); }
         .form-input::placeholder { color: #5a7a94; }
-        .form-select { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); padding: 12px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; outline: none; transition: border-color 0.3s; width: 100%; cursor: pointer; appearance: none; -webkit-appearance: none; }
+        .form-select { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); padding: 12px 16px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; outline: none; transition: border-color 0.3s; width: 100%; cursor: pointer; appearance: none; -webkit-appearance: none; }
         .form-select:focus { border-color: rgba(30,158,255,0.5); }
         .form-select option { background: #0a1520; }
         .form-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
@@ -308,20 +308,20 @@ export default function PeopleSearch() {
         .btn-secondary { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.4); padding: 14px 28px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
         .btn-secondary:hover { background: rgba(30,158,255,0.08); border-color: #1e9eff; }
         .btn-secondary:disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; }
-        .privacy-note { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; border: 1px solid rgba(30,158,255,0.08); padding: 10px 16px; background: rgba(30,158,255,0.03); }
+        .privacy-note { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; border: 1px solid rgba(30,158,255,0.08); padding: 10px 16px; background: rgba(30,158,255,0.03); }
 
         .results-section { padding: 0 40px 40px; max-width: 1100px; margin: 0 auto; }
         .results-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 12px; border-bottom: 1px solid rgba(30,158,255,0.08); margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
         .results-subject { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; }
-        .results-meta { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
+        .results-meta { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
         .results-meta span { color: #1e9eff; }
 
         .filters { display: flex; gap: 2px; margin-bottom: 20px; flex-wrap: wrap; }
-        .filter-btn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .filter-btn { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
         .filter-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
         .filter-btn.active { color: #1e9eff; border-color: #1e9eff; background: rgba(30,158,255,0.08); }
 
-        .cat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; padding: 8px 0 10px; border-bottom: 1px solid rgba(30,158,255,0.06); margin-bottom: 10px; margin-top: 28px; }
+        .cat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; padding: 8px 0 10px; border-bottom: 1px solid rgba(30,158,255,0.06); margin-bottom: 10px; margin-top: 28px; }
         .cat-label:first-of-type { margin-top: 0; }
 
         .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
@@ -331,10 +331,10 @@ export default function PeopleSearch() {
         .service-card.manual-card { border-top: 2px solid rgba(255,170,0,0.35); background: #0e0d08; }
         .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
         .card-name { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; color: #c0cfe0; letter-spacing: 0.5px; }
-        .badge-auto { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #22c55e; border: 1px solid rgba(34,197,94,0.3); padding: 3px 8px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
-        .badge-manual { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 3px 8px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
-        .card-desc { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a9bb5; }
-        .card-note { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #ffaa00; opacity: 0.8; }
+        .badge-auto { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #22c55e; border: 1px solid rgba(34,197,94,0.3); padding: 3px 8px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+        .badge-manual { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 3px 8px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+        .card-desc { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a9bb5; }
+        .card-note { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #ffaa00; opacity: 0.8; }
         .open-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.25); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; }
         .open-btn:hover { background: rgba(30,158,255,0.08); border-color: #1e9eff; }
         .open-btn-manual { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; color: #ffaa00; background: none; border: 1px solid rgba(255,170,0,0.25); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; }
@@ -342,7 +342,7 @@ export default function PeopleSearch() {
 
         .checklist-section { padding: 0 40px 40px; max-width: 1100px; margin: 0 auto; }
         .section-header { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
-        .section-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-bottom: 20px; }
+        .section-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-bottom: 20px; }
         .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
         .checklist-item { display: flex; align-items: center; gap: 14px; background: #0a1520; border: 1px solid rgba(30,158,255,0.06); padding: 16px 20px; cursor: pointer; transition: all 0.2s; user-select: none; }
         .checklist-item:hover { border-color: rgba(30,158,255,0.15); background: #0d1d2e; }
@@ -350,14 +350,14 @@ export default function PeopleSearch() {
         .check-box { width: 18px; height: 18px; border: 1px solid rgba(30,158,255,0.3); background: none; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .check-box.checked { background: #1e9eff; border-color: #1e9eff; }
         .check-icon { color: #fff; font-size: 11px; font-weight: 700; line-height: 1; }
-        .check-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #9ab0c4; line-height: 1.5; }
+        .check-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #9ab0c4; line-height: 1.5; }
         .check-text.checked { color: #5a7a94; text-decoration: line-through; }
-        .checklist-progress { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; margin-top: 14px; text-transform: uppercase; }
+        .checklist-progress { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; margin-top: 14px; text-transform: uppercase; }
         .checklist-progress span { color: #1e9eff; }
 
         footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
         .footer-copy span { color: #1e9eff; }
 
         @media (max-width: 768px) {
@@ -615,7 +615,7 @@ export default function PeopleSearch() {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">
-              © 2026 The Rudd Report — All Rights Reserved
+              © 2026 The Rudd Report
             </div>
           </div>
         </footer>
