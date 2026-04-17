@@ -1,6 +1,6 @@
 ﻿'use client';
 import { useState, useMemo, useEffect } from 'react';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, Footprints, Car, Network, FingerprintPattern, Bug, Crosshair, Flag, type LucideIcon } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, Footprints, Car, Network, FingerprintPattern, Bug, Crosshair, Flag, Database, type LucideIcon } from 'lucide-react';
 
 function detectAndRoute(raw: string) {
   const q = raw.trim();
@@ -60,6 +60,7 @@ const TOOLS: Tool[] = [
   { icon: ShieldAlert, name: 'Threat Actor Database', desc: 'Nation-state and criminal APT profiles — attribution, targets, tradecraft, MITRE ATT&CK', href: '/osint/threat-actors', category: 'Cyber' },
   { icon: Crosshair, name: 'IoC Scanner', desc: 'Check any IP, domain, URL, or hash against Shodan, GreyNoise, MalwareBazaar, and URLScan', href: '/osint/ioc', category: 'Cyber' },
   { icon: Bug, name: 'Ransomware Tracker', desc: 'Live victim feed from active ransomware group leak sites — updated continuously', href: '/osint/ransomware', category: 'Cyber', live: true },
+  { icon: Database, name: 'Cyber Incident Database', desc: '50+ major cyberattacks from Stuxnet to Salt Typhoon — searchable by type, nation, and impact', href: '/osint/incidents', category: 'Cyber' },
   { icon: Flag, name: 'Country Intel Profiles', desc: 'Threat assessments, active conflicts, cyber risk, and key concerns for 30+ countries', href: '/intel', category: 'Live & Tracking' },
   { icon: Radio, name: 'Live Intel Feed', desc: 'Real-time news from BBC, Krebs, The Record, Foreign Policy, and more', href: '/osint/feed', category: 'Live & Tracking', live: true },
   { icon: Map, name: 'Conflict Tracker', desc: 'Real-time mapping of conflict zones with GDELT and ACLED data', href: '/osint/conflict', category: 'Live & Tracking', live: true },
