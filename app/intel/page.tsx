@@ -178,7 +178,7 @@ export default function IntelHubPage() {
                 <div className="card-badges">
                   {c.nato && <div className="mini-badge" style={{ color: '#1e9eff', borderColor: 'rgba(30,158,255,0.3)' }}>NATO</div>}
                   {c.us_sanctioned && <div className="mini-badge" style={{ color: '#ff8800', borderColor: 'rgba(255,136,0,0.3)' }}>SANCTIONED</div>}
-                  <div className="mini-badge" style={{ color: LEVEL_COLORS[c.cyber_threat] ?? '#7a9bb5', borderColor: `${LEVEL_COLORS[c.cyber_threat] ?? '#7a9bb5'}40` }}>
+                  <div className="mini-badge" style={{ color: LEVEL_COLORS[c.cyber_threat as ThreatLevel] ?? '#7a9bb5', borderColor: `${LEVEL_COLORS[c.cyber_threat as ThreatLevel] ?? '#7a9bb5'}40` }}>
                     CYBER: {c.cyber_threat}
                   </div>
                 </div>
