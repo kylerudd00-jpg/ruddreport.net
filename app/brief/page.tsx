@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useEffect, useState } from 'react';
 
 interface BriefMessage {
@@ -44,7 +44,7 @@ export default function BriefPage() {
   async function fetchBrief() {
     setLoading(true);
     try {
-      const res = await fetch('/api/brief');
+      const res = await fetch(`/api/brief?t=${Date.now()}`);
       const json = await res.json();
       setData(json);
     } catch {

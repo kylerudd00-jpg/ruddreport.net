@@ -89,7 +89,7 @@ export default function Home() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;500&family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         :root { --accent: #1e9eff; --accent-dim: rgba(30,158,255,0.25); --accent-glow: rgba(30,158,255,0.06); --border: rgba(30,158,255,0.12); --border-bright: rgba(30,158,255,0.35); --bg: #030608; --bg-card: #070d12; --bg-card-hover: #0a1520; --bg-secondary: #070d12; --silver: #c0cfe0; --text-primary: #d8e8f5; --text-secondary: #7a9bb5; --text-muted: #5a7a94; --red: #ff3a3a; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: var(--bg); color: var(--text-primary); font-family: 'Barlow', sans-serif; }
@@ -252,7 +252,7 @@ export default function Home() {
         .osint-right { display: flex; flex-direction: column; gap: 0; }
         .osint-router-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
         .osint-router-row { display: flex; gap: 0; margin-bottom: 10px; }
-        .osint-router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: var(--text-primary); font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 13px 16px; outline: none; transition: border-color 0.2s; }
+        .osint-router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: var(--text-primary); font-family: 'Share Tech Mono', monospace; font-size: 13px; padding: 13px 16px; outline: none; transition: border-color 0.2s; }
         .osint-router-input:focus { border-color: rgba(30,158,255,0.5); }
         .osint-router-input::placeholder { color: var(--text-muted); font-size: 11px; }
         .osint-router-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: var(--accent); border: 1px solid var(--accent); color: #000; padding: 13px 22px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: background 0.2s; }
@@ -269,7 +269,7 @@ export default function Home() {
         .osint-cat:hover .osint-cat-name { color: #fff; }
         .osint-cat-desc { font-family: 'Barlow', sans-serif; font-size: 13px; color: #5a7a94; line-height: 1.6; }
         .osint-cat-footer { display: flex; align-items: center; justify-content: flex-end; margin-top: 16px; }
-        .osint-cat-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5a7a94; transition: all 0.2s; }
+        .osint-cat-arrow { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #5a7a94; transition: all 0.2s; }
         .osint-cat:hover .osint-cat-arrow { transform: translateX(3px); }
         .osint-view-all { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px; padding: 16px; border: 1px solid rgba(30,158,255,0.1); background: rgba(3,6,8,0.4); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; transition: all 0.2s; }
         .osint-view-all:hover { background: rgba(30,158,255,0.06); border-color: rgba(30,158,255,0.25); }
@@ -405,10 +405,6 @@ export default function Home() {
               </button>
             ))}
           </div>
-        </div>
-        <div className="hero-scroll">
-          <div className="hero-scroll-text">Scroll</div>
-          <div className="hero-scroll-line" />
         </div>
       </section>
 
@@ -683,7 +679,7 @@ export default function Home() {
             </div>
           </div>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 The Rudd Report — All Rights Reserved</div>
+            <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </div>
       </footer>
