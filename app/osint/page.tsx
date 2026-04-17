@@ -1,6 +1,6 @@
 ﻿'use client';
 import { useState, useMemo, useEffect } from 'react';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, Footprints, Car, Network, FingerprintPattern, type LucideIcon } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, Footprints, Car, Network, FingerprintPattern, Bug, Crosshair, Flag, type LucideIcon } from 'lucide-react';
 
 function detectAndRoute(raw: string) {
   const q = raw.trim();
@@ -58,6 +58,9 @@ const TOOLS: Tool[] = [
   { icon: ShieldAlert, name: 'Breach Lookup', desc: 'Check email exposure across HIBP, DeHashed, IntelligenceX, and more', href: '/osint/breach', category: 'Cyber' },
   { icon: Footprints, name: 'Digital Footprint OSINT', desc: 'Social media profiles, news mentions, professional presence, Google dorks by name', href: '/osint/social-footprint', category: 'Cyber' },
   { icon: ShieldAlert, name: 'Threat Actor Database', desc: 'Nation-state and criminal APT profiles — attribution, targets, tradecraft, MITRE ATT&CK', href: '/osint/threat-actors', category: 'Cyber' },
+  { icon: Crosshair, name: 'IoC Scanner', desc: 'Check any IP, domain, URL, or hash against Shodan, GreyNoise, MalwareBazaar, and URLScan', href: '/osint/ioc', category: 'Cyber' },
+  { icon: Bug, name: 'Ransomware Tracker', desc: 'Live victim feed from active ransomware group leak sites — updated continuously', href: '/osint/ransomware', category: 'Cyber', live: true },
+  { icon: Flag, name: 'Country Intel Profiles', desc: 'Threat assessments, active conflicts, cyber risk, and key concerns for 30+ countries', href: '/intel', category: 'Live & Tracking' },
   { icon: Radio, name: 'Live Intel Feed', desc: 'Real-time news from BBC, Krebs, The Record, Foreign Policy, and more', href: '/osint/feed', category: 'Live & Tracking', live: true },
   { icon: Map, name: 'Conflict Tracker', desc: 'Real-time mapping of conflict zones with GDELT and ACLED data', href: '/osint/conflict', category: 'Live & Tracking', live: true },
   { icon: TrendingUp, name: 'Polymarket Tracker', desc: 'Prediction market odds on geopolitical events and global conflicts', href: '/osint/polymarket', category: 'Live & Tracking', live: true },
