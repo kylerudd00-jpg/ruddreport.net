@@ -39,6 +39,138 @@ export type Article = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const ARTICLES: Article[] = [
+  // ── APR 16, 2026 BRIEFS ───────────────────────────────────────────────────
+  {
+    slug: 'iran-ceasefire-pakistan-mediation',
+    title: 'Pakistan Is Trying to End the Iran War. Here\'s How Close It\'s Getting.',
+    excerpt: 'Pakistani mediators have narrowed the gap between Washington and Tehran on a ceasefire framework, according to Reuters. Iran says its nuclear program is still off the table. That may be the last obstacle.',
+    category: 'Geopolitics',
+    date: 'APR 16, 2026',
+    relevance: 'HIGH',
+    featured: true,
+    content: `The most consequential diplomatic effort of 2026 is being run not out of Washington, London, or Geneva — but Islamabad. Pakistani mediators, working quietly between the United States and Iran for the past several weeks, have reportedly brought the two sides closer to a ceasefire framework than any previous round of negotiations. Reuters reported Wednesday that the gaps have narrowed meaningfully. Iran, for its part, has signaled cautious optimism. But Tehran has been explicit about one thing: its nuclear program is not part of the conversation.
+
+That carve-out may be the final, hardest obstacle between where things stand today and a durable end to active hostilities.
+
+## Why Pakistan
+
+Pakistan's emergence as the lead mediator is not accidental. Islamabad has longstanding relationships with both Washington and Tehran that few other capitals can claim. It is a majority-Muslim nation with strong ties to the Gulf, credibility with Iran that Western interlocutors lack, and a clear strategic interest in regional stability that gives it both motive and standing.
+
+Pakistan also has the advantage of not being a party to the conflict. It carries no baggage from the strikes, the sanctions, or the years of mutual accusation that have poisoned direct U.S.-Iran dialogue. When Pakistani officials walk into a room in Tehran, they are not representing a country that bombed Iranian territory. That matters more than it might seem.
+
+The mediation has proceeded in a format that allows both sides to maintain public positions while exploring compromises in private — a structure that has been essential to every major breakthrough in Middle Eastern diplomacy. Neither Washington nor Tehran can afford to be seen publicly conceding ground. Pakistan gives them a channel that doesn't require either side to lose face.
+
+## What the Framework Reportedly Includes
+
+Details of the emerging framework remain limited, and both sides have been careful to avoid confirming specifics. What has been reported suggests the framework centers on a cessation of active hostilities, a withdrawal or repositioning of forces from contested areas, and some form of international monitoring mechanism. Sanctions relief has reportedly been discussed as an incentive for Iranian compliance with ceasefire terms.
+
+What is not included, according to Iranian officials, is any agreement touching on Iran's nuclear program. Tehran has been emphatic that its uranium enrichment activities, its stockpile of enriched material, and its research into weaponization-adjacent technologies are separate from the ceasefire track. This is consistent with Iran's longstanding negotiating posture: it will discuss the war that started; it will not link a war settlement to the nuclear issue that preceded it.
+
+The United States has historically insisted that any durable normalization with Iran must address the nuclear program. The question now is whether Washington will accept a ceasefire that leaves the nuclear issue for a subsequent track — or whether linkage will be the stumbling block that collapses the framework.
+
+## The Nuclear Obstacle
+
+Iran's nuclear position is not arbitrary stubbornness. From Tehran's perspective, the nuclear program is the regime's ultimate insurance policy — the deterrent that, if surrendered, leaves it vulnerable to the fate of other governments that gave up weapons programs under Western pressure. Its observation of Muammar Gaddafi after Libya's disarmament, and of Saddam Hussein, has calcified that view across the Iranian political spectrum.
+
+A ceasefire that leaves the nuclear question unresolved does not solve the underlying tension between Iran and the United States and Israel. It stops the shooting. It does not address the reason the shooting started. For the Trump administration, accepting that separation requires a political calculation about whether halting active hostilities — with its immediate economic and humanitarian benefits — is worth leaving the nuclear issue to a later negotiating track that may never produce results.
+
+There is precedent for that calculation. The 2015 JCPOA was explicitly a nuclear-only agreement that left other Iranian behavior — its missile program, its regional proxies, its human rights record — outside the deal. Its architects argued that addressing the most urgent threat first was strategically sound. Its critics argued that it rewarded Iran without changing its fundamental character. That debate has not been resolved.
+
+## What Comes Next
+
+The reported narrowing of gaps does not mean a ceasefire is imminent. No date has been set for a second round of direct U.S.-Iran talks, Pakistan said Wednesday. The framework is not finalized. Domestic politics in both Washington and Tehran create pressures that can derail negotiating progress at any stage.
+
+Senate Republicans voted again this week to block a Democratic effort to curb Trump's Iran war powers — a signal that the administration retains significant congressional latitude to continue military operations if negotiations collapse. Iran, for its part, is dealing with its own internal factional dynamics in which hardliners have incentives to sabotage any agreement that could be seen as rewarding American pressure.
+
+What is different now from any previous moment in the conflict is that both sides appear to be genuinely exploring an off-ramp. That is not the same as finding one. But it is a precondition for finding one, and it has been absent for most of this conflict.
+
+Pakistan's mediators have done something significant in getting the two sides to this point. Whether it is enough is a question that will likely be answered in the next few weeks.`,
+  },
+  {
+    slug: 'trump-powell-fed-independence',
+    title: 'Trump Is Threatening to Fire Powell. The Fed\'s Independence May Be the Real Target.',
+    excerpt: 'The president threatened this week to remove Jerome Powell from the Federal Reserve Board of Governors if he doesn\'t step down as chair. The threat raises a constitutional question that markets are watching closely.',
+    category: 'Economic Security',
+    date: 'APR 16, 2026',
+    relevance: 'HIGH',
+    featured: false,
+    content: `President Trump escalated his long-running conflict with Federal Reserve Chair Jerome Powell this week, threatening to remove Powell not just from the chairmanship — which ends next month — but from his seat on the Fed's Board of Governors, which runs through 2028. The threat, if acted upon, would test a legal question that has never been definitively resolved: whether a president can remove a Fed governor for cause, or whether the central bank's statutory independence protects its members from politically motivated dismissal.
+
+Markets are paying attention. The prospect of a presidency that controls the Federal Reserve's interest rate decisions is not an abstract concern — it is a scenario that has historically preceded currency crises in countries that have attempted it.
+
+## The Legal Question
+
+The Federal Reserve Act specifies that governors may be removed "for cause." What constitutes cause has never been fully tested in court. The Trump administration's argument, as characterized by officials close to the president, appears to rest on a disagreement over monetary policy — specifically, Powell's refusal to cut interest rates as aggressively as the president has demanded.
+
+Legal scholars are divided on whether policy disagreement constitutes cause in the statutory sense. The text of the law suggests cause means misconduct, not a difference of opinion about macroeconomic conditions. A removal for the latter would almost certainly be challenged in court and could produce a constitutional confrontation with implications extending well beyond the Fed.
+
+The Supreme Court's 2020 decision in Seila Law v. CFPB, which held that the president could remove the head of the Consumer Financial Protection Bureau at will, has been cited by some as establishing broader presidential removal authority over independent agencies. The Fed's defenders argue that the case is distinguishable — the CFPB has a single director, while the Fed is governed by a multi-member board with specific statutory protections. Whether the courts would see it that way is genuinely uncertain.
+
+## Why Powell Won't Cut
+
+The conflict between Trump and Powell is substantive, not just personal. Powell and the Fed's Open Market Committee have held rates at their current level through a period of persistent inflation, declining labor market momentum, and rising uncertainty about tariff effects on prices. Powell has said consistently that the Fed needs more data before cutting — that the risk of easing prematurely, allowing inflation to reaccelerate, outweighs the risk of waiting.
+
+Trump's view is the opposite. He has argued publicly and repeatedly that lower rates would stimulate economic activity, ease the borrowing costs burdening American consumers and businesses, and support the asset prices that he treats as a measure of economic success. He has accused Powell of being politically motivated in his rate-setting, a charge that Powell has consistently rejected.
+
+The irony is that the Fed's independence was designed precisely for this situation: to ensure that interest rate decisions are made by technocrats insulated from the political pressure that would naturally incline elected officials toward easy money before elections. Whether that design survives the current pressure is the question.
+
+## Market Implications
+
+Financial markets have grown increasingly sensitive to any signal about Fed independence. The dollar weakened this week on news of Trump's threat. Long-term Treasury yields rose — a sign that bond investors are pricing in greater uncertainty about future inflation and monetary policy credibility. Equity markets showed more resilience, reflecting either a belief that the threat is rhetoric or that lower rates would be good for corporate valuations regardless of the institutional damage.
+
+The historical record from other countries is not encouraging. Governments that have subordinated central bank independence to political direction have generally produced higher inflation, weaker currencies, and reduced investor confidence over time. The mechanism is not mysterious: if markets believe a central bank will set rates based on political instruction rather than inflation and employment data, they price in that risk through higher long-term interest rates and currency depreciation, which can themselves become inflationary.
+
+The United States has never fully tested this dynamic because no president has previously attempted to exercise direct control over the Fed. The institutions, the legal frameworks, and the market expectations were all built around the assumption that the Fed's independence was durable. That assumption is now being stress-tested in ways it has not been before.
+
+## What Happens Next Month
+
+Powell's term as chair expires next month. The president will nominate a successor. The question of whether Powell remains on the Board of Governors — and whether the administration attempts to remove him if he does — will likely be determined by whether the incoming chair's posture on interest rates satisfies the White House.
+
+If the new chair signals a willingness to cut rates, the conflict with Powell may become academic regardless of his board status. If the new chair maintains a similar position to Powell's — that rate decisions must be driven by economic data rather than presidential preference — the underlying conflict continues, just with different personnel.
+
+The Federal Reserve's institutional credibility is not built on any individual. It is built on the consistent expectation that its decisions are insulated from political direction. That expectation, once damaged, is difficult to restore. The coming weeks will test how much damage the institution can absorb.`,
+  },
+  {
+    slug: 'microsoft-patch-tuesday-april-2026-nginx-zero-day',
+    title: 'Microsoft Fixed 167 Vulnerabilities This Week. One Nginx Flaw Is Already Being Exploited.',
+    excerpt: 'April\'s Patch Tuesday was one of the largest in recent memory. Separately, a critical authentication-bypass vulnerability in Nginx UI is being actively exploited in the wild — and many servers haven\'t been patched.',
+    category: 'Cybersecurity',
+    date: 'APR 16, 2026',
+    relevance: 'MED',
+    featured: false,
+    content: `Microsoft's April Patch Tuesday addressed 167 vulnerabilities across Windows, Office, Azure, and other products — one of the largest single-month patch releases in the company's history, and a reminder of how rapidly the attack surface of modern enterprise software expands. Among the fixes are two zero-days: vulnerabilities that were either publicly known or actively exploited before Microsoft released a patch. Organizations running unpatched systems are exposed to attacks that, in both cases, do not require the attacker to have any prior access to the target system.
+
+Separately, a critical authentication-bypass vulnerability in Nginx UI — a popular web-based management interface for the Nginx web server — is being actively exploited in the wild. The two stories are distinct but point to the same underlying reality: the window between vulnerability disclosure and active exploitation has collapsed, and the organizations that treat patching as a scheduled maintenance activity rather than an emergency response are absorbing unnecessary risk.
+
+## The Microsoft Zero-Days
+
+Details on both zero-days remain partially limited as Microsoft continues investigating active exploitation. What is confirmed is that both vulnerabilities allow unauthenticated code execution under certain conditions — the most dangerous class of vulnerability, because it allows an attacker who has no existing foothold in a network to establish one without any interaction from a victim.
+
+One of the zero-days affects the Windows Common Log File System driver, a component present in all modern Windows versions. Exploiting it allows an attacker to escalate privileges to SYSTEM level — effectively full control of the affected machine. The second zero-day affects Microsoft Office and is triggered by opening a malicious document, a delivery mechanism that remains perennially effective because document-based attacks bypass many network-level defenses.
+
+Organizations running extended security update contracts for older Windows versions should note that patches are available across the supported version range. The priority for patching should be any internet-facing Windows systems, followed by workstations with access to sensitive internal resources.
+
+## The Nginx UI Flaw
+
+The more immediately alarming story for server administrators is the Nginx UI vulnerability. Nginx is one of the most widely deployed web servers in the world, running a significant fraction of the public internet's infrastructure. Nginx UI is a third-party graphical management interface that allows administrators to manage Nginx configurations through a browser rather than the command line — convenient, widely used, and, as of this week, a confirmed active exploitation target.
+
+The vulnerability is an authentication bypass, which means an attacker can access the Nginx UI interface and execute administrative functions without valid credentials. The practical consequence is complete control of the web server configuration — the ability to redirect traffic, expose backend systems, install malicious configurations, or use the server as a pivot point into internal networks.
+
+Active exploitation has been confirmed by BleepingComputer and corroborated by threat intelligence researchers tracking honeypot activity. The exploits circulating are not sophisticated proof-of-concept code — they are automated scanners targeting any internet-exposed Nginx UI instance, which means unpatched systems are being found and compromised at scale.
+
+## What to Do
+
+The immediate remediation priority for the Nginx UI vulnerability is straightforward: update to the patched version if available, or take the management interface offline until it can be patched. Nginx UI should never be exposed directly to the internet regardless of patching status — it is an administrative interface that should be accessible only over a VPN or internal network segment.
+
+For the Microsoft patches, the standard guidance applies with elevated urgency: prioritize the two zero-days, prioritize internet-facing systems, and do not defer patching on the assumption that your organization is not a target. The organizations that made that assumption about Nginx UI discovered this week that automated scanners don't make targeting decisions.
+
+## The Bigger Picture
+
+The volume of April's Patch Tuesday — 167 vulnerabilities — is not exceptional by recent standards. Monthly patch volumes for major software vendors have been running at comparable levels for several years, reflecting both the complexity of modern software and the expanding investment in vulnerability research. The challenge for security teams is that each of those patches represents a vulnerability that exists in their environment until the patch is applied, and that attackers are actively prioritizing the most exploitable ones.
+
+The Nginx UI situation is a case study in the specific risk posed by third-party administrative tools — software that isn't the primary product but provides significant control over infrastructure and often receives less security scrutiny than the core systems it manages. Every internet-facing server running administrative tools of any kind should be audited for exposure. In a threat environment where exploits are automated and scanning is continuous, exposure is exploitation on a delay.`,
+  },
+
   // ── GEOPOLITICS ──────────────────────────────────────────────────────────────
   {
     slug: 'south-china-sea-flashpoint',
