@@ -5,15 +5,15 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const [postsRes, groupsRes] = await Promise.all([
-      fetch('https://api.ransomwatch.telemetry.ltd/v2/posts', {
+      fetch('https://raw.githubusercontent.com/joshhighet/ransomwatch/main/posts.json', {
         headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RuddReport/1.0)' },
-        cache: 'no-store',
-        signal: AbortSignal.timeout(10000),
+        next: { revalidate: 3600 },
+        signal: AbortSignal.timeout(15000),
       }),
-      fetch('https://api.ransomwatch.telemetry.ltd/v2/groups', {
+      fetch('https://raw.githubusercontent.com/joshhighet/ransomwatch/main/groups.json', {
         headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RuddReport/1.0)' },
-        cache: 'no-store',
-        signal: AbortSignal.timeout(10000),
+        next: { revalidate: 3600 },
+        signal: AbortSignal.timeout(15000),
       }),
     ]);
 
