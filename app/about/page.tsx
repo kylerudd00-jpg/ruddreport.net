@@ -1,12 +1,22 @@
 ﻿'use client';
+import { useEffect } from 'react';
 import { Lock, Eye, Globe } from 'lucide-react';
 
 
 export default function About() {
+  useEffect(() => {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Barlow', sans-serif; }
 
@@ -32,48 +42,50 @@ export default function About() {
 
         .page-wrap { padding-top: 70px; min-height: 100vh; }
 
-        .hero { position: relative; padding: 80px 40px 60px; overflow: hidden; border-bottom: 1px solid var(--border); }
+        .hero { position: relative; padding: 140px 40px 100px; overflow: hidden; border-bottom: 1px solid var(--border); }
         .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(30,158,255,0.06) 0%, transparent 70%); pointer-events: none; }
         .hero-inner { max-width: 1200px; margin: 0 auto; }
-        .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-        .hero-eyebrow-line { width: 60px; height: 1px; background: var(--accent);  }
-        .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; }
-        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 68px); font-weight: 700; color: var(--silver); letter-spacing: -0.5px; line-height: 1.05; margin-bottom: 8px; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(44px, 6vw, 84px); font-weight: 700; color: var(--silver); letter-spacing: -1.5px; line-height: 1.02; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.8s ease 0.1s forwards; }
         .hero-title span { color: var(--accent); }
-        .hero-subtitle { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 24px; }
-        .hero-bio { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.9; margin-bottom: 28px; }
-        .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
-        .hero-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--text-muted); border: 1px solid rgba(30,158,255,0.15); padding: 5px 12px; text-transform: uppercase; }
-        .hero-socials { display: flex; gap: 10px; }
-        .social-btn { padding: 11px 22px; border: 1px solid var(--border); font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: var(--text-secondary); text-decoration: none; text-transform: uppercase; transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
+        .hero-subtitle { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 2px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s ease 0.25s forwards; }
+        .hero-bio { font-size: 16px; font-weight: 400; color: var(--text-secondary); line-height: 1.9; margin-bottom: 32px; max-width: 680px; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
+        .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; opacity: 0; animation: fadeUp 0.8s ease 0.55s forwards; }
+        .hero-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; color: var(--text-secondary); border: 1px solid rgba(30,158,255,0.18); padding: 6px 14px; text-transform: uppercase; }
+        .hero-socials { display: flex; gap: 10px; opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards; }
+        .social-btn { padding: 12px 24px; border: 1px solid var(--border); font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; color: var(--text-secondary); text-decoration: none; text-transform: uppercase; transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
         .social-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
         .social-btn.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
         .social-btn.primary:hover { background: transparent; color: var(--accent); }
 
-        @keyframes scanDown { 0% { top: 0; opacity: 0.35; } 100% { top: 100%; opacity: 0; } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        .credentials { padding: 80px 40px; border-bottom: 1px solid var(--border); }
+        .credentials { padding: 100px 40px; border-bottom: 1px solid var(--border); }
         .credentials-inner { max-width: 1200px; margin: 0 auto; }
-        .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
-        .section-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--silver); letter-spacing: -0.2px; margin-bottom: 48px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+        .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--silver); letter-spacing: -0.3px; margin-bottom: 48px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
         .cred-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
-        .cred-card { background: var(--bg-card); border: 1px solid var(--border); padding: 32px; position: relative; overflow: hidden; transition: all 0.3s; }
+        .cred-card { background: var(--bg-card); border: 1px solid var(--border); padding: 36px; position: relative; overflow: hidden; transition: all 0.3s; }
         .cred-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--accent); opacity: 0; transition: opacity 0.3s; }
         .cred-card:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
         .cred-card:hover::before { opacity: 1; }
-        .cred-org { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
-        .cred-role { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: var(--text-primary); line-height: 1.2; margin-bottom: 10px; }
-        .cred-detail { font-size: 13px; font-weight: 400; color: var(--text-muted); line-height: 1.7; }
-        .cred-year { position: absolute; top: 32px; right: 32px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; color: var(--text-muted); letter-spacing: 2px; }
+        .cred-card.current { grid-column: 1 / -1; background: linear-gradient(135deg, rgba(30,158,255,0.05) 0%, var(--bg-card) 55%); }
+        .cred-card.current::before { opacity: 1; }
+        .cred-badge { display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--accent); border: 1px solid rgba(30,158,255,0.35); padding: 3px 10px; text-transform: uppercase; margin-bottom: 14px; }
+        .cred-org { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+        .cred-role { font-family: 'Barlow Condensed', sans-serif; font-size: 21px; font-weight: 700; color: var(--text-primary); line-height: 1.2; margin-bottom: 10px; }
+        .cred-detail { font-size: 14px; font-weight: 400; color: var(--text-muted); line-height: 1.75; max-width: 780px; }
+        .cred-year { position: absolute; top: 36px; right: 36px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; color: var(--text-muted); letter-spacing: 1.5px; }
 
-        .mission { padding: 80px 40px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); }
+        .mission { padding: 100px 40px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); }
         .mission-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
         .mission-left {}
-        .mission-quote { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(24px, 3vw, 40px); font-weight: 400; color: var(--text-primary); line-height: 1.5; font-style: italic; padding-left: 24px; border-left: 3px solid var(--accent); }
+        .mission-quote { font-family: 'Playfair Display', serif; font-size: clamp(24px, 2.6vw, 36px); font-weight: 400; color: var(--text-primary); line-height: 1.5; font-style: italic; padding-left: 24px; border-left: 3px solid var(--accent); }
         .mission-right {}
-        .mission-text { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.9; margin-bottom: 20px; }
+        .mission-text { font-size: 16px; font-weight: 400; color: var(--text-secondary); line-height: 1.9; margin-bottom: 22px; }
 
-        .focus-areas { padding: 80px 40px; border-bottom: 1px solid var(--border); }
+        .focus-areas { padding: 100px 40px; border-bottom: 1px solid var(--border); }
         .focus-inner { max-width: 1200px; margin: 0 auto; }
         .focus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 0; }
         .focus-card { background: var(--bg-card); border: 1px solid var(--border); padding: 32px; transition: all 0.3s; position: relative; overflow: hidden; }
@@ -81,8 +93,8 @@ export default function About() {
         .focus-card:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
         .focus-card:hover::after { transform: scaleX(1); }
         .focus-icon { margin-bottom: 16px; display: block; color: #1e9eff; opacity: 0.7; }
-        .focus-name { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--silver); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
-        .focus-desc { font-size: 13px; font-weight: 400; color: var(--text-muted); line-height: 1.7; }
+        .focus-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--silver); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+        .focus-desc { font-size: 14px; font-weight: 400; color: var(--text-muted); line-height: 1.75; }
 
         footer { position: relative; z-index: 3; border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
@@ -97,7 +109,7 @@ export default function About() {
           .nav-links { display: none; }
           .nav-status { display: none; }
           .hamburger { display: flex; }
-          .hero { padding: 40px 20px; }
+          .hero { padding: 80px 20px 60px; }
           .hero-inner { grid-template-columns: 1fr; }
           .credentials { padding: 60px 20px; }
           .cred-grid { grid-template-columns: 1fr; }
@@ -140,28 +152,25 @@ export default function About() {
           <a href="/contact" onClick={() => document.getElementById('mobileMenuAbout')?.classList.remove('open')}>Contact</a>
         </div>
 
+        <main id="main">
         <div className="hero">
           <div className="hero-inner">
             <div className="hero-left">
-              <div className="hero-eyebrow">
-                <div className="hero-eyebrow-line" />
-                <div className="hero-eyebrow-text">Personnel File — Analyst Profile</div>
-              </div>
               <h1 className="hero-title">Kyle<br /><span>Rudd</span></h1>
-              <div className="hero-subtitle">Intelligence Researcher & Strategic Analyst</div>
+              <p className="hero-subtitle">Intelligence Researcher & Strategic Analyst</p>
               <p className="hero-bio">
-                From the halls of Cambridge to the corridors of the Department of Homeland Security, Kyle Rudd has spent his early career at the intersection of intelligence, cybersecurity, and national security policy — building a rare analytical perspective grounded in both academic rigor and operational experience.
+                Kyle Rudd works at the intersection of intelligence, cybersecurity, and critical-infrastructure policy. He is currently an HS-POWER Fellow at the Cybersecurity and Infrastructure Security Agency&apos;s Office of the National Coordinator, where his research focuses on how federal agencies, sector teams, and liaison offices coordinate to defend U.S. critical infrastructure. His work has spanned the University of Cambridge, the Department of Homeland Security, and the Afghanistan War Commission.
               </p>
               <div className="hero-tags">
-                <span className="hero-tag">DHS Intern</span>
+                <span className="hero-tag">CISA · HS-POWER</span>
                 <span className="hero-tag">Cambridge Scholar</span>
                 <span className="hero-tag">ODNI IC-CAE</span>
                 <span className="hero-tag">IR + Economics</span>
                 <span className="hero-tag">Intelligence Studies</span>
               </div>
               <div className="hero-socials">
-                <a href="https://www.linkedin.com/in/kyle-rudd-68209b252/" target="_blank" rel="noopener noreferrer" className="social-btn primary">↗ LinkedIn</a>
-                <a href="https://x.com/KyleRudd44" target="_blank" rel="noopener noreferrer" className="social-btn">↗ X / Twitter</a>
+                <a href="https://www.linkedin.com/in/kyle-rudd-68209b252/" target="_blank" rel="noopener noreferrer" className="social-btn primary" aria-label="LinkedIn (opens in new tab)"><span aria-hidden="true">↗</span> LinkedIn</a>
+                <a href="https://x.com/KyleRudd44" target="_blank" rel="noopener noreferrer" className="social-btn" aria-label="X / Twitter (opens in new tab)"><span aria-hidden="true">↗</span> X / Twitter</a>
               </div>
             </div>
           </div>
@@ -170,29 +179,36 @@ export default function About() {
         <div className="credentials">
           <div className="credentials-inner">
             <div className="section-label">Service Record</div>
-            <div className="section-title">Key Credentials</div>
+            <h2 className="section-title">Key Credentials</h2>
             <div className="cred-grid">
-              <div className="cred-card">
+              <div className="cred-card current reveal">
+                <span className="cred-badge">Current</span>
+                <div className="cred-org">CISA — Office of the National Coordinator</div>
+                <h3 className="cred-role">HS-POWER Fellow (ORISE)</h3>
+                <div className="cred-detail">Supporting critical-infrastructure coordination and Sector Risk Management Agency work at the Cybersecurity and Infrastructure Security Agency. Built a coordination flowchart mapping how agencies, sector teams, and liaison offices interconnect; interviewed sector liaisons to identify communication gaps and briefed recommendations to agency leadership.</div>
+                <div className="cred-year">2026–</div>
+              </div>
+              <div className="cred-card reveal">
                 <div className="cred-org">University of Cambridge</div>
-                <div className="cred-role">International Security & Intelligence Programme</div>
+                <h3 className="cred-role">International Security & Intelligence Programme</h3>
                 <div className="cred-detail">Full scholarship recipient. Evaluated U.S.–UK intelligence-sharing frameworks for disrupting transnational cybercrime networks and improving real-time coordination across allied systems.</div>
                 <div className="cred-year">2025</div>
               </div>
-              <div className="cred-card">
-                <div className="cred-org">Dept. of Homeland Security</div>
-                <div className="cred-role">Intelligence & Cybercrime Intern</div>
-                <div className="cred-detail">Supported cross-border cybercrime investigations and inter-agency intelligence exchange operations — working at the frontline of federal cybersecurity response.</div>
-                <div className="cred-year">2024</div>
-              </div>
-              <div className="cred-card">
+              <div className="cred-card reveal">
                 <div className="cred-org">ODNI — IC-CAE Program</div>
-                <div className="cred-role">IC-CAE Scholar</div>
+                <h3 className="cred-role">IC-CAE Scholar</h3>
                 <div className="cred-detail">Selected by the Office of the Director of National Intelligence for intelligence analysis and cybersecurity research — one of a small cohort of scholars bridging academia and the intelligence community.</div>
                 <div className="cred-year">2024–</div>
               </div>
-              <div className="cred-card">
+              <div className="cred-card reveal">
+                <div className="cred-org">Dept. of Homeland Security</div>
+                <h3 className="cred-role">Intelligence & Cybercrime Intern</h3>
+                <div className="cred-detail">Supported cross-border cybercrime investigations and inter-agency intelligence exchange operations — working at the frontline of federal cybersecurity response.</div>
+                <div className="cred-year">2024</div>
+              </div>
+              <div className="cred-card reveal">
                 <div className="cred-org">Afghanistan War Commission</div>
-                <div className="cred-role">Research Contributor</div>
+                <h3 className="cred-role">Research Contributor</h3>
                 <div className="cred-detail">Contributed research to the official commission examining the full scope of U.S. involvement in Afghanistan — a landmark historical and policy undertaking.</div>
                 <div className="cred-year">2024</div>
               </div>
@@ -204,13 +220,13 @@ export default function About() {
           <div className="mission-inner">
             <div className="mission-left">
               <div className="section-label">Mission Statement</div>
-              <div className="mission-quote">"Make serious national security analysis accessible to everyone — not just insiders."</div>
+              <blockquote className="mission-quote">"Make serious national security analysis accessible to everyone — not just insiders."</blockquote>
             </div>
             <div className="mission-right">
-              <div className="section-label" style={{marginBottom: '20px'}}>About The Rudd Report</div>
+              <h2 className="section-label" style={{marginBottom: '20px'}}>About The Rudd Report</h2>
               <p className="mission-text">The Rudd Report was built on a simple premise: the most consequential decisions in the world — about war, intelligence, technology, and power — are made with information most people never see. That needs to change.</p>
               <p className="mission-text">In an era of information overload, The Rudd Report cuts through noise to deliver intelligence-informed analysis on the issues that actually shape the global order. No spin. No partisanship. Just rigorous, evidence-based perspective from someone who has worked inside the systems being analyzed.</p>
-              <p className="mission-text">Currently pursuing dual degrees in International Relations and Economics with a minor in Intelligence Studies at the University of South Florida's Judy Genshaft Honors College — and building a career at the intersection of intelligence analysis, federal law enforcement, and national security research.</p>
+              <p className="mission-text">Kyle is currently pursuing dual degrees in International Relations and Economics with a minor in Intelligence Studies at the University of South Florida's Judy Genshaft Honors College — while supporting CISA's critical-infrastructure mission and building a career at the intersection of intelligence analysis, infrastructure protection, and national security research.</p>
             </div>
           </div>
         </div>
@@ -218,26 +234,27 @@ export default function About() {
         <div className="focus-areas">
           <div className="focus-inner">
             <div className="section-label">Areas of Focus</div>
-            <div className="section-title">Research Domains</div>
+            <h2 className="section-title">Research Domains</h2>
             <div className="focus-grid">
-              <div className="focus-card">
-                <span className="focus-icon"><Lock size={28} strokeWidth={1.5} /></span>
-                <div className="focus-name">Cybersecurity</div>
+              <div className="focus-card reveal">
+                <span className="focus-icon" aria-hidden="true"><Lock size={28} strokeWidth={1.5} /></span>
+                <h3 className="focus-name">Cybersecurity</h3>
                 <div className="focus-desc">State-sponsored threat actors, critical infrastructure vulnerabilities, zero-day diplomacy, and the evolving landscape of offensive cyber operations.</div>
               </div>
-              <div className="focus-card">
-                <span className="focus-icon"><Eye size={28} strokeWidth={1.5} /></span>
-                <div className="focus-name">Intelligence</div>
+              <div className="focus-card reveal">
+                <span className="focus-icon" aria-hidden="true"><Eye size={28} strokeWidth={1.5} /></span>
+                <h3 className="focus-name">Intelligence</h3>
                 <div className="focus-desc">Intelligence-sharing frameworks, Five Eyes coordination, IC reform, and the analytical tradecraft behind operationally relevant assessment.</div>
               </div>
-              <div className="focus-card">
-                <span className="focus-icon"><Globe size={28} strokeWidth={1.5} /></span>
-                <div className="focus-name">U.S. Foreign Policy</div>
+              <div className="focus-card reveal">
+                <span className="focus-icon" aria-hidden="true"><Globe size={28} strokeWidth={1.5} /></span>
+                <h3 className="focus-name">U.S. Foreign Policy</h3>
                 <div className="focus-desc">Alliance architecture, strategic competition with China and Russia, economic coercion, and the geopolitical forces reshaping the post-unipolar world.</div>
               </div>
             </div>
           </div>
         </div>
+        </main>
 
         <footer>
           <div className="footer-bottom">

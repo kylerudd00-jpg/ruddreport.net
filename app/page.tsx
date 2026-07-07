@@ -32,6 +32,7 @@ function getCategoryColor(cat: string): string {
 
 export default function Home() {
   const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [carouselPaused, setCarouselPaused] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [osintQuery, setOsintQuery] = useState('');
@@ -46,10 +47,11 @@ export default function Home() {
   const latest = getLatest(3);
 
   useEffect(() => {
-    if (featured.length <= 1) return;
+    if (featured.length <= 1 || carouselPaused) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const t = setInterval(() => setFeaturedIndex(i => i + 1), 6000);
     return () => clearInterval(t);
-  }, [featured.length]);
+  }, [featured.length, carouselPaused]);
 
   useEffect(() => {
     const reveals = document.querySelectorAll('.reveal');
@@ -89,7 +91,7 @@ export default function Home() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         :root { --accent: #1e9eff; --accent-dim: rgba(30,158,255,0.25); --accent-glow: rgba(30,158,255,0.06); --border: rgba(30,158,255,0.12); --border-bright: rgba(30,158,255,0.35); --bg: #030608; --bg-card: #070d12; --bg-card-hover: #0a1520; --bg-secondary: #070d12; --silver: #c0cfe0; --text-primary: #d8e8f5; --text-secondary: #7a9bb5; --text-muted: #5a7a94; --red: #ff3a3a; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { background: var(--bg); color: var(--text-primary); font-family: 'Barlow', sans-serif; }
@@ -108,13 +110,12 @@ export default function Home() {
         .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 40px 80px; overflow: hidden; }
         .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
-        .hero-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
-        .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 3px; color: var(--text-secondary); text-transform: uppercase; }
-        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(52px, 8vw, 100px); font-weight: 900; line-height: 1.0; color: var(--silver); letter-spacing: -1px; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; }
+        .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; color: var(--text-secondary); text-transform: uppercase; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(52px, 8vw, 104px); font-weight: 900; line-height: 0.98; color: var(--silver); letter-spacing: -2px; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; }
         .hero-title .accent-word { color: var(--accent); display: block; }
-        .hero-subtitle { margin-top: 28px; font-size: 16px; font-weight: 400; color: var(--text-secondary); max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
-        .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards; }
-        .hero-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #c0cfe0; border: 1px solid rgba(30,158,255,0.25); padding: 7px 16px; text-transform: uppercase; transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease; text-decoration: none; display: inline-block; background: transparent; cursor: pointer; }
+        .hero-subtitle { margin-top: 28px; font-size: 17px; font-weight: 400; color: var(--text-secondary); max-width: 560px; line-height: 1.7; opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards; }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 44px; opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards; }
+        .hero-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; color: #c0cfe0; border: 1px solid rgba(30,158,255,0.25); padding: 7px 16px; text-transform: uppercase; transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease; text-decoration: none; display: inline-block; background: transparent; cursor: pointer; }
         .hero-tag:hover { color: #fff; border-color: rgba(30,158,255,0.6); background: rgba(30,158,255,0.07); transform: translateY(-1px); }
         .hero-tag.active { color: #fff; border-color: #1e9eff; background: rgba(30,158,255,0.12); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(30,158,255,0.2), 0 0 0 1px rgba(30,158,255,0.15); }
         .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 1s ease 1.4s forwards; }
@@ -123,14 +124,15 @@ export default function Home() {
         .ticker-wrap { position: relative; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(7,13,18,0.9); padding: 10px 0; overflow: hidden; }
         .ticker-label { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); display: flex; align-items: center; padding: 0 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #000; z-index: 2; text-transform: uppercase; }
         .ticker-track { display: flex; animation: ticker 30s linear infinite; padding-left: 160px; }
+        .ticker-wrap:hover .ticker-track, .ticker-wrap:focus-within .ticker-track { animation-play-state: paused; }
         .ticker-item { white-space: nowrap; font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 400; color: var(--text-secondary); padding: 0 40px; display: flex; align-items: center; gap: 12px; }
         .ticker-item::after { content: '·'; color: var(--text-muted); }
-        section { padding: 100px 40px; }
+        section { padding: 120px 40px; }
         .section-inner { max-width: 1200px; margin: 0 auto; }
         .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 60px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-        .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
-        .section-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--silver); letter-spacing: 0; }
-        .section-link { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; color: var(--accent); text-decoration: none; text-transform: uppercase; display: flex; align-items: center; gap: 8px; transition: gap 0.3s; }
+        .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--silver); letter-spacing: -0.3px; }
+        .section-link { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; color: var(--accent); text-decoration: none; text-transform: uppercase; display: flex; align-items: center; gap: 8px; transition: gap 0.3s; }
         .section-link:hover { gap: 14px; }
         .featured-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
         .article-card { position: relative; background: var(--bg-card); border: 1px solid var(--border); padding: 36px; overflow: hidden; text-decoration: none; display: block; transition: all 0.4s ease; cursor: pointer; }
@@ -147,16 +149,17 @@ export default function Home() {
         .card-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
         .card-category { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-dim); padding: 4px 10px; background: var(--accent-glow); }
         .card-date { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--text-muted); }
-        .card-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1.2; letter-spacing: -0.3px; margin-bottom: 16px; transition: color 0.3s; }
+        .card-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1.2; letter-spacing: -0.3px; margin-bottom: 16px; transition: color 0.3s; margin-top: 0; }
         .article-card:hover .card-title { color: var(--accent); }
         .featured-card .card-title { font-size: 42px; line-height: 1.1; }
         .card-excerpt { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.75; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
         .card-read { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
         .visual-label { position: absolute; bottom: 16px; left: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; z-index: 2; opacity: 0.6; }
-        .rotate-dots { display: flex; gap: 8px; margin-top: 16px; }
-        .rotate-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(30,158,255,0.2); cursor: pointer; transition: background 0.3s; border: 1px solid rgba(30,158,255,0.3); }
-        .rotate-dot.active { background: #1e9eff; }
+        .rotate-dots { display: flex; gap: 4px; margin-top: 12px; }
+        .rotate-dot { width: 24px; height: 24px; border-radius: 50%; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .rotate-dot::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: rgba(30,158,255,0.2); border: 1px solid rgba(30,158,255,0.3); transition: background 0.3s; }
+        .rotate-dot.active::before { background: #1e9eff; }
         .intel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
         .topics-section { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
         .topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
@@ -215,14 +218,14 @@ export default function Home() {
         .aladdin-banner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(255,170,0,0.05) 0%, transparent 70%); pointer-events: none; }
         .aladdin-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; align-items: stretch; }
         .aladdin-badge { background: #ffaa00; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 28px; gap: 6px; flex-shrink: 0; }
-        .aladdin-badge-title { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 900; color: #000; letter-spacing: 3px; writing-mode: vertical-rl; transform: rotate(180deg); text-transform: uppercase; }
+        .aladdin-badge-title { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; color: #000; letter-spacing: 2px; writing-mode: vertical-rl; transform: rotate(180deg); text-transform: uppercase; }
         .aladdin-body { flex: 1; padding: 28px 36px; border-left: 1px solid rgba(255,170,0,0.12); }
-        .aladdin-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #ffaa00; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .aladdin-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; color: #ffaa00; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
         .aladdin-live { width: 6px; height: 6px; border-radius: 50%; background: #ffaa00; animation: aladdin-pulse 1.5s ease-in-out infinite; flex-shrink: 0; }
         @keyframes aladdin-pulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,170,0,0.4); } 50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(255,170,0,0); } }
-        .aladdin-heading { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; margin-bottom: 6px; }
+        .aladdin-heading { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: #fff; letter-spacing: -0.3px; margin-bottom: 6px; }
         .aladdin-heading span { color: #ffaa00; }
-        .aladdin-desc { font-family: 'Barlow', sans-serif; font-size: 13px; color: #7a9bb5; line-height: 1.6; }
+        .aladdin-desc { font-family: 'Barlow', sans-serif; font-size: 14px; color: #7a9bb5; line-height: 1.6; }
         .aladdin-cta { display: flex; align-items: center; padding: 28px 36px; border-left: 1px solid rgba(255,170,0,0.12); flex-shrink: 0; }
         .aladdin-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #000; background: #ffaa00; padding: 12px 24px; text-decoration: none; transition: background 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
         .aladdin-btn:hover { background: #ffc300; }
@@ -238,8 +241,7 @@ export default function Home() {
         .osint-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
         .osint-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 48px; }
         .osint-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-        .osint-eyebrow-line { width: 32px; height: 1px; background: var(--accent); }
-        .osint-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; }
+        .osint-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; }
         .osint-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 700; color: var(--silver); line-height: 1.05; letter-spacing: -0.5px; }
         .osint-title span { color: var(--accent); }
         .osint-sub { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.75; margin-bottom: 24px; }
@@ -252,9 +254,9 @@ export default function Home() {
         .osint-right { display: flex; flex-direction: column; gap: 0; }
         .osint-router-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
         .osint-router-row { display: flex; gap: 0; margin-bottom: 10px; }
-        .osint-router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: var(--text-primary); font-family: 'Share Tech Mono', monospace; font-size: 13px; padding: 13px 16px; outline: none; transition: border-color 0.2s; }
+        .osint-router-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); border-right: none; color: var(--text-primary); font-family: 'Barlow', sans-serif; font-size: 14px; padding: 13px 16px; transition: border-color 0.2s; }
         .osint-router-input:focus { border-color: rgba(30,158,255,0.5); }
-        .osint-router-input::placeholder { color: var(--text-muted); font-size: 11px; }
+        .osint-router-input::placeholder { color: var(--text-muted); font-size: 13px; }
         .osint-router-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: var(--accent); border: 1px solid var(--accent); color: #000; padding: 13px 22px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: background 0.2s; }
         .osint-router-btn:hover { background: #4db3ff; }
         .osint-router-hint { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1.5px; color: var(--text-muted); }
@@ -269,15 +271,15 @@ export default function Home() {
         .osint-cat:hover .osint-cat-name { color: #fff; }
         .osint-cat-desc { font-family: 'Barlow', sans-serif; font-size: 13px; color: #5a7a94; line-height: 1.6; }
         .osint-cat-footer { display: flex; align-items: center; justify-content: flex-end; margin-top: 16px; }
-        .osint-cat-arrow { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #5a7a94; transition: all 0.2s; }
+        .osint-cat-arrow { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; color: var(--text-muted); transition: all 0.2s; }
         .osint-cat:hover .osint-cat-arrow { transform: translateX(3px); }
         .osint-view-all { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px; padding: 16px; border: 1px solid rgba(30,158,255,0.1); background: rgba(3,6,8,0.4); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; transition: all 0.2s; }
         .osint-view-all:hover { background: rgba(30,158,255,0.06); border-color: rgba(30,158,255,0.25); }
         .creds-strip { border-top: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.08); padding: 14px 40px; background: rgba(3,6,8,0.7); }
         .creds-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 24px; }
-        .creds-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; white-space: nowrap; }
+        .creds-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; white-space: nowrap; }
         .creds-items { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-        .cred-item { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #7a9bb5; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+        .cred-item { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1.5px; color: #7a9bb5; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
         .cred-dot { width: 4px; height: 4px; border-radius: 50%; background: #1e9eff; opacity: 0.5; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -379,12 +381,12 @@ export default function Home() {
         <a href="/about">About</a>
       </div>
 
+      <main id="main">
       {/* HERO */}
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-eyebrow">
-            <div className="hero-eyebrow-line" />
-            <div className="hero-eyebrow-text">Est. 2026 — Independent Analysis</div>
+            <div className="hero-eyebrow-text">Independent Analysis · Est. 2026</div>
           </div>
           <h1 className="hero-title">
             The Rudd
@@ -396,9 +398,11 @@ export default function Home() {
               <button
                 key={cat}
                 className={`hero-tag ${activeCategory === cat ? 'active' : ''}`}
+                aria-pressed={activeCategory === cat}
                 onClick={() => {
                   setActiveCategory(cat);
-                  document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' });
+                  const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                  document.getElementById('articles-section')?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
                 }}
               >
                 {cat}
@@ -416,10 +420,10 @@ export default function Home() {
           </div>
           <div className="aladdin-body">
             <div className="aladdin-eyebrow">
-              <div className="aladdin-live" />
-              Daily Intelligence Brief // Magic Carpet
+              <div className="aladdin-live" aria-hidden="true" />
+              Daily Intelligence Brief
             </div>
-            <div className="aladdin-heading">Morning <span>Brief</span></div>
+            <h2 className="aladdin-heading">Morning <span>Brief</span></h2>
             <div className="aladdin-desc">Your daily open-source intelligence summary — geopolitics, cyber, and national security. Posted every morning at 0600.</div>
           </div>
           <div className="aladdin-cta">
@@ -432,9 +436,14 @@ export default function Home() {
       <div className="ticker-wrap">
         <div className="ticker-label">LATEST</div>
         <div className="ticker-track">
-          {[...ARTICLES, ...ARTICLES].map((a, i) => (
+          {ARTICLES.map((a, i) => (
             <div className="ticker-item" key={i}>{a.title}</div>
           ))}
+          <div aria-hidden="true" style={{ display: 'contents' }}>
+            {ARTICLES.map((a, i) => (
+              <div className="ticker-item" key={`dup-${i}`}>{a.title}</div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -443,10 +452,10 @@ export default function Home() {
         <div className="creds-inner">
           <div className="creds-label">Background</div>
           <div className="creds-items">
-            <div className="cred-item"><div className="cred-dot" />DHS Cybersecurity</div>
-            <div className="cred-item"><div className="cred-dot" />ODNI IC-CAE Program</div>
-            <div className="cred-item"><div className="cred-dot" />Cambridge Intelligence Studies</div>
-            <div className="cred-item"><div className="cred-dot" />Strategic & Competitive Intelligence</div>
+            <div className="cred-item"><div className="cred-dot" aria-hidden="true" />CISA — HS-POWER Fellow</div>
+            <div className="cred-item"><div className="cred-dot" aria-hidden="true" />ODNI IC-CAE Program</div>
+            <div className="cred-item"><div className="cred-dot" aria-hidden="true" />Cambridge Intelligence Studies</div>
+            <div className="cred-item"><div className="cred-dot" aria-hidden="true" />DHS Cybersecurity</div>
           </div>
         </div>
       </div>
@@ -457,30 +466,30 @@ export default function Home() {
           <div className="osint-header">
             <div>
               <div className="osint-eyebrow">
-                <div className="osint-eyebrow-line" />
                 <div className="osint-eyebrow-text">Tools</div>
               </div>
-              <div className="osint-title">The OSINT <span>Hub</span></div>
+              <h2 className="osint-title">The OSINT <span>Hub</span></h2>
               <p className="osint-sub" style={{marginTop: '14px'}}>39 free tools covering companies, networks, live tracking, and more. No account needed.</p>
               <div className="osint-stats" style={{marginBottom: '28px'}} ref={statsRef}>
                 <div className="osint-stat"><div className="osint-stat-num">{toolCount}</div><div className="osint-stat-label">Live Tools</div></div>
                 <div className="osint-stat"><div className="osint-stat-num">{catCount}</div><div className="osint-stat-label">Categories</div></div>
                 <div className="osint-stat"><div className="osint-stat-num">Free</div><div className="osint-stat-label">No Sign-Up</div></div>
               </div>
-              <a href="/osint" className="osint-cta">Browse Tools <ChevronRight size={14} /></a>
+              <a href="/osint" className="osint-cta">Browse Tools <ChevronRight size={14} aria-hidden="true" /></a>
             </div>
             <div className="osint-right">
               <div className="osint-router-label">Quick Investigate — paste anything</div>
               <div className="osint-router-row">
                 <input
                   className="osint-router-input"
+                  aria-label="Quick investigate — enter an IP, domain, hash, username, or company name"
                   placeholder="IP, domain, hash, username, company name..."
                   value={osintQuery}
                   onChange={e => setOsintQuery(e.target.value)}
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
                       const q = osintQuery.trim();
-                      if (q) window.location.href = `/osint/company?q=${encodeURIComponent(q)}`;
+                      if (q) window.location.href = `/osint?q=${encodeURIComponent(q)}`;
                     }
                   }}
                 />
@@ -532,38 +541,51 @@ export default function Home() {
           <div className="section-header reveal">
             <div>
               <div className="section-label">Latest</div>
-              <div className="section-title">Featured</div>
+              <h2 className="section-title">Featured</h2>
             </div>
-            <a href="/articles" className="section-link">View All Reports →</a>
+            <a href="/articles" className="section-link">View All Reports <span aria-hidden="true">→</span></a>
           </div>
           <div className="featured-grid">
             {!currentFeatured ? (
               <div className="no-articles">No reports published yet</div>
             ) : (
-            <a href={`/articles/${currentFeatured.slug}`} className="article-card featured-card reveal" style={{gridTemplateColumns: '1fr'}}>
-              <div>
-                <div className="card-meta">
-                  <div className="card-category" style={{color: getCategoryColor(currentFeatured.category), borderColor: `${getCategoryColor(currentFeatured.category)}40`, background: `${getCategoryColor(currentFeatured.category)}10`}}>{currentFeatured.category}</div>
-                  <div className="card-date">{currentFeatured.date}</div>
-                </div>
-                <div className="card-title">{currentFeatured.title}</div>
-                <div className="card-excerpt">{currentFeatured.excerpt}</div>
-                <div className="card-footer">
-                  <div className="card-read">Read →</div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', color: relevanceColor(currentFeatured.relevance), letterSpacing: '2px' }}>
-                    {currentFeatured.relevance}
+            <div
+              style={{ gridColumn: '1 / -1' }}
+              onMouseEnter={() => setCarouselPaused(true)}
+              onMouseLeave={() => setCarouselPaused(false)}
+              onFocus={() => setCarouselPaused(true)}
+              onBlur={() => setCarouselPaused(false)}
+            >
+              <a href={`/articles/${currentFeatured.slug}`} className="article-card featured-card reveal" style={{gridTemplateColumns: '1fr'}}>
+                <div>
+                  <div className="card-meta">
+                    <div className="card-category" style={{color: getCategoryColor(currentFeatured.category), borderColor: `${getCategoryColor(currentFeatured.category)}40`, background: `${getCategoryColor(currentFeatured.category)}10`}}>{currentFeatured.category}</div>
+                    <div className="card-date">{currentFeatured.date}</div>
+                  </div>
+                  <h3 className="card-title">{currentFeatured.title}</h3>
+                  <div className="card-excerpt">{currentFeatured.excerpt}</div>
+                  <div className="card-footer">
+                    <div className="card-read">Read <span aria-hidden="true">→</span></div>
+                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', color: relevanceColor(currentFeatured.relevance), letterSpacing: '1.5px' }}>
+                      {currentFeatured.relevance}
+                    </div>
                   </div>
                 </div>
-                {featured.length > 1 && (
-                  <div className="rotate-dots" onClick={e => e.preventDefault()}>
-                    {featured.map((_, i) => (
-                      <div key={i} className={`rotate-dot ${i === featuredIndex % featured.length ? 'active' : ''}`} onClick={() => setFeaturedIndex(i)} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            </a>
-
+              </a>
+              {featured.length > 1 && (
+                <div className="rotate-dots">
+                  {featured.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      aria-label={`Show featured article ${i + 1} of ${featured.length}`}
+                      className={`rotate-dot ${i === featuredIndex % featured.length ? 'active' : ''}`}
+                      onClick={() => setFeaturedIndex(i)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
             )}
             {/* Two latest non-featured articles */}
             {currentFeatured && latest.filter(a => a.slug !== currentFeatured.slug).slice(0, 2).map((a, i) => (
@@ -572,14 +594,14 @@ export default function Home() {
                   <div className="card-category" style={{color: getCategoryColor(a.category), borderColor: `${getCategoryColor(a.category)}40`, background: `${getCategoryColor(a.category)}10`}}>{a.category}</div>
                   <div className="card-date">{a.date}</div>
                 </div>
-                <div className="card-title">{a.title}</div>
+                <h3 className="card-title">{a.title}</h3>
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                    <div className="card-read">Read →</div>
-                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'9px',letterSpacing:'2px',color:'#5a7a94'}}>{getReadingTime(a.content)} MIN</div>
+                    <div className="card-read">Read <span aria-hidden="true">→</span></div>
+                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'11px',letterSpacing:'1.5px',color:'var(--text-muted)'}}>{getReadingTime(a.content)} MIN</div>
                   </div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>{a.relevance}</div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', color: relevanceColor(a.relevance), letterSpacing: '1.5px' }}>{a.relevance}</div>
                 </div>
               </a>
             ))}
@@ -599,6 +621,7 @@ export default function Home() {
               <div className="articles-toolbar-filters">
                 {CATEGORIES.map(cat => (
                   <button key={cat} onClick={() => setActiveCategory(cat)}
+                    aria-pressed={activeCategory === cat}
                     className={`cat-filter-btn${activeCategory === cat ? ' cat-filter-btn--active' : ''}`}
                     style={{ borderRadius: 0, borderTop: 'none', borderBottom: 'none', borderLeft: 'none', padding: '18px 14px', whiteSpace: 'nowrap' }}>
                     {cat}
@@ -607,17 +630,21 @@ export default function Home() {
               </div>
               <div className="articles-toolbar-search">
                 <input
-                  style={{ background: 'transparent', border: 'none', outline: 'none', padding: '18px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', letterSpacing: '1px', color: '#c0cfe0', width: '200px' }}
+                  style={{ background: 'transparent', border: 'none', padding: '18px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px', letterSpacing: '1px', color: '#c0cfe0', width: '200px' }}
+                  aria-label="Search reports"
                   placeholder="Search reports..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                 />
                 {searchQuery && (
-                  <button onClick={() => setSearchQuery('')} style={{ background: 'none', border: 'none', color: '#5a7a94', cursor: 'pointer', padding: '0 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px' }}>✕</button>
+                  <button onClick={() => setSearchQuery('')} aria-label="Clear search" style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '0 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: '12px' }}>✕</button>
                 )}
               </div>
             </div>
           </div>
+          <p aria-live="polite" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' }}>
+            {filteredArticles.length} reports shown
+          </p>
           <div key={activeCategory} className="intel-grid animated-grid">
             {filteredArticles.length === 0 ? (
               <div className="no-articles">{searchQuery ? `No reports matching "${searchQuery}"` : 'No reports in this category yet'}</div>
@@ -627,20 +654,21 @@ export default function Home() {
                   <div className="card-category" style={{color: getCategoryColor(a.category), borderColor: `${getCategoryColor(a.category)}40`, background: `${getCategoryColor(a.category)}10`}}>{a.category}</div>
                   <div className="card-date">{a.date}</div>
                 </div>
-                <div className="card-title">{a.title}</div>
+                <h3 className="card-title">{a.title}</h3>
                 <div className="card-excerpt">{a.excerpt}</div>
                 <div className="card-footer">
                   <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                    <div className="card-read">Read →</div>
-                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'9px',letterSpacing:'2px',color:'#5a7a94'}}>{getReadingTime(a.content)} MIN</div>
+                    <div className="card-read">Read <span aria-hidden="true">→</span></div>
+                    <div style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:'11px',letterSpacing:'1.5px',color:'var(--text-muted)'}}>{getReadingTime(a.content)} MIN</div>
                   </div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '10px', color: relevanceColor(a.relevance), letterSpacing: '2px' }}>{a.relevance}</div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '11px', color: relevanceColor(a.relevance), letterSpacing: '1.5px' }}>{a.relevance}</div>
                 </div>
               </a>
             ))}
           </div>
         </div>
       </section>
+      </main>
 
       <footer>
         <div className="footer-inner">
@@ -672,8 +700,8 @@ export default function Home() {
             <div>
               <div className="footer-col-title">Connect</div>
               <ul className="footer-links">
-                <li><a href="https://x.com/KyleRudd44" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
-                <li><a href="https://www.linkedin.com/in/kyle-rudd-68209b252/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="https://x.com/KyleRudd44" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X (opens in new tab)">Twitter / X</a></li>
+                <li><a href="https://www.linkedin.com/in/kyle-rudd-68209b252/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in new tab)">LinkedIn</a></li>
                 <li></li>
               </ul>
             </div>

@@ -1,6 +1,6 @@
 ﻿'use client';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const LINKS = [
   { href: '/articles', label: 'All Reports' },
@@ -47,6 +47,19 @@ export default function Nav() {
   const pathname = usePathname();
   const activeColor = useActiveColor();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const burgerRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false); };
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      burgerRef.current?.focus();
+    };
+  }, [mobileOpen]);
 
   return (
     <>
@@ -56,6 +69,15 @@ export default function Nav() {
         /* ── Kill all per-page navs; only the shared nav renders ── */
         nav:not(#site-nav) { display: none !important; }
         div.mobile-menu:not(#site-mobile-menu) { display: none !important; }
+
+        .skip-link {
+          position: absolute; left: -9999px; top: 0; z-index: 400;
+          background: #1e9eff; color: #000; padding: 12px 20px;
+          font-family: 'Barlow Condensed', sans-serif;
+          font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+          text-transform: uppercase; text-decoration: none;
+        }
+        .skip-link:focus { left: 0; }
 
         /* ── Site nav ── */
         #site-nav {
@@ -145,7 +167,8 @@ export default function Nav() {
         }
       `}</style>
 
-      <nav id="site-nav">
+      <a href="#main" className="skip-link">Skip to content</a>
+      <nav id="site-nav" aria-label="Main">
         <a href="/" className="sn-logo">
           <span className="sn-logo-text">The Rudd <em>Report</em></span>
         </a>
@@ -155,6 +178,7 @@ export default function Nav() {
               <a
                 href={href}
                 className={isActive(href, pathname) ? 'sn-active' : ''}
+                aria-current={isActive(href, pathname) ? 'page' : undefined}
                 style={color ? { color } : undefined}
               >
                 {label}
@@ -162,20 +186,28 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <button className="sn-burger" onClick={() => setMobileOpen(true)} aria-label="Open menu">
+        <button
+          ref={burgerRef}
+          className="sn-burger"
+          onClick={() => setMobileOpen(true)}
+          aria-label="Open menu"
+          aria-expanded={mobileOpen}
+          aria-controls="site-mobile-menu"
+        >
           <span /><span /><span />
         </button>
       </nav>
 
-      <div id="site-mobile-menu" className={mobileOpen ? 'open' : ''}>
-        <button className="smm-close" onClick={() => setMobileOpen(false)}>✕ Close</button>
-        <div className="smm-accent-bar" />
+      <div id="site-mobile-menu" className={mobileOpen ? 'open' : ''} role="dialog" aria-modal="true" aria-label="Site menu">
+        <button ref={closeRef} className="smm-close" onClick={() => setMobileOpen(false)}><span aria-hidden="true">✕</span> Close</button>
+        <div className="smm-accent-bar" aria-hidden="true" />
         <a href="/" onClick={() => setMobileOpen(false)}>Home</a>
         {LINKS.map(({ href, label, color }) => (
           <a
             key={href}
             href={href}
             className={isActive(href, pathname) ? 'sn-active' : ''}
+            aria-current={isActive(href, pathname) ? 'page' : undefined}
             style={color ? { color } : undefined}
             onClick={() => setMobileOpen(false)}
           >
