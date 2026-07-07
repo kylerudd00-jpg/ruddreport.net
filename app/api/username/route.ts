@@ -20,13 +20,6 @@ async function checkGitHub(u: string) {
   return r.status === 200;
 }
 
-async function checkReddit(u: string) {
-  const r = await get(`https://www.reddit.com/user/${encodeURIComponent(u)}/about.json`);
-  if (r.status !== 200) return false;
-  const d = await r.json();
-  return !!d?.data?.name;
-}
-
 async function checkGitLab(u: string) {
   const r = await get(`https://gitlab.com/api/v4/users?username=${encodeURIComponent(u)}`);
   if (r.status !== 200) return false;
@@ -183,7 +176,6 @@ type Platform = {
 
 const CHECKED_PLATFORMS: Platform[] = [
   // Social
-  { name: 'Reddit',      url: 'https://reddit.com/user/{}',           category: 'Social',   check: checkReddit },
   { name: 'Bluesky',     url: 'https://bsky.app/profile/{}',          category: 'Social',   check: checkBluesky },
   { name: 'Mastodon',    url: 'https://mastodon.social/@{}',          category: 'Social',   check: checkMastodon },
   // Dev
@@ -212,7 +204,7 @@ const CHECKED_PLATFORMS: Platform[] = [
 ];
 
 export async function GET(req: NextRequest) {
-  const username = req.nextUrl.searchParams.get('u')?.trim() ?? '';
+  const username = (req.nextUrl.searchParams.get('u') ?? '').trim().replace(/^@+/, '');
   if (!username) return new Response('Missing username', { status: 400 });
 
   const encoder = new TextEncoder();

@@ -5,7 +5,6 @@ const HISTORY_KEY = 'osint_username_history';
 
 // Platforms we CAN reliably check via the streaming API
 const CHECKED = [
-  { name: 'Reddit',      url: 'https://reddit.com/user/{}',                category: 'Social'   },
   { name: 'Bluesky',     url: 'https://bsky.app/profile/{}',               category: 'Social'   },
   { name: 'Mastodon',    url: 'https://mastodon.social/@{}',               category: 'Social'   },
   { name: 'GitHub',      url: 'https://github.com/{}',                     category: 'Dev'      },
@@ -32,6 +31,7 @@ const CHECKED = [
 
 // Platforms that block automated checks — links only
 const MANUAL = [
+  { name: 'Reddit',      url: 'https://reddit.com/user/{}',            category: 'Social'   },
   { name: 'Twitter / X', url: 'https://x.com/{}',                     category: 'Social'   },
   { name: 'Instagram',   url: 'https://instagram.com/{}',              category: 'Social'   },
   { name: 'TikTok',      url: 'https://tiktok.com/@{}',                category: 'Social'   },
@@ -212,9 +212,9 @@ export default function UsernameHunter() {
   }, []);
 
   const scan = async (override?: string) => {
-    const t = (override ?? username).trim();
+    const t = (override ?? username).trim().replace(/^@+/, '');
     if (!t) return;
-    if (override) setUsername(t);
+    setUsername(t);
 
     abortRef.current?.abort();
     const abort = new AbortController();
