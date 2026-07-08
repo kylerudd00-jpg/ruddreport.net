@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ARTICLES, type Article, getReadingTime } from '@/lib/articles';
 import FlagUS from './components/FlagUS';
+import BlueMarble from './components/BlueMarble';
 import { useReveal } from './components/useReveal';
 
 const CATEGORIES = ['All', 'Cybersecurity', 'Intelligence', 'Geopolitics', 'National Security', 'Economic Security'] as const;
@@ -359,7 +360,8 @@ export default function Home() {
           text-transform: uppercase; color: #ffaa00;
           display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
         }
-        .rr-brief-dot { width: 7px; height: 7px; border-radius: 50%; background: #ffaa00; animation: pulse 1.6s ease-in-out infinite; }
+        /* finite (4.8s) — keeps the pulse out of WCAG 2.2.2 scope entirely */
+        .rr-brief-dot { width: 7px; height: 7px; border-radius: 50%; background: #ffaa00; animation: pulse 1.6s ease-in-out 3; }
         .rr-brief h3 {
           font-family: var(--font-display); font-size: clamp(24px, 3vw, 34px);
           font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; color: #fff;
@@ -484,6 +486,9 @@ export default function Home() {
             <span className="rr-creds-item">DHS Cybersecurity</span>
           </div>
         </div>
+
+        {/* EARTH — scroll scene */}
+        <BlueMarble />
 
         {/* 01 — FEATURED */}
         <section className="rr-section" aria-labelledby="rr-h-featured">
