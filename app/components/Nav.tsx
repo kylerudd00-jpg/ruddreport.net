@@ -1,6 +1,7 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import FlagUS from './FlagUS';
 
 const LINKS = [
   { href: '/articles', label: 'Reports' },
@@ -96,7 +97,6 @@ export default function Nav() {
           font-size: 12px; line-height: 1.4; letter-spacing: 0.06em;
           color: #9a9a94; text-transform: uppercase;
         }
-        .sn-notice-flag { color: var(--accent); margin-right: 8px; }
         .sn-notice-right { color: #7f7f79; }
         #site-nav {
           /* position/background declared explicitly: legacy page styles set
@@ -199,8 +199,8 @@ export default function Nav() {
       <a href="#main" className="skip-link">Skip to content</a>
       <header id="site-header">
         <div className="sn-notice">
-          <span>
-            <span className="sn-notice-flag" aria-hidden="true">▪</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+            <FlagUS width={19} />
             Independent publication — not a U.S. government website
           </span>
           <span className="sn-notice-right">Open-source intelligence &amp; analysis · Est. 2026</span>
