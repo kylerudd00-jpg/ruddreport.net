@@ -2,14 +2,21 @@
 import { useEffect, useRef } from 'react';
 
 /*
-  Scroll scene (the nasaforce-moon treatment): a real NASA full-disk Earth
-  that rises, brightens, and scales as the section scrolls through.
+  Scroll scene, nasaforce-style: not a floating object but an environment.
+  The NASA Blue Marble is oversized to ~1.7x viewport width and anchored so
+  only the planet's curved horizon rises from the bottom of the pinned frame
+  as the user scrolls through; the section's left-aligned type sits in the
+  dark space above it.
 
-  - Motion is purely scroll-scrubbed plus a small lerped mouse drift — never
-    autonomous, so WCAG 2.2.2 requires no pause control.
-  - CSS default --p: 1 means no-JS, failed-JS, and reduced-motion all render
-    the disk static at full size/opacity. The driver never starts under
-    prefers-reduced-motion and tears down live if the OS setting changes.
+  A11y contract (adjudicated in the scene's pre-review):
+  - scroll-scrubbed only (no autonomous motion) => no WCAG 2.2.2 pause control
+  - CSS --p: 1 default => no-JS / failed-JS / reduced-motion render a static
+    full-opacity limb; the driver never starts under prefers-reduced-motion
+    and tears down live on mq change
+  - overflow:hidden clips ONLY the absolute media layer; the text block stays
+    in normal flow at z1 and is never clipped
+  - text occupies the top zone, limb the bottom ~38% => separation by layout;
+    the figcaption sits over the photo's black-space corner
 */
 export default function BlueMarble() {
   const secRef = useRef<HTMLElement>(null);
@@ -20,28 +27,23 @@ export default function BlueMarble() {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     let raf = 0;
     let running = false;
-    let mx = 0, my = 0, tmx = 0, tmy = 0;
+    let mx = 0, tmx = 0;
 
     const drive = () => {
       if (!running) return;
       const r = sec.getBoundingClientRect();
       const vh = window.innerHeight;
       if (r.bottom > -100 && r.top < vh + 100) {
-        // 0 when the section top enters the viewport bottom; 1 when its
-        // bottom reaches the viewport bottom (recomputed live — resize-safe)
         const p = Math.min(1, Math.max(0, (vh - r.top) / Math.max(1, r.height)));
         mx += (tmx - mx) * 0.06;
-        my += (tmy - my) * 0.06;
         sec.style.setProperty('--p', p.toFixed(4));
         sec.style.setProperty('--mx', mx.toFixed(2));
-        sec.style.setProperty('--my', my.toFixed(2));
       }
       raf = requestAnimationFrame(drive);
     };
     const onPointer = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
-      tmx = (e.clientX / window.innerWidth - 0.5) * 16;
-      tmy = (e.clientY / window.innerHeight - 0.5) * 10;
+      tmx = (e.clientX / window.innerWidth - 0.5) * 18;
     };
     const start = () => {
       if (running) return;
@@ -53,10 +55,8 @@ export default function BlueMarble() {
       running = false;
       cancelAnimationFrame(raf);
       window.removeEventListener('pointermove', onPointer);
-      // fall back to the CSS default (--p: 1) → static, full size/opacity
       sec.style.removeProperty('--p');
       sec.style.removeProperty('--mx');
-      sec.style.removeProperty('--my');
     };
     const apply = () => { if (mq.matches) stop(); else start(); };
     apply();
@@ -67,43 +67,60 @@ export default function BlueMarble() {
   return (
     <section ref={secRef} className="bm" aria-labelledby="bm-h">
       <style>{`
-        .bm { --p: 1; height: 175vh; border-bottom: 1px solid var(--border); }
-        .bm-sticky {
-          position: sticky; top: 70px; height: calc(100vh - 70px);
-          display: flex; flex-direction: column; align-items: center; justify-content: center;
-          gap: 32px; padding: 24px 16px;
+        .bm { --p: 1; height: 165vh; border-bottom: 1px solid var(--border); }
+        .bm-sticky { position: sticky; top: 70px; height: calc(100vh - 70px); }
+        /* media layer — the ONLY thing clipped */
+        .bm-media { position: absolute; inset: 0; overflow: hidden; margin: 0; }
+        .bm-glow {
+          position: absolute; left: 0; right: 0; bottom: 0; height: 55%;
+          background: radial-gradient(ellipse 90% 55% at 50% 105%, rgba(30,158,255,0.14), transparent 65%);
         }
-        .bm-fig { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 18px; }
-        .bm-fig img {
-          width: min(52vh, 540px); max-width: 86vw; height: auto; display: block;
+        .bm-media img {
+          position: absolute; left: 50%; top: 62%;
+          width: max(170vw, 1500px); height: auto;
           transform:
-            translate(calc(var(--mx, 0) * 1px), calc((1 - var(--p)) * 14vh + var(--my, 0) * 1px))
-            scale(calc(0.8 + var(--p) * 0.24));
-          opacity: calc(0.45 + var(--p) * 0.55);
+            translateX(calc(-50% + var(--mx, 0) * 1px))
+            translateY(calc((1 - var(--p)) * 26vh))
+            scale(calc(1.06 - var(--p) * 0.06));
+          transform-origin: top center;
+          opacity: calc(0.5 + var(--p) * 0.5);
           will-change: transform, opacity;
         }
         .bm-credit {
+          position: absolute; left: 40px; bottom: 22px;
           font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
           text-transform: uppercase; color: var(--text-muted);
         }
-        .bm-copy { text-align: center; max-width: 640px; }
-        .bm-copy h2 {
-          font-family: var(--font-display); font-size: clamp(24px, 3.2vw, 42px);
-          font-weight: 800; text-transform: uppercase; letter-spacing: 0.01em;
-          color: #fff; margin-bottom: 12px;
+        /* type sits in the dark zone above the limb, on the site grid */
+        .bm-inner {
+          position: relative; z-index: 1;
+          max-width: 1280px; margin: 0 auto; padding: 96px 40px 0;
         }
-        .bm-copy p { font-size: 15.5px; line-height: 1.7; color: var(--text-secondary); }
+        .bm-inner h2 {
+          font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 60px);
+          font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em;
+          color: #fff; margin-bottom: 14px;
+        }
+        .bm-inner p { font-size: 16px; line-height: 1.7; color: var(--text-secondary); max-width: 540px; }
+        .bm-link {
+          display: inline-block; margin-top: 22px; padding: 4px 0;
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em;
+          text-transform: uppercase; color: var(--accent); text-decoration: none;
+        }
+        .bm-link:hover { text-decoration: underline; }
         @media (max-width: 768px) {
-          .bm { height: 150vh; }
-          .bm-sticky { gap: 24px; }
-          .bm-fig img { width: min(46vh, 78vw); }
+          .bm { height: 145vh; }
+          .bm-inner { padding: 64px 16px 0; }
+          .bm-media img { width: max(230vw, 780px); top: 66%; }
+          .bm-credit { left: 16px; bottom: 16px; }
         }
       `}</style>
       <div className="bm-sticky">
-        <figure className="bm-fig">
+        <figure className="bm-media">
+          <div className="bm-glow" aria-hidden="true" />
           <img
             src="/earth-blue-marble.jpg"
-            alt="Full-disk photograph of Earth from space, blue ocean under swirling white cloud"
+            alt="The curved horizon of Earth seen from space, blue ocean under swirling white cloud"
             width={1200}
             height={1200}
             loading="lazy"
@@ -111,9 +128,10 @@ export default function BlueMarble() {
           />
           <figcaption className="bm-credit">NASA Earth Observatory · MODIS composite</figcaption>
         </figure>
-        <div className="bm-copy rv">
+        <div className="bm-inner rv">
           <h2 id="bm-h">Global coverage</h2>
           <p>Reporting and tools that track events anywhere on Earth: satellites, vessels, flights, markets, conflict zones.</p>
+          <a className="bm-link" href="/osint?cat=Live">Open live tracking →</a>
         </div>
       </div>
     </section>
