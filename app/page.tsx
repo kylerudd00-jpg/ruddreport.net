@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { ARTICLES, type Article, getReadingTime } from '@/lib/articles';
-import IntelGlobe from './components/IntelGlobe';
 import FlagUS from './components/FlagUS';
 import { useReveal } from './components/useReveal';
 
@@ -98,25 +97,8 @@ export default function Home() {
         .rr-mono { font-family: var(--font-mono); }
 
         /* ── Hero ── */
-        .rr-hero { padding: 150px 40px 0; border-bottom: 1px solid var(--border); overflow: hidden; }
-        .rr-hero-inner { max-width: 1280px; margin: 0 auto; position: relative; }
-        /* globe sits behind the hero's right half; text stays layered above */
-        .rr-hero-eyebrow, .rr-hero-title, .rr-hero-mission, .rr-dir { position: relative; z-index: 1; }
-        .rr-globe-wrap {
-          position: absolute; top: -60px; right: -150px;
-          width: 700px; height: 700px; z-index: 0;
-          animation: fadeUp 0.8s var(--ease-expo) 0.5s both;
-        }
-        html.rr-intro-active .rr-globe-wrap { animation-delay: 1.55s; }
-        /* 900-1149px: hero text columns overlap the canvas's left half —
-           hard-mask that region so text contrast never varies (WCAG 1.4.3) */
-        @media (max-width: 1149px) {
-          .rr-globe-wrap canvas {
-            -webkit-mask-image: linear-gradient(to right, transparent 50%, #000 72%);
-            mask-image: linear-gradient(to right, transparent 50%, #000 72%);
-          }
-        }
-        @media (max-width: 899px) { .rr-globe-wrap { display: none; } }
+        .rr-hero { padding: 150px 40px 0; border-bottom: 1px solid var(--border); }
+        .rr-hero-inner { max-width: 1280px; margin: 0 auto; }
         .rr-hero-eyebrow {
           font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
           text-transform: uppercase; color: var(--accent);
@@ -455,7 +437,6 @@ export default function Home() {
         {/* HERO — what this site is */}
         <section className="rr-hero" aria-labelledby="rr-hero-h1">
           <div className="rr-hero-inner">
-            <IntelGlobe />
             <p className="rr-hero-eyebrow">Open-source intelligence &amp; analysis · Est. 2026</p>
             <h1 className="rr-hero-title" id="rr-hero-h1">
               <span className="rr-hl"><span className="rr-hl-in">The Rudd</span></span>
