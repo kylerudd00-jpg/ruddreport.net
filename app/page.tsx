@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ARTICLES, type Article, getReadingTime } from '@/lib/articles';
 import IntelGlobe from './components/IntelGlobe';
 import FlagUS from './components/FlagUS';
+import { useReveal } from './components/useReveal';
 
 const CATEGORIES = ['All', 'Cybersecurity', 'Intelligence', 'Geopolitics', 'National Security', 'Economic Security'] as const;
 
@@ -35,12 +36,12 @@ function getCategoryColor(cat: string): string {
 }
 
 const OSINT_CATS = [
-  { name: 'Corporate', count: 8, desc: 'Company filings, SEC records, government contracts, court records, and exec research.', href: '/osint?cat=Corporate' },
+  { name: 'Corporate', count: 10, desc: 'Company filings, SEC records, government contracts, court records, and exec research.', href: '/osint?cat=Corporate' },
   { name: 'Network', count: 7, desc: 'WHOIS, DNS, IP geolocation, subdomains, SSL certs, and URL redirect tracing.', href: '/osint?cat=Network' },
-  { name: 'Cyber', count: 10, desc: 'Hashes, CVEs, email headers, breach lookup, username search, and Google dorks.', href: '/osint?cat=Cyber' },
-  { name: 'Live & Tracking', count: 6, desc: 'Satellites, flights, vessels, conflict zones, prediction markets, and news feeds.', href: '/osint?cat=Live+%26+Tracking' },
+  { name: 'Cyber', count: 14, desc: 'Hashes, CVEs, email headers, breach lookup, username search, and Google dorks.', href: '/osint?cat=Cyber' },
+  { name: 'Live & Tracking', count: 7, desc: 'Satellites, flights, vessels, conflict zones, prediction markets, and news feeds.', href: '/osint?cat=Live' },
   { name: 'Economic', count: 4, desc: 'Currency rates, commodity prices, country economic profiles, and sanctions screening.', href: '/osint?cat=Economic' },
-  { name: 'Utilities', count: 4, desc: 'Subnet calculator, JWT decoder, Base64 encoder, and phone number lookup.', href: '/osint?cat=Utilities' },
+  { name: 'Utilities', count: 5, desc: 'Subnet calculator, JWT decoder, Base64 encoder, and phone number lookup.', href: '/osint?cat=Utilities' },
 ];
 
 export default function Home() {
@@ -48,20 +49,12 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [osintQuery, setOsintQuery] = useState('');
   // SSR/no-JS render the final values; JS animates 0 -> N on first sight
-  const [stat, setStat] = useState({ tools: 39, cats: 6 });
+  const [stat, setStat] = useState({ tools: 47, cats: 6 });
   const statsRef = useRef<HTMLDivElement>(null);
 
-  // Scroll reveals: IO adds .visible (styles gated behind html.rr-js).
-  // Re-runs on filter/search so newly rendered rows get observed too.
-  useEffect(() => {
-    const els = Array.from(document.querySelectorAll<HTMLElement>('.rv, .rv-clip')).filter(el => !el.classList.contains('visible'));
-    if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('visible')); return; }
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-    els.forEach(el => io.observe(el));
-    return () => io.disconnect();
-  }, [activeCategory, searchQuery]);
+  // Scroll reveals (shared hook) — re-runs on filter/search so newly
+  // rendered rows get observed too.
+  useReveal([activeCategory, searchQuery]);
 
   // Count-up on the OSINT stat numbers (skipped under reduced motion;
   // screen readers only ever see the static values)
@@ -77,7 +70,7 @@ export default function Home() {
       const tick = (now: number) => {
         const p = Math.min(1, (now - t0) / dur);
         const ease = 1 - Math.pow(1 - p, 4);
-        setStat({ tools: Math.round(39 * ease), cats: Math.round(6 * ease) });
+        setStat({ tools: Math.round(47 * ease), cats: Math.round(6 * ease) });
         if (p < 1) requestAnimationFrame(tick);
       };
       setStat({ tools: 0, cats: 0 });
@@ -241,7 +234,7 @@ export default function Home() {
           color: var(--text-primary); max-width: 900px;
         }
         .rr-lead:hover h3 { color: #fff; }
-        .rr-lead p { font-size: 16px; line-height: 1.7; color: var(--text-secondary); max-width: 720px; margin-top: 18px; }
+        .rr-lead p { font-size: 16px; line-height: 1.7; color: var(--text-secondary); max-width: 600px; margin-top: 18px; }
         .rr-lead-foot { display: flex; gap: 24px; margin-top: 28px; align-items: center; }
         .rr-read {
           font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
@@ -267,6 +260,7 @@ export default function Home() {
           margin-bottom: 28px;
         }
         .rr-toolbar-filters { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
+        .rr-toolbar .cat-filter-btn { padding: 10px 16px; }
         .rr-search { display: flex; border: 1px solid var(--border-bright); }
         .rr-search:focus-within { border-color: var(--accent); }
         .rr-search input {
@@ -294,7 +288,14 @@ export default function Home() {
           line-height: 1.25; letter-spacing: -0.005em; color: var(--text-primary);
         }
         .rr-row:hover h3 { color: var(--accent); }
-        .rr-row-excerpt { font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 6px; }
+        .rr-row-excerpt { font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-top: 6px; max-width: 640px; }
+        /* compact meta line for <=1024px — replaces the desktop grid columns */
+        .rr-row-foot {
+          display: none; align-items: baseline; gap: 14px; flex-wrap: wrap;
+          margin-top: 12px;
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
+          text-transform: uppercase; color: var(--text-muted);
+        }
         .rr-row-meta {
           font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
           text-transform: uppercase; text-align: right;
@@ -381,7 +382,7 @@ export default function Home() {
           font-family: var(--font-display); font-size: clamp(24px, 3vw, 34px);
           font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; color: #fff;
         }
-        .rr-brief p { font-size: 15px; line-height: 1.65; color: var(--text-secondary); margin-top: 12px; max-width: 640px; }
+        .rr-brief p { font-size: 15px; line-height: 1.65; color: var(--text-secondary); margin-top: 12px; max-width: 560px; }
         .rr-brief-cta {
           font-family: var(--font-mono); font-size: 12px; font-weight: 600;
           letter-spacing: 0.06em; text-transform: uppercase;
@@ -402,7 +403,7 @@ export default function Home() {
         .rr-footer-desc { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; max-width: 300px; margin-top: 14px; }
         .rr-footer h2 {
           font-family: var(--font-mono); font-size: 12px; font-weight: 500;
-          letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase;
+          letter-spacing: 0.08em; color: var(--text-secondary); text-transform: uppercase;
           margin-bottom: 18px;
         }
         .rr-footer ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
@@ -421,8 +422,10 @@ export default function Home() {
           .rr-osint-head { grid-template-columns: 1fr; gap: 36px; }
           .rr-cats { grid-template-columns: repeat(2, 1fr); }
           .rr-footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
-          .rr-row { grid-template-columns: 100px 1fr 150px; }
-          .rr-row .rr-tag--col { display: none; }
+          /* title first; metadata moves into the foot line below it */
+          .rr-row { grid-template-columns: 1fr; padding: 20px 4px; }
+          .rr-row > .rr-date, .rr-row > .rr-tag--col, .rr-row > .rr-row-meta { display: none; }
+          .rr-row-foot { display: flex; }
         }
         @media (max-width: 768px) {
           .rr-hero { padding: 120px 16px 0; }
@@ -432,15 +435,17 @@ export default function Home() {
           .rr-lead { padding: 28px 20px; }
           .rr-sub-grid { grid-template-columns: 1fr; }
           .rr-cats { grid-template-columns: 1fr; }
-          .rr-row { grid-template-columns: 1fr; gap: 8px; padding: 18px 4px; }
-          .rr-row-meta { flex-direction: row; text-align: left; gap: 16px; }
           .rr-dir-row { gap: 14px; padding: 20px 0; grid-template-columns: 28px 1fr auto 24px; }
           .rr-brief { grid-template-columns: 1fr; padding: 28px 20px; }
           .rr-footer { padding: 48px 16px 28px; }
           .rr-footer-top { grid-template-columns: 1fr; gap: 32px; }
           .rr-footer-bottom { flex-direction: column; align-items: flex-start; }
           .rr-search { width: 100%; }
-          .rr-search input { flex: 1; width: auto; }
+          .rr-search input { flex: 1; width: auto; padding: 13px 14px; }
+          .rr-search button { padding: 0 18px; }
+          .rr-toolbar .cat-filter-btn { padding: 14px 16px; }
+          /* comfortable tap targets without changing visual rhythm */
+          .rr-footer ul a { display: inline-block; padding: 12px 0; margin: -7px 0; }
           .rr-router-row { flex-direction: column; }
           .rr-router-row input { border-right: 1px solid var(--border-bright); }
         }
@@ -457,8 +462,8 @@ export default function Home() {
               <span className="rr-hl"><span className="rr-hl-in rr-hl-accent">Report</span></span>
             </h1>
             <p className="rr-hero-mission">
-              Independent writing on <strong>cybersecurity, national security, and geopolitics</strong> —
-              plus a free open-source investigation toolkit and a daily intelligence brief.
+              Independent writing on <strong>cybersecurity, national security, and geopolitics</strong>,
+              plus a free investigation toolkit and a daily intelligence brief.
             </p>
 
             {/* div+role (not <nav>): legacy global CSS targets bare nav elements */}
@@ -474,7 +479,7 @@ export default function Home() {
                 <span className="rr-dir-idx" aria-hidden="true">02</span>
                 <span className="rr-dir-name">OSINT Toolkit</span>
                 <span className="rr-dir-desc">Free investigation tools — no account needed.</span>
-                <span className="rr-dir-meta">39 tools</span>
+                <span className="rr-dir-meta">47 tools</span>
                 <span className="rr-dir-arrow" aria-hidden="true">→</span>
               </a>
               <a className="rr-dir-row" href="/brief" style={{ borderBottom: '1px solid var(--border)' }}>
@@ -563,7 +568,6 @@ export default function Home() {
                     onClick={() => setActiveCategory(cat)}
                     aria-pressed={activeCategory === cat}
                     className={`cat-filter-btn${activeCategory === cat ? ' cat-filter-btn--active' : ''}`}
-                    style={{ padding: '10px 16px' }}
                   >
                     {cat}
                   </button>
@@ -596,6 +600,15 @@ export default function Home() {
                   <div>
                     <h3>{a.title}</h3>
                     <div className="rr-row-excerpt">{a.excerpt}</div>
+                    <span className="rr-row-foot">
+                      <span style={{ color: getCategoryColor(a.category) }}>{a.category}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{a.date}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{getReadingTime(a.content)} min read</span>
+                      <span aria-hidden="true">·</span>
+                      <span style={{ color: relevanceColor(a.relevance) }}>{a.relevance}</span>
+                    </span>
                   </div>
                   <span className="rr-row-meta">
                     <span style={{ color: 'var(--text-muted)' }}>{getReadingTime(a.content)} min read</span>
@@ -620,12 +633,12 @@ export default function Home() {
             <div className="rr-osint-head rv">
               <div>
                 <p className="rr-osint-blurb">
-                  39 free tools covering companies, networks, live tracking, and more.
-                  Runs in the browser — no account, no cost.
+                  47 free tools covering companies, networks, live tracking, and more.
+                  Everything runs in the browser with no account required.
                 </p>
                 <div className="rr-stats" ref={statsRef}>
                   <div>
-                    <div className="rr-stat-num"><span aria-hidden="true">{stat.tools}</span><span className="rr-sr">39</span></div>
+                    <div className="rr-stat-num"><span aria-hidden="true">{stat.tools}</span><span className="rr-sr">47</span></div>
                     <div className="rr-stat-label">Live tools</div>
                   </div>
                   <div>
@@ -648,7 +661,7 @@ export default function Home() {
                   <button onClick={runOsintSearch}>Search →</button>
                 </div>
                 <p className="rr-router-hint">
-                  Auto-routes: <span>IP</span> → geolocation · <span>domain</span> → WHOIS · <span>hash</span> → analyzer · <span>company</span> → intel dashboard
+                  Detects IPs, domains, hashes, emails, and usernames automatically.
                 </p>
               </div>
             </div>
@@ -666,7 +679,7 @@ export default function Home() {
                 </a>
               ))}
             </div>
-            <a href="/osint" className="rr-osint-all rv">View all 39 tools in the OSINT hub →</a>
+            <a href="/osint" className="rr-osint-all rv">View all 47 tools in the OSINT hub →</a>
           </div>
         </section>
 
@@ -682,7 +695,7 @@ export default function Home() {
               <div>
                 <p className="rr-brief-label">
                   <span className="rr-brief-dot" aria-hidden="true" />
-                  Aladdin — posted every morning at 0600
+                  Aladdin · posted every morning at 0600
                 </p>
                 <h3>Morning Intelligence Brief</h3>
                 <p>Your daily open-source intelligence summary — geopolitics, cyber, and national security in one read.</p>

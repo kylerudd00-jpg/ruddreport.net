@@ -139,8 +139,8 @@ export default function Nav() {
           height: 2px; background: var(--accent);
         }
         #site-nav .sn-burger {
-          display: none; flex-direction: column; gap: 5px;
-          cursor: pointer; padding: 10px; background: none; border: none;
+          display: none; flex-direction: column; gap: 5px; justify-content: center;
+          cursor: pointer; padding: 14px 12px; background: none; border: none;
         }
         #site-nav .sn-burger span {
           display: block; width: 22px; height: 2px; background: #ededea;
@@ -175,14 +175,14 @@ export default function Nav() {
         #site-mobile-menu a.sn-active { color: var(--accent); }
         #site-mobile-menu .smm-notice {
           font-family: var(--font-mono);
-          font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+          font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
           color: #8f8f8a; margin-top: 32px;
           border-top: 1px solid var(--border); padding-top: 16px;
         }
 
         @media (max-width: 1180px) {
-          #site-nav .sn-links { gap: 16px; }
-          #site-nav .sn-links a { font-size: 11px; }
+          /* tighten spacing, never shrink the type */
+          #site-nav .sn-links { gap: 15px; }
         }
         @media (max-width: 960px) {
           .sn-notice { padding: 0 16px; }

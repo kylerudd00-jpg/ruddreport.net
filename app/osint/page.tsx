@@ -1,5 +1,6 @@
 'use client';
 import { useState, useMemo, useEffect, useRef } from 'react';
+import { useReveal } from '../components/useReveal';
 import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, Footprints, Car, Network, Bug, Crosshair, Flag, Database, type LucideIcon } from 'lucide-react';
 
 // Smart detection — paste anything and route to the right tool
@@ -87,31 +88,27 @@ const TOOLS: Tool[] = [
   { icon: Car,             name: 'VIN Decoder',           desc: 'Make, model, year, engine, and trim via NHTSA',                     href: '/osint/vin',              category: 'Utilities', tags: ['vin', 'vehicle', 'car', 'nhtsa'] },
 ];
 
-// Use-case oriented quick starts — what a human editor would curate
+// Use-case quick starts
 const QUICK_STARTS = [
   {
     label: 'Investigate a company',
     tools: ['Corporate Intel', 'SEC EDGAR', 'Gov Contracts', 'OpenCorporates'],
     href: '/osint/company',
-    color: '#ffaa00',
   },
   {
     label: 'Trace a domain or IP',
     tools: ['WHOIS', 'DNS Intelligence', 'IP Geolocation', 'SSL Certificates'],
     href: '/osint/whois',
-    color: '#1e9eff',
   },
   {
     label: 'Profile a person or account',
     tools: ['People Search', 'Account Finder', 'Digital Footprint', 'Breach Lookup'],
     href: '/osint/people',
-    color: '#b464ff',
   },
   {
     label: 'Identify a threat or indicator',
     tools: ['IoC Scanner', 'CVE Search', 'Hash Analyzer', 'Threat Actor DB'],
     href: '/osint/ioc',
-    color: '#ff4444',
   },
 ];
 
@@ -121,7 +118,7 @@ const CAT_META: Record<string, { color: string; label: string }> = {
   Corporate: { color: '#ffaa00', label: 'Corporate' },
   Network:   { color: '#1e9eff', label: 'Network'   },
   Cyber:     { color: '#ff4444', label: 'Cyber'     },
-  Live:      { color: '#00ff88', label: 'Live'       },
+  Live:      { color: '#22cc66', label: 'Live'       },
   Economic:  { color: '#00c9b0', label: 'Economic'  },
   Utilities: { color: '#b464ff', label: 'Utilities' },
 };
@@ -133,9 +130,14 @@ export default function OSINTHub() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    // homepage quick-investigate lands here as ?q= — route it as promised
+    const q = params.get('q');
+    if (q && q.trim()) { detectAndRoute(q); return; }
     const cat = params.get('cat') as Category | null;
     if (cat && CATEGORIES.includes(cat)) setCategory(cat);
   }, []);
+
+  useReveal([query, category]);
 
   const counts = useMemo(() => {
     const m: Record<string, number> = { All: TOOLS.length };
@@ -170,191 +172,251 @@ export default function OSINTHub() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #c0cfe0; font-family: 'Barlow', sans-serif; }
-        .page { padding-top: 70px; }
+        .oz { padding-top: 70px; }
 
         /* ── HERO ── */
-        .hero { padding: 52px 40px 0; max-width: 1280px; margin: 0 auto; }
-        .hero-top { margin-bottom: 36px; }
-        .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-        .eyebrow-line { width: 24px; height: 1px; background: #1e9eff; }
-        .eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(32px, 4.5vw, 58px); font-weight: 900; color: #fff; letter-spacing: 3px; text-transform: uppercase; line-height: 1; margin-bottom: 14px; }
-        .hero-sub { font-size: 15px; color: #5a7a94; line-height: 1.6; max-width: 560px; }
+        .oz-hero { padding: 72px 40px 0; max-width: 1280px; margin: 0 auto; }
+        .oz-eyebrow {
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
+          text-transform: uppercase; color: var(--accent);
+          display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+          animation: fadeUp 0.6s var(--ease-expo) 0.05s both;
+        }
+        .oz-eyebrow::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+        .oz-hero h1 {
+          font-family: var(--font-display); font-size: clamp(44px, 6.5vw, 92px);
+          font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em;
+          line-height: 0.95; color: #fff; margin-bottom: 16px;
+          animation: fadeUp 0.6s var(--ease-expo) 0.12s both;
+        }
+        .oz-sub {
+          font-size: 17px; color: var(--text-secondary); line-height: 1.6;
+          max-width: 560px; margin-bottom: 44px;
+          animation: fadeUp 0.6s var(--ease-expo) 0.2s both;
+        }
 
-        /* ── SEARCH BAR ── */
-        .search-section { margin-bottom: 48px; }
-        .search-bar { display: flex; border: 1px solid rgba(30,158,255,0.2); background: rgba(6,12,20,0.9); max-width: 700px; }
-        .search-bar:focus-within { border-color: rgba(30,158,255,0.5); }
-        .search-in { flex: 1; background: none; border: none; outline: none; padding: 15px 20px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; letter-spacing: 0.5px; }
-        .search-in::placeholder { color: #2d4560; }
-        .search-go { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; background: #1e9eff; color: #000; border: none; padding: 15px 22px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; white-space: nowrap; }
-        .search-go:hover { background: #4db3ff; }
-        .detect-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-        .detect-chip { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 1.5px; color: #2d4560; border: 1px solid rgba(30,158,255,0.07); padding: 4px 9px; }
-        .detect-chip b { color: #3d6a8a; font-weight: 400; }
+        /* ── SEARCH ── */
+        .oz-search { max-width: 720px; margin-bottom: 56px; animation: fadeUp 0.6s var(--ease-expo) 0.28s both; }
+        .oz-search label {
+          display: block; font-family: var(--font-mono); font-size: 12px;
+          letter-spacing: 0.06em; text-transform: uppercase;
+          color: var(--text-secondary); margin-bottom: 10px;
+        }
+        .oz-search-row { display: flex; }
+        .oz-search-row input {
+          flex: 1; background: var(--bg-secondary);
+          border: 1px solid var(--border-bright); border-right: none;
+          color: var(--text-primary); font-family: var(--font-mono);
+          font-size: 13px; padding: 15px 16px;
+        }
+        .oz-search-row input::placeholder { color: var(--text-muted); }
+        .oz-search-row input:focus { border-color: var(--accent); outline: none; }
+        .oz-search-row button {
+          font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+          letter-spacing: 0.06em; text-transform: uppercase;
+          background: var(--accent); border: 1px solid var(--accent); color: #000;
+          padding: 15px 24px; cursor: pointer; white-space: nowrap;
+        }
+        .oz-search-row button:hover { background: #4db3ff; }
+        .oz-hint {
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.03em;
+          color: var(--text-muted); margin-top: 10px;
+        }
 
         /* ── QUICK STARTS ── */
-        .qs-label { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 4px; color: #2d4560; text-transform: uppercase; margin-bottom: 12px; }
-        .qs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 52px; }
-        .qs-card { background: #060c14; border: 1px solid rgba(255,255,255,0.04); padding: 18px 20px; text-decoration: none; display: block; transition: background 0.2s; position: relative; }
-        .qs-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.2s; }
-        .qs-card:hover { background: #0a1420; }
-        .qs-card:hover::after { opacity: 1; }
-        .qs-task { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #c0cfe0; margin-bottom: 10px; line-height: 1.2; }
-        .qs-tools { display: flex; flex-direction: column; gap: 3px; }
-        .qs-tool { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 0.5px; color: #2d4560; }
-        .qs-arrow { font-family: 'Share Tech Mono', monospace; font-size: 11px; margin-top: 12px; transition: transform 0.2s; display: inline-block; }
-        .qs-card:hover .qs-arrow { transform: translateX(3px); }
+        .oz-qs-h {
+          display: flex; align-items: baseline; gap: 14px;
+          padding-bottom: 14px; margin-bottom: 20px;
+          border-bottom: 1px solid var(--border-bright);
+        }
+        .oz-qs-h h2 {
+          font-family: var(--font-display); font-size: 18px; font-weight: 800;
+          text-transform: uppercase; letter-spacing: 0.01em; color: #fff;
+        }
+        .oz-qs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 64px; }
+        .oz-qs a { background: var(--bg-primary); padding: 22px 24px; text-decoration: none; display: flex; flex-direction: column; }
+        .oz-qs a:hover, .oz-qs a:focus-visible { background: var(--bg-card); }
+        .oz-qs-task {
+          font-family: var(--font-display); font-size: 17px; font-weight: 700;
+          color: var(--text-primary); line-height: 1.25; margin-bottom: 12px;
+        }
+        .oz-qs a:hover .oz-qs-task { color: var(--accent); }
+        .oz-qs-tool {
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em;
+          color: var(--text-muted); line-height: 1.7;
+        }
+        .oz-qs-arrow { margin-top: 14px; color: var(--text-muted); font-size: 15px; }
+        .oz-qs a:hover .oz-qs-arrow { color: var(--accent); }
 
         /* ── STICKY CATEGORY BAR ── */
-        .cat-bar {
+        .oz-bar {
           position: sticky; top: 70px; z-index: 50;
-          background: rgba(3,6,8,0.97); backdrop-filter: blur(20px);
-          border-top: 1px solid rgba(30,158,255,0.06);
-          border-bottom: 1px solid rgba(30,158,255,0.06);
+          background: rgba(8,8,10,0.96); backdrop-filter: blur(16px);
+          border-top: 1px solid var(--border);
+          border-bottom: 1px solid var(--border);
         }
-        .cat-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: flex; align-items: stretch; gap: 0; }
-        .cat-tab { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 0 18px; height: 44px; color: #2d4560; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; display: flex; align-items: center; gap: 7px; }
-        .cat-tab:hover { color: #7a9bb5; }
-        .cat-tab.active { color: #c0cfe0; }
-        .cat-count { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: inherit; opacity: 0.5; }
-        .search-pill { margin-left: auto; display: flex; align-items: center; }
-        .search-pill input { background: none; border: none; outline: none; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; letter-spacing: 0.5px; width: 160px; padding: 0; }
-        .search-pill input::placeholder { color: #2d4560; }
+        .oz-bar-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: flex; align-items: stretch; }
+        .oz-tab {
+          font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+          letter-spacing: 0.05em; text-transform: uppercase;
+          padding: 0 16px; height: 48px;
+          color: var(--text-secondary); cursor: pointer;
+          border: none; background: none; border-bottom: 2px solid transparent;
+          white-space: nowrap; display: flex; align-items: center; gap: 8px;
+        }
+        .oz-tab:hover { color: #fff; }
+        .oz-tab[aria-pressed="true"] { color: #fff; border-bottom-color: var(--accent); }
+        .oz-tab-count { font-size: 11px; color: var(--text-muted); }
+        .oz-pill { margin-left: auto; display: flex; align-items: center; }
+        .oz-pill input {
+          background: none; border: none; border-left: 1px solid var(--border);
+          font-family: var(--font-mono); font-size: 12px; color: var(--text-primary);
+          width: 180px; padding: 14px 0 14px 16px; height: 100%;
+        }
+        .oz-pill input::placeholder { color: var(--text-muted); }
 
         /* ── CONTENT ── */
-        .content { max-width: 1280px; margin: 0 auto; padding: 32px 40px 80px; }
+        .oz-content { max-width: 1280px; margin: 0 auto; padding: 40px 40px 88px; }
+        .oz-note {
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
+          color: var(--text-secondary); text-transform: uppercase; margin-bottom: 24px;
+        }
+        .oz-note em { color: var(--accent); font-style: normal; }
 
-        /* search results label */
-        .results-note { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #2d4560; text-transform: uppercase; margin-bottom: 20px; }
-        .results-note em { color: #1e9eff; font-style: normal; }
-
-        /* ── CATEGORY SECTION ── */
-        .cat-section { margin-bottom: 40px; }
-        .cat-hdr { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
-        .cat-hdr-name { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
-        .cat-hdr-line { flex: 1; height: 1px; }
-        .cat-hdr-count { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #2d4560; letter-spacing: 2px; }
+        /* ── CATEGORY SECTIONS ── */
+        .oz-cat { margin-bottom: 56px; }
+        .oz-cat-h {
+          display: flex; align-items: baseline; gap: 14px;
+          padding-bottom: 12px; margin-bottom: 16px;
+          border-bottom: 1px solid var(--border-bright);
+        }
+        .oz-cat-h .oz-cat-idx { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+        .oz-cat-h h2 {
+          font-family: var(--font-display); font-size: 18px; font-weight: 800;
+          text-transform: uppercase; letter-spacing: 0.01em; color: #fff;
+        }
+        .oz-cat-h .oz-cat-n {
+          margin-left: auto; font-family: var(--font-mono); font-size: 12px;
+          letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase;
+        }
 
         /* ── TOOL GRID ── */
-        .tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .tool-card { background: #060c14; border: 1px solid rgba(255,255,255,0.035); padding: 16px 18px; text-decoration: none; display: flex; align-items: flex-start; gap: 14px; transition: background 0.15s, border-color 0.15s; position: relative; }
-        .tool-card:hover { background: #0a1520; border-color: rgba(255,255,255,0.07); }
-        .tc-icon { flex-shrink: 0; margin-top: 1px; opacity: 0.55; transition: opacity 0.15s; }
-        .tool-card:hover .tc-icon { opacity: 0.9; }
-        .tc-body { flex: 1; min-width: 0; }
-        .tc-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #9ab0c4; letter-spacing: 0.3px; margin-bottom: 3px; line-height: 1.2; transition: color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .tool-card:hover .tc-name { color: #c0cfe0; }
-        .tc-desc { font-family: 'Barlow', sans-serif; font-size: 11px; color: #2d4560; line-height: 1.45; transition: color 0.15s; }
-        .tool-card:hover .tc-desc { color: #3d5870; }
-        .tc-foot { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-        .tc-live { display: flex; align-items: center; gap: 4px; font-family: 'Share Tech Mono', monospace; font-size: 7px; letter-spacing: 2px; color: #00cc66; text-transform: uppercase; }
-        .tc-live-dot { width: 4px; height: 4px; border-radius: 50%; background: #00cc66; animation: pulse 2s infinite; }
-        .tc-cat { font-family: 'Share Tech Mono', monospace; font-size: 7px; letter-spacing: 2px; padding: 2px 5px; border: 1px solid; text-transform: uppercase; opacity: 0.5; }
-        .tc-arrow { margin-left: auto; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #1e3550; transition: all 0.15s; flex-shrink: 0; }
-        .tool-card:hover .tc-arrow { transform: translateX(3px); }
-
-        /* ── EMPTY ── */
-        .no-results { padding: 60px 0; text-align: center; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #2d4560; text-transform: uppercase; }
+        .oz-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+        .oz-tool {
+          background: var(--bg-primary); padding: 18px 20px; text-decoration: none;
+          display: flex; align-items: flex-start; gap: 14px;
+        }
+        .oz-tool:hover, .oz-tool:focus-visible { background: var(--bg-card); }
+        .oz-tool-icon { flex-shrink: 0; margin-top: 2px; opacity: 0.75; }
+        .oz-tool-body { flex: 1; min-width: 0; }
+        .oz-tool h3 {
+          font-family: var(--font-display); font-size: 15.5px; font-weight: 600;
+          color: var(--text-primary); line-height: 1.25; margin-bottom: 4px;
+        }
+        .oz-tool:hover h3 { color: var(--accent); }
+        .oz-tool-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+        .oz-tool-foot { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+        .oz-live {
+          display: flex; align-items: center; gap: 6px;
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
+          color: #22cc66; text-transform: uppercase;
+        }
+        .oz-live-dot { width: 5px; height: 5px; border-radius: 50%; background: #22cc66; animation: pulse 2s infinite; }
+        .oz-tool-cat {
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
+          text-transform: uppercase;
+        }
+        .oz-empty {
+          padding: 64px 0; text-align: center;
+          font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em;
+          color: var(--text-muted); text-transform: uppercase;
+        }
 
         /* ── FOOTER ── */
-        footer { border-top: 1px solid rgba(30,158,255,0.06); padding: 28px 40px; }
-        .foot-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .foot-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #2d4560; }
-
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        @media (max-width: 1100px) { .tool-grid { grid-template-columns: repeat(2, 1fr); } .qs-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) {
-          .hero, .content { padding-left: 20px; padding-right: 20px; }
-          .hero { padding-top: 36px; }
-          .cat-inner { padding: 0 20px; overflow-x: auto; scrollbar-width: none; }
-          .cat-inner::-webkit-scrollbar { display: none; }
-          .search-pill { display: none; }
-          .tool-grid { grid-template-columns: 1fr; }
-          .qs-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
-          .foot-inner { flex-direction: column; gap: 8px; text-align: center; }
+        .oz-foot { border-top: 1px solid var(--border); padding: 28px 40px; }
+        .oz-foot-inner {
+          max-width: 1280px; margin: 0 auto;
+          display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+          color: var(--text-muted); text-transform: uppercase;
         }
-        @media (max-width: 480px) { .qs-grid { grid-template-columns: 1fr; } }
+
+        @media (max-width: 1100px) { .oz-grid { grid-template-columns: repeat(2, 1fr); } .oz-qs { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) {
+          .oz-hero { padding: 48px 16px 0; }
+          .oz-content { padding: 32px 16px 64px; }
+          .oz-bar-inner { padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
+          .oz-bar-inner::-webkit-scrollbar { display: none; }
+          .oz-pill { display: none; }
+          .oz-grid { grid-template-columns: 1fr; }
+          .oz-search-row { flex-direction: column; }
+          .oz-search-row input { border-right: 1px solid var(--border-bright); }
+          .oz-foot { padding: 24px 16px; }
+          .oz-foot-inner { flex-direction: column; align-items: flex-start; }
+        }
+        @media (max-width: 480px) { .oz-qs { grid-template-columns: 1fr; } }
       `}</style>
 
-      <div className="page">
-        <div className="hero">
-          <div className="hero-top">
-            <div className="eyebrow">
-              <div className="eyebrow-line" />
-              <div className="eyebrow-text">The Rudd Report</div>
-            </div>
-            <div className="hero-title">OSINT Hub</div>
-            <p className="hero-sub">{TOOLS.length} free tools. No account required.</p>
-          </div>
+      <main id="main" className="oz">
+        <div className="oz-hero">
+          <p className="oz-eyebrow">The Rudd Report · Toolkit</p>
+          <h1>OSINT Toolkit</h1>
+          <p className="oz-sub">{TOOLS.length} free investigation tools. No account required.</p>
 
-          <div className="search-section">
-            <div className="search-bar">
+          <div className="oz-search">
+            <label htmlFor="oz-q">Search tools, or paste something to investigate</label>
+            <div className="oz-search-row">
               <input
+                id="oz-q"
                 ref={inputRef}
-                className="search-in"
-                placeholder="Paste an IP, domain, hash, URL, email, or username..."
+                placeholder="IP, domain, hash, URL, email, or username..."
                 value={query}
                 onChange={e => { setQuery(e.target.value); setCategory('All'); }}
                 onKeyDown={e => e.key === 'Enter' && !filtered.length && detectAndRoute(query)}
               />
-              <button className="search-go" onClick={() => detectAndRoute(query)}>Investigate →</button>
+              <button onClick={() => detectAndRoute(query)}>Investigate →</button>
             </div>
-            <div className="detect-row">
-              <div className="detect-chip"><b>IP address</b> → Geolocation</div>
-              <div className="detect-chip"><b>domain</b> → WHOIS</div>
-              <div className="detect-chip"><b>hash</b> → Analyzer</div>
-              <div className="detect-chip"><b>email header</b> → Trace</div>
-              <div className="detect-chip"><b>URL</b> → Redirect chain</div>
-              <div className="detect-chip"><b>username</b> → Account finder</div>
-            </div>
+            <p className="oz-hint">Detects IPs, domains, hashes, emails, and usernames automatically.</p>
           </div>
 
           {showQuickStarts && (
-            <>
-              <div className="qs-label">Common tasks</div>
-              <div className="qs-grid">
-                {QUICK_STARTS.map(qs => (
-                  <a key={qs.href} href={qs.href} className="qs-card" style={{ borderColor: `${qs.color}18` }}
-                     onMouseEnter={e => { (e.currentTarget.querySelector('.qs-arrow') as HTMLElement).style.color = qs.color; }}
-                     onMouseLeave={e => { (e.currentTarget.querySelector('.qs-arrow') as HTMLElement).style.color = '#2d4560'; }}>
-                    <style>{`.qs-card[href="${qs.href}"]::after { background: ${qs.color}; }`}</style>
-                    <div className="qs-task" style={{ color: qs.color }}>{qs.label}</div>
-                    <div className="qs-tools">
-                      {qs.tools.map(t => <div key={t} className="qs-tool">→ {t}</div>)}
-                    </div>
-                    <div className="qs-arrow" style={{ color: '#2d4560' }}>Open →</div>
+            <section aria-labelledby="oz-h-qs">
+              <div className="oz-qs-h rv">
+                <h2 id="oz-h-qs">Common tasks</h2>
+              </div>
+              <div className="oz-qs">
+                {QUICK_STARTS.map((qs, i) => (
+                  <a key={qs.href} href={qs.href} className={`rv rv-d${(i % 4) + 1}`}>
+                    <span className="oz-qs-task">{qs.label}</span>
+                    {qs.tools.map(t => <span key={t} className="oz-qs-tool">{t}</span>)}
+                    <span className="oz-qs-arrow" aria-hidden="true">→</span>
                   </a>
                 ))}
               </div>
-            </>
+            </section>
           )}
         </div>
 
         {/* CATEGORY BAR */}
-        <div className="cat-bar">
-          <div className="cat-inner">
+        <div className="oz-bar">
+          <div className="oz-bar-inner" role="group" aria-label="Filter tools by category">
             {CATEGORIES.map(cat => {
-              const color = cat === 'All' ? '#1e9eff' : CAT_META[cat]?.color;
               const active = category === cat && !query.trim();
               return (
                 <button
                   key={cat}
-                  className={`cat-tab${active ? ' active' : ''}`}
-                  style={active ? { borderBottomColor: color, color } : {}}
+                  className="oz-tab"
+                  aria-pressed={active}
                   onClick={() => { setCategory(cat); setQuery(''); }}
                 >
                   {cat === 'All' ? 'All tools' : CAT_META[cat].label}
-                  <span className="cat-count">{counts[cat]}</span>
+                  <span className="oz-tab-count">{counts[cat]}</span>
                 </button>
               );
             })}
-            <div className="search-pill">
+            <div className="oz-pill">
               <input
+                aria-label="Filter tools"
                 placeholder="Filter..."
                 value={query}
                 onChange={e => { setQuery(e.target.value); setCategory('All'); }}
@@ -364,51 +426,54 @@ export default function OSINTHub() {
         </div>
 
         {/* CONTENT */}
-        <div className="content">
+        <div className="oz-content">
+          <p aria-live="polite" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' }}>
+            {filtered.length} tools shown
+          </p>
           {query.trim() && (
-            <div className="results-note">
+            <p className="oz-note">
               <em>{filtered.length}</em> result{filtered.length !== 1 ? 's' : ''} for &ldquo;{query.trim()}&rdquo;
-              {liveCount > 0 && <span> — {liveCount} live</span>}
-            </div>
+              {liveCount > 0 && <span> · {liveCount} live</span>}
+            </p>
           )}
 
           {/* FILTERED / SINGLE-CATEGORY FLAT GRID */}
           {(query.trim() || category !== 'All') && (
             filtered.length === 0 ? (
-              <div className="no-results">No tools match &ldquo;{query}&rdquo;</div>
+              <p className="oz-empty">No tools match &ldquo;{query}&rdquo;</p>
             ) : (
-              <div className="tool-grid">
+              <div className="oz-grid">
                 {filtered.map(tool => <ToolCard key={tool.href} tool={tool} showCat={category === 'All'} />)}
               </div>
             )
           )}
 
           {/* GROUPED ALL VIEW */}
-          {!query.trim() && category === 'All' && grouped && CATEGORIES.slice(1).map(cat => {
+          {!query.trim() && category === 'All' && grouped && CATEGORIES.slice(1).map((cat, ci) => {
             const tools = grouped[cat];
-            const { color, label } = CAT_META[cat];
+            const { label } = CAT_META[cat];
             return (
-              <div key={cat} className="cat-section">
-                <div className="cat-hdr">
-                  <div className="cat-hdr-name" style={{ color }}>{label}</div>
-                  <div className="cat-hdr-line" style={{ background: `linear-gradient(90deg, ${color}25, transparent)` }} />
-                  <div className="cat-hdr-count">{tools.length}</div>
+              <section key={cat} className="oz-cat" aria-labelledby={`oz-h-${cat}`}>
+                <div className="oz-cat-h rv">
+                  <span className="oz-cat-idx" aria-hidden="true">{String(ci + 1).padStart(2, '0')}</span>
+                  <h2 id={`oz-h-${cat}`}>{label}</h2>
+                  <span className="oz-cat-n">{tools.length} tools</span>
                 </div>
-                <div className="tool-grid">
+                <div className="oz-grid">
                   {tools.map(tool => <ToolCard key={tool.href} tool={tool} showCat={false} />)}
                 </div>
-              </div>
+              </section>
             );
           })}
         </div>
 
-        <footer>
-          <div className="foot-inner">
-            <div className="foot-copy">© 2026 The Rudd Report</div>
-            <div className="foot-copy">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
+        <footer className="oz-foot">
+          <div className="oz-foot-inner">
+            <span>© 2026 The Rudd Report</span>
+            <span>Independent publication — not a U.S. government website</span>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }
@@ -417,21 +482,22 @@ function ToolCard({ tool, showCat }: { tool: Tool; showCat: boolean }) {
   const { color } = CAT_META[tool.category];
   const Icon = tool.icon;
   return (
-    <a href={tool.href} className="tool-card">
-      <div className="tc-icon" style={{ color }}><Icon size={16} strokeWidth={1.5} /></div>
-      <div className="tc-body">
-        <div className="tc-name">{tool.name}</div>
-        <div className="tc-desc">{tool.desc}</div>
-        <div className="tc-foot">
-          {tool.live && (
-            <div className="tc-live"><div className="tc-live-dot" />Live</div>
-          )}
-          {showCat && (
-            <div className="tc-cat" style={{ color, borderColor: `${color}35` }}>{tool.category}</div>
-          )}
-        </div>
+    <a href={tool.href} className="oz-tool">
+      <span className="oz-tool-icon" style={{ color }} aria-hidden="true"><Icon size={18} strokeWidth={1.5} /></span>
+      <div className="oz-tool-body">
+        <h3>{tool.name}</h3>
+        <div className="oz-tool-desc">{tool.desc}</div>
+        {(tool.live || showCat) && (
+          <div className="oz-tool-foot">
+            {tool.live && (
+              <span className="oz-live"><span className="oz-live-dot" aria-hidden="true" />Live</span>
+            )}
+            {showCat && (
+              <span className="oz-tool-cat" style={{ color }}>{tool.category}</span>
+            )}
+          </div>
+        )}
       </div>
-      <div className="tc-arrow" style={{ color }}>→</div>
     </a>
   );
 }
