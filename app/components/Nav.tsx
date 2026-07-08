@@ -1,42 +1,17 @@
-﻿'use client';
+'use client';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 const LINKS = [
-  { href: '/articles', label: 'All Reports' },
-  { href: '/cybersecurity', label: 'Cybersecurity' },
+  { href: '/articles', label: 'Reports' },
+  { href: '/cybersecurity', label: 'Cyber' },
   { href: '/intelligence', label: 'Intelligence' },
   { href: '/geopolitics', label: 'Geopolitics' },
-  { href: '/national-security', label: 'National Security' },
-  { href: '/osint', label: 'OSINT Hub', color: '#00ff88' },
-  { href: '/brief', label: 'Aladdin Brief', color: '#ffaa00' },
+  { href: '/national-security', label: 'Nat-Sec' },
+  { href: '/osint', label: 'OSINT Tools' },
+  { href: '/brief', label: 'Daily Brief' },
   { href: '/about', label: 'About' },
 ];
-
-// Color per active section
-const SECTION_COLORS: { prefix: string; color: string }[] = [
-  { prefix: '/brief', color: '#ffaa00' },
-  { prefix: '/osint', color: '#1e9eff' },
-  { prefix: '/tools', color: '#1e9eff' },
-  { prefix: '/cybersecurity', color: '#ff4444' },
-  { prefix: '/intelligence', color: '#b464ff' },
-  { prefix: '/geopolitics', color: '#ffaa00' },
-  { prefix: '/national-security', color: '#22cc66' },
-  { prefix: '/economic-security', color: '#00c9b0' },
-  { prefix: '/articles', color: '#1e9eff' },
-  { prefix: '/about', color: '#1e9eff' },
-  { prefix: '/contact', color: '#1e9eff' },
-];
-
-function useActiveColor(): string {
-  const pathname = usePathname();
-  for (const { prefix, color } of SECTION_COLORS) {
-    if (pathname === prefix || pathname.startsWith(prefix + '/') || pathname.startsWith(prefix + '?')) {
-      return color;
-    }
-  }
-  return '#1e9eff';
-}
 
 function isActive(href: string, pathname: string): boolean {
   if (href === '/') return pathname === '/';
@@ -45,15 +20,31 @@ function isActive(href: string, pathname: string): boolean {
 
 export default function Nav() {
   const pathname = usePathname();
-  const activeColor = useActiveColor();
   const [mobileOpen, setMobileOpen] = useState(false);
   const burgerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!mobileOpen) return;
     closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileOpen(false);
+      // Trap Tab inside the dialog while it is open
+      if (e.key === 'Tab' && menuRef.current) {
+        const focusables = menuRef.current.querySelectorAll<HTMLElement>('a[href], button');
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
     document.addEventListener('keydown', onKey);
     return () => {
       document.removeEventListener('keydown', onKey);
@@ -64,8 +55,6 @@ export default function Nav() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Barlow+Condensed:wght@400;600;700&display=swap');
-
         /* ── Kill all per-page navs; only the shared nav renders ── */
         nav:not(#site-nav) { display: none !important; }
         div.mobile-menu:not(#site-mobile-menu) { display: none !important; }
@@ -73,147 +62,186 @@ export default function Nav() {
         .skip-link {
           position: absolute; left: -9999px; top: 0; z-index: 400;
           background: #1e9eff; color: #000; padding: 12px 20px;
-          font-family: 'Barlow Condensed', sans-serif;
-          font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+          font-family: var(--font-mono);
+          font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
           text-transform: uppercase; text-decoration: none;
         }
         .skip-link:focus { left: 0; }
 
-        /* ── Site nav ── */
-        #site-nav {
+        /* ── Fixed header: notice strip + nav bar, 70px total ── */
+        #site-header {
           position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-          padding: 0 40px; height: 70px;
+          background: rgba(8,8,10,0.94);
+          backdrop-filter: blur(16px);
+          border-bottom: 1px solid var(--border);
+        }
+        .sn-notice {
+          height: 24px;
           display: flex; align-items: center; justify-content: space-between;
-          background: rgba(3,6,8,0.93);
-          backdrop-filter: blur(20px);
-          border-bottom: 3px solid ${activeColor};
-          transition: border-color 0.4s ease;
+          gap: 16px; padding: 0 40px;
+          border-bottom: 1px solid var(--border);
+          background: #000;
+          font-family: var(--font-mono);
+          font-size: 11px; letter-spacing: 0.06em;
+          color: #9a9a94; text-transform: uppercase;
+          white-space: nowrap; overflow: hidden;
+        }
+        .sn-notice-flag { color: var(--accent); margin-right: 8px; }
+        .sn-notice-right { color: #7f7f79; }
+        #site-nav {
+          /* position/background declared explicitly: legacy page styles set
+             element-level nav { position: fixed; background; border } */
+          position: static;
+          background: transparent;
+          border-bottom: none;
+          backdrop-filter: none;
+          height: 45px; min-height: 45px;
+          padding: 0 40px;
+          display: flex; align-items: center; justify-content: space-between;
         }
         #site-nav .sn-logo {
-          display: flex; align-items: center; gap: 12px; text-decoration: none;
+          display: flex; align-items: baseline; gap: 10px; text-decoration: none;
         }
         #site-nav .sn-logo-text {
-          font-family: 'Playfair Display', serif;
-          font-size: 20px; font-weight: 700; color: #fff; letter-spacing: 0.3px;
+          font-family: var(--font-display);
+          font-size: 17px; font-weight: 800; color: #fff;
+          letter-spacing: 0.02em; text-transform: uppercase;
         }
         #site-nav .sn-logo-text em {
-          color: ${activeColor}; font-style: normal;
-          transition: color 0.4s ease;
+          color: var(--accent); font-style: normal;
         }
         #site-nav .sn-links {
-          display: flex; align-items: center; gap: 28px; list-style: none;
+          display: flex; align-items: center; gap: 24px; list-style: none;
         }
         #site-nav .sn-links a {
-          font-family: 'Barlow Condensed', sans-serif;
-          font-size: 13px; font-weight: 600; letter-spacing: 2px;
+          font-family: var(--font-mono);
+          font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
           text-transform: uppercase; text-decoration: none;
-          color: #8aa0b8;
+          color: #a3a39c;
           transition: color 0.2s;
-          position: relative; padding-bottom: 2px;
+          position: relative; padding: 6px 0;
         }
-        #site-nav .sn-links a:hover { color: #c0cfe0; }
-        #site-nav .sn-links a.sn-active {
-          color: ${activeColor};
-          transition: color 0.4s ease;
-        }
+        #site-nav .sn-links a:hover { color: #fff; }
+        #site-nav .sn-links a.sn-active { color: #fff; }
         #site-nav .sn-links a.sn-active::after {
           content: '';
-          position: absolute; bottom: -4px; left: 0; right: 0;
-          height: 2px; background: ${activeColor};
-          transition: background 0.4s ease;
+          position: absolute; bottom: 0; left: 0; right: 0;
+          height: 2px; background: var(--accent);
         }
         #site-nav .sn-burger {
           display: none; flex-direction: column; gap: 5px;
-          cursor: pointer; padding: 8px; background: none; border: none;
+          cursor: pointer; padding: 10px; background: none; border: none;
         }
         #site-nav .sn-burger span {
-          display: block; width: 24px; height: 2px;
-          background: ${activeColor}; transition: background 0.4s ease;
+          display: block; width: 22px; height: 2px; background: #ededea;
         }
 
         #site-mobile-menu {
           display: none; position: fixed; inset: 0; z-index: 300;
-          background: rgba(3,6,8,0.97);
-          flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+          background: rgba(8,8,10,0.98);
+          flex-direction: column; align-items: flex-start;
+          justify-content: center; gap: 4px; padding: 0 32px;
         }
         #site-mobile-menu.open { display: flex; }
         #site-mobile-menu .smm-close {
-          position: absolute; top: 24px; right: 24px;
-          font-family: 'Barlow Condensed', sans-serif;
-          font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
-          background: none; border: none; color: #7a9bb5; cursor: pointer;
+          position: absolute; top: 20px; right: 24px;
+          font-family: var(--font-mono);
+          font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+          background: none; border: 1px solid var(--border-bright);
+          padding: 8px 14px; color: #ededea; cursor: pointer;
         }
         #site-mobile-menu a {
-          font-family: 'Barlow Condensed', sans-serif;
-          font-size: 26px; font-weight: 700; letter-spacing: 4px;
-          color: #c0cfe0; text-decoration: none; text-transform: uppercase;
+          font-family: var(--font-display);
+          font-size: 26px; font-weight: 700; letter-spacing: 0.01em;
+          color: #ededea; text-decoration: none; text-transform: uppercase;
+          padding: 8px 0; display: flex; align-items: baseline; gap: 14px;
           transition: color 0.2s;
         }
+        #site-mobile-menu a .smm-idx {
+          font-family: var(--font-mono);
+          font-size: 12px; color: #8f8f8a; letter-spacing: 0.06em;
+        }
         #site-mobile-menu a:hover,
-        #site-mobile-menu a.sn-active { color: ${activeColor}; }
-        #site-mobile-menu .smm-accent-bar {
-          width: 40px; height: 2px;
-          background: ${activeColor}; transition: background 0.4s;
+        #site-mobile-menu a.sn-active { color: var(--accent); }
+        #site-mobile-menu .smm-notice {
+          font-family: var(--font-mono);
+          font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+          color: #8f8f8a; margin-top: 32px;
+          border-top: 1px solid var(--border); padding-top: 16px;
         }
 
-        @media (max-width: 1100px) {
-          #site-nav .sn-links { gap: 20px; }
-          #site-nav .sn-links a { font-size: 12px; }
+        @media (max-width: 1180px) {
+          #site-nav .sn-links { gap: 16px; }
+          #site-nav .sn-links a { font-size: 11px; }
         }
-        @media (max-width: 900px) {
-          #site-nav { padding: 0 20px; }
+        @media (max-width: 960px) {
+          .sn-notice { padding: 0 16px; }
+          .sn-notice-right { display: none; }
+          #site-nav { padding: 0 16px; }
           #site-nav .sn-links { display: none; }
           #site-nav .sn-burger { display: flex; }
+        }
+        @media (max-width: 480px) {
+          .sn-notice { font-size: 10px; letter-spacing: 0.03em; }
         }
       `}</style>
 
       <a href="#main" className="skip-link">Skip to content</a>
-      <nav id="site-nav" aria-label="Main">
-        <a href="/" className="sn-logo">
-          <span className="sn-logo-text">The Rudd <em>Report</em></span>
-        </a>
-        <ul className="sn-links">
-          {LINKS.map(({ href, label, color }) => (
-            <li key={href}>
-              <a
-                href={href}
-                className={isActive(href, pathname) ? 'sn-active' : ''}
-                aria-current={isActive(href, pathname) ? 'page' : undefined}
-                style={color ? { color } : undefined}
-              >
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <button
-          ref={burgerRef}
-          className="sn-burger"
-          onClick={() => setMobileOpen(true)}
-          aria-label="Open menu"
-          aria-expanded={mobileOpen}
-          aria-controls="site-mobile-menu"
-        >
-          <span /><span /><span />
-        </button>
-      </nav>
+      <header id="site-header">
+        <div className="sn-notice">
+          <span>
+            <span className="sn-notice-flag" aria-hidden="true">▪</span>
+            Independent publication — not a U.S. government website
+          </span>
+          <span className="sn-notice-right">Open-source intelligence &amp; analysis · Est. 2026</span>
+        </div>
+        <nav id="site-nav" aria-label="Main">
+          <a href="/" className="sn-logo">
+            <span className="sn-logo-text">Rudd <em>Report</em></span>
+          </a>
+          <ul className="sn-links">
+            {LINKS.map(({ href, label }) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  className={isActive(href, pathname) ? 'sn-active' : ''}
+                  aria-current={isActive(href, pathname) ? 'page' : undefined}
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <button
+            ref={burgerRef}
+            className="sn-burger"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={mobileOpen}
+            aria-controls="site-mobile-menu"
+          >
+            <span /><span /><span />
+          </button>
+        </nav>
+      </header>
 
-      <div id="site-mobile-menu" className={mobileOpen ? 'open' : ''} role="dialog" aria-modal="true" aria-label="Site menu">
+      <div ref={menuRef} id="site-mobile-menu" className={mobileOpen ? 'open' : ''} role="dialog" aria-modal="true" aria-label="Site menu">
         <button ref={closeRef} className="smm-close" onClick={() => setMobileOpen(false)}><span aria-hidden="true">✕</span> Close</button>
-        <div className="smm-accent-bar" aria-hidden="true" />
-        <a href="/" onClick={() => setMobileOpen(false)}>Home</a>
-        {LINKS.map(({ href, label, color }) => (
+        <a href="/" onClick={() => setMobileOpen(false)}>
+          <span className="smm-idx" aria-hidden="true">00</span> Home
+        </a>
+        {LINKS.map(({ href, label }, i) => (
           <a
             key={href}
             href={href}
             className={isActive(href, pathname) ? 'sn-active' : ''}
             aria-current={isActive(href, pathname) ? 'page' : undefined}
-            style={color ? { color } : undefined}
             onClick={() => setMobileOpen(false)}
           >
-            {label}
+            <span className="smm-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span> {label}
           </a>
         ))}
+        <p className="smm-notice">Independent publication — not a U.S. government website</p>
       </div>
     </>
   );
