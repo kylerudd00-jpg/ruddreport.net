@@ -470,7 +470,7 @@ export default function OSINTHub() {
         <footer className="oz-foot">
           <div className="oz-foot-inner">
             <span>© 2026 The Rudd Report</span>
-            <span>Independent publication — not a U.S. government website</span>
+            <span>Independent publication · Open-source intelligence &amp; analysis</span>
           </div>
         </footer>
       </main>

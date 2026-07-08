@@ -281,7 +281,7 @@ export default function About() {
         <footer className="ab-foot">
           <div className="ab-foot-inner">
             <span>© 2026 The Rudd Report</span>
-            <span>Independent publication — not a U.S. government website</span>
+            <span>Independent publication · Open-source intelligence &amp; analysis</span>
           </div>
         </footer>
       </main>

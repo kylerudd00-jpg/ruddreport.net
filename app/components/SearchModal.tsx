@@ -53,8 +53,14 @@ export default function SearchModal() {
       }
       if (e.key === 'Escape') setOpen(false);
     };
+    // header Search button (and anything else) opens the modal via this event
+    const openHandler = () => setOpen(true);
     window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+    window.addEventListener('rr:open-search', openHandler);
+    return () => {
+      window.removeEventListener('keydown', handler);
+      window.removeEventListener('rr:open-search', openHandler);
+    };
   }, []);
 
   useEffect(() => {
@@ -86,40 +92,15 @@ export default function SearchModal() {
   const hasResults = results.articles.length > 0 || results.tools.length > 0;
   const showEmpty = query.trim() && !hasResults;
 
-  if (!open) {
-    return (
-      <>
-        <style>{`@media (max-width: 768px) { .search-float-btn { display: none !important; } }`}</style>
-        <button
-          className="search-float-btn"
-          onClick={() => setOpen(true)}
-        style={{
-          position: 'fixed', bottom: '28px', right: '28px', zIndex: 200,
-          background: 'rgba(10,21,32,0.95)', border: '1px solid rgba(30,158,255,0.25)',
-          color: '#7a9bb5', fontFamily: "'Barlow Condensed', sans-serif",
-          fontSize: '11px', letterSpacing: '2px', padding: '10px 18px',
-          cursor: 'pointer', backdropFilter: 'blur(20px)', display: 'flex',
-          alignItems: 'center', gap: '10px', transition: 'all 0.2s',
-        }}
-        onMouseEnter={e => {
-          (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(30,158,255,0.5)';
-          (e.currentTarget as HTMLButtonElement).style.color = '#1e9eff';
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(30,158,255,0.25)';
-          (e.currentTarget as HTMLButtonElement).style.color = '#7a9bb5';
-        }}
-      >
-        <span style={{ opacity: 0.5, fontSize: '13px' }}>⌕</span>
-        Search
-      </button>
-      </>
-    );
-  }
+  // No floating launcher — search opens from the header Search button or Cmd/Ctrl+K.
+  if (!open) return null;
 
   return (
     <div
       className="search-modal-wrap"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search reports and OSINT tools"
       style={{
         position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(3,6,8,0.9)',
         backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'flex-start',
@@ -139,6 +120,7 @@ export default function SearchModal() {
             ref={inputRef}
             value={query}
             onChange={e => setQuery(e.target.value)}
+            aria-label="Search reports and OSINT tools"
             placeholder="Search reports and OSINT tools..."
             style={{
               flex: 1, background: 'none', border: 'none', outline: 'none',

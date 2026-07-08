@@ -138,6 +138,16 @@ export default function Nav() {
           position: absolute; bottom: 0; left: 0; right: 0;
           height: 2px; background: var(--accent);
         }
+        #site-nav .sn-cluster { display: flex; align-items: center; gap: 20px; }
+        #site-nav .sn-search {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: none; border: 1px solid var(--border-bright); cursor: pointer;
+          color: var(--text-secondary); font-family: var(--font-mono);
+          font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase;
+          padding: 8px 13px;
+        }
+        #site-nav .sn-search:hover { color: #fff; border-color: rgba(255,255,255,0.6); }
+        #site-nav .sn-search-ico { font-size: 13px; opacity: 0.7; }
         #site-nav .sn-burger {
           display: none; flex-direction: column; gap: 5px; justify-content: center;
           cursor: pointer; padding: 14px 12px; background: none; border: none;
@@ -189,6 +199,8 @@ export default function Nav() {
           .sn-notice-right { display: none; }
           #site-nav { padding: 0 16px; }
           #site-nav .sn-links { display: none; }
+          #site-nav .sn-search-label { display: none; }
+          #site-nav .sn-search { padding: 9px 11px; }
           #site-nav .sn-burger { display: flex; }
         }
         @media (max-width: 480px) {
@@ -201,7 +213,7 @@ export default function Nav() {
         <div className="sn-notice">
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
             <FlagUS width={19} />
-            Independent publication — not a U.S. government website
+            Independent publication
           </span>
           <span className="sn-notice-right">Open-source intelligence &amp; analysis · Est. 2026</span>
         </div>
@@ -209,29 +221,40 @@ export default function Nav() {
           <a href="/" className="sn-logo">
             <span className="sn-logo-text">Rudd <em>Report</em></span>
           </a>
-          <ul className="sn-links">
-            {LINKS.map(({ href, label }) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  className={isActive(href, pathname) ? 'sn-active' : ''}
-                  aria-current={isActive(href, pathname) ? 'page' : undefined}
-                >
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <button
-            ref={burgerRef}
-            className="sn-burger"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={mobileOpen}
-            aria-controls="site-mobile-menu"
-          >
-            <span /><span /><span />
-          </button>
+          <div className="sn-cluster">
+            <ul className="sn-links">
+              {LINKS.map(({ href, label }) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    className={isActive(href, pathname) ? 'sn-active' : ''}
+                    aria-current={isActive(href, pathname) ? 'page' : undefined}
+                  >
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <button
+              type="button"
+              className="sn-search"
+              aria-label="Search"
+              onClick={() => window.dispatchEvent(new CustomEvent('rr:open-search'))}
+            >
+              <span className="sn-search-ico" aria-hidden="true">⌕</span>
+              <span className="sn-search-label">Search</span>
+            </button>
+            <button
+              ref={burgerRef}
+              className="sn-burger"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={mobileOpen}
+              aria-controls="site-mobile-menu"
+            >
+              <span /><span /><span />
+            </button>
+          </div>
         </nav>
       </header>
 
@@ -251,7 +274,7 @@ export default function Nav() {
             <span className="smm-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span> {label}
           </a>
         ))}
-        <p className="smm-notice">Independent publication — not a U.S. government website</p>
+        <p className="smm-notice">Independent publication · Est. 2026</p>
       </div>
     </>
   );

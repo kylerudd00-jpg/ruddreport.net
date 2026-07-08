@@ -518,7 +518,7 @@ export default function Home() {
               <p className="rr-empty">No reports published yet</p>
             ) : (
               <>
-                <a href={`/articles/${lead.slug}`} className="rr-lead rv-clip">
+                <a href={`/articles/${lead.slug}`} className="rr-lead rv">
                   <span className="rr-meta-row">
                     <span className="rr-tag" style={{ color: getCategoryColor(lead.category) }}>{lead.category}</span>
                     <span className="rr-date">{lead.date}</span>
@@ -551,11 +551,74 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 02 — ALL REPORTS (register) */}
-        <section className="rr-section rr-section--tight" aria-labelledby="rr-h-reports">
+        {/* 02 — OSINT TOOLKIT */}
+        <section className="rr-section rr-osint" aria-labelledby="rr-h-osint">
           <div className="rr-section-inner">
             <div className="rr-sh rv">
               <span className="rr-sh-idx" aria-hidden="true">02</span>
+              <h2 id="rr-h-osint">OSINT Toolkit</h2>
+              <span className="rr-sh-line" />
+              <a className="rr-sh-link" href="/osint">Open the hub →</a>
+            </div>
+
+            <div className="rr-osint-head rv">
+              <div>
+                <p className="rr-osint-blurb">
+                  47 free tools covering companies, networks, live tracking, and more.
+                  Everything runs in the browser with no account required.
+                </p>
+                <div className="rr-stats" ref={statsRef}>
+                  <div>
+                    <div className="rr-stat-num"><span aria-hidden="true">{stat.tools}</span><span className="rr-sr">47</span></div>
+                    <div className="rr-stat-label">Live tools</div>
+                  </div>
+                  <div>
+                    <div className="rr-stat-num"><span aria-hidden="true">{stat.cats}</span><span className="rr-sr">6</span></div>
+                    <div className="rr-stat-label">Categories</div>
+                  </div>
+                  <div><div className="rr-stat-num">$0</div><div className="rr-stat-label">No sign-up</div></div>
+                </div>
+              </div>
+              <div className="rr-router">
+                <label htmlFor="rr-osint-q">Quick investigate — paste anything</label>
+                <div className="rr-router-row">
+                  <input
+                    id="rr-osint-q"
+                    placeholder="IP, domain, hash, username, company name..."
+                    value={osintQuery}
+                    onChange={e => setOsintQuery(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') runOsintSearch(); }}
+                  />
+                  <button onClick={runOsintSearch}>Search →</button>
+                </div>
+                <p className="rr-router-hint">
+                  Detects IPs, domains, hashes, emails, and usernames automatically.
+                </p>
+              </div>
+            </div>
+
+            <div className="rr-cats">
+              {OSINT_CATS.map((cat, i) => (
+                <a key={cat.name} href={cat.href} className={`rr-cat rv rv-d${(i % 3) + 1}`}>
+                  <span className="rr-cat-top">
+                    <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                    <span>{cat.count} tools</span>
+                  </span>
+                  <h3>{cat.name}</h3>
+                  <p>{cat.desc}</p>
+                  <span className="rr-cat-arrow" aria-hidden="true">→</span>
+                </a>
+              ))}
+            </div>
+            <a href="/osint" className="rr-osint-all rv">View all 47 tools in the OSINT hub →</a>
+          </div>
+        </section>
+
+        {/* 03 — ALL REPORTS (register) */}
+        <section className="rr-section rr-section--tight" aria-labelledby="rr-h-reports">
+          <div className="rr-section-inner">
+            <div className="rr-sh rv">
+              <span className="rr-sh-idx" aria-hidden="true">03</span>
               <h2 id="rr-h-reports">All Reports</h2>
               <span className="rr-sh-line" />
             </div>
@@ -617,69 +680,6 @@ export default function Home() {
                 </a>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* 03 — OSINT TOOLKIT */}
-        <section className="rr-section rr-osint" aria-labelledby="rr-h-osint">
-          <div className="rr-section-inner">
-            <div className="rr-sh rv">
-              <span className="rr-sh-idx" aria-hidden="true">03</span>
-              <h2 id="rr-h-osint">OSINT Toolkit</h2>
-              <span className="rr-sh-line" />
-              <a className="rr-sh-link" href="/osint">Open the hub →</a>
-            </div>
-
-            <div className="rr-osint-head rv">
-              <div>
-                <p className="rr-osint-blurb">
-                  47 free tools covering companies, networks, live tracking, and more.
-                  Everything runs in the browser with no account required.
-                </p>
-                <div className="rr-stats" ref={statsRef}>
-                  <div>
-                    <div className="rr-stat-num"><span aria-hidden="true">{stat.tools}</span><span className="rr-sr">47</span></div>
-                    <div className="rr-stat-label">Live tools</div>
-                  </div>
-                  <div>
-                    <div className="rr-stat-num"><span aria-hidden="true">{stat.cats}</span><span className="rr-sr">6</span></div>
-                    <div className="rr-stat-label">Categories</div>
-                  </div>
-                  <div><div className="rr-stat-num">$0</div><div className="rr-stat-label">No sign-up</div></div>
-                </div>
-              </div>
-              <div className="rr-router">
-                <label htmlFor="rr-osint-q">Quick investigate — paste anything</label>
-                <div className="rr-router-row">
-                  <input
-                    id="rr-osint-q"
-                    placeholder="IP, domain, hash, username, company name..."
-                    value={osintQuery}
-                    onChange={e => setOsintQuery(e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter') runOsintSearch(); }}
-                  />
-                  <button onClick={runOsintSearch}>Search →</button>
-                </div>
-                <p className="rr-router-hint">
-                  Detects IPs, domains, hashes, emails, and usernames automatically.
-                </p>
-              </div>
-            </div>
-
-            <div className="rr-cats">
-              {OSINT_CATS.map((cat, i) => (
-                <a key={cat.name} href={cat.href} className={`rr-cat rv rv-d${(i % 3) + 1}`}>
-                  <span className="rr-cat-top">
-                    <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                    <span>{cat.count} tools</span>
-                  </span>
-                  <h3>{cat.name}</h3>
-                  <p>{cat.desc}</p>
-                  <span className="rr-cat-arrow" aria-hidden="true">→</span>
-                </a>
-              ))}
-            </div>
-            <a href="/osint" className="rr-osint-all rv">View all 47 tools in the OSINT hub →</a>
           </div>
         </section>
 
@@ -746,7 +746,7 @@ export default function Home() {
               <FlagUS width={19} />
               © 2026 The Rudd Report
             </span>
-            <span>Independent publication — not a U.S. government website</span>
+            <span>Independent publication · Open-source intelligence &amp; analysis</span>
           </div>
         </div>
       </footer>
