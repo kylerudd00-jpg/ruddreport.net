@@ -193,123 +193,86 @@ export default function PhoneLookup() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 1100; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .hero { padding: 48px 40px 36px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .hero { padding: 64px 40px 40px; border-bottom: 1px solid var(--border); }
         .hero-inner { max-width: 1200px; margin: 0 auto; }
-        .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
-        .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .hero-title span { color: #1e9eff; }
-        .hero-sub { font-size: 14px; font-weight: 400; color: #7a9bb5; max-width: 600px; line-height: 1.7; }
-        .tool-section { padding: 32px 40px 48px; max-width: 920px; margin: 0 auto; }
-        .search-row { display: flex; gap: 2px; margin-bottom: 8px; }
-        .search-input { flex: 1; background: #0a1520; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 15px 22px; font-family: 'Share Tech Mono', monospace; font-size: 16px; color: #d8e8f5; letter-spacing: 3px; }
-        .search-input::placeholder { color: #5a7a94; letter-spacing: 1px; }
-        .search-input:focus { border-color: rgba(30,158,255,0.5); }
-        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 15px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
-        .search-btn:hover { background: #4db8ff; }
-        .hint { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-bottom: 24px; }
-        .hint span { color: #1e9eff; }
-        .error-bar { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.2); padding: 12px 18px; margin-bottom: 20px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; }
-        .result-card { border: 1px solid rgba(30,158,255,0.2); background: #0a1520; }
-        .result-header { padding: 22px 28px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); }
-        .result-number { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; margin-bottom: 12px; }
+        .hero-eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+        .hero-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .hero-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .hero-title { font-family: var(--font-display); font-size: clamp(36px, 5.5vw, 72px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.98; margin-bottom: 16px; }
+        .hero-title span { color: var(--accent); }
+        .hero-sub { font-size: 16px; color: var(--text-secondary); max-width: 620px; line-height: 1.7; }
+        .tool-section { padding: 40px 40px 56px; max-width: 920px; margin: 0 auto; }
+        .search-row { display: flex; margin-bottom: 10px; }
+        .search-input { flex: 1; background: var(--bg-secondary); border: 1px solid var(--border-bright); border-right: none; padding: 15px 18px; font-family: var(--font-mono); font-size: 16px; color: var(--text-primary); letter-spacing: 0.06em; }
+        .search-input::placeholder { color: var(--text-muted); letter-spacing: 0.03em; }
+        .search-input:focus { border-color: var(--accent); }
+        .search-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #000; background: var(--accent); border: 1px solid var(--accent); padding: 15px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; white-space: nowrap; }
+        .search-btn:hover { background: #4db3ff; }
+        .hint { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.03em; color: var(--text-muted); margin-bottom: 28px; }
+        .hint span { color: var(--text-secondary); }
+        .error-bar { background: rgba(255,77,77,0.08); border: 1px solid rgba(255,77,77,0.3); padding: 12px 16px; margin-bottom: 20px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.03em; color: var(--red); }
+        .result-card { border: 1px solid var(--border); background: var(--bg-secondary); }
+        .result-header { padding: 24px 28px; border-bottom: 1px solid var(--border); }
+        .result-number { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--text-primary); letter-spacing: 0; margin-bottom: 14px; }
         .result-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-        .badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; padding: 4px 12px; text-transform: uppercase; border: 1px solid; }
-        .badge-valid { color: #00ff88; border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.06); }
-        .badge-invalid { color: #ff3a3a; border-color: rgba(255,58,58,0.3); background: rgba(255,58,58,0.06); }
-        .badge-possible { color: #f59e0b; border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.06); }
-        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 12px 28px 8px; background: rgba(30,158,255,0.03); border-top: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.06); }
+        .badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; padding: 4px 11px; text-transform: uppercase; border: 1px solid; }
+        .badge-valid { color: #22cc66; border-color: rgba(34,204,102,0.4); background: rgba(34,204,102,0.08); }
+        .badge-invalid { color: var(--red); border-color: rgba(255,77,77,0.4); background: rgba(255,77,77,0.08); }
+        .badge-possible { color: #ffaa00; border-color: rgba(255,170,0,0.4); background: rgba(255,170,0,0.08); }
+        .section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; padding: 14px 28px 10px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
         .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
-        .info-field { padding: 16px 28px; border-bottom: 1px solid rgba(30,158,255,0.06); border-right: 1px solid rgba(30,158,255,0.06); }
+        .info-field { padding: 16px 28px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
         .info-field:nth-child(3n) { border-right: none; }
         .info-field.two { grid-column: span 2; }
         .info-field.full { grid-column: 1/-1; border-right: none; }
-        .field-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 6px; }
-        .field-value { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; word-break: break-word; line-height: 1.4; }
-        .field-value.cyan { color: #00ffff; } .field-value.green { color: #00ff88; }
-        .field-value.amber { color: #f59e0b; } .field-value.blue { color: #1e9eff; }
-        .field-value.muted { color: #5a7a94; font-size: 11px; }
-        .use-block { margin: 0 28px 16px; padding: 14px 18px; background: #050d14; border-left: 3px solid; margin-top: 14px; }
-        .use-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 4px; }
-        .use-value { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 600; }
-        .carrier-note { padding: 14px 28px 0; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #5a7a94; line-height: 1.7; }
-        .carrier-note a { color: #1e9eff; text-decoration: none; }
-        .osint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 16px 28px 20px; }
-        .osint-link { display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; background: #050d14; border: 1px solid rgba(30,158,255,0.1); text-decoration: none; transition: all 0.2s; }
-        .osint-link:hover { border-color: rgba(30,158,255,0.3); background: rgba(30,158,255,0.05); }
-        .osint-link-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 600; color: #c0cfe0; }
-        .osint-link-desc { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #5a7a94; }
-        .osint-link-arrow { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #1e9eff; margin-top: 6px; }
-        .privacy-note { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #5a7a94; padding: 12px 28px 18px; border-top: 1px solid rgba(30,158,255,0.06); line-height: 1.8; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 32px 40px; background: #070d12; margin-top: 40px; }
-        .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .field-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 7px; }
+        .field-value { font-family: var(--font-mono); font-size: 13.5px; color: var(--text-primary); word-break: break-word; line-height: 1.45; }
+        .field-value.cyan { color: #00c9b0; } .field-value.green { color: #22cc66; }
+        .field-value.amber { color: #ffaa00; } .field-value.blue { color: var(--accent); }
+        .field-value.muted { color: var(--text-secondary); font-size: 12.5px; }
+        .use-block { margin: 14px 28px 16px; padding: 14px 18px; background: var(--bg-card); border-left: 3px solid; }
+        .use-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+        .use-value { font-family: var(--font-display); font-size: 17px; font-weight: 700; }
+        .carrier-note { padding: 14px 28px 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; color: var(--text-secondary); line-height: 1.7; }
+        .carrier-note a { color: var(--accent); text-decoration: none; }
+        .osint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding: 16px 28px 24px; }
+        .osint-link { display: flex; flex-direction: column; gap: 4px; padding: 16px; background: var(--bg-card); border: 1px solid var(--border); text-decoration: none; transition: all 0.2s; }
+        .osint-link:hover, .osint-link:focus-visible { border-color: var(--border-bright); background: var(--bg-card-hover); }
+        .osint-link-name { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--text-primary); }
+        .osint-link:hover .osint-link-name { color: var(--accent); }
+        .osint-link-desc { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.01em; color: var(--text-secondary); }
+        .osint-link-arrow { font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-top: 6px; }
+        .privacy-note { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.01em; color: var(--text-muted); padding: 14px 28px 20px; border-top: 1px solid var(--border); line-height: 1.8; }
+        footer { border-top: 1px solid var(--border); padding: 32px 40px; background: var(--bg-secondary); margin-top: 48px; }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--text-muted); text-transform: uppercase; }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
-          .hero { padding: 32px 20px; } .tool-section { padding: 20px 20px 32px; }
+          .hero { padding: 48px 16px 32px; } .tool-section { padding: 28px 16px 40px; }
           .info-grid { grid-template-columns: 1fr 1fr; }
           .info-field.two { grid-column: span 2; }
           .osint-grid { grid-template-columns: 1fr 1fr; }
-          footer { padding: 24px 20px; } .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+          footer { padding: 24px 16px; } .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => document.getElementById('plMenu')?.classList.toggle('open')}>
-            <span /><span /><span />
-          </div>
-        </nav>
-        <div className="mobile-menu" id="plMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('plMenu')?.classList.remove('open')}>✕ Close</button>
-          <a href="/">Home</a><a href="/cybersecurity">Cybersecurity</a><a href="/intelligence">Intelligence</a>
-          <a href="/geopolitics">Geopolitics</a><a href="/national-security">National Security</a>
-          <a href="/osint">OSINT Hub</a><a href="/about">About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="hero">
           <div className="hero-inner">
-            <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">Identity Intelligence</div></div>
-            <div className="hero-title">Phone Number <span>OSINT</span></div>
+            <div className="hero-eyebrow"><div className="hero-eyebrow-line" aria-hidden="true" /><div className="hero-eyebrow-text">Identity Intelligence</div></div>
+            <h1 className="hero-title">Phone Number <span>OSINT</span></h1>
             <p className="hero-sub">A phone number reveals more than most people think — the country it's registered in, whether it's a mobile, landline, or VoIP number, and the carrier that issued it. Enter any number to identify its origin and type, then launch directly into carrier lookups and open-source databases for deeper investigation.</p>
           </div>
         </div>
 
         <div className="tool-section">
           <div className="search-row">
-            <input className="search-input" placeholder="+1 202 456 1111" value={input}
+            <input className="search-input" aria-label="Phone number to analyze" placeholder="+1 202 456 1111" value={input}
               onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAnalyze()} />
-            <button className="search-btn" onClick={handleAnalyze}>Analyze</button>
+            <button type="button" className="search-btn" onClick={handleAnalyze}>Analyze</button>
           </div>
           <div className="hint">Include country code — <span>+1</span> US, <span>+44</span> UK, <span>+7</span> Russia, <span>+86</span> China</div>
-          {error && <div className="error-bar">{error}</div>}
+          <div aria-live="polite">
+          {error && <div className="error-bar" role="alert">{error}</div>}
 
           {result && (
             <div className="result-card">
@@ -333,7 +296,7 @@ export default function PhoneLookup() {
                 </div>
               )}
 
-              <div className="section-label">Number Intelligence</div>
+              <h2 className="section-label">Number Intelligence</h2>
               <div className="info-grid">
                 <div className="info-field two">
                   <div className="field-label">Country</div>
@@ -359,7 +322,7 @@ export default function PhoneLookup() {
                 </div>
               </div>
 
-              <div className="section-label">Number Formats</div>
+              <h2 className="section-label">Number Formats</h2>
               <div className="info-grid">
                 <div className="info-field full">
                   <div className="field-label">International Format</div>
@@ -379,7 +342,7 @@ export default function PhoneLookup() {
                 </div>
               </div>
 
-              <div className="section-label">Carrier & Identity Lookup</div>
+              <h2 className="section-label">Carrier &amp; Identity Lookup</h2>
               <div className="osint-grid">
                 <a className="osint-link" href={`https://www.truecaller.com/search/${result.country?.toLowerCase()}/${result.nationalNumber}`} target="_blank" rel="noopener noreferrer">
                   <div className="osint-link-name">TrueCaller</div>
@@ -432,15 +395,16 @@ export default function PhoneLookup() {
               </div>
             </div>
           )}
+          </div>
         </div>
 
         <footer>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 The Rudd Report</div>
-            
+            <span>© 2026 The Rudd Report</span>
+            <span>Open-source intelligence &amp; analysis</span>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }
