@@ -193,8 +193,9 @@ export default function Home() {
         }
         .rr-toolbar-filters { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
         .rr-search { display: flex; border: 1px solid var(--border-bright); }
+        .rr-search:focus-within { border-color: var(--accent); }
         .rr-search input {
-          background: transparent; border: none; outline: none;
+          background: transparent; border: none;
           padding: 10px 14px; width: 220px;
           font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.03em;
           color: var(--text-primary);
@@ -253,7 +254,7 @@ export default function Home() {
           font-size: 13px; padding: 14px 16px;
         }
         .rr-router-row input::placeholder { color: var(--text-muted); }
-        .rr-router-row input:focus { border-color: var(--accent); outline: none; }
+        .rr-router-row input:focus { border-color: var(--accent); }
         .rr-router-row button {
           font-family: var(--font-mono); font-size: 12px; font-weight: 600;
           letter-spacing: 0.06em; text-transform: uppercase;

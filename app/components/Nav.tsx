@@ -76,15 +76,16 @@ export default function Nav() {
           border-bottom: 1px solid var(--border);
         }
         .sn-notice {
-          height: 24px;
+          /* min-height + wrap (not fixed height + clip): the disclaimer must
+             stay readable at 200% zoom / narrow viewports (WCAG 1.4.4/1.4.10) */
+          min-height: 24px;
           display: flex; align-items: center; justify-content: space-between;
-          gap: 16px; padding: 0 40px;
+          gap: 16px; padding: 2px 40px;
           border-bottom: 1px solid var(--border);
           background: #000;
           font-family: var(--font-mono);
-          font-size: 11px; letter-spacing: 0.06em;
+          font-size: 12px; line-height: 1.4; letter-spacing: 0.06em;
           color: #9a9a94; text-transform: uppercase;
-          white-space: nowrap; overflow: hidden;
         }
         .sn-notice-flag { color: var(--accent); margin-right: 8px; }
         .sn-notice-right { color: #7f7f79; }
@@ -182,7 +183,7 @@ export default function Nav() {
           #site-nav .sn-burger { display: flex; }
         }
         @media (max-width: 480px) {
-          .sn-notice { font-size: 10px; letter-spacing: 0.03em; }
+          .sn-notice { font-size: 11px; letter-spacing: 0.03em; }
         }
       `}</style>
 
