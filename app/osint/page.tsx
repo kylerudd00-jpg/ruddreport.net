@@ -210,7 +210,7 @@ export default function OSINTHub() {
           font-size: 13px; padding: 15px 16px;
         }
         .oz-search-row input::placeholder { color: var(--text-muted); }
-        .oz-search-row input:focus { border-color: var(--accent); outline: none; }
+        .oz-search-row input:focus { border-color: var(--accent); }
         .oz-search-row button {
           font-family: var(--font-mono); font-size: 12px; font-weight: 600;
           letter-spacing: 0.06em; text-transform: uppercase;

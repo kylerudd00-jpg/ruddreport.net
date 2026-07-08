@@ -445,7 +445,7 @@ export default function Home() {
           .rr-search button { padding: 0 18px; }
           .rr-toolbar .cat-filter-btn { padding: 14px 16px; }
           /* comfortable tap targets without changing visual rhythm */
-          .rr-footer ul a { display: inline-block; padding: 12px 0; margin: -7px 0; }
+          .rr-footer ul a { display: inline-block; padding: 12px 0; margin: -5px 0; }
           .rr-router-row { flex-direction: column; }
           .rr-router-row input { border-right: 1px solid var(--border-bright); }
         }
