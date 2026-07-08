@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ARTICLES, type Article, getReadingTime } from '@/lib/articles';
 
 const CATEGORIES = ['All', 'Cybersecurity', 'Intelligence', 'Geopolitics', 'National Security', 'Economic Security'] as const;
@@ -45,6 +45,45 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [osintQuery, setOsintQuery] = useState('');
+  // SSR/no-JS render the final values; JS animates 0 -> N on first sight
+  const [stat, setStat] = useState({ tools: 39, cats: 6 });
+  const statsRef = useRef<HTMLDivElement>(null);
+
+  // Scroll reveals: IO adds .visible (styles gated behind html.rr-js).
+  // Re-runs on filter/search so newly rendered rows get observed too.
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>('.rv, .rv-clip')).filter(el => !el.classList.contains('visible'));
+    if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('visible')); return; }
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, [activeCategory, searchQuery]);
+
+  // Count-up on the OSINT stat numbers (skipped under reduced motion;
+  // screen readers only ever see the static values)
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      const t0 = performance.now();
+      const dur = 1100;
+      const tick = (now: number) => {
+        const p = Math.min(1, (now - t0) / dur);
+        const ease = 1 - Math.pow(1 - p, 4);
+        setStat({ tools: Math.round(39 * ease), cats: Math.round(6 * ease) });
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      setStat({ tools: 0, cats: 0 });
+      requestAnimationFrame(tick);
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const featured = getFeatured();
   const lead = featured[0] ?? null;
   const latest = getLatest(3);
@@ -79,9 +118,26 @@ export default function Home() {
           font-weight: 900; text-transform: uppercase;
           letter-spacing: -0.025em; line-height: 0.92;
           color: #fff; margin-top: 28px;
-          animation: fadeUp 0.6s ease 0.12s both;
         }
-        .rr-hero-title em { font-style: normal; color: var(--accent); }
+        /* masked line reveal (nasaforce-style): outer clips, inner rises */
+        .rr-hl { display: block; overflow: hidden; padding-bottom: 0.04em; }
+        .rr-hl-in {
+          display: block; transform: translateY(115%);
+          animation: rrLineUp 0.95s var(--ease-expo) 0.12s both;
+        }
+        .rr-hl:nth-child(2) .rr-hl-in { animation-delay: 0.24s; }
+        .rr-hl-accent { color: var(--accent); }
+        @keyframes rrLineUp { to { transform: translateY(0); } }
+        /* first visit: hold entrances until the intro curtain lifts (~1.5s) */
+        html.rr-intro-active .rr-hero-eyebrow { animation-delay: 1.3s; }
+        html.rr-intro-active .rr-hl-in { animation-delay: 1.38s; }
+        html.rr-intro-active .rr-hl:nth-child(2) .rr-hl-in { animation-delay: 1.5s; }
+        html.rr-intro-active .rr-hero-mission { animation-delay: 1.62s; }
+        html.rr-intro-active .rr-dir { animation-delay: 1.74s; }
+        .rr-sr {
+          position: absolute; width: 1px; height: 1px; overflow: hidden;
+          clip: rect(0 0 0 0); white-space: nowrap;
+        }
         .rr-hero-mission {
           font-size: 18px; line-height: 1.65; color: var(--text-secondary);
           max-width: 620px; margin: 30px 0 56px;
@@ -376,7 +432,10 @@ export default function Home() {
         <section className="rr-hero" aria-labelledby="rr-hero-h1">
           <div className="rr-hero-inner">
             <p className="rr-hero-eyebrow">Open-source intelligence &amp; analysis · Est. 2026</p>
-            <h1 className="rr-hero-title" id="rr-hero-h1">The Rudd <em>Report</em></h1>
+            <h1 className="rr-hero-title" id="rr-hero-h1">
+              <span className="rr-hl"><span className="rr-hl-in">The Rudd</span></span>
+              <span className="rr-hl"><span className="rr-hl-in rr-hl-accent">Report</span></span>
+            </h1>
             <p className="rr-hero-mission">
               Independent writing on <strong>cybersecurity, national security, and geopolitics</strong> —
               plus a free open-source investigation toolkit and a daily intelligence brief.
@@ -423,7 +482,7 @@ export default function Home() {
         {/* 01 — FEATURED */}
         <section className="rr-section" aria-labelledby="rr-h-featured">
           <div className="rr-section-inner">
-            <div className="rr-sh">
+            <div className="rr-sh rv">
               <span className="rr-sh-idx" aria-hidden="true">01</span>
               <h2 id="rr-h-featured">Featured</h2>
               <span className="rr-sh-line" />
@@ -434,7 +493,7 @@ export default function Home() {
               <p className="rr-empty">No reports published yet</p>
             ) : (
               <>
-                <a href={`/articles/${lead.slug}`} className="rr-lead">
+                <a href={`/articles/${lead.slug}`} className="rr-lead rv-clip">
                   <span className="rr-meta-row">
                     <span className="rr-tag" style={{ color: getCategoryColor(lead.category) }}>{lead.category}</span>
                     <span className="rr-date">{lead.date}</span>
@@ -447,8 +506,8 @@ export default function Home() {
                   </span>
                 </a>
                 <div className="rr-sub-grid">
-                  {latest.filter(a => a.slug !== lead.slug).slice(0, 2).map(a => (
-                    <a key={a.slug} href={`/articles/${a.slug}`} className="rr-sub">
+                  {latest.filter(a => a.slug !== lead.slug).slice(0, 2).map((a, i) => (
+                    <a key={a.slug} href={`/articles/${a.slug}`} className={`rr-sub rv rv-d${i + 1}`}>
                       <span className="rr-meta-row">
                         <span className="rr-tag" style={{ color: getCategoryColor(a.category) }}>{a.category}</span>
                         <span className="rr-date">{a.date}</span>
@@ -470,13 +529,13 @@ export default function Home() {
         {/* 02 — ALL REPORTS (register) */}
         <section className="rr-section rr-section--tight" aria-labelledby="rr-h-reports">
           <div className="rr-section-inner">
-            <div className="rr-sh">
+            <div className="rr-sh rv">
               <span className="rr-sh-idx" aria-hidden="true">02</span>
               <h2 id="rr-h-reports">All Reports</h2>
               <span className="rr-sh-line" />
             </div>
 
-            <div className="rr-toolbar">
+            <div className="rr-toolbar rv">
               <div className="rr-toolbar-filters" role="group" aria-label="Filter reports by category">
                 {CATEGORIES.map(cat => (
                   <button
@@ -510,8 +569,8 @@ export default function Home() {
             <div className="rr-register">
               {filteredArticles.length === 0 ? (
                 <p className="rr-empty">{searchQuery ? `No reports matching "${searchQuery}"` : 'No reports in this category yet'}</p>
-              ) : filteredArticles.map(a => (
-                <a key={a.slug} href={`/articles/${a.slug}`} className="rr-row">
+              ) : filteredArticles.map((a, i) => (
+                <a key={a.slug} href={`/articles/${a.slug}`} className={`rr-row rv rv-d${(i % 5) + 1}`}>
                   <span className="rr-date">{a.date}</span>
                   <span className="rr-tag rr-tag--col" style={{ color: getCategoryColor(a.category) }}>{a.category}</span>
                   <div>
@@ -531,22 +590,28 @@ export default function Home() {
         {/* 03 — OSINT TOOLKIT */}
         <section className="rr-section rr-osint" aria-labelledby="rr-h-osint">
           <div className="rr-section-inner">
-            <div className="rr-sh">
+            <div className="rr-sh rv">
               <span className="rr-sh-idx" aria-hidden="true">03</span>
               <h2 id="rr-h-osint">OSINT Toolkit</h2>
               <span className="rr-sh-line" />
               <a className="rr-sh-link" href="/osint">Open the hub →</a>
             </div>
 
-            <div className="rr-osint-head">
+            <div className="rr-osint-head rv">
               <div>
                 <p className="rr-osint-blurb">
                   39 free tools covering companies, networks, live tracking, and more.
                   Runs in the browser — no account, no cost.
                 </p>
-                <div className="rr-stats">
-                  <div><div className="rr-stat-num">39</div><div className="rr-stat-label">Live tools</div></div>
-                  <div><div className="rr-stat-num">6</div><div className="rr-stat-label">Categories</div></div>
+                <div className="rr-stats" ref={statsRef}>
+                  <div>
+                    <div className="rr-stat-num"><span aria-hidden="true">{stat.tools}</span><span className="rr-sr">39</span></div>
+                    <div className="rr-stat-label">Live tools</div>
+                  </div>
+                  <div>
+                    <div className="rr-stat-num"><span aria-hidden="true">{stat.cats}</span><span className="rr-sr">6</span></div>
+                    <div className="rr-stat-label">Categories</div>
+                  </div>
                   <div><div className="rr-stat-num">$0</div><div className="rr-stat-label">No sign-up</div></div>
                 </div>
               </div>
@@ -570,7 +635,7 @@ export default function Home() {
 
             <div className="rr-cats">
               {OSINT_CATS.map((cat, i) => (
-                <a key={cat.name} href={cat.href} className="rr-cat">
+                <a key={cat.name} href={cat.href} className={`rr-cat rv rv-d${(i % 3) + 1}`}>
                   <span className="rr-cat-top">
                     <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                     <span>{cat.count} tools</span>
@@ -581,19 +646,19 @@ export default function Home() {
                 </a>
               ))}
             </div>
-            <a href="/osint" className="rr-osint-all">View all 39 tools in the OSINT hub →</a>
+            <a href="/osint" className="rr-osint-all rv">View all 39 tools in the OSINT hub →</a>
           </div>
         </section>
 
         {/* 04 — DAILY BRIEF */}
         <section className="rr-section" aria-labelledby="rr-h-brief">
           <div className="rr-section-inner">
-            <div className="rr-sh">
+            <div className="rr-sh rv">
               <span className="rr-sh-idx" aria-hidden="true">04</span>
               <h2 id="rr-h-brief">Daily Brief</h2>
               <span className="rr-sh-line" />
             </div>
-            <div className="rr-brief">
+            <div className="rr-brief rv-clip">
               <div>
                 <p className="rr-brief-label">
                   <span className="rr-brief-dot" aria-hidden="true" />
@@ -610,7 +675,7 @@ export default function Home() {
 
       <footer className="rr-footer">
         <div className="rr-footer-inner">
-          <div className="rr-footer-top">
+          <div className="rr-footer-top rv">
             <div>
               <p className="rr-footer-brand">Rudd <em>Report</em></p>
               <p className="rr-footer-desc">Independent coverage of security, intelligence, and world affairs.</p>

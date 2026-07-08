@@ -2,6 +2,8 @@
 import "./globals.css";
 import SearchModal from "./components/SearchModal";
 import Nav from "./components/Nav";
+import IntroLoader from "./components/IntroLoader";
+import SmoothScroll from "./components/SmoothScroll";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
@@ -34,9 +36,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // suppressHydrationWarning: the pre-paint script below adds .rr-js to
+  // <html> before hydration (attribute-level, this element only)
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
+        {/* pre-paint marker: reveal-hidden styles apply only when JS runs */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('rr-js')" }} />
+        <IntroLoader />
+        <SmoothScroll />
         <Nav />
         {children}
         <SearchModal />

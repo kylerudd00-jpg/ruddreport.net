@@ -31,6 +31,24 @@ confident type. Stark Swiss/federal utility — not sci-fi cyber.
 
 Out of scope (inherit new palette via CSS vars only): section pages, OSINT tool pages, article pages. Candidates for a later sweep.
 
+## Motion layer (v2 — same day)
+
+Kyle: the shipped version lacked "the animations, the smoothness" of the references; favorite is
+nasaforce.gov. Extracted motion DNA from the actual sites: expo-out easing `cubic-bezier(0.16,1,0.3,1)`
+at 900–1400ms, clip-path wipe reveals `inset(0 100% 0 0)→inset(0)`, fullscreen intro overlay with
+timed progress-fill bar (ndstudio/realfood both have intro loaders), count-up stats (realfood),
+masked type reveals, inertial scroll.
+
+Additions:
+- `IntroLoader` (layout-level): black overlay, wordmark mask-reveal + progress bar, ~1.6s,
+  once per session (sessionStorage), `aria-hidden` + pointer-events none (never blocks SR/keyboard),
+  inline pre-paint script kills it for repeat visits and `prefers-reduced-motion`.
+- `SmoothScroll` (layout-level): Lenis, initialized only when reduced-motion is off.
+- Scroll reveals: IO adds `.visible`; `.rv` (translate+fade) and `.rv-clip` (wipe) utilities in
+  globals gated behind `html.rr-js` so no-JS renders everything; reduced-motion forces visible.
+- Hero title mask reveal per line; staggered directory/register/OSINT-cell entrances; count-up
+  stats with SR-safe static value.
+
 ## Success criteria
 
 1. `next build` passes.

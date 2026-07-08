@@ -27,6 +27,7 @@
   --grid-color: rgba(255, 255, 255, 0.035);
   --font-display: 'Archivo', 'Helvetica Neue', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,12 +57,53 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
   .reveal { opacity: 1 !important; transform: none !important; }
+  .rv, .rv-clip {
+    opacity: 1 !important; transform: none !important;
+    clip-path: none !important; transition: none !important;
+  }
 }
+
+/* ── Scroll reveals ──
+   Hidden state exists only under html.rr-js (set pre-paint in layout), so
+   no-JS users see everything. Hidden via opacity/transform/clip-path only —
+   content stays in the accessibility tree. :focus-within reveals instantly
+   so keyboard focus never lands on an invisible element. */
+html.rr-js .rv {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo);
+}
+html.rr-js .rv-clip {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.1s var(--ease-expo);
+}
+html.rr-js .rv.visible, html.rr-js .rv:focus-within {
+  opacity: 1; transform: none;
+}
+html.rr-js .rv-clip.visible, html.rr-js .rv-clip:focus-within {
+  clip-path: inset(0 0 0 0);
+}
+/* keyboard focus reveals immediately — stagger delays are for scroll only */
+html.rr-js .rv:focus-within, html.rr-js .rv-clip:focus-within {
+  transition-delay: 0s;
+}
+.rv-d1 { transition-delay: 70ms; }
+.rv-d2 { transition-delay: 140ms; }
+.rv-d3 { transition-delay: 210ms; }
+.rv-d4 { transition-delay: 280ms; }
+.rv-d5 { transition-delay: 350ms; }
+
+/* ── Lenis (inertial scroll) ── */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
 
 @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }

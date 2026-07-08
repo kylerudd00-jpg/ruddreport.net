@@ -60,7 +60,8 @@ export default function Nav() {
         div.mobile-menu:not(#site-mobile-menu) { display: none !important; }
 
         .skip-link {
-          position: absolute; left: -9999px; top: 0; z-index: 400;
+          /* above the intro overlay (9999) — focus must never be obscured */
+          position: absolute; left: -9999px; top: 0; z-index: 10000;
           background: #1e9eff; color: #000; padding: 12px 20px;
           font-family: var(--font-mono);
           font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
@@ -74,6 +75,14 @@ export default function Nav() {
           background: rgba(8,8,10,0.94);
           backdrop-filter: blur(16px);
           border-bottom: 1px solid var(--border);
+        }
+        /* first visit: slide in under the intro curtain */
+        html.rr-intro-active #site-header {
+          animation: rrNavDown 0.7s var(--ease-expo) 1.55s both;
+        }
+        @keyframes rrNavDown {
+          from { transform: translateY(-100%); }
+          to { transform: translateY(0); }
         }
         .sn-notice {
           /* min-height + wrap (not fixed height + clip): the disclaimer must
