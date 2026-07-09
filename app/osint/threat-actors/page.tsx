@@ -351,7 +351,6 @@ export default function ThreatActorsPage() {
   const [nation, setNation] = useState<Nation>('All');
   const [query, setQuery] = useState('');
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const filtered = useMemo(() => {
     return ACTORS.filter(a => {
@@ -371,123 +370,83 @@ export default function ThreatActorsPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #c0cfe0; font-family: 'Barlow', sans-serif; }
-
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         .page-wrap { padding: 110px 40px 100px; max-width: 1200px; margin: 0 auto; }
         .back-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 48px; }
-        .back-link { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 2px; color: #7a9bb5; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
-        .back-link:hover { color: #1e9eff; }
-        .back-sep { color: #3d5870; }
+        .back-link { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: var(--text-secondary); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+        .back-link:hover { color: var(--accent); }
+        .back-sep { color: var(--text-muted); }
 
         .hero { margin-bottom: 48px; }
         .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-        .hero-eyebrow-line { width: 32px; height: 1px; background: #1e9eff; }
-        .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 5vw, 52px); font-weight: 900; color: #fff; letter-spacing: 2px; line-height: 1.0; }
-        .hero-title span { color: #1e9eff; }
-        .hero-desc { font-family: 'Barlow', sans-serif; font-size: 16px; color: #7a9bb5; line-height: 1.6; margin-top: 16px; max-width: 640px; }
+        .hero-eyebrow-line { width: 32px; height: 1px; background: var(--accent); }
+        .hero-eyebrow-text { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: var(--accent); text-transform: uppercase; }
+        .hero-title { font-family: var(--font-display); font-size: clamp(28px, 5vw, 52px); font-weight: 900; color: #fff; letter-spacing: 0.05em; line-height: 1.0; }
+        .hero-title span { color: var(--accent); }
+        .hero-desc { font-family: var(--font-display); font-size: 16px; color: var(--text-secondary); line-height: 1.6; margin-top: 16px; max-width: 640px; }
 
         .controls { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
         .search-wrap { position: relative; }
-        .search-input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(30,158,255,0.2); padding: 14px 20px 14px 48px; font-family: 'Barlow', sans-serif; font-size: 15px; color: #c0cfe0; outline: none; transition: border-color 0.2s; }
-        .search-input::placeholder { color: #3d5870; }
-        .search-input:focus { border-color: rgba(30,158,255,0.5); }
-        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #3d5870; font-size: 16px; pointer-events: none; }
+        .search-input { width: 100%; background: var(--bg-secondary); border: 1px solid var(--border-bright); padding: 14px 20px 14px 48px; font-family: var(--font-display); font-size: 15px; color: var(--text-primary); transition: border-color 0.2s; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-input:focus { border-color: var(--accent); }
+        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 16px; pointer-events: none; }
         .nation-filters { display: flex; flex-wrap: wrap; gap: 8px; }
-        .nation-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 8px 16px; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: #7a9bb5; cursor: pointer; transition: all 0.2s; }
-        .nation-btn:hover { border-color: rgba(255,255,255,0.2); color: #c0cfe0; }
-        .nation-btn.active { color: #030608; font-weight: 700; }
+        .nation-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 8px 16px; border: 1px solid var(--border-bright); background: transparent; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+        .nation-btn:hover { border-color: var(--border-bright); color: var(--text-primary); }
+        .nation-btn.active { color: var(--bg-primary); font-weight: 700; }
 
-        .results-meta { font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; margin-bottom: 20px; }
+        .results-meta { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 20px; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 2px; }
 
-        .actor-card { border: 1px solid rgba(255,255,255,0.06); background: rgba(7,13,18,0.8); cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; overflow: hidden; }
-        .actor-card:hover { border-color: rgba(30,158,255,0.2); background: rgba(10,20,30,0.9); }
-        .actor-card.open { border-color: rgba(30,158,255,0.3); background: rgba(10,20,30,0.95); }
+        .actor-card { border: 1px solid var(--border); background: var(--bg-secondary); cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; overflow: hidden; }
+        .actor-card:hover { border-color: var(--border-bright); background: var(--bg-card); }
+        .actor-card.open { border-color: var(--border-bright); background: var(--bg-card-hover); }
         .actor-card-top { padding: 24px; }
         .actor-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
         .actor-name-block { flex: 1; }
-        .actor-name { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: #fff; letter-spacing: 1px; }
-        .actor-id { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #3d5870; letter-spacing: 1px; margin-top: 2px; }
-        .nation-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 4px 10px; border: 1px solid; flex-shrink: 0; }
-        .actor-sponsor { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #5a7a94; letter-spacing: 1px; margin-bottom: 8px; }
-        .actor-active { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #3d5870; margin-bottom: 12px; }
+        .actor-name { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.05em; }
+        .actor-id { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; margin-top: 2px; }
+        .nation-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 10px; border: 1px solid; flex-shrink: 0; }
+        .actor-sponsor { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px; }
+        .actor-active { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
         .actor-targets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-        .target-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; background: rgba(30,158,255,0.06); border: 1px solid rgba(30,158,255,0.12); color: #5a7a94; }
-        .actor-aliases { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #3d5870; line-height: 1.5; }
-        .actor-expand-toggle { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-top: 14px; }
+        .target-tag { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; background: rgba(30,158,255,0.06); border: 1px solid var(--border); color: var(--text-secondary); }
+        .actor-aliases { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+        .actor-expand-toggle { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-top: 14px; }
 
-        .actor-detail { border-top: 1px solid rgba(30,158,255,0.1); padding: 24px; background: rgba(5,10,15,0.6); }
+        .actor-detail { border-top: 1px solid var(--border); padding: 24px; background: var(--bg-secondary); }
         .detail-section { margin-bottom: 20px; }
-        .detail-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; margin-bottom: 8px; }
-        .detail-text { font-family: 'Barlow', sans-serif; font-size: 14px; color: #c0cfe0; line-height: 1.7; }
-        .detail-notable { font-family: 'Barlow', sans-serif; font-size: 13px; color: #ffaa00; line-height: 1.6; }
-        .mitre-link { display: inline-flex; align-items: center; gap: 6px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #1e9eff; text-decoration: none; border: 1px solid rgba(30,158,255,0.3); padding: 8px 14px; transition: all 0.2s; }
-        .mitre-link:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
+        .detail-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+        .detail-text { font-family: var(--font-display); font-size: 14px; color: var(--text-primary); line-height: 1.7; }
+        .detail-notable { font-family: var(--font-display); font-size: 13px; color: #ffaa00; line-height: 1.6; }
+        .mitre-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid var(--border-bright); padding: 8px 14px; transition: all 0.2s; }
+        .mitre-link:hover { background: rgba(30,158,255,0.1); border-color: var(--accent); }
 
-        footer { border-top: 1px solid rgba(30,158,255,0.1); padding: 40px; text-align: center; }
-        .footer-text { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+        footer { border-top: 1px solid var(--border); padding: 40px; text-align: center; }
+        .footer-text { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; }
 
         @media (max-width: 768px) {
-          nav { padding: 0 20px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .page-wrap { padding: 90px 20px 80px; }
           .grid { grid-template-columns: 1fr; }
         }
       `}</style>
 
-      <nav>
-        <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-        <ul className="nav-links">
-          <li><a href="/articles">All Reports</a></li>
-          <li><a href="/intelligence">Intelligence</a></li>
-          <li><a href="/cybersecurity">Cybersecurity</a></li>
-          <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
-          <li><a href="/brief" style={{ color: '#ffaa00' }}>Aladdin Brief</a></li>
-        </ul>
-        <div className="hamburger" onClick={() => setMobileOpen(o => !o)}>
-          <span /><span /><span />
-        </div>
-      </nav>
-
-      <div className={`mobile-menu${mobileOpen ? ' open' : ''}`}>
-        <button className="mobile-menu-close" onClick={() => setMobileOpen(false)}>✕ Close</button>
-        <a href="/">Home</a>
-        <a href="/articles">All Reports</a>
-        <a href="/osint">OSINT Hub</a>
-        <a href="/brief">Aladdin Brief</a>
-      </div>
-
-      <div className="page-wrap">
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
           <span className="back-sep">/</span>
-          <span style={{ fontFamily: 'Barlow Condensed', fontSize: 11, letterSpacing: 2, color: '#1e9eff', textTransform: 'uppercase' }}>Threat Actor Database</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.05em', color: 'var(--accent)', textTransform: 'uppercase' }}>Threat Actor Database</span>
         </div>
 
         <div className="hero">
           <div className="hero-eyebrow">
-            <div className="hero-eyebrow-line" />
+            <div className="hero-eyebrow-line" aria-hidden="true" />
             <div className="hero-eyebrow-text">Intelligence // Cyber Threat Intel</div>
           </div>
-          <div className="hero-title">THREAT ACTOR<br /><span>DATABASE</span></div>
+          <h1 className="hero-title">THREAT ACTOR<br /><span>DATABASE</span></h1>
           <div className="hero-desc">
             Nation-state and criminal threat groups — attribution, targets, tradecraft, and notable operations.
             Sourced from MITRE ATT&CK, DOJ indictments, and open-source intelligence.
@@ -496,9 +455,10 @@ export default function ThreatActorsPage() {
 
         <div className="controls">
           <div className="search-wrap">
-            <span className="search-icon">⌕</span>
+            <span className="search-icon" aria-hidden="true">⌕</span>
             <input
               className="search-input"
+              aria-label="Search threat actors by name, alias, sponsor, or target"
               placeholder="Search by name, alias, sponsor, or target sector..."
               value={query}
               onChange={e => setQuery(e.target.value)}
@@ -510,9 +470,10 @@ export default function ThreatActorsPage() {
               const isActive = nation === n;
               return (
                 <button
+                  type="button"
                   key={n}
                   className={`nation-btn${isActive ? ' active' : ''}`}
-                  style={isActive ? { background: color, borderColor: color, color: '#030608' } : { borderColor: `${color}40`, color }}
+                  style={isActive ? { background: color, borderColor: color, color: 'var(--bg-primary)' } : { borderColor: `${color}40`, color }}
                   onClick={() => setNation(n)}
                 >
                   {n}
@@ -576,7 +537,7 @@ export default function ThreatActorsPage() {
                     {actor.aliases.length > 0 && (
                       <div className="detail-section">
                         <div className="detail-label">All Known Aliases</div>
-                        <div className="detail-text" style={{ fontFamily: 'Share Tech Mono', fontSize: 12, color: '#7a9bb5' }}>
+                        <div className="detail-text" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-secondary)' }}>
                           {actor.aliases.join(' · ')}
                         </div>
                       </div>
@@ -600,11 +561,11 @@ export default function ThreatActorsPage() {
 
         {filtered.length === 0 && (
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
-            <div style={{ fontFamily: 'Orbitron', fontSize: 14, color: '#3d5870', letterSpacing: 3 }}>NO ACTORS FOUND</div>
-            <div style={{ fontFamily: 'Barlow', fontSize: 15, color: '#3d5870', marginTop: 12 }}>Try a different search term or nation filter.</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.06em' }}>NO ACTORS FOUND</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, color: 'var(--text-muted)', marginTop: 12 }}>Try a different search term or nation filter.</div>
           </div>
         )}
-      </div>
+      </main>
 
       <footer>
         <div className="footer-text">© 2026 The Rudd Report &nbsp;·&nbsp; UNCLASSIFIED // FOR PUBLIC RELEASE</div>

@@ -2,49 +2,35 @@
 import { useState } from 'react';
 
 const STYLE = `
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-  .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #fff; }
-  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-  .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-  .nav-links a:hover { color: #1e9eff; }
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-  .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-  .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 2px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-  .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; letter-spacing: 1px; }
   .page-wrap { padding-top: 70px; min-height: 100vh; }
-  .hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+  .hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
   .hero-inner { max-width: 900px; margin: 0 auto; }
   .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-  .hero-eyebrow-line { width: 32px; height: 1px; background: #1e9eff; }
-  .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
-  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 700; color: #c0cfe0; margin-bottom: 10px; }
-  .hero-title span { color: #1e9eff; }
-  .hero-sub { font-size: 14px; font-weight: 400; color: #7a9bb5; line-height: 1.7; }
+  .hero-eyebrow-line { width: 32px; height: 1px; background: var(--accent); }
+  .hero-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); text-transform: uppercase; }
+  .hero-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 48px); font-weight: 700; color: var(--text-primary); margin-bottom: 10px; }
+  .hero-title span { color: var(--accent); }
+  .hero-sub { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.7; }
   .tool-wrap { max-width: 900px; margin: 0 auto; padding: 40px 40px 80px; }
   .input-row { display: flex; gap: 2px; margin-bottom: 2px; }
-  .mac-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); color: #d8e8f5; font-family: 'Share Tech Mono', monospace; font-size: 14px; padding: 14px 18px; outline: none; transition: border-color 0.2s; letter-spacing: 1px; }
-  .mac-input:focus { border-color: rgba(30,158,255,0.5); }
-  .mac-input::placeholder { color: #5a7a94; font-size: 12px; letter-spacing: 0; }
-  .lookup-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 14px 28px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
+  .mac-input { flex: 1; background: var(--bg-primary); border: 1px solid var(--border-bright); color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 14px 18px; transition: border-color 0.2s; letter-spacing: 0.05em; }
+  .mac-input:focus { border-color: var(--accent); }
+  .mac-input::placeholder { color: var(--text-muted); font-size: 12px; letter-spacing: 0; }
+  .lookup-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; background: var(--accent); border: 1px solid var(--accent); color: #000; padding: 14px 28px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
   .lookup-btn:hover { background: #4db3ff; }
   .lookup-btn:disabled { opacity: 0.5; cursor: default; }
-  .result-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 32px; }
-  .result-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 24px; }
-  .result-vendor { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #c0cfe0; margin-bottom: 8px; }
-  .result-oui { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #1e9eff; margin-bottom: 20px; }
+  .result-panel { background: var(--bg-card); border: 1px solid var(--border); padding: 32px; }
+  .result-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 24px; }
+  .result-vendor { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+  .result-oui { font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 20px; }
   .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 16px; }
-  .info-cell { background: rgba(3,6,8,0.5); padding: 14px 16px; }
-  .info-cell-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 6px; }
-  .info-cell-val { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #9ab0c4; }
-  .error-box { background: rgba(255,60,60,0.06); border: 1px solid rgba(255,60,60,0.2); padding: 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1px; color: #ff6666; }
-  .hint { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1.5px; color: #5a7a94; margin-top: 10px; }
-  @media (max-width: 768px) { nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; } .hero { padding: 40px 20px 30px; } .tool-wrap { padding: 24px 20px 60px; } .info-grid { grid-template-columns: 1fr; } .input-row { flex-direction: column; } }
+  .info-cell { background: var(--bg-primary); padding: 14px 16px; }
+  .info-cell-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+  .info-cell-val { font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); }
+  .error-box { background: rgba(255,77,77,0.06); border: 1px solid rgba(255,77,77,0.2); padding: 20px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--red); }
+  .hint { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-top: 10px; }
+  @media (max-width: 768px) { .hero { padding: 40px 20px 30px; } .tool-wrap { padding: 24px 20px 60px; } .info-grid { grid-template-columns: 1fr; } .input-row { flex-direction: column; } }
 `;
 
 function normalizeMAC(raw: string): string {
@@ -105,27 +91,11 @@ export default function MACLookup() {
   return (
     <>
       <style>{STYLE}</style>
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-          <ul className="nav-links">
-            <li><a href="/osint">OSINT Hub</a></li>
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => document.getElementById('macMenu')?.classList.toggle('open')}>
-            <span /><span /><span />
-          </div>
-        </nav>
-        <div className="mobile-menu" id="macMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('macMenu')?.classList.remove('open')}>✕ Close</button>
-          <a href="/">Home</a><a href="/osint">OSINT Hub</a><a href="/about">About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="hero">
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Network</div></div>
-            <div className="hero-title">MAC Address <span>Lookup</span></div>
+            <h1 className="hero-title">MAC Address <span>Lookup</span></h1>
             <p className="hero-sub">Every network device has a MAC address with the first half identifying its manufacturer. Paste any MAC address to find out what company made the hardware — useful when analyzing network traffic logs, investigating unknown devices on a network, or attributing equipment to a specific vendor.</p>
           </div>
         </div>
@@ -173,7 +143,7 @@ export default function MACLookup() {
             </div>
           )}
         </div>
-      </div>
+      </main>
     </>
   );
 }
