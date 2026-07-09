@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState } from 'react';
 
 type Hop = {
@@ -125,68 +125,51 @@ export default function EmailHeaderAnalyzer() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent);  }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; }
         .input-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
-        .input-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
-        .header-textarea { width: 100%; background: #0a1520; border: 1px solid rgba(30,158,255,0.3); color: #d8e8f5; font-family: 'Share Tech Mono', monospace; font-size: 12px; line-height: 1.6; padding: 16px 20px; resize: vertical; outline: none; min-height: 200px; }
-        .header-textarea::placeholder { color: #5a7a94; }
+        .input-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
+        .header-textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--border-bright); color: var(--text-primary); font-family: var(--font-mono); font-size: 12px; line-height: 1.6; padding: 16px 20px; resize: vertical; min-height: 200px; }
+        .header-textarea::placeholder { color: var(--text-muted); }
         .btn-row { display: flex; gap: 12px; margin-top: 16px; }
-        .analyze-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
+        .analyze-btn { font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #ffffff; background: var(--accent); border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
         .analyze-btn:hover { background: #4db8ff; }
-        .reset-btn { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
-        .reset-btn:hover { color: #7a9bb5; border-color: rgba(30,158,255,0.3); }
+        .reset-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); background: none; border: 1px solid var(--border-bright); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .reset-btn:hover { color: var(--text-secondary); border-color: var(--border-bright); }
         .results-wrap { padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
-        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
+        .section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
         .auth-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .auth-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px 24px; }
-        .auth-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 8px; }
-        .auth-value { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+        .auth-card { background: var(--bg-card); border: 1px solid var(--border); padding: 20px 24px; }
+        .auth-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+        .auth-value { font-family: var(--font-display); font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-        .summary-row { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 14px 20px; }
-        .summary-key { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 4px; }
-        .summary-val { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; word-break: break-all; }
+        .summary-row { background: var(--bg-card); border: 1px solid var(--border); padding: 14px 20px; }
+        .summary-key { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .summary-val { font-family: var(--font-mono); font-size: 11px; color: var(--text-primary); word-break: break-all; }
         .hop-list { display: flex; flex-direction: column; gap: 2px; }
-        .hop-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 16px 20px; display: grid; grid-template-columns: 32px 1fr; gap: 16px; align-items: start; }
-        .hop-num { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: #5a7a94; }
-        .hop-from { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; margin-bottom: 4px; }
-        .hop-by { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #7a9bb5; margin-bottom: 4px; }
-        .hop-ip { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #1e9eff; margin-bottom: 4px; }
-        .hop-ts { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #5a7a94; }
-        .ip-lookup { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #1e9eff; text-decoration: none; margin-left: 12px; }
+        .hop-card { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 20px; display: grid; grid-template-columns: 32px 1fr; gap: 16px; align-items: start; }
+        .hop-num { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-muted); }
+        .hop-from { font-family: var(--font-mono); font-size: 11px; color: var(--text-primary); margin-bottom: 4px; }
+        .hop-by { font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); margin-bottom: 4px; }
+        .hop-ip { font-family: var(--font-mono); font-size: 10px; color: var(--accent); margin-bottom: 4px; }
+        .hop-ts { font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); }
+        .ip-lookup { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.05em; color: var(--accent); text-decoration: none; margin-left: 12px; }
         .ip-lookup:hover { color: #4db8ff; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .input-wrap { padding: 24px 20px; }
@@ -200,32 +183,7 @@ export default function EmailHeaderAnalyzer() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report</div>
-          </a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => document.getElementById('emailMenu')?.classList.toggle('open')}>
-            <span /><span /><span />
-          </div>
-        </nav>
-
-        <div className="mobile-menu" id="emailMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('emailMenu')?.classList.remove('open')}>✕ Close</button>
-          <a href="/">Home</a>
-          <a href="/osint">OSINT Hub</a>
-          <a href="/cybersecurity">Cybersecurity</a>
-          <a href="/about">About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
         </div>
@@ -233,10 +191,10 @@ export default function EmailHeaderAnalyzer() {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">OSINT Hub — Communications Intelligence</div>
             </div>
-            <div className="tool-title">Email Header Analyzer</div>
+            <h1 className="tool-title">Email Header Analyzer</h1>
             <p className="tool-desc">Every email carries a hidden trail showing exactly where it came from, every server it passed through, and whether the sender's identity checks out. Paste raw email headers here to trace the originating IP, verify SPF/DKIM/DMARC authentication, and catch spoofed or phishing emails. Runs entirely in your browser.</p>
           </div>
         </div>
@@ -245,22 +203,23 @@ export default function EmailHeaderAnalyzer() {
           <div className="input-label">Paste raw email headers below</div>
           <textarea
             className="header-textarea"
+            aria-label="Raw email headers"
             placeholder={`Received: from mail.example.com ([192.168.1.1]) by mx.google.com ...\nFrom: sender@example.com\nTo: recipient@gmail.com\nSubject: Test Email\n...`}
             value={raw}
             onChange={e => setRaw(e.target.value)}
           />
           <div className="btn-row">
-            <button className="analyze-btn" onClick={analyze}>Analyze Headers →</button>
-            {analyzed && <button className="reset-btn" onClick={reset}>Clear</button>}
+            <button type="button" className="analyze-btn" onClick={analyze}>Analyze Headers →</button>
+            {analyzed && <button type="button" className="reset-btn" onClick={reset}>Clear</button>}
           </div>
         </div>
 
         {analyzed && (
-          <div className="results-wrap">
+          <div className="results-wrap" aria-live="polite">
 
             {auth && (
               <div>
-                <div className="section-label">Authentication Results</div>
+                <h2 className="section-label">Authentication Results</h2>
                 <div className="auth-grid">
                   {(['spf', 'dkim', 'dmarc'] as const).map(k => (
                     <div className="auth-card" key={k}>
@@ -274,7 +233,7 @@ export default function EmailHeaderAnalyzer() {
 
             {summary && (
               <div>
-                <div className="section-label">Message Summary</div>
+                <h2 className="section-label">Message Summary</h2>
                 <div className="summary-grid">
                   {([
                     ['From', summary.from],
@@ -296,7 +255,7 @@ export default function EmailHeaderAnalyzer() {
 
             {hops.length > 0 && (
               <div>
-                <div className="section-label">Routing Path — {hops.length} hop{hops.length !== 1 ? 's' : ''} detected</div>
+                <h2 className="section-label">Routing Path — {hops.length} hop{hops.length !== 1 ? 's' : ''} detected</h2>
                 <div className="hop-list">
                   {hops.map((hop, i) => (
                     <div className="hop-card" key={i}>
@@ -319,7 +278,7 @@ export default function EmailHeaderAnalyzer() {
             )}
 
             {hops.length === 0 && (
-              <div style={{fontFamily: "'Share Tech Mono', monospace", fontSize: '11px', letterSpacing: '2px', color: '#5a7a94'}}>
+              <div role="alert" style={{fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.05em', color: 'var(--text-muted)'}}>
                 No Received headers found — paste the full email header block
               </div>
             )}
@@ -329,10 +288,10 @@ export default function EmailHeaderAnalyzer() {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">© 2026 The Rudd Report</div>
-            
+
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

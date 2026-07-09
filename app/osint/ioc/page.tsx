@@ -118,7 +118,6 @@ export default function IoCPage() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<IoCResult | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   async function runAnalyze(val: string) {
     const q = val.trim();
@@ -146,128 +145,95 @@ export default function IoCPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #c0cfe0; font-family: 'Barlow', sans-serif; }
-
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 21px; font-weight: 700; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         .page-wrap { padding: 110px 40px 100px; max-width: 960px; margin: 0 auto; }
         .back-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 48px; }
-        .back-link { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 2px; color: #7a9bb5; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+        .back-link { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: var(--text-secondary); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
         .back-link:hover { color: #1e9eff; }
-        .back-sep { color: #3d5870; }
+        .back-sep { color: var(--text-muted); }
 
         .hero { margin-bottom: 40px; }
         .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
         .hero-eyebrow-line { width: 32px; height: 1px; background: #1e9eff; }
-        .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(28px, 5vw, 52px); font-weight: 900; color: #fff; letter-spacing: 2px; }
+        .hero-eyebrow-text { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: #1e9eff; text-transform: uppercase; }
+        .hero-title { font-family: var(--font-display); font-size: clamp(28px, 5vw, 52px); font-weight: 900; color: #fff; letter-spacing: 0.05em; }
         .hero-title span { color: #1e9eff; }
-        .hero-desc { font-family: 'Barlow', sans-serif; font-size: 16px; color: #7a9bb5; line-height: 1.6; margin-top: 16px; max-width: 640px; }
+        .hero-desc { font-family: var(--font-display); font-size: 16px; color: var(--text-secondary); line-height: 1.6; margin-top: 16px; max-width: 640px; }
 
-        .input-block { border: 1px solid rgba(30,158,255,0.2); background: rgba(7,13,18,0.9); padding: 32px; margin-bottom: 2px; }
+        .input-block { border: 1px solid var(--border); background: var(--bg-secondary); padding: 32px; margin-bottom: 2px; }
         .input-row { display: flex; gap: 2px; }
-        .ioc-input { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(30,158,255,0.15); padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #c0cfe0; outline: none; transition: border-color 0.2s; }
-        .ioc-input::placeholder { color: #3d5870; }
-        .ioc-input:focus { border-color: rgba(30,158,255,0.5); }
-        .analyze-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 16px 32px; background: #1e9eff; border: none; color: #000; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .ioc-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-bright); padding: 16px 20px; font-family: var(--font-mono); font-size: 14px; color: var(--text-primary); transition: border-color 0.2s; }
+        .ioc-input::placeholder { color: var(--text-muted); }
+        .ioc-input:focus { border-color: var(--border-bright); }
+        .analyze-btn { font-family: var(--font-mono); font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 16px 32px; background: #1e9eff; border: none; color: #000; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
         .analyze-btn:hover { background: #3aadff; }
         .analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .input-hint { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #3d5870; margin-top: 12px; letter-spacing: 1px; }
+        .input-hint { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-top: 12px; letter-spacing: 0.05em; }
 
-        .type-badge-row { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border: 1px solid rgba(255,255,255,0.06); background: rgba(7,13,18,0.8); margin-bottom: 2px; }
-        .type-badge { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border: 1px solid; }
-        .type-value { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; word-break: break-all; }
-        .type-time { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #3d5870; margin-left: auto; }
+        .type-badge-row { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border: 1px solid var(--border); background: var(--bg-secondary); margin-bottom: 2px; }
+        .type-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 12px; border: 1px solid; }
+        .type-value { font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); word-break: break-all; }
+        .type-time { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-left: auto; }
 
-        .result-section { border: 1px solid rgba(255,255,255,0.06); background: rgba(7,13,18,0.8); margin-bottom: 2px; overflow: hidden; }
-        .section-header { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; }
-        .section-title { font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #1e9eff; }
-        .section-source { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #3d5870; }
+        .result-section { border: 1px solid var(--border); background: var(--bg-secondary); margin-bottom: 2px; overflow: hidden; }
+        .section-header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .section-title { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: #1e9eff; }
+        .section-source { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
         .section-body { padding: 20px 24px; }
 
         .kv-grid { display: grid; grid-template-columns: 160px 1fr; gap: 10px 20px; }
-        .kv-key { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px; color: #5a7a94; text-transform: uppercase; padding-top: 2px; }
-        .kv-val { font-family: 'Barlow', sans-serif; font-size: 14px; color: #c0cfe0; word-break: break-all; }
-        .kv-val.mono { font-family: 'Share Tech Mono', monospace; font-size: 13px; }
+        .kv-key { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; padding-top: 2px; }
+        .kv-val { font-family: var(--font-display); font-size: 14px; color: var(--text-primary); word-break: break-all; }
+        .kv-val.mono { font-family: var(--font-mono); font-size: 13px; }
 
         .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
-        .tag { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; }
+        .tag { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; }
 
         .pill-list { display: flex; flex-wrap: wrap; gap: 6px; }
-        .pill { font-family: 'Share Tech Mono', monospace; font-size: 12px; padding: 4px 10px; background: rgba(30,158,255,0.06); border: 1px solid rgba(30,158,255,0.12); color: #7a9bb5; }
+        .pill { font-family: var(--font-mono); font-size: 12px; padding: 4px 10px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); }
 
         .noise-row { display: flex; gap: 16px; }
-        .noise-badge { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border: 1px solid; }
+        .noise-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 6px 14px; border: 1px solid; }
 
         .ext-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-        .ext-link { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 8px 16px; border: 1px solid rgba(30,158,255,0.25); color: #7a9bb5; text-decoration: none; transition: all 0.2s; }
+        .ext-link { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 8px 16px; border: 1px solid var(--border-bright); color: var(--text-secondary); text-decoration: none; transition: all 0.2s; }
         .ext-link:hover { border-color: #1e9eff; color: #1e9eff; }
 
         .loading-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 60px 0; }
-        .loading-orb { width: 36px; height: 36px; border: 2px solid rgba(30,158,255,0.1); border-top-color: #1e9eff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-orb { width: 36px; height: 36px; border: 2px solid var(--border); border-top-color: #1e9eff; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
+        .loading-text { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
 
-        .empty-hint { border: 1px solid rgba(30,158,255,0.08); padding: 48px; text-align: center; }
-        .empty-hint-title { font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 8px; }
+        .empty-hint { border: 1px solid var(--border); padding: 48px; text-align: center; }
+        .empty-hint-title { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
         .examples { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 20px; }
-        .example-btn { font-family: 'Share Tech Mono', monospace; font-size: 12px; padding: 6px 14px; background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.12); color: #5a7a94; cursor: pointer; transition: all 0.2s; }
-        .example-btn:hover { border-color: rgba(30,158,255,0.3); color: #7a9bb5; }
+        .example-btn { font-family: var(--font-mono); font-size: 12px; padding: 6px 14px; background: var(--bg-card); border: 1px solid var(--border-bright); color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+        .example-btn:hover { border-color: var(--border-bright); color: var(--text-secondary); }
 
-        footer { border-top: 1px solid rgba(30,158,255,0.1); padding: 40px; text-align: center; }
-        .footer-text { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
+        footer { border-top: 1px solid var(--border); padding: 40px; text-align: center; }
+        .footer-text { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; }
 
         @media (max-width: 768px) {
-          nav { padding: 0 20px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .page-wrap { padding: 90px 20px 80px; }
           .input-row { flex-direction: column; }
           .kv-grid { grid-template-columns: 1fr; }
         }
       `}</style>
 
-      <nav>
-        <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-        <ul className="nav-links">
-          <li><a href="/articles">All Reports</a></li>
-          <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
-          <li><a href="/brief" style={{ color: '#ffaa00' }}>Aladdin Brief</a></li>
-        </ul>
-        <div className="hamburger" onClick={() => setMobileOpen(o => !o)}><span /><span /><span /></div>
-      </nav>
-
-      <div className={`mobile-menu${mobileOpen ? ' open' : ''}`}>
-        <button className="mobile-menu-close" onClick={() => setMobileOpen(false)}>✕ Close</button>
-        <a href="/">Home</a><a href="/articles">All Reports</a><a href="/osint">OSINT Hub</a>
-      </div>
-
-      <div className="page-wrap">
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
           <span className="back-sep">/</span>
-          <span style={{ fontFamily: 'Barlow Condensed', fontSize: 11, letterSpacing: 2, color: '#1e9eff', textTransform: 'uppercase' }}>IoC Scanner</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 2, color: '#1e9eff', textTransform: 'uppercase' }}>IoC Scanner</span>
         </div>
 
         <div className="hero">
           <div className="hero-eyebrow">
-            <div className="hero-eyebrow-line" />
+            <div className="hero-eyebrow-line" aria-hidden="true" />
             <div className="hero-eyebrow-text">Cyber // Indicator of Compromise Analysis</div>
           </div>
-          <div className="hero-title">IoC <span>SCANNER</span></div>
+          <h1 className="hero-title">IoC <span>SCANNER</span></h1>
           <div className="hero-desc">
             Paste any IP address, domain, URL, or file hash. Auto-detected and checked against Shodan, GreyNoise, MalwareBazaar, and URLScan simultaneously.
           </div>
@@ -277,12 +243,13 @@ export default function IoCPage() {
           <div className="input-row">
             <input
               className="ioc-input"
+              aria-label="Indicator of compromise: IP address, domain, URL, or file hash"
               placeholder="8.8.8.8 · example.com · https://... · d41d8cd98f00b204..."
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && analyze()}
             />
-            <button className="analyze-btn" onClick={analyze} disabled={loading || !input.trim()}>
+            <button type="button" className="analyze-btn" onClick={analyze} disabled={loading || !input.trim()}>
               {loading ? '...' : 'Analyze'}
             </button>
           </div>
@@ -291,6 +258,7 @@ export default function IoCPage() {
           </div>
         </div>
 
+        <div aria-live="polite">
         {loading && (
           <div className="loading-wrap">
             <div className="loading-orb" />
@@ -301,12 +269,12 @@ export default function IoCPage() {
         {!loading && !result && (
           <div className="empty-hint">
             <div className="empty-hint-title">Enter an indicator to begin analysis</div>
-            <div style={{ fontFamily: 'Barlow', fontSize: 14, color: '#3d5870', marginTop: 8 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-muted)', marginTop: 8 }}>
               Results pull from Shodan InternetDB, GreyNoise Community, MalwareBazaar, and URLScan — no API keys required.
             </div>
             <div className="examples">
               {['8.8.8.8', 'shodan.io', '44d88612fea8a8f36de82e1278abb02f'].map(ex => (
-                <button key={ex} className="example-btn" onClick={() => { setInput(ex); }}>{ex}</button>
+                <button type="button" key={ex} className="example-btn" onClick={() => { setInput(ex); }}>{ex}</button>
               ))}
             </div>
           </div>
@@ -375,7 +343,7 @@ export default function IoCPage() {
                         )}
                       </div>
                       {result.results.shodan.ports?.length === 0 && !result.results.shodan.vulns?.length && (
-                        <div style={{ fontFamily: 'Share Tech Mono', fontSize: 12, color: '#3d5870' }}>No open ports or vulnerabilities found in Shodan index.</div>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)' }}>No open ports or vulnerabilities found in Shodan index.</div>
                       )}
                     </div>
                   </div>
@@ -408,12 +376,12 @@ export default function IoCPage() {
                         )}
                       </div>
                       {result.results.greynoise.name && (
-                        <div style={{ fontFamily: 'Barlow', fontSize: 14, color: '#7a9bb5', marginTop: 12 }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, color: 'var(--text-secondary)', marginTop: 12 }}>
                           {result.results.greynoise.name}
                         </div>
                       )}
                       {result.results.greynoise.message && (
-                        <div style={{ fontFamily: 'Share Tech Mono', fontSize: 12, color: '#3d5870', marginTop: 12 }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)', marginTop: 12 }}>
                           {result.results.greynoise.message}
                         </div>
                       )}
@@ -480,7 +448,7 @@ export default function IoCPage() {
                       )}
                     </div>
                   ) : (
-                    <div style={{ fontFamily: 'Share Tech Mono', fontSize: 12, color: '#00cc66' }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: '#22cc66' }}>
                       ✓ Hash not found in MalwareBazaar — no known malware match.
                     </div>
                   )}
@@ -498,19 +466,19 @@ export default function IoCPage() {
                 <div className="section-body">
                   {result.results.urlscan.results && result.results.urlscan.results.length > 0 ? (
                     <>
-                      <div style={{ fontFamily: 'Share Tech Mono', fontSize: 11, color: '#3d5870', marginBottom: 16, letterSpacing: 1 }}>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', marginBottom: 16, letterSpacing: 1 }}>
                         {result.results.urlscan.total} total scans — showing most recent 5
                       </div>
                       {result.results.urlscan.results.map((r, i) => (
                         <div key={i} style={{ padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                          <div style={{ fontFamily: 'Barlow', fontSize: 13, color: '#c0cfe0', flex: 1 }}>{r.page?.url}</div>
-                          {r.page?.ip && <div style={{ fontFamily: 'Share Tech Mono', fontSize: 11, color: '#5a7a94' }}>{r.page.ip}</div>}
-                          {r.page?.country && <div style={{ fontFamily: 'Share Tech Mono', fontSize: 11, color: '#3d5870' }}>{r.page.country}</div>}
+                          <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, color: 'var(--text-primary)', flex: 1 }}>{r.page?.url}</div>
+                          {r.page?.ip && <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>{r.page.ip}</div>}
+                          {r.page?.country && <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>{r.page.country}</div>}
                         </div>
                       ))}
                     </>
                   ) : (
-                    <div style={{ fontFamily: 'Share Tech Mono', fontSize: 12, color: '#3d5870' }}>No URLScan results found for this domain.</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)' }}>No URLScan results found for this domain.</div>
                   )}
                 </div>
               </div>
@@ -532,7 +500,8 @@ export default function IoCPage() {
             </div>
           </>
         )}
-      </div>
+        </div>
+      </main>
 
       <footer><div className="footer-text">© 2026 The Rudd Report &nbsp;·&nbsp; UNCLASSIFIED // FOR PUBLIC RELEASE</div></footer>
     </>

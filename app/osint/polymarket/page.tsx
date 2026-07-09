@@ -259,103 +259,84 @@ export default function PolymarketTracker() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
 
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent);  }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; }
 
         .search-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
-        .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
-        .search-input::placeholder { color: #5a7a94; }
-        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-box { display: flex; border: 1px solid var(--border-bright); background: var(--bg-card); }
+        .search-input { flex: 1; background: none; border: none; padding: 16px 20px; font-family: var(--font-mono); font-size: 14px; color: var(--text-primary); letter-spacing: 0.05em; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-btn { font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #ffffff; background: var(--accent); border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
+        .search-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
 
-        .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1100px; margin: 0 auto; border: 1px solid rgba(30,158,255,0.1); background: rgba(10,21,32,0.8); }
-        .status-scanning { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; animation: blink 1s infinite; }
-        .status-done { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .status-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .status-chip { color: #1e9eff; }
+        .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1100px; margin: 0 auto; border: 1px solid var(--border); background: var(--bg-card); }
+        .status-scanning { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; animation: blink 1s infinite; }
+        .status-done { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; }
+        .status-count { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .status-chip { color: var(--accent); }
 
         .filters { display: flex; gap: 2px; padding: 20px 40px 0; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; }
         .filters.secondary { padding-top: 8px; }
-        .filter-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
-        .filter-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
-        .filter-btn.active { color: #1e9eff; border-color: #1e9eff; background: rgba(30,158,255,0.08); }
-        .filter-btn.hot.active { color: #1e9eff; border-color: rgba(30,158,255,0.7); background: rgba(30,158,255,0.08); }
+        .filter-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); background: none; border: 1px solid var(--border-bright); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .filter-btn:hover { color: var(--accent); border-color: var(--border-bright); }
+        .filter-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(30,158,255,0.08); }
+        .filter-btn.hot.active { color: var(--accent); border-color: var(--accent); background: rgba(30,158,255,0.08); }
 
         .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 20px 40px 80px; max-width: 1100px; margin: 0 auto; }
 
-        .result-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: all 0.3s; position: relative; overflow: hidden; min-height: 150px; }
+        .result-card { background: var(--bg-card); border: 1px solid var(--border); padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: all 0.3s; position: relative; overflow: hidden; min-height: 150px; }
         .result-card.up { border-color: rgba(30,158,255,0.25); background: #0a1f18; }
-        .result-card.up::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #1e9eff; }
+        .result-card.up::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent); }
         .result-card.down { border-color: rgba(30,158,255,0.22); background: #07131c; }
-        .result-card.flat { border-color: rgba(30,158,255,0.10); }
+        .result-card.flat { border-color: var(--border); }
         .result-card.loading { opacity: 0.65; }
 
         .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-        .card-platform { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #c0cfe0; line-height: 1.2; }
+        .card-platform { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
         .card-actions { display: flex; align-items: center; gap: 6px; }
-        .card-category { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.1); padding: 2px 6px; white-space: nowrap; height: fit-content; }
-        .pin-btn { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.12); padding: 2px 6px; background: none; color: #5a7a94; cursor: pointer; }
-        .pin-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.35); }
-        .pin-btn.active { color: #1e9eff; border-color: rgba(30,158,255,0.55); background: rgba(30,158,255,0.06); }
+        .card-category { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; border: 1px solid var(--border); padding: 2px 6px; white-space: nowrap; height: fit-content; }
+        .pin-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; border: 1px solid var(--border-bright); padding: 2px 6px; background: none; color: var(--text-muted); cursor: pointer; }
+        .pin-btn:hover { color: var(--accent); border-color: var(--border-bright); }
+        .pin-btn.active { color: var(--accent); border-color: var(--border-bright); background: rgba(30,158,255,0.06); }
 
         .card-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2px; }
-        .metric { border: 1px solid rgba(30,158,255,0.10); background: rgba(3,6,8,0.25); padding: 10px 10px; }
-        .metric-label { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .metric-value { margin-top: 6px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 1px; color: #d8e8f5; }
-        .metric-value.green { color: #1e9eff; }
-        .metric-value.blue { color: #1e9eff; }
+        .metric { border: 1px solid var(--border); background: rgba(3,6,8,0.25); padding: 10px 10px; }
+        .metric-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+        .metric-value { margin-top: 6px; font-family: var(--font-display); font-size: 16px; letter-spacing: 0.05em; color: var(--text-primary); }
+        .metric-value.green { color: var(--accent); }
+        .metric-value.blue { color: var(--accent); }
 
-        .card-status { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; }
-        .card-status.up { color: #1e9eff; }
-        .card-status.down { color: #1e9eff; }
-        .card-status.flat { color: #5a7a94; }
-        .card-status.loading { color: #1e9eff; animation: blink 1s infinite; }
+        .card-status { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
+        .card-status.up { color: var(--accent); }
+        .card-status.down { color: var(--accent); }
+        .card-status.flat { color: var(--text-muted); }
+        .card-status.loading { color: var(--accent); animation: blink 1s infinite; }
 
-        .card-link { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #1e9eff; text-decoration: none; transition: color 0.3s; margin-top: 2px; }
-        .card-link:hover { color: #4dffaa; }
+        .card-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); text-decoration: none; transition: color 0.3s; margin-top: 2px; }
+        .card-link:hover { color: #22cc66; }
 
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
         @media (max-width: 900px) { .results-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .tool-hero { padding: 40px 20px; }
           .search-wrap { padding: 24px 20px; }
           .search-box { flex-direction: column; }
@@ -367,34 +348,7 @@ export default function PolymarketTracker() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report</div>
-          </a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => document.getElementById('polyMenu')?.classList.toggle('open')}>
-            <span /><span /><span />
-          </div>
-        </nav>
-
-        <div className="mobile-menu" id="polyMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('polyMenu')?.classList.remove('open')}>
-            ✕ Close
-          </button>
-          <a href="/">Home</a>
-          <a href="/osint">OSINT Hub</a>
-          <a href="/cybersecurity">Cybersecurity</a>
-          <a href="/about">About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
         </div>
@@ -402,19 +356,19 @@ export default function PolymarketTracker() {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">OSINT Hub — Market Intelligence</div>
             </div>
-            <div className="tool-title">Polymarket Tracker</div>
+            <h1 className="tool-title">Polymarket Tracker</h1>
 <p className="tool-desc">Prediction markets let people bet real money on how world events unfold — and when the odds shift sharply, informed money is often behind it. This tracker surfaces those probability swings so you can spot what well-connected bettors are pricing in before it makes the news.</p>
           </div>
           <div style={{ maxWidth: 1100, margin: '24px auto 0', display: 'flex', gap: 12 }}>
             <a href="/osint/polymarket/account" style={{
-              fontFamily: "'Share Tech Mono', monospace",
-              fontSize: 11,
-              letterSpacing: 3,
-              color: '#030608',
-              background: '#1e9eff',
+              fontFamily: 'var(--font-mono)',
+              fontSize: 12,
+              letterSpacing: '0.06em',
+              color: 'var(--bg-primary)',
+              background: 'var(--accent)',
               border: 'none',
               padding: '12px 24px',
               textDecoration: 'none',
@@ -430,12 +384,13 @@ export default function PolymarketTracker() {
           <div className="search-box">
             <input
               className="search-input"
+              aria-label="Filter markets"
               placeholder="Filter markets — e.g. china, elections, ukraine, sanctions"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && load()}
             />
-            <button className="search-btn" onClick={load} disabled={loading}>
+            <button type="button" className="search-btn" onClick={load} disabled={loading}>
               {loading ? 'Syncing...' : 'Sync →'}
             </button>
           </div>
@@ -458,6 +413,7 @@ export default function PolymarketTracker() {
         <div className="filters">
           {(['Volume', 'Movers', 'Liquidity'] as const).map((c) => (
             <button
+              type="button"
               key={c}
               className={`filter-btn ${sort === c ? 'active' : ''}`}
               onClick={() => setSort(c)}
@@ -471,6 +427,7 @@ export default function PolymarketTracker() {
         <div className="filters secondary">
           {SIGNALS.map((s) => (
             <button
+              type="button"
               key={s.key}
               className={`filter-btn ${signal === s.key ? 'active' : ''} ${s.key === 'OSINT' || s.key === 'Watchlist' ? 'hot' : ''}`}
               onClick={() => setSignal(s.key)}
@@ -480,7 +437,7 @@ export default function PolymarketTracker() {
           ))}
         </div>
 
-        <div className="results-grid">
+        <div className="results-grid" aria-live="polite">
           {filtered.map((m) => {
             const deltaInfo = fmtDelta(m.delta);
             const cardCls = loading ? 'loading' : deltaInfo.cls;
@@ -499,6 +456,7 @@ export default function PolymarketTracker() {
                   <div className="card-platform">{m.question}</div>
                   <div className="card-actions">
                     <button
+                      type="button"
                       className={`pin-btn ${pinned ? 'active' : ''}`}
                       onClick={() => togglePin(idStr)}
                       title={pinned ? 'Unpin from watchlist' : 'Pin to watchlist'}
@@ -555,7 +513,7 @@ export default function PolymarketTracker() {
             
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 
@@ -185,7 +185,6 @@ function fmtChange(n: number): string {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function CommodityMonitor() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [cryptoPrices, setCryptoPrices] = useState<CryptoPrices | null>(null);
   const [cryptoLoading, setCryptoLoading] = useState(true);
   const [cryptoError, setCryptoError] = useState('');
@@ -226,81 +225,65 @@ export default function CommodityMonitor() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-
-        /* ── Nav ── */
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
         .inner { max-width: 1200px; margin: 0 auto; }
 
         /* ── Hero ── */
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; box-shadow: 0 0 8px #1e9eff; }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 5vw, 58px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; margin-bottom: 24px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 5vw, 58px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; max-width: 720px; margin-bottom: 24px; }
         .source-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .source-tag { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 4px 12px; text-transform: uppercase; background: rgba(30,158,255,0.06); }
+        .source-tag { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); border: 1px solid var(--border); padding: 4px 12px; text-transform: uppercase; background: rgba(30,158,255,0.06); }
 
         /* ── Section labels ── */
         .section { padding: 48px 40px; }
         .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
-        .section-line { width: 32px; height: 1px; background: #1e9eff; }
-        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
-        .section-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-bottom: 24px; }
-        .reference-badge { display: inline-flex; align-items: center; gap: 8px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 5px 14px; text-transform: uppercase; background: rgba(255,170,0,0.04); margin-bottom: 24px; }
+        .section-line { width: 32px; height: 1px; background: var(--accent); }
+        .section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .section-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+        .section-subtitle { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 24px; }
+        .reference-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 5px 14px; text-transform: uppercase; background: rgba(255,170,0,0.04); margin-bottom: 24px; }
         .reference-badge::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ffaa00; animation: blink 2s infinite; }
 
         /* ── Commodity grid ── */
         .commodity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px; }
-        .commodity-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 22px; position: relative; overflow: hidden; transition: border-color 0.3s; }
-        .commodity-card:hover { border-color: rgba(30,158,255,0.3); }
+        .commodity-card { background: var(--bg-card); border: 1px solid var(--border); padding: 22px; position: relative; overflow: hidden; transition: border-color 0.3s; }
+        .commodity-card:hover { border-color: var(--border-bright); }
         .commodity-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
-        .commodity-cat { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
-        .commodity-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #d8e8f5; letter-spacing: 1px; margin-bottom: 10px; }
-        .commodity-price { font-family: 'Share Tech Mono', monospace; font-size: 26px; font-weight: 500; color: #1e9eff; margin-bottom: 2px; letter-spacing: -0.5px; }
-        .commodity-unit { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
-        .commodity-note { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; margin-bottom: 14px; border-left: 2px solid rgba(30,158,255,0.2); padding-left: 10px; }
-        .commodity-link { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px; }
-        .commodity-link:hover { color: #1e9eff; }
+        .commodity-cat { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+        .commodity-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text-primary); letter-spacing: 1px; margin-bottom: 10px; }
+        .commodity-price { font-family: var(--font-mono); font-size: 26px; font-weight: 500; color: var(--accent); margin-bottom: 2px; letter-spacing: -0.5px; }
+        .commodity-unit { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
+        .commodity-note { font-family: var(--font-display); font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px; border-left: 2px solid var(--border); padding-left: 10px; }
+        .commodity-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px; }
+        .commodity-link:hover { color: var(--accent); }
         .commodity-link::after { content: '↗'; font-size: 11px; }
 
         /* ── Crypto grid ── */
         .crypto-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px; }
-        .crypto-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px; position: relative; overflow: hidden; transition: border-color 0.3s; }
-        .crypto-card:hover { border-color: rgba(30,158,255,0.25); }
+        .crypto-card { background: var(--bg-card); border: 1px solid var(--border); padding: 24px; position: relative; overflow: hidden; transition: border-color 0.3s; }
+        .crypto-card:hover { border-color: var(--border-bright); }
         .crypto-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
-        .crypto-symbol { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px; }
-        .crypto-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #d8e8f5; letter-spacing: 1px; margin-bottom: 12px; }
-        .crypto-price { font-family: 'Share Tech Mono', monospace; font-size: 28px; font-weight: 500; color: #1e9eff; margin-bottom: 4px; letter-spacing: -0.5px; }
-        .crypto-change { font-family: 'Share Tech Mono', monospace; font-size: 12px; font-weight: 500; margin-bottom: 14px; }
-        .crypto-change.pos { color: #4ade80; }
-        .crypto-change.neg { color: #ff4444; }
-        .crypto-note { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; border-left: 2px solid rgba(30,158,255,0.2); padding-left: 10px; }
-        .crypto-loading { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; animation: blink 1.5s infinite; text-transform: uppercase; }
-        .crypto-error { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff6b35; text-transform: uppercase; }
+        .crypto-symbol { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+        .crypto-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: 1px; margin-bottom: 12px; }
+        .crypto-price { font-family: var(--font-mono); font-size: 28px; font-weight: 500; color: var(--accent); margin-bottom: 4px; letter-spacing: -0.5px; }
+        .crypto-change { font-family: var(--font-mono); font-size: 12px; font-weight: 500; margin-bottom: 14px; }
+        .crypto-change.pos { color: #22cc66; }
+        .crypto-change.neg { color: var(--red); }
+        .crypto-note { font-family: var(--font-display); font-size: 12px; color: var(--text-secondary); line-height: 1.6; border-left: 2px solid var(--border); padding-left: 10px; }
+        .crypto-loading { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); animation: blink 1.5s infinite; text-transform: uppercase; }
+        .crypto-error { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--red); text-transform: uppercase; }
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; margin-bottom: 8px; }
-        .loading-bars span { width: 3px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
+        .loading-bars span { width: 3px; background: var(--accent); border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
         .loading-bars span:nth-child(1) { animation-delay: 0s; }
         .loading-bars span:nth-child(2) { animation-delay: 0.15s; }
         .loading-bars span:nth-child(3) { animation-delay: 0.3s; }
@@ -309,27 +292,27 @@ export default function CommodityMonitor() {
 
         /* ── OSINT context cards ── */
         .context-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2px; }
-        .context-card { background: #070d14; border: 1px solid rgba(30,158,255,0.12); padding: 28px; position: relative; overflow: hidden; }
-        .context-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #1e9eff, transparent); }
+        .context-card { background: var(--bg-secondary); border: 1px solid var(--border); padding: 28px; position: relative; overflow: hidden; }
+        .context-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
         .context-icon { font-size: 20px; margin-bottom: 12px; }
-        .context-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #1e9eff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .context-body { font-size: 13px; color: #7a9bb5; line-height: 1.8; }
+        .context-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .context-body { font-size: 13px; color: var(--text-secondary); line-height: 1.8; }
 
         /* ── Data sources ── */
         .source-section { padding: 0 40px 60px; }
         .source-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-        .source-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); padding: 10px 20px; text-transform: uppercase; background: rgba(30,158,255,0.04); text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
-        .source-btn:hover { background: rgba(30,158,255,0.12); border-color: rgba(30,158,255,0.6); color: #fff; }
+        .source-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); border: 1px solid var(--border-bright); padding: 10px 20px; text-transform: uppercase; background: rgba(30,158,255,0.04); text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .source-btn:hover { background: rgba(30,158,255,0.12); border-color: var(--accent); color: #fff; }
         .source-btn::after { content: '↗'; font-size: 12px; }
 
         /* ── Divider ── */
-        .divider { border: none; border-top: 1px solid rgba(30,158,255,0.08); margin: 0 40px; }
+        .divider { border: none; border-top: 1px solid var(--border); margin: 0 40px; }
 
         /* ── Footer ── */
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 20px; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 20px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
 
         /* ── Animations ── */
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
@@ -337,9 +320,6 @@ export default function CommodityMonitor() {
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
-          nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .tool-hero { padding: 40px 20px 30px; }
           .section { padding: 36px 20px; }
           .divider { margin: 0 20px; }
@@ -353,44 +333,7 @@ export default function CommodityMonitor() {
         }
       `}</style>
 
-      <div className="page-wrap">
-
-        {/* ── Nav ─────────────────────────────────────────────────────────── */}
-        <nav>
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report</div>
-          </a>
-
-          <ul className="nav-links">
-            <li><a href="/reports">All Reports</a></li>
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
-          </ul>
-
-          <button
-            className="hamburger"
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-            aria-controls="commodityMenu"
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            <span /><span /><span />
-          </button>
-        </nav>
-
-        {/* ── Mobile menu ──────────────────────────────────────────────────── */}
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`} id="commodityMenu">
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>✕ Close</button>
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/osint" onClick={() => setMenuOpen(false)}>OSINT Hub</a>
-          <a href="/cybersecurity" onClick={() => setMenuOpen(false)}>Cybersecurity</a>
-          <a href="/intelligence" onClick={() => setMenuOpen(false)}>Intelligence</a>
-          <a href="/geopolitics" onClick={() => setMenuOpen(false)}>Geopolitics</a>
-          <a href="/national-security" onClick={() => setMenuOpen(false)}>National Security</a>
-        </div>
+      <main id="main" className="page-wrap">
 
         {/* ── Back bar ─────────────────────────────────────────────────────── */}
         <div className="back-bar">
@@ -401,10 +344,10 @@ export default function CommodityMonitor() {
         <div className="tool-hero">
           <div className="inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">Economic Intelligence</div>
             </div>
-            <div className="tool-title">Commodity Monitor</div>
+            <h1 className="tool-title">Commodity Monitor</h1>
             <p className="tool-desc">
               Oil, gas, wheat, and gold prices move in direct response to conflict, sanctions, and geopolitical shocks. Track live prices for strategic commodities and crypto assets to monitor supply disruptions, economic pressure campaigns, and the financial signals that often precede major world events.
             </p>
@@ -422,10 +365,10 @@ export default function CommodityMonitor() {
         <div className="section">
           <div className="inner">
             <div className="section-header">
-              <div className="section-line" />
+              <div className="section-line" aria-hidden="true" />
               <div className="section-label">Strategic Commodities</div>
             </div>
-            <div className="section-title">Global Commodity Prices</div>
+            <h2 className="section-title">Global Commodity Prices</h2>
             <div className="section-subtitle">Reference prices as of {lastUpdated} — click cards for live data</div>
 
             <div className="reference-badge">
@@ -477,10 +420,10 @@ export default function CommodityMonitor() {
         <div className="section">
           <div className="inner">
             <div className="section-header">
-              <div className="section-line" />
+              <div className="section-line" aria-hidden="true" />
               <div className="section-label">Digital Assets — Live</div>
             </div>
-            <div className="section-title">Cryptocurrency Prices</div>
+            <h2 className="section-title">Cryptocurrency Prices</h2>
             <div className="section-subtitle">
               {cryptoLoading
                 ? 'Fetching live prices from CoinGecko...'
@@ -489,7 +432,7 @@ export default function CommodityMonitor() {
                 : `Live via CoinGecko API · Last fetched on load`}
             </div>
 
-            <div className="crypto-grid">
+            <div className="crypto-grid" aria-live="polite">
               {CRYPTO_CARDS.map((c) => {
                 const data = cryptoPrices?.[c.id];
                 const price = data?.usd;
@@ -513,7 +456,7 @@ export default function CommodityMonitor() {
                         <div className="crypto-loading">Fetching...</div>
                       </>
                     ) : cryptoError || price === undefined ? (
-                      <div className="crypto-error">
+                      <div className="crypto-error" role="alert">
                         {cryptoError ? 'Price unavailable' : 'No data'}
                       </div>
                     ) : (
@@ -543,10 +486,10 @@ export default function CommodityMonitor() {
         <div className="section">
           <div className="inner">
             <div className="section-header">
-              <div className="section-line" />
+              <div className="section-line" aria-hidden="true" />
               <div className="section-label">Intelligence Context</div>
             </div>
-            <div className="section-title">Economic OSINT Framework</div>
+            <h2 className="section-title">Economic OSINT Framework</h2>
             <div className="section-subtitle">How to interpret commodity and crypto price signals</div>
 
             <div className="context-grid">
@@ -596,10 +539,10 @@ export default function CommodityMonitor() {
           <div className="inner">
             <div
               style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
+                fontFamily: 'var(--font-display)',
                 fontSize: '15px',
                 fontWeight: 700,
-                color: '#c0cfe0',
+                color: 'var(--text-primary)',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
                 marginTop: '48px',
@@ -610,10 +553,10 @@ export default function CommodityMonitor() {
             </div>
             <div
               style={{
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: '10px',
-                letterSpacing: '2px',
-                color: '#5a7a94',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '12px',
+                letterSpacing: '0.05em',
+                color: 'var(--text-muted)',
                 marginBottom: '0',
               }}
             >
@@ -643,10 +586,10 @@ export default function CommodityMonitor() {
             </div>
             <div
               style={{
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: '10px',
-                letterSpacing: '2px',
-                color: '#5a7a94',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '12px',
+                letterSpacing: '0.05em',
+                color: 'var(--text-muted)',
               }}
             >
               Prices are reference data — verify with live sources
@@ -654,7 +597,7 @@ export default function CommodityMonitor() {
           </div>
         </footer>
 
-      </div>
+      </main>
     </>
   );
 }

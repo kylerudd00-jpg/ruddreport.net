@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState } from 'react';
 
 const US_STATES = [
@@ -38,7 +38,6 @@ const VOTER_URLS: Record<string, string> = {
 };
 
 export default function BackgroundCheck() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [state, setState] = useState('');
@@ -162,100 +161,66 @@ export default function BackgroundCheck() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
+        .eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 720px; }
         .main-wrap { max-width: 1100px; margin: 0 auto; padding: 40px; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; margin-bottom: 32px; }
         .form-field { display: flex; flex-direction: column; gap: 6px; }
-        .form-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 14px 16px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; transition: border-color 0.2s; }
-        .form-input:focus { border-color: rgba(30,158,255,0.6); }
-        .form-input::placeholder { color: #2d4055; }
-        .form-select { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 14px 16px; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #d8e8f5; cursor: pointer; }
-        .run-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; height: 49px; }
+        .form-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+        .form-input { background: var(--bg-card); border: 1px solid var(--border-bright); padding: 14px 16px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); transition: border-color 0.2s; }
+        .form-input:focus { border-color: var(--accent); }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-select { background: var(--bg-card); border: 1px solid var(--border-bright); padding: 14px 16px; font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); cursor: pointer; }
+        .run-btn { font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #fff; background: var(--accent); border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; height: 49px; }
         .run-btn:hover { background: #4db8ff; }
-        .run-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .target-bar { padding: 14px 20px; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.2); margin-bottom: 28px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-        .target-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .target-value { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #1e9eff; }
-        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(30,158,255,0.1); }
+        .run-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
+        .target-bar { padding: 14px 20px; background: var(--bg-secondary); border: 1px solid var(--border); margin-bottom: 28px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .target-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+        .target-value { font-family: var(--font-mono); font-size: 14px; color: var(--accent); }
+        .section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
         .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 40px; }
-        .card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.2s; }
-        .card:hover { border-color: rgba(30,158,255,0.25); }
-        .card-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; letter-spacing: 0.5px; }
-        .card-what { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; flex: 1; }
-        .card-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; border: 1px solid; background: none; padding: 8px 18px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
-        .card-btn.disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
-        .voter-box { background: #0a1520; border: 1px solid rgba(0,255,136,0.2); padding: 20px 24px; margin-bottom: 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-        .voter-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #00ff88; text-transform: uppercase; margin-bottom: 4px; }
-        .voter-desc { font-size: 13px; color: #9ab0c4; }
-        .voter-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #00ff88; border: 1px solid rgba(0,255,136,0.4); background: none; padding: 10px 24px; cursor: pointer; transition: all 0.2s; text-decoration: none; white-space: nowrap; }
-        .voter-btn:hover { background: rgba(0,255,136,0.08); }
+        .card { background: var(--bg-card); border: 1px solid var(--border); padding: 24px; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.2s; }
+        .card:hover { border-color: var(--border-bright); }
+        .card-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.5px; }
+        .card-what { font-family: var(--font-display); font-size: 12px; color: var(--text-secondary); line-height: 1.6; flex: 1; }
+        .card-btn { font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid; background: none; padding: 8px 18px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
+        .card-btn.disabled { color: var(--text-muted); border-color: var(--border); cursor: not-allowed; pointer-events: none; }
+        .voter-box { background: var(--bg-card); border: 1px solid rgba(34,204,102,0.3); padding: 20px 24px; margin-bottom: 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+        .voter-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: #22cc66; text-transform: uppercase; margin-bottom: 4px; }
+        .voter-desc { font-size: 13px; color: var(--text-secondary); }
+        .voter-btn { font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #22cc66; border: 1px solid rgba(34,204,102,0.4); background: none; padding: 10px 24px; cursor: pointer; transition: all 0.2s; text-decoration: none; white-space: nowrap; }
+        .voter-btn:hover { background: rgba(34,204,102,0.1); }
         .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
-        .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #7a9bb5; text-transform: uppercase; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); text-transform: uppercase; }
         .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
         @media (max-width: 900px) { .form-grid { grid-template-columns: 1fr 1fr; } .cards-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
           .back-bar { padding: 16px 20px; } .tool-hero { padding: 40px 20px; } .main-wrap { padding: 24px 20px; }
           .form-grid { grid-template-columns: 1fr; } .cards-grid { grid-template-columns: 1fr; }
           footer { padding: 30px 20px; } .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => setMenuOpen(o => !o)}><span /><span /><span /></div>
-        </nav>
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>✕ Close</button>
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/osint" onClick={() => setMenuOpen(false)}>OSINT Hub</a>
-          <a href="/cybersecurity" onClick={() => setMenuOpen(false)}>Cybersecurity</a>
-          <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
-        </div>
+      <main id="main" className="page-wrap">
         <div className="back-bar"><a href="/osint" className="back-link">← Back to OSINT Hub</a></div>
 
         <div className="tool-hero">
           <div className="tool-hero-inner">
-            <div className="eyebrow"><div className="eyebrow-line" /><div className="eyebrow-text">People Intelligence</div></div>
-            <div className="tool-title">Background Check Hub</div>
+            <div className="eyebrow"><div className="eyebrow-line" aria-hidden="true" /><div className="eyebrow-text">People Intelligence</div></div>
+            <h1 className="tool-title">Background Check Hub</h1>
             <p className="tool-desc">Enter a name to launch searches across public records databases — addresses, date of birth, relatives, criminal history, court records, and sex offender registries.</p>
           </div>
         </div>
@@ -264,73 +229,75 @@ export default function BackgroundCheck() {
           <div className="form-grid">
             <div className="form-field">
               <label className="form-label">First Name *</label>
-              <input className="form-input" placeholder="John" value={firstName} onChange={e => setFirstName(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSubmit()} />
+              <input className="form-input" aria-label="First name" placeholder="John" value={firstName} onChange={e => setFirstName(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSubmit()} />
             </div>
             <div className="form-field">
               <label className="form-label">Last Name *</label>
-              <input className="form-input" placeholder="Smith" value={lastName} onChange={e => setLastName(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSubmit()} />
+              <input className="form-input" aria-label="Last name" placeholder="Smith" value={lastName} onChange={e => setLastName(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSubmit()} />
             </div>
             <div className="form-field">
               <label className="form-label">State (optional)</label>
-              <select className="form-select" value={state} onChange={e => setState(e.target.value)}>
+              <select className="form-select" aria-label="State" value={state} onChange={e => setState(e.target.value)}>
                 {US_STATES.map(s => <option key={s.abbr} value={s.abbr}>{s.label}</option>)}
               </select>
             </div>
-            <button className="run-btn" onClick={handleSubmit} disabled={!firstName.trim() || !lastName.trim()}>
+            <button type="button" className="run-btn" onClick={handleSubmit} disabled={!firstName.trim() || !lastName.trim()}>
               Search →
             </button>
           </div>
 
-          {submitted && (
-            <div className="target-bar">
-              <div className="target-label">Subject</div>
-              <div className="target-value">{fn} {ln}{st ? ` — ${st}` : ''}</div>
-            </div>
-          )}
-
-          {/* Voter record shortcut when state is selected */}
-          {submitted && voterUrl && (
-            <div style={{marginBottom: '12px'}}>
-              <div className="section-label">Voter Registration — {st} (may include DOB + address)</div>
-            </div>
-          )}
-          {submitted && voterUrl && (
-            <div className="voter-box">
-              <div>
-                <div className="voter-label">{st} Voter Records</div>
-                <div className="voter-desc">Many state voter records include date of birth, current address, and party registration. Navigate to the site and search by name.</div>
+          <div aria-live="polite">
+            {submitted && (
+              <div className="target-bar">
+                <div className="target-label">Subject</div>
+                <div className="target-value">{fn} {ln}{st ? ` — ${st}` : ''}</div>
               </div>
-              <a href={voterUrl} target="_blank" rel="noopener noreferrer" className="voter-btn">Open Lookup →</a>
-            </div>
-          )}
+            )}
 
-          <div className="section-label">Public Records Databases</div>
-
-          <div className="legend">
-            <div className="legend-item"><div className="legend-dot" style={{background:'#00ff88'}} />Free — no paywall</div>
-            <div className="legend-item"><div className="legend-dot" style={{background:'#1e9eff'}} />Free partial / signup required</div>
-            <div className="legend-item"><div className="legend-dot" style={{background:'#ffaa00'}} />Paid service</div>
-            <div className="legend-item"><div className="legend-dot" style={{background:'#ff4444'}} />Criminal / safety records</div>
-          </div>
-
-          <div className="cards-grid">
-            {services.map((svc) => {
-              const c = colorMap[svc.color];
-              return (
-                <div key={svc.name} className="card" style={{borderTop: `2px solid ${c.border}`}}>
-                  <div className="card-name">{svc.name}</div>
-                  <div className="card-what">{svc.what}</div>
-                  {submitted ? (
-                    <a href={svc.url()} target="_blank" rel="noopener noreferrer" className="card-btn"
-                      style={{color: c.btn, borderColor: c.btnBorder}}>
-                      {svc.manual ? 'Open Site →' : 'Search →'}
-                    </a>
-                  ) : (
-                    <span className="card-btn disabled">Search →</span>
-                  )}
+            {/* Voter record shortcut when state is selected */}
+            {submitted && voterUrl && (
+              <div style={{marginBottom: '12px'}}>
+                <h2 className="section-label">Voter Registration — {st} (may include DOB + address)</h2>
+              </div>
+            )}
+            {submitted && voterUrl && (
+              <div className="voter-box">
+                <div>
+                  <div className="voter-label">{st} Voter Records</div>
+                  <div className="voter-desc">Many state voter records include date of birth, current address, and party registration. Navigate to the site and search by name.</div>
                 </div>
-              );
-            })}
+                <a href={voterUrl} target="_blank" rel="noopener noreferrer" className="voter-btn">Open Lookup →</a>
+              </div>
+            )}
+
+            <h2 className="section-label">Public Records Databases</h2>
+
+            <div className="legend">
+              <div className="legend-item"><div className="legend-dot" style={{background:'#00ff88'}} aria-hidden="true" />Free — no paywall</div>
+              <div className="legend-item"><div className="legend-dot" style={{background:'#1e9eff'}} aria-hidden="true" />Free partial / signup required</div>
+              <div className="legend-item"><div className="legend-dot" style={{background:'#ffaa00'}} aria-hidden="true" />Paid service</div>
+              <div className="legend-item"><div className="legend-dot" style={{background:'#ff4444'}} aria-hidden="true" />Criminal / safety records</div>
+            </div>
+
+            <div className="cards-grid">
+              {services.map((svc) => {
+                const c = colorMap[svc.color];
+                return (
+                  <div key={svc.name} className="card" style={{borderTop: `2px solid ${c.border}`}}>
+                    <div className="card-name">{svc.name}</div>
+                    <div className="card-what">{svc.what}</div>
+                    {submitted ? (
+                      <a href={svc.url()} target="_blank" rel="noopener noreferrer" className="card-btn"
+                        style={{color: c.btn, borderColor: c.btnBorder}}>
+                        {svc.manual ? 'Open Site →' : 'Search →'}
+                      </a>
+                    ) : (
+                      <span className="card-btn disabled">Search →</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -340,7 +307,7 @@ export default function BackgroundCheck() {
             <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

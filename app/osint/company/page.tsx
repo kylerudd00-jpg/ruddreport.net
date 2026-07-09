@@ -2,65 +2,51 @@
 import { useState } from 'react';
 
 const STYLE = `
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-  .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #fff; }
-  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-  .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-  .nav-links a:hover { color: #1e9eff; }
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-  .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-  .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 2px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-  .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; letter-spacing: 1px; }
   .page-wrap { padding-top: 70px; min-height: 100vh; }
-  .hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+  .hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
   .hero-inner { max-width: 1200px; margin: 0 auto; }
   .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-  .hero-eyebrow-line { width: 32px; height: 1px; background: #1e9eff; }
-  .hero-eyebrow-text { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; }
-  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 700; color: #c0cfe0; margin-bottom: 10px; }
-  .hero-title span { color: #1e9eff; }
-  .hero-sub { font-size: 14px; font-weight: 400; color: #7a9bb5; line-height: 1.7; max-width: 700px; }
+  .hero-eyebrow-line { width: 32px; height: 1px; background: var(--accent); }
+  .hero-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); text-transform: uppercase; }
+  .hero-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 48px); font-weight: 700; color: #fff; margin-bottom: 10px; }
+  .hero-title span { color: var(--accent); }
+  .hero-sub { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.7; max-width: 700px; }
   .tool-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 40px 80px; }
   .search-row { display: flex; gap: 2px; margin-bottom: 12px; }
-  .search-input { flex: 1; background: rgba(3,6,8,0.8); border: 1px solid rgba(30,158,255,0.2); color: #d8e8f5; font-family: 'Share Tech Mono', monospace; font-size: 16px; padding: 16px 20px; outline: none; transition: border-color 0.2s; }
-  .search-input:focus { border-color: rgba(30,158,255,0.5); }
-  .search-input::placeholder { color: #5a7a94; font-size: 13px; }
-  .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: #1e9eff; border: 1px solid #1e9eff; color: #000; padding: 16px 32px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
+  .search-input { flex: 1; background: var(--bg-primary); border: 1px solid var(--border-bright); color: var(--text-primary); font-family: var(--font-mono); font-size: 16px; padding: 16px 20px; transition: border-color 0.2s; }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--text-muted); font-size: 13px; }
+  .search-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; background: var(--accent); border: 1px solid var(--accent); color: #000; padding: 16px 32px; cursor: pointer; font-weight: 700; white-space: nowrap; transition: all 0.2s; }
   .search-btn:hover { background: #4db3ff; }
   .quick-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
-  .quick-btn { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #5a7a94; background: rgba(3,6,8,0.5); border: 1px solid rgba(30,158,255,0.08); padding: 5px 12px; cursor: pointer; transition: all 0.2s; }
-  .quick-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.25); }
-  .target-banner { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); padding: 20px 28px; margin-bottom: 2px; display: flex; align-items: center; justify-content: space-between; }
-  .target-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 4px; }
-  .target-name { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #c0cfe0; }
-  .target-badge { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #22cc66; border: 1px solid rgba(34,204,102,0.3); padding: 4px 12px; text-transform: uppercase; }
+  .quick-btn { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border-bright); padding: 5px 12px; cursor: pointer; transition: all 0.2s; }
+  .quick-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .target-banner { background: var(--bg-card); border: 1px solid var(--border); padding: 20px 28px; margin-bottom: 2px; display: flex; align-items: center; justify-content: space-between; }
+  .target-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+  .target-name { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--text-primary); }
+  .target-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #22cc66; border: 1px solid rgba(34,204,102,0.3); padding: 4px 12px; text-transform: uppercase; }
   .sections-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
-  .intel-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px; }
-  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-  .section-dot { width: 6px; height: 6px; border-radius: 50%; background: #1e9eff; }
-  .section-name { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #9ab0c4; text-transform: uppercase; }
+  .intel-section { background: var(--bg-card); border: 1px solid var(--border); padding: 24px; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .section-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .section-name { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--text-secondary); text-transform: uppercase; }
   .link-list { display: flex; flex-direction: column; gap: 2px; }
-  .intel-link { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(3,6,8,0.4); border: 1px solid rgba(30,158,255,0.06); text-decoration: none; transition: all 0.2s; }
-  .intel-link:hover { background: rgba(30,158,255,0.06); border-color: rgba(30,158,255,0.2); }
-  .intel-link-name { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1px; color: #9ab0c4; }
-  .intel-link:hover .intel-link-name { color: #1e9eff; }
-  .intel-link-desc { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1px; color: #5a7a94; }
-  .intel-link-arrow { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #1e9eff; opacity: 0.5; }
+  .intel-link { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg-primary); border: 1px solid var(--border); text-decoration: none; transition: all 0.2s; }
+  .intel-link:hover { background: var(--bg-card-hover); border-color: var(--border-bright); }
+  .intel-link-name { font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; color: var(--text-secondary); }
+  .intel-link:hover .intel-link-name { color: var(--accent); }
+  .intel-link-desc { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+  .intel-link-arrow { font-family: var(--font-mono); font-size: 12px; color: var(--accent); opacity: 0.5; }
   .intel-link:hover .intel-link-arrow { opacity: 1; }
-  .internal-link { border-color: rgba(30,158,255,0.12); }
-  .internal-link .intel-link-name { color: #1e9eff; }
-  .notes-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px; margin-top: 2px; grid-column: 1 / -1; }
-  textarea { width: 100%; background: rgba(3,6,8,0.6); border: 1px solid rgba(30,158,255,0.1); color: #9ab0c4; font-family: 'Share Tech Mono', monospace; font-size: 12px; padding: 14px; outline: none; resize: vertical; min-height: 100px; line-height: 1.7; transition: border-color 0.2s; }
-  textarea:focus { border-color: rgba(30,158,255,0.3); }
-  textarea::placeholder { color: #5a7a94; }
-  .notes-hint { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; color: #5a7a94; margin-top: 8px; }
-  @media (max-width: 768px) { nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; } .hero { padding: 40px 20px 30px; } .tool-wrap { padding: 24px 20px 60px; } .search-row { flex-direction: column; } .sections-grid { grid-template-columns: 1fr; } }
+  .internal-link { border-color: var(--border); }
+  .internal-link .intel-link-name { color: var(--accent); }
+  .notes-section { background: var(--bg-card); border: 1px solid var(--border); padding: 24px; margin-top: 2px; grid-column: 1 / -1; }
+  textarea { width: 100%; background: var(--bg-primary); border: 1px solid var(--border-bright); color: var(--text-secondary); font-family: var(--font-mono); font-size: 12px; padding: 14px; resize: vertical; min-height: 100px; line-height: 1.7; transition: border-color 0.2s; }
+  textarea:focus { border-color: var(--accent); }
+  textarea::placeholder { color: var(--text-muted); }
+  .notes-hint { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-top: 8px; }
+  @media (max-width: 768px) { .hero { padding: 40px 20px 30px; } .tool-wrap { padding: 24px 20px 60px; } .search-row { flex-direction: column; } .sections-grid { grid-template-columns: 1fr; } }
 `;
 
 function enc(s: string) { return encodeURIComponent(s); }
@@ -172,27 +158,11 @@ export default function CorporateDashboard() {
   return (
     <>
       <style>{STYLE}</style>
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-          <ul className="nav-links">
-            <li><a href="/osint">OSINT Hub</a></li>
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => document.getElementById('compMenu')?.classList.toggle('open')}>
-            <span /><span /><span />
-          </div>
-        </nav>
-        <div className="mobile-menu" id="compMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('compMenu')?.classList.remove('open')}>✕ Close</button>
-          <a href="/">Home</a><a href="/osint">OSINT Hub</a><a href="/about">About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="hero">
           <div className="hero-inner">
-            <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">OSINT Hub · Corporate Intelligence</div></div>
-            <div className="hero-title">Corporate Intelligence <span>Dashboard</span></div>
+            <div className="hero-eyebrow"><div className="hero-eyebrow-line" aria-hidden="true" /><div className="hero-eyebrow-text">OSINT Hub · Corporate Intelligence</div></div>
+            <h1 className="hero-title">Corporate Intelligence <span>Dashboard</span></h1>
             <p className="hero-sub">Everything publicly known about a company — in one place. Enter any company name to pull SEC filings, government contracts, corporate registry records, executive profiles, and infrastructure data. Used by journalists, analysts, and due diligence teams to build a complete picture of any organization.</p>
           </div>
         </div>
@@ -201,19 +171,20 @@ export default function CorporateDashboard() {
           <div className="search-row">
             <input
               className="search-input"
+              aria-label="Company name to research"
               placeholder="Enter company name — e.g. Tesla, SpaceX, Rivian"
               value={query}
               onChange={e => setQuery(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && launch()}
             />
-            <button className="search-btn" onClick={() => launch()}>Generate Profile →</button>
+            <button type="button" className="search-btn" onClick={() => launch()}>Generate Profile →</button>
           </div>
           <div className="quick-row">
-            {QUICK_COMPANIES.map(c => <button key={c} className="quick-btn" onClick={() => launch(c)}>{c}</button>)}
+            {QUICK_COMPANIES.map(c => <button type="button" key={c} className="quick-btn" onClick={() => launch(c)}>{c}</button>)}
           </div>
 
           {target && (
-            <>
+            <div aria-live="polite">
               <div className="target-banner">
                 <div>
                   <div className="target-label">Intelligence Target</div>
@@ -226,7 +197,7 @@ export default function CorporateDashboard() {
                 {sections.map(sec => (
                   <div key={sec.name} className="intel-section">
                     <div className="section-header">
-                      <div className="section-dot" style={{ background: sec.color }} />
+                      <div className="section-dot" style={{ background: sec.color }} aria-hidden="true" />
                       <div className="section-name">{sec.name}</div>
                     </div>
                     <div className="link-list">
@@ -251,10 +222,11 @@ export default function CorporateDashboard() {
 
                 <div className="notes-section">
                   <div className="section-header">
-                    <div className="section-dot" style={{ background: '#5a7a94' }} />
+                    <div className="section-dot" style={{ background: 'var(--text-muted)' }} aria-hidden="true" />
                     <div className="section-name">Intelligence Notes</div>
                   </div>
                   <textarea
+                    aria-label={`Research notes on ${target}`}
                     placeholder={`Research notes on ${target}...`}
                     value={notes}
                     onChange={e => setNotes(e.target.value)}
@@ -262,10 +234,10 @@ export default function CorporateDashboard() {
                   <div className="notes-hint">Notes are stored locally in this browser session only.</div>
                 </div>
               </div>
-            </>
+            </div>
           )}
         </div>
-      </div>
+      </main>
     </>
   );
 }

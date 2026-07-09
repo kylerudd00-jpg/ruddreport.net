@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState, useCallback } from 'react';
 
 const US_STATES = [
@@ -50,7 +50,6 @@ function fmt(d?: string) {
 }
 
 export default function PersonLookup() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [state, setState] = useState('');
@@ -144,94 +143,79 @@ export default function PersonLookup() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { text-decoration: none; } .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+        .back-link:hover { color: var(--accent); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
+        .eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.98; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.8; max-width: 720px; }
         .main-wrap { max-width: 1100px; margin: 0 auto; padding: 40px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; margin-bottom: 32px; }
         .form-field { display: flex; flex-direction: column; gap: 6px; }
-        .form-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 14px 16px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; transition: border-color 0.2s; }
-        .form-input:focus { border-color: rgba(30,158,255,0.6); }
-        .form-input::placeholder { color: #2d4055; }
-        .form-select { background: #0a1520; border: 1px solid rgba(30,158,255,0.25); outline: none; padding: 14px 16px; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #d8e8f5; cursor: pointer; }
-        .run-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 0 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; height: 49px; }
-        .run-btn:hover { background: #4db8ff; }
-        .run-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .loading-bar { padding: 24px; text-align: center; font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); margin-bottom: 24px; }
-        .section-hdr { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid rgba(30,158,255,0.1); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
-        .section-count { font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .form-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+        .form-input { background: var(--bg-card); border: 1px solid var(--border-bright); padding: 14px 16px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); transition: border-color 0.2s; }
+        .form-input:focus { border-color: var(--accent); }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-select { background: var(--bg-card); border: 1px solid var(--border-bright); padding: 14px 16px; font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); cursor: pointer; }
+        .run-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #000; background: var(--accent); border: none; padding: 0 32px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; white-space: nowrap; height: 49px; }
+        .run-btn:hover { background: #4db3ff; }
+        .run-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
+        .loading-bar { padding: 24px; text-align: center; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 24px; }
+        .section-hdr { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .section-count { font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
         .section-wrap { margin-bottom: 40px; }
-        .empty-state { padding: 20px; font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.06); text-align: center; }
-        .error-state { padding: 20px; font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px; color: #ff6060; background: rgba(255,60,60,0.04); border: 1px solid rgba(255,60,60,0.15); }
-        .disambig-banner { background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.2); padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-        .disambig-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .disambig-sub { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #5a7a94; margin-top: 4px; }
-        .show-all-btn { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #7a9bb5; background: none; border: 1px solid rgba(122,155,181,0.3); padding: 6px 14px; cursor: pointer; text-transform: uppercase; white-space: nowrap; transition: all 0.2s; }
-        .show-all-btn:hover { color: #c0cfe0; border-color: rgba(192,207,224,0.4); }
+        .empty-state { padding: 20px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); text-align: center; }
+        .error-state { padding: 20px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--red); background: rgba(255,60,60,0.04); border: 1px solid rgba(255,60,60,0.15); }
+        .disambig-banner { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+        .disambig-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; }
+        .disambig-sub { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-top: 4px; }
+        .show-all-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); background: none; border: 1px solid var(--border-bright); padding: 6px 14px; cursor: pointer; text-transform: uppercase; white-space: nowrap; transition: all 0.2s; }
+        .show-all-btn:hover { color: #fff; border-color: var(--accent); }
         .loc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-bottom: 16px; }
-        .loc-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); border-top: 2px solid #1e9eff; padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
-        .loc-card:hover { border-color: rgba(30,158,255,0.35); background: #0d1e30; }
-        .loc-card.active { border-color: #1e9eff; background: #0d1e30; border-top-width: 3px; }
+        .loc-card { background: var(--bg-card); border: 1px solid var(--border); border-top: 2px solid var(--accent); padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+        .loc-card:hover { border-color: var(--accent); background: var(--bg-card-hover); }
+        .loc-card.active { border-color: var(--accent); background: var(--bg-card-hover); border-top-width: 3px; }
         .loc-card.inactive { opacity: 0.35; }
         .loc-field { display: flex; flex-direction: column; gap: 3px; }
-        .loc-key { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .loc-val { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #c0cfe0; letter-spacing: 0.5px; }
-        .loc-val.highlight { color: #1e9eff; }
-        .fec-table-wrap { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); overflow: auto; }
+        .loc-key { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+        .loc-val { font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); letter-spacing: 0.02em; }
+        .loc-val.highlight { color: var(--accent); }
+        .fec-table-wrap { background: var(--bg-card); border: 1px solid var(--border); overflow: auto; }
         .fec-table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        .fec-table th { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; padding: 12px 16px; text-align: left; background: rgba(30,158,255,0.04); border-bottom: 1px solid rgba(30,158,255,0.12); white-space: nowrap; }
-        .fec-table td { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #9ab0c4; padding: 11px 16px; border-bottom: 1px solid rgba(30,158,255,0.05); letter-spacing: 0.5px; }
+        .fec-table th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; padding: 12px 16px; text-align: left; background: var(--bg-secondary); border-bottom: 1px solid var(--border); white-space: nowrap; }
+        .fec-table td { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); padding: 11px 16px; border-bottom: 1px solid var(--border); letter-spacing: 0.02em; }
         .fec-table tr:last-child td { border-bottom: none; }
-        .fec-table tr:hover td { background: rgba(30,158,255,0.02); }
-        .fec-table td.name-col { color: #c0cfe0; font-weight: 500; }
-        .fec-table td.amount-col { color: #00ff88; }
+        .fec-table tr:hover td { background: var(--bg-card-hover); }
+        .fec-table td.name-col { color: var(--text-primary); font-weight: 500; }
+        .fec-table td.amount-col { color: #22cc66; }
         .court-list { display: flex; flex-direction: column; gap: 2px; }
-        .court-item { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.2s; }
-        .court-item:hover { border-color: rgba(30,158,255,0.25); }
-        .court-case { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 600; color: #c0cfe0; }
-        .court-case a { color: #c0cfe0; text-decoration: none; }
-        .court-case a:hover { color: #1e9eff; }
+        .court-item { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.2s; }
+        .court-item:hover { border-color: var(--accent); }
+        .court-case { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--text-primary); }
+        .court-case a { color: var(--text-primary); text-decoration: none; }
+        .court-case a:hover { color: var(--accent); }
         .court-meta { display: flex; gap: 20px; flex-wrap: wrap; }
-        .court-meta-item { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
-        .court-meta-item span { color: #7a9bb5; }
-        .sources-note { margin-top: 8px; padding: 14px 20px; background: rgba(30,158,255,0.03); border: 1px solid rgba(30,158,255,0.1); }
-        .sources-note-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: #5a7a94; line-height: 1.8; }
-        .sources-note-text strong { color: #7a9bb5; }
+        .court-meta-item { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; }
+        .court-meta-item span { color: var(--text-secondary); }
+        .sources-note { margin-top: 8px; padding: 14px 20px; background: var(--bg-card); border: 1px solid var(--border); }
+        .sources-note-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); line-height: 1.8; }
+        .sources-note-text strong { color: var(--text-secondary); }
         .deepdive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .dd-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px; display: flex; flex-direction: column; gap: 8px; }
-        .dd-name { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; color: #c0cfe0; }
-        .dd-what { font-family: 'Barlow', sans-serif; font-size: 11px; color: #7a9bb5; flex: 1; }
-        .dd-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); background: none; padding: 7px 16px; cursor: pointer; text-decoration: none; display: inline-block; align-self: flex-start; transition: all 0.2s; }
-        .dd-btn:hover { background: rgba(30,158,255,0.08); }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        .dd-card { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+        .dd-name { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text-primary); }
+        .dd-what { font-family: var(--font-display); font-size: 11px; color: var(--text-secondary); flex: 1; }
+        .dd-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--border-bright); background: none; padding: 7px 16px; cursor: pointer; text-decoration: none; display: inline-block; align-self: flex-start; transition: all 0.2s; }
+        .dd-btn:hover { background: var(--bg-card-hover); }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
         @media (max-width: 900px) { .form-row { grid-template-columns: 1fr 1fr; } .loc-grid { grid-template-columns: 1fr; } .deepdive-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
           .back-bar { padding: 16px 20px; } .tool-hero { padding: 40px 20px; } .main-wrap { padding: 24px 20px; }
           .form-row { grid-template-columns: 1fr; } .deepdive-grid { grid-template-columns: 1fr; }
           .loc-card { grid-template-columns: 1fr; }
@@ -239,32 +223,13 @@ export default function PersonLookup() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => setMenuOpen(o => !o)}><span /><span /><span /></div>
-        </nav>
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>✕ Close</button>
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/osint" onClick={() => setMenuOpen(false)}>OSINT Hub</a>
-          <a href="/cybersecurity" onClick={() => setMenuOpen(false)}>Cybersecurity</a>
-          <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
-        </div>
+      <main id="main" className="page-wrap">
         <div className="back-bar"><a href="/osint" className="back-link">← Back to OSINT Hub</a></div>
 
         <div className="tool-hero">
           <div className="tool-hero-inner">
-            <div className="eyebrow"><div className="eyebrow-line" /><div className="eyebrow-text">Person Intelligence</div></div>
-            <div className="tool-title">Person Lookup</div>
+            <div className="eyebrow"><div className="eyebrow-line" aria-hidden="true" /><div className="eyebrow-text">Person Intelligence</div></div>
+            <h1 className="tool-title">Person Lookup</h1>
             <p className="tool-desc">Enter a name to pull real public records directly onto this page — campaign finance filings (city, state, zip, employer), federal court appearances, and more. Data sourced live from FEC and CourtListener.</p>
           </div>
         </div>
@@ -273,23 +238,24 @@ export default function PersonLookup() {
           <div className="form-row">
             <div className="form-field">
               <label className="form-label">First Name *</label>
-              <input className="form-input" placeholder="John" value={firstName} onChange={e => setFirstName(e.target.value)} onKeyDown={e => e.key === 'Enter' && runSearch()} />
+              <input className="form-input" aria-label="First name" placeholder="John" value={firstName} onChange={e => setFirstName(e.target.value)} onKeyDown={e => e.key === 'Enter' && runSearch()} />
             </div>
             <div className="form-field">
               <label className="form-label">Last Name *</label>
-              <input className="form-input" placeholder="Smith" value={lastName} onChange={e => setLastName(e.target.value)} onKeyDown={e => e.key === 'Enter' && runSearch()} />
+              <input className="form-input" aria-label="Last name" placeholder="Smith" value={lastName} onChange={e => setLastName(e.target.value)} onKeyDown={e => e.key === 'Enter' && runSearch()} />
             </div>
             <div className="form-field">
               <label className="form-label">State (optional)</label>
-              <select className="form-select" value={state} onChange={e => setState(e.target.value)}>
+              <select className="form-select" aria-label="State" value={state} onChange={e => setState(e.target.value)}>
                 {US_STATES.map(s => <option key={s.abbr} value={s.abbr}>{s.label}</option>)}
               </select>
             </div>
-            <button className="run-btn" onClick={runSearch} disabled={loading || !firstName.trim() || !lastName.trim()}>
+            <button type="button" className="run-btn" onClick={runSearch} disabled={loading || !firstName.trim() || !lastName.trim()}>
               {loading ? 'Searching...' : 'Search →'}
             </button>
           </div>
 
+          <div aria-live="polite">
           {loading && <div className="loading-bar">Querying FEC campaign finance + federal court records...</div>}
 
           {searched && !loading && (
@@ -302,7 +268,7 @@ export default function PersonLookup() {
                 </div>
 
                 {fecError && (
-                  <div className="error-state">
+                  <div className="error-state" role="alert">
                     {fecError === 'FEC_RATE_LIMIT'
                       ? 'FEC rate limit hit — the demo API key only allows 40 requests/hour. Get a free key at api.data.gov/signup and add it as FEC_API_KEY in your Vercel environment variables.'
                       : fecError}
@@ -320,14 +286,14 @@ export default function PersonLookup() {
                       <div className="disambig-sub">Click a location card below to focus on one person — or show all records.</div>
                     </div>
                     {activeProfile !== null && (
-                      <button className="show-all-btn" onClick={() => setActiveProfile(null)}>Show All</button>
+                      <button type="button" className="show-all-btn" onClick={() => setActiveProfile(null)}>Show All</button>
                     )}
                   </div>
                 )}
 
                 {uniqueLocations.length > 0 && (
                   <>
-                    <div style={{fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#5a7a94', textTransform: 'uppercase', marginBottom: '10px'}}>
+                    <div style={{fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.06em', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '10px'}}>
                       {uniqueLocations.length > 1 ? 'Select a Person — Click to Filter' : 'Known Location'}
                     </div>
                     <div className="loc-grid">
@@ -364,7 +330,7 @@ export default function PersonLookup() {
 
                 {filteredFecResults.length > 0 && (
                   <>
-                    <div style={{fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '3px', color: '#5a7a94', textTransform: 'uppercase', margin: '16px 0 10px'}}>
+                    <div style={{fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.06em', color: 'var(--text-muted)', textTransform: 'uppercase', margin: '16px 0 10px'}}>
                       {activeProfile !== null ? `Donation History — ${activeLocation?.city}, ${activeLocation?.state}` : 'Full Donation History'}
                     </div>
                     <div className="fec-table-wrap">
@@ -408,7 +374,7 @@ export default function PersonLookup() {
                   <span className="section-count">{courtResults.length} cases found</span>
                 </div>
 
-                {courtError && <div className="error-state">{courtError}</div>}
+                {courtError && <div className="error-state" role="alert">{courtError}</div>}
 
                 {!courtError && courtResults.length === 0 && (
                   <div className="empty-state">No federal court filings found for &quot;{fullName}&quot;. CourtListener indexes PACER federal court cases only — state court records require separate state-level searches.</div>
@@ -461,6 +427,7 @@ export default function PersonLookup() {
               </div>
             </>
           )}
+          </div>
         </div>
 
         <footer>
@@ -469,7 +436,7 @@ export default function PersonLookup() {
             <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

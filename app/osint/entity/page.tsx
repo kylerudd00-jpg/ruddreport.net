@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState } from 'react';
 
 type WikidataFacts = {
@@ -111,79 +111,64 @@ export default function EntitySearch() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; }
         .search-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
-        .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 2px; }
-        .search-input::placeholder { color: #5a7a94; }
-        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-box { display: flex; border: 1px solid var(--border-bright); background: var(--bg-card); }
+        .search-input { flex: 1; background: none; border: none; padding: 16px 20px; font-family: var(--font-mono); font-size: 14px; color: var(--text-primary); letter-spacing: 0.05em; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-btn { font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #ffffff; background: var(--accent); border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
+        .search-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
         .results-wrap { padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
-        .error-msg { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #ff3a3a; padding: 20px 0; }
+        .error-msg { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--red); padding: 20px 0; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        .loading { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #1e9eff; animation: pulse 1s infinite; padding: 20px 0; }
-        .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .wiki-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); border-top: 2px solid #1e9eff; padding: 28px; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: start; }
-        .wiki-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
-        .wiki-desc { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-bottom: 14px; }
-        .wiki-extract { font-size: 14px; color: #9ab0c4; line-height: 1.9; margin-bottom: 16px; }
-        .wiki-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-decoration: none; text-transform: uppercase; }
-        .wiki-thumb { width: 130px; height: 130px; object-fit: cover; border: 1px solid rgba(30,158,255,0.2); flex-shrink: 0; }
-        .facts-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 24px; }
+        .loading { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); animation: pulse 1s infinite; padding: 20px 0; }
+        .section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        .wiki-card { background: var(--bg-card); border: 1px solid var(--border); border-top: 2px solid var(--accent); padding: 28px; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: start; }
+        .wiki-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .wiki-desc { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
+        .wiki-extract { font-size: 14px; color: var(--text-secondary); line-height: 1.9; margin-bottom: 16px; }
+        .wiki-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-decoration: none; text-transform: uppercase; }
+        .wiki-thumb { width: 130px; height: 130px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
+        .facts-card { background: var(--bg-card); border: 1px solid var(--border); padding: 24px; }
         .facts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
-        .fact-row { padding: 10px 14px; background: rgba(3,6,8,0.5); border: 1px solid rgba(30,158,255,0.06); }
-        .fact-key { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 4px; }
-        .fact-val { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #c0cfe0; line-height: 1.5; }
-        .fact-val a { color: #1e9eff; text-decoration: none; }
+        .fact-row { padding: 10px 14px; background: var(--bg-primary); border: 1px solid var(--border); }
+        .fact-key { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .fact-val { font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); line-height: 1.5; }
+        .fact-val a { color: var(--accent); text-decoration: none; }
         .fact-val a:hover { text-decoration: underline; }
         .wikidata-row { margin-top: 12px; display: flex; align-items: center; gap: 16px; }
-        .wikidata-link { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
-        .wikidata-link:hover { color: #1e9eff; }
-        .corp-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 16px 20px; text-decoration: none; display: block; transition: border-color 0.2s; }
-        .corp-card:hover { border-color: rgba(30,158,255,0.3); }
-        .corp-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #c0cfe0; letter-spacing: 1px; margin-bottom: 6px; }
+        .wikidata-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+        .wikidata-link:hover { color: var(--accent); }
+        .corp-card { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 20px; text-decoration: none; display: block; transition: border-color 0.2s; }
+        .corp-card:hover { border-color: var(--border-bright); }
+        .corp-name { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.05em; margin-bottom: 6px; }
         .corp-meta { display: flex; gap: 16px; flex-wrap: wrap; }
-        .corp-meta-item { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #5a7a94; }
-        .corp-meta-item span { color: #5a7a90; }
-        .corp-status { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 8px; border: 1px solid; }
+        .corp-meta-item { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+        .corp-meta-item span { color: var(--text-muted); }
+        .corp-status { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 8px; border: 1px solid; }
         .osint-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-        .osint-link { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 14px 16px; text-decoration: none; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #7a9bb5; text-transform: uppercase; transition: all 0.3s; display: block; }
-        .osint-link:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); background: #0f1e2e; }
+        .osint-link { background: var(--bg-card); border: 1px solid var(--border); padding: 14px 16px; text-decoration: none; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); text-transform: uppercase; transition: all 0.3s; display: block; }
+        .osint-link:hover { color: var(--accent); border-color: var(--border-bright); background: var(--bg-card-hover); }
         .suggestions { display: flex; gap: 8px; flex-wrap: wrap; }
-        .suggestion-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #7a9bb5; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 6px 14px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
-        .suggestion-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
-        .no-result { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; padding: 20px 0; text-transform: uppercase; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        .suggestion-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); background: none; border: 1px solid var(--border-bright); padding: 6px 14px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .suggestion-btn:hover { color: var(--accent); border-color: var(--border-bright); }
+        .no-result { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); padding: 20px 0; text-transform: uppercase; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
           .back-bar { padding: 16px 20px; } .tool-hero { padding: 40px 20px; }
           .search-wrap { padding: 24px 20px; } .search-box { flex-direction: column; }
           .results-wrap { padding: 0 20px 60px; }
@@ -195,24 +180,7 @@ export default function EntitySearch() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => document.getElementById('entityMenu')?.classList.toggle('open')}>
-            <span /><span /><span />
-          </div>
-        </nav>
-        <div className="mobile-menu" id="entityMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('entityMenu')?.classList.remove('open')}>✕ Close</button>
-          <a href="/">Home</a><a href="/osint">OSINT Hub</a><a href="/about">About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
         </div>
@@ -220,10 +188,10 @@ export default function EntitySearch() {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">OSINT Hub — Entity Intelligence</div>
             </div>
-            <div className="tool-title">Entity Search</div>
+            <h1 className="tool-title">Entity Search</h1>
             <p className="tool-desc">Type any person, company, or organization to instantly pull a structured profile from Wikipedia, Wikidata, and corporate registries — roles, nationality, founding date, headquarters, and key executives. A fast first step for any investigation when you need to establish who you're dealing with.</p>
           </div>
         </div>
@@ -232,20 +200,21 @@ export default function EntitySearch() {
           <div className="search-box">
             <input
               className="search-input"
+              aria-label="Person, company, or organization to search"
               placeholder="Person, company, or organization — e.g. Elon Musk, Tesla, Vladimir Putin"
               value={query}
               onChange={e => setQuery(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !loading && search()}
             />
-            <button className="search-btn" onClick={search} disabled={loading}>
+            <button type="button" className="search-btn" onClick={search} disabled={loading}>
               {loading ? 'Searching...' : 'Search →'}
             </button>
           </div>
         </div>
 
-        <div className="results-wrap">
+        <div className="results-wrap" aria-live="polite">
           {loading && <div className="loading">Querying intelligence sources...</div>}
-          {error && <div className="error-msg">Error: {error}</div>}
+          {error && <div className="error-msg" role="alert">Error: {error}</div>}
 
           {/* Wikipedia profile */}
           {result?.wiki && (
@@ -272,7 +241,7 @@ export default function EntitySearch() {
                   <div className="section-label" style={{ marginBottom: '8px' }}>Related Entities</div>
                   <div className="suggestions">
                     {result.wiki.suggestions.map((s, i) => (
-                      <button key={i} className="suggestion-btn" onClick={() => { setQuery(s); }}>{s}</button>
+                      <button type="button" key={i} className="suggestion-btn" onClick={() => { setQuery(s); }}>{s}</button>
                     ))}
                   </div>
                 </div>
@@ -335,7 +304,7 @@ export default function EntitySearch() {
                     {c.incorporated && <div className="corp-meta-item">Incorporated: <span>{c.incorporated}</span></div>}
                     {c.status && (
                       <div className="corp-status" style={{
-                        color: c.status.toLowerCase() === 'active' ? '#22cc66' : '#ff4444',
+                        color: c.status.toLowerCase() === 'active' ? '#22cc66' : 'var(--red)',
                         borderColor: c.status.toLowerCase() === 'active' ? 'rgba(34,204,102,0.3)' : 'rgba(255,68,68,0.3)',
                       }}>
                         {c.status}
@@ -367,7 +336,7 @@ export default function EntitySearch() {
             <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }
