@@ -118,8 +118,12 @@ export async function GET() {
     return true;
   });
 
-  // Newest first, by real timestamp (not date-only).
-  deduped.sort((a, b) => b.ts - a.ts);
+  // Keep only the last 24 hours — this is a live watch floor, not an archive.
+  // Anything older (or without a parseable date) is offloaded.
+  const DAY = 86_400_000;
+  const nowMs = Date.now();
+  const recent = deduped.filter((it) => it.ts && nowMs - it.ts <= DAY);
+  recent.sort((a, b) => b.ts - a.ts);
 
-  return NextResponse.json({ items: deduped, sources: FEEDS.length });
+  return NextResponse.json({ items: recent, sources: FEEDS.length, window: '24h' });
 }

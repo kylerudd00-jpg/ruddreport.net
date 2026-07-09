@@ -208,26 +208,21 @@ export default function OSINTFeed() {
         .hd-title { font-family: var(--font-display); font-size: clamp(26px, 3.4vw, 42px); font-weight: 900; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.03em; line-height: 1; }
         .hd-sub { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-top: 8px; }
 
-        .statusbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 16px 40px; margin-top: 20px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-card); }
-        .st-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-        .st-live { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--red); text-transform: uppercase; }
-        .st-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); animation: pulse 1.6s infinite; }
-        .st-meta { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--text-muted); }
-        .st-meta b { color: var(--text-secondary); font-weight: 400; }
-        .st-right { display: flex; align-items: center; gap: 8px; }
+        /* Instrument rail — dense terminal-style readout, not stat cards */
+        .rail { display: flex; align-items: stretch; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 0 40px; margin-top: 20px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-secondary); }
+        .rail-metrics { display: flex; align-items: stretch; flex-wrap: wrap; }
+        .rail-live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; color: var(--red); text-transform: uppercase; padding: 14px 20px 14px 0; }
+        .rail-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); animation: pulse 1.6s infinite; }
+        .rail-seg { display: inline-flex; align-items: baseline; gap: 7px; padding: 14px 20px; border-left: 1px solid var(--border); }
+        .rail-v { font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
+        .rail-of { font-size: 12px; font-weight: 400; color: var(--text-muted); }
+        .rail-k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; }
+        .rail-updated .rail-v { font-weight: 400; font-size: 13px; color: var(--text-secondary); }
+        .rail-ctrl { display: flex; align-items: center; gap: 8px; padding: 10px 0; }
+        .rail-next { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--text-muted); min-width: 50px; text-align: right; font-variant-numeric: tabular-nums; }
         .st-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); background: none; border: 1px solid var(--border-bright); padding: 7px 14px; cursor: pointer; text-transform: uppercase; transition: all 0.25s; }
         .st-btn:hover { color: var(--accent); border-color: var(--accent); }
         .st-btn.on { color: var(--red); border-color: rgba(255,77,77,0.5); background: rgba(255,77,77,0.08); }
-        .st-count { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); min-width: 78px; text-align: right; }
-
-        /* KPI strip */
-        .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 20px 40px 0; }
-        .kpi { background: var(--bg-card); border: 1px solid var(--border); padding: 18px 20px; }
-        .kpi-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
-        .kpi-val { font-family: var(--font-display); font-size: 30px; font-weight: 900; color: var(--text-primary); line-height: 1; }
-        .kpi-val small { font-size: 13px; font-weight: 400; color: var(--text-muted); font-family: var(--font-mono); }
-        .kpi.accent .kpi-val { color: var(--accent); }
-        .kpi.red .kpi-val { color: var(--red); }
 
         /* Main two-column */
         .main { display: grid; grid-template-columns: minmax(0,2fr) minmax(300px,1fr); gap: 2px; padding: 20px 40px 80px; align-items: start; }
@@ -314,17 +309,18 @@ export default function OSINTFeed() {
         @keyframes flashIn { 0%{background:rgba(255,77,77,0.16)} 100%{background:transparent} }
 
         @media (prefers-reduced-motion: reduce) {
-          .st-dot { animation: none; }
+          .rail-dot { animation: none; }
           .row.isnew { animation: none; }
           .loading-bars span { animation: none; height: 20px; }
         }
 
         @media (max-width: 1000px) {
           .main { grid-template-columns: 1fr; }
-          .kpis { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-          .back-bar, .hd, .statusbar, .kpis, .main { padding-left: 20px; padding-right: 20px; }
+          .back-bar, .hd, .rail, .main { padding-left: 20px; padding-right: 20px; }
+          .rail-live { padding-left: 0; }
+          .rail-seg { padding: 10px 14px; }
           .row { grid-template-columns: 46px 3px 1fr; }
           .row-arrow { display: none; }
           footer { padding: 30px 20px; }
@@ -346,13 +342,34 @@ export default function OSINTFeed() {
             <div className="hd-sub">Open-source signals from {sourcesOnline || '—'} feeds, aggregated and analyzed in real time</div>
           </div>
 
-          <div className="statusbar">
-            <div className="st-left">
-              <div className="st-live"><div className="st-dot" aria-hidden="true" /> Live</div>
-              <div className="st-meta"><b>{items.length}</b> stories · <b>{sourcesOnline}</b> sources{lastUpdated && <> · updated <b>{lastUpdated}</b></>}</div>
+          <div className="rail">
+            <div className="rail-metrics">
+              <span className="rail-live"><span className="rail-dot" aria-hidden="true" /> Live · 24h</span>
+              <span className="rail-seg">
+                <span className="rail-v">{streamItems.length}{streamItems.length !== items.length && <span className="rail-of"> / {items.length}</span>}</span>
+                <span className="rail-k">stories</span>
+              </span>
+              <span className="rail-seg">
+                <span className="rail-v" style={lastHour ? { color: 'var(--red)' } : undefined}>{lastHour}</span>
+                <span className="rail-k">last hr</span>
+              </span>
+              <span className="rail-seg">
+                <span className="rail-v">{sourcesOnline}</span>
+                <span className="rail-k">sources</span>
+              </span>
+              <span className="rail-seg">
+                <span className="rail-v" style={{ color: CAT_COLOR[topCat[0] as string] }}>{topCat[0]}</span>
+                <span className="rail-k">top · {topCat[1]}</span>
+              </span>
+              {lastUpdated && (
+                <span className="rail-seg rail-updated">
+                  <span className="rail-v">{lastUpdated}</span>
+                  <span className="rail-k">updated</span>
+                </span>
+              )}
             </div>
-            <div className="st-right">
-              <span className="st-count">{autoRefresh ? `refresh ${nextIn}s` : 'paused'}</span>
+            <div className="rail-ctrl">
+              <span className="rail-next" aria-hidden="true">{autoRefresh ? `↻ ${nextIn}s` : 'paused'}</span>
               <button type="button" className={`st-btn${autoRefresh ? ' on' : ''}`} aria-pressed={autoRefresh} onClick={() => setAutoRefresh((v) => !v)}>
                 <span aria-hidden="true">{autoRefresh ? '⏸' : '▶'}</span> Auto-refresh
               </button>
@@ -373,25 +390,6 @@ export default function OSINTFeed() {
             </div>
           ) : (
             <>
-              <div className="kpis">
-                <div className="kpi">
-                  <div className="kpi-label">Stories in view</div>
-                  <div className="kpi-val">{streamItems.length}<small> / {items.length}</small></div>
-                </div>
-                <div className="kpi red">
-                  <div className="kpi-label">Last hour</div>
-                  <div className="kpi-val">{lastHour}</div>
-                </div>
-                <div className="kpi accent">
-                  <div className="kpi-label">Sources online</div>
-                  <div className="kpi-val">{sourcesOnline}</div>
-                </div>
-                <div className="kpi">
-                  <div className="kpi-label">Top category</div>
-                  <div className="kpi-val" style={{ color: CAT_COLOR[topCat[0] as string] }}>{topCat[0]}<small> {topCat[1]}</small></div>
-                </div>
-              </div>
-
               <div className="main">
                 {/* ── Live stream ── */}
                 <section className="stream" aria-label="Live story stream">
