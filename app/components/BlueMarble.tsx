@@ -16,7 +16,8 @@ import { useEffect, useRef } from 'react';
   - overflow:hidden clips ONLY the absolute media layer; the text block stays
     in normal flow at z1 and is never clipped
   - text occupies the top zone, limb the bottom ~38% => separation by layout;
-    the figcaption sits over the photo's black-space corner
+    the figcaption sits over the photo on a near-opaque chip (contrast holds
+    over any pixel of the image)
 */
 export default function BlueMarble() {
   const secRef = useRef<HTMLElement>(null);
@@ -98,8 +99,8 @@ export default function BlueMarble() {
             scale(calc(1.08 - var(--p) * 0.08));
           transform-origin: top center;
           opacity: calc(0.45 + var(--p) * 0.55);
-          /* counters the photo's limb darkening — the crest band must read */
-          filter: brightness(1.45) saturate(1.08);
+          /* mild lift only — the VIIRS composite is already bright at the crest */
+          filter: brightness(1.12) saturate(1.05);
           will-change: transform, opacity;
         }
         /* atmosphere: sits ON TOP of the photo, screen-blended so it lights
@@ -116,6 +117,9 @@ export default function BlueMarble() {
           position: absolute; left: 40px; bottom: 22px;
           font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
           text-transform: uppercase; color: var(--text-muted);
+          /* the limb crosses under this corner at most viewports; a near-opaque
+             chip keeps the credit >=4.5:1 over any pixel of the photo */
+          padding: 5px 10px; background: rgba(0, 0, 0, 0.92);
         }
         /* type sits in the dark zone above the limb, on the site grid */
         .bm-inner {
@@ -143,16 +147,19 @@ export default function BlueMarble() {
       `}</style>
       <div className="bm-sticky">
         <figure className="bm-media">
-          <img
-            src="/earth-blue-marble.jpg"
-            alt="The curved horizon of Earth seen from space, blue ocean under swirling white cloud"
-            width={1200}
-            height={1200}
-            loading="lazy"
-            decoding="async"
-          />
+          <picture>
+            <source media="(max-width: 768px)" srcSet="/earth-blue-marble-2048.jpg" />
+            <img
+              src="/earth-blue-marble.jpg"
+              alt="The curved horizon of Earth seen from space, blue ocean under swirling white cloud"
+              width={4096}
+              height={4096}
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
           <div className="bm-glow" aria-hidden="true" />
-          <figcaption className="bm-credit">NASA Earth Observatory · MODIS composite</figcaption>
+          <figcaption className="bm-credit">NASA/NOAA Suomi NPP · VIIRS composite</figcaption>
         </figure>
         <div className="bm-inner rv">
           <h2 id="bm-h">Global coverage</h2>
