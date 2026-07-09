@@ -40,6 +40,7 @@ export default function WHOISLookup() {
   };
 
   const lookup = runLookup;
+  const runExample = (v: string) => { setDomain(v); runLookup(v); };
 
   const getDate = (data: any, eventType: string) => {
     const event = (data?.events || []).find((e: any) => e.eventAction === eventType);
@@ -114,6 +115,10 @@ export default function WHOISLookup() {
         .search-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #000; background: var(--accent); border: none; padding: 16px 30px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; white-space: nowrap; }
         .search-btn:hover { background: #4db3ff; }
         .search-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
+        .ex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 24px; }
+        .ex-row-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+        .ex-row button { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border-bright); padding: 6px 12px; cursor: pointer; }
+        .ex-row button:hover, .ex-row button:focus-visible { color: #fff; border-color: var(--accent); }
         .results { max-width: 1000px; margin: 0 auto; padding: 0 40px 80px; }
         .result-card { background: var(--bg-secondary); border: 1px solid var(--border); }
         .result-header { padding: 24px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
@@ -174,7 +179,7 @@ export default function WHOISLookup() {
               <div className="tool-eyebrow-text">OSINT Hub — Domain Intelligence</div>
             </div>
             <h1 className="tool-title">WHOIS Lookup</h1>
-            <p className="tool-desc">When a domain is registered, ownership details, registrar, and creation date are recorded — and often publicly accessible. Look up any domain to find out who registered it, when it was created (brand-new domains are a major red flag in phishing), what nameservers it uses, and whether the owner hid behind privacy protection.</p>
+            <p className="tool-desc">Look up who registered a domain, when it was created, and its nameservers.</p>
           </div>
         </div>
 
@@ -191,6 +196,12 @@ export default function WHOISLookup() {
             <button type="button" className="search-btn" onClick={() => lookup()} disabled={loading}>
               {loading ? 'Scanning...' : 'Lookup →'}
             </button>
+          </div>
+          <div className="ex-row" role="group" aria-label="Examples to try">
+            <span className="ex-row-label" aria-hidden="true">Try</span>
+            {['google.com'].map(v => (
+              <button key={v} type="button" onClick={() => runExample(v)}>{v}</button>
+            ))}
           </div>
           {history.length > 0 && (
             <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>

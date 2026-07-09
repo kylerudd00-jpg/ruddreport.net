@@ -113,6 +113,11 @@ const STYLE = `
   .history-chip { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #5a7a94; background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.1); padding: 3px 10px; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; }
   .history-chip:hover { color: #1e9eff; border-color: rgba(30,158,255,0.35); }
 
+  .ex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .ex-row-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #3d5870; }
+  .ex-row button { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #5a7a94; background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.1); padding: 3px 10px; cursor: pointer; }
+  .ex-row button:hover, .ex-row button:focus-visible { color: #1e9eff; border-color: rgba(30,158,255,0.35); }
+
   .scan-status { max-width: 1100px; margin: 24px auto 0; padding: 0 40px; }
   .scan-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
   .scan-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
@@ -330,7 +335,7 @@ export default function UsernameHunter() {
             </div>
             <div className="hero-title">Account <span>Finder</span></div>
             <p className="hero-desc">
-              Scan {CHECKED.length} platforms via live API checks — social networks, developer communities, gaming, and more. Quick links for {MANUAL.length} additional platforms that block automated scanning.
+              Check {CHECKED.length} platforms for a username, plus quick links to {MANUAL.length} more.
             </p>
           </div>
         </div>
@@ -347,6 +352,12 @@ export default function UsernameHunter() {
             <button className="search-btn" onClick={() => scan()} disabled={scanning || !username.trim()}>
               {scanning ? 'Scanning...' : 'Hunt →'}
             </button>
+          </div>
+          <div className="ex-row" role="group" aria-label="Example usernames to try">
+            <span className="ex-row-label" aria-hidden="true">Try</span>
+            {['torvalds'].map(v => (
+              <button key={v} type="button" onClick={() => scan(v)}>{v}</button>
+            ))}
           </div>
           {history.length > 0 && (
             <div className="history-row">

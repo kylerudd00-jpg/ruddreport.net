@@ -16,7 +16,7 @@ function detectAndRoute(raw: string) {
   if (emailRx.test(q))  { window.location.href = `/osint/email-headers?q=${encodeURIComponent(q)}`; return; }
   if (ipRx.test(q))     { window.location.href = `/osint/ip?q=${encodeURIComponent(q)}`; return; }
   if (hashRx.test(q))   { window.location.href = `/osint/hash?q=${encodeURIComponent(q)}`; return; }
-  if (domainRx.test(q)) { window.location.href = `/osint/whois?q=${encodeURIComponent(q)}`; return; }
+  if (domainRx.test(q)) { window.location.href = `/osint/domain?q=${encodeURIComponent(q)}`; return; }
   window.location.href = `/osint/username?q=${encodeURIComponent(q)}`;
 }
 
@@ -45,11 +45,8 @@ const TOOLS: Tool[] = [
   { icon: User,            name: 'Background Check',      desc: 'Federal courts, criminal history, voter records, sex offender reg',    href: '/osint/background',       category: 'Corporate', tags: ['background', 'criminal', 'court'] },
   { icon: Home,            name: 'Address & Property',    desc: 'Reverse address — ownership, assessor data, aerial imagery',           href: '/osint/address',          category: 'Corporate', tags: ['address', 'property', 'real estate'] },
   // Network
-  { icon: Globe,           name: 'WHOIS',                 desc: 'Domain registration, registrar, nameservers, and contact records',     href: '/osint/whois',            category: 'Network', tags: ['domain', 'registration', 'registrar'] },
-  { icon: Server,          name: 'DNS Intelligence',      desc: 'Full DNS records — MX, TXT, SPF, DKIM, DMARC, hosting',               href: '/osint/dns',              category: 'Network', tags: ['dns', 'records', 'email security'] },
+  { icon: Globe,           name: 'Domain Lookup',         desc: 'WHOIS, DNS, SSL certs & subdomains for a domain — all in one',        href: '/osint/domain',           category: 'Network', tags: ['domain', 'whois', 'dns', 'ssl', 'subdomains', 'registration', 'nameservers'] },
   { icon: MapPin,          name: 'IP Geolocation',        desc: 'Geographic location, ISP, ASN, and network block for any IP',          href: '/osint/ip',               category: 'Network', tags: ['ip', 'location', 'asn', 'isp'] },
-  { icon: ScanSearch,      name: 'Subdomain Scanner',     desc: 'Certificate transparency enumeration — find all subdomains',           href: '/osint/subdomains',       category: 'Network', tags: ['subdomain', 'enumeration', 'recon'] },
-  { icon: Lock,            name: 'SSL Certificates',      desc: 'CT log search — cert history, alternative names, issuer',             href: '/osint/ssl',              category: 'Network', tags: ['ssl', 'certificate', 'tls'] },
   { icon: Link,            name: 'URL Redirect Tracer',   desc: 'Full redirect chain for any shortened or obfuscated URL',              href: '/osint/url',              category: 'Network', tags: ['url', 'redirect', 'link'] },
   { icon: Shield,          name: 'MAC Lookup',            desc: 'Hardware vendor from any MAC address or OUI prefix',                  href: '/osint/mac',              category: 'Network', tags: ['mac', 'oui', 'vendor', 'hardware'] },
   // Cyber

@@ -8,13 +8,14 @@ export default function DNSIntel() {
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('intel');
 
-  const lookup = async () => {
-    if (!domain.trim()) return;
+  const runLookup = async (override?: string) => {
+    const target = (override ?? domain).trim();
+    if (!target) return;
     setLoading(true);
     setError('');
     setResult(null);
     try {
-      const clean = domain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+      const clean = target.toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
       const res = await fetch(`/api/dns?domain=${clean}`);
       const data = await res.json();
       if (data.error) throw new Error(data.error);
@@ -26,6 +27,9 @@ export default function DNSIntel() {
     }
     setLoading(false);
   };
+
+  const lookup = () => runLookup();
+  const runExample = (v: string) => { setDomain(v); runLookup(v); };
 
   const RECORD_COLORS: Record<string, string> = {
     A: '#1e9eff', AAAA: '#4db8ff', MX: '#1e9eff', TXT: '#ffaa00',
@@ -68,6 +72,10 @@ export default function DNSIntel() {
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
+        .ex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 24px; }
+        .ex-row-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+        .ex-row button { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border-bright); padding: 6px 12px; cursor: pointer; }
+        .ex-row button:hover, .ex-row button:focus-visible { color: #fff; border-color: var(--accent); }
         .results { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
         .tabs { display: flex; gap: 2px; margin-bottom: 2px; }
         .tab { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 10px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
@@ -171,7 +179,7 @@ export default function DNSIntel() {
               <div className="tool-eyebrow-text">OSINT Hub — Infrastructure Intelligence</div>
             </div>
             <div className="tool-title">DNS Intelligence</div>
-            <p className="tool-desc">Every domain runs on DNS records that reveal who hosts it, where email is processed, and what third-party services are connected. Enter any domain to map its full infrastructure — useful for investigating a target's attack surface, verifying domain ownership, and understanding what's actually running behind the scenes.</p>
+            <p className="tool-desc">Map a domain&apos;s DNS records to see who hosts it and runs its email.</p>
           </div>
         </div>
 
@@ -187,6 +195,12 @@ export default function DNSIntel() {
             <button className="search-btn" onClick={lookup} disabled={loading}>
               {loading ? 'Scanning...' : 'Analyze →'}
             </button>
+          </div>
+          <div className="ex-row" role="group" aria-label="Examples to try">
+            <span className="ex-row-label" aria-hidden="true">Try</span>
+            {['google.com'].map(v => (
+              <button key={v} type="button" onClick={() => runExample(v)}>{v}</button>
+            ))}
           </div>
         </div>
 

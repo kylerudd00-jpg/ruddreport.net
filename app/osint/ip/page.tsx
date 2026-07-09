@@ -52,6 +52,8 @@ export default function IPGeo() {
     setLoading(false);
   };
 
+  const runExample = (v: string) => { setIp(v); lookup(v); };
+
   const initMap = async (lat: number, lon: number, data: any) => {
     if (typeof window === 'undefined') return;
     const L = (await import('leaflet' as any)).default;
@@ -137,6 +139,10 @@ export default function IPGeo() {
         .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
         .myip-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.3); padding: 10px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; margin-top: 12px; display: inline-block; }
         .myip-btn:hover { background: rgba(30,158,255,0.08); border-color: #1e9eff; }
+        .ex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 24px; }
+        .ex-row-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+        .ex-row button { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border-bright); padding: 6px 12px; cursor: pointer; }
+        .ex-row button:hover, .ex-row button:focus-visible { color: #fff; border-color: var(--accent); }
         .results { max-width: 1000px; margin: 0 auto; padding: 0 40px 80px; }
         .map-wrap { width: 100%; height: 400px; border: 1px solid rgba(30,158,255,0.2); margin-bottom: 2px; position: relative; z-index: 1; }
         .result-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); }
@@ -222,7 +228,7 @@ export default function IPGeo() {
               <div className="tool-eyebrow-text">OSINT Hub — Network Intelligence</div>
             </div>
             <div className="tool-title">IP Geolocation</div>
-            <p className="tool-desc">Every internet-connected device has an IP address that reveals its approximate location, internet provider, and owning organization. Paste any IP to map it and see who it belongs to — useful for tracing where traffic originates, identifying VPN or proxy use, and profiling unknown servers.</p>
+            <p className="tool-desc">Map any IP to its location, internet provider, and owning organization.</p>
           </div>
         </div>
 
@@ -238,6 +244,12 @@ export default function IPGeo() {
             <button className="search-btn" onClick={() => lookup()} disabled={loading}>
               {loading ? 'Scanning...' : 'Lookup →'}
             </button>
+          </div>
+          <div className="ex-row" role="group" aria-label="Examples to try">
+            <span className="ex-row-label" aria-hidden="true">Try</span>
+            {['8.8.8.8'].map(v => (
+              <button key={v} type="button" onClick={() => runExample(v)}>{v}</button>
+            ))}
           </div>
           <button className="myip-btn" onClick={myIp}>⊕ Use My IP Address</button>
           {history.length > 0 && (

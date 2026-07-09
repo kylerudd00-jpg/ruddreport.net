@@ -76,15 +76,15 @@ export default function CVESearch() {
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
 
-  const search = async () => {
-    if (!query.trim()) return;
+  const runSearch = async (q: string, m: 'id' | 'keyword') => {
+    if (!q.trim()) return;
     setLoading(true);
     setError('');
     setCves([]);
     setDone(false);
 
     try {
-      const param = mode === 'id' ? `id=${encodeURIComponent(query.trim())}` : `keyword=${encodeURIComponent(query.trim())}`;
+      const param = m === 'id' ? `id=${encodeURIComponent(q.trim())}` : `keyword=${encodeURIComponent(q.trim())}`;
       const res = await fetch(`/api/osint/cve?${param}`);
       const data = await res.json();
       if (data.error) { setError(data.error); }
@@ -100,6 +100,13 @@ export default function CVESearch() {
     } finally {
       setLoading(false);
     }
+  };
+  const search = () => runSearch(query, mode);
+  const runExample = (v: string) => {
+    const m = /^CVE-/i.test(v) ? 'id' : 'keyword';
+    setMode(m);
+    setQuery(v);
+    runSearch(v, m);
   };
 
   return (
@@ -142,6 +149,10 @@ export default function CVESearch() {
         .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
         .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
+        .ex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 16px 0 0; }
+        .ex-row-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #5a7a94; }
+        .ex-row button { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px; color: #9ab0c4; background: #0a1520; border: 1px solid rgba(30,158,255,0.3); padding: 6px 12px; cursor: pointer; }
+        .ex-row button:hover, .ex-row button:focus-visible { color: #fff; border-color: #1e9eff; }
         .results-wrap { padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; }
         .results-header { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid rgba(30,158,255,0.08); }
         .error-msg { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #ff3a3a; padding: 20px 0; }
@@ -224,7 +235,7 @@ export default function CVESearch() {
               <div className="tool-eyebrow-text">OSINT Hub — Vulnerability Intelligence</div>
             </div>
             <div className="tool-title">CVE Search</div>
-            <p className="tool-desc">Every publicly known software vulnerability gets a CVE number and a severity score. Search by CVE ID or keyword to see what systems are affected, how severe the flaw is, and how it can be exploited. Critical for threat intelligence teams assessing whether software they care about has known weaknesses that attackers are actively targeting.</p>
+            <p className="tool-desc">Look up a software vulnerability by CVE ID or keyword to see its severity and impact.</p>
           </div>
         </div>
 
@@ -244,6 +255,12 @@ export default function CVESearch() {
             <button className="search-btn" onClick={search} disabled={loading}>
               {loading ? 'Searching...' : 'Search →'}
             </button>
+          </div>
+          <div className="ex-row" role="group" aria-label="Examples to try">
+            <span className="ex-row-label" aria-hidden="true">Try</span>
+            {['CVE-2021-44228', 'log4j'].map(v => (
+              <button key={v} type="button" onClick={() => runExample(v)}>{v}</button>
+            ))}
           </div>
         </div>
 

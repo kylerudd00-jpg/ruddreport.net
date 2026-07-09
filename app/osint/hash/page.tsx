@@ -34,18 +34,21 @@ export default function HashAnalyzer() {
   const [error, setError] = useState('');
   const [analyzed, setAnalyzed] = useState('');
 
-  const analyze = () => {
-    if (!input.trim()) return;
+  const runAnalyze = (val: string) => {
+    const v = val.trim();
+    if (!v) return;
     setError('');
     setMatches([]);
-    setAnalyzed(input.trim());
-    const found = identifyHash(input.trim());
+    setAnalyzed(v);
+    const found = identifyHash(v);
     if (found.length === 0) {
       setError('No known hash format matched. Input may be encoded, salted, or a custom format.');
     } else {
       setMatches(found);
     }
   };
+  const analyze = () => runAnalyze(input);
+  const runExample = (v: string) => { setInput(v); runAnalyze(v); };
 
   return (
     <>
@@ -74,6 +77,10 @@ export default function HashAnalyzer() {
         .search-btn:hover { background: #33ffaa; }
         .search-btn:disabled { background: #0d3322; color: var(--text-muted); cursor: not-allowed; }
         .mode-note { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-top: 12px; line-height: 1.7; }
+        .ex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 24px; }
+        .ex-row-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+        .ex-row button { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border-bright); padding: 6px 12px; cursor: pointer; }
+        .ex-row button:hover, .ex-row button:focus-visible { color: #fff; border-color: var(--accent); }
         .results { max-width: 1000px; margin: 0 auto; padding: 0 40px 80px; }
         .match-card { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 2px; }
         .match-header { padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
@@ -131,7 +138,7 @@ export default function HashAnalyzer() {
               <div className="tool-eyebrow-text">Cryptographic Analysis</div>
             </div>
             <h1 className="tool-title">Hash Analyzer</h1>
-            <p className="tool-desc">A hash is a unique fingerprint for any piece of data — files, passwords, and messages all produce one. Paste any hash to identify its algorithm (MD5, SHA-256, bcrypt, NTLM, and more). Used by analysts to verify file integrity, identify credential formats in breach dumps, and assess the strength of password storage.</p>
+            <p className="tool-desc">Paste any hash to identify its algorithm — MD5, SHA-256, bcrypt, NTLM, and more.</p>
           </div>
         </div>
 
@@ -149,6 +156,12 @@ export default function HashAnalyzer() {
             <button type="button" className="search-btn" onClick={analyze} disabled={!input.trim()}>
               Identify →
             </button>
+          </div>
+          <div className="ex-row" role="group" aria-label="Example hashes to try">
+            <span className="ex-row-label" aria-hidden="true">Try</span>
+            {['5d41402abc4b2a76b9719d911017c592'].map(v => (
+              <button key={v} type="button" onClick={() => runExample(v)}>{v}</button>
+            ))}
           </div>
         </div>
 
