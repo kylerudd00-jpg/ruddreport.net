@@ -4,8 +4,9 @@
     {
       "name": "ruddreport-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "-p", "3457"],
-      "port": 3457
+      "runtimeArgs": ["run", "dev"],
+      "port": 3457,
+      "autoPort": true
     }
   ]
 }
