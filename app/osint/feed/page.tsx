@@ -332,7 +332,7 @@ export default function OSINTFeed() {
       <main id="main" className="page-wrap">
         <div className="wrap">
           <div className="back-bar">
-            <a href="/osint" className="back-link">← Back to OSINT Hub</a>
+            <a href="/osint" className="back-link"><span aria-hidden="true">←</span> Back to OSINT Hub</a>
           </div>
 
           <div className="hd">
@@ -352,15 +352,16 @@ export default function OSINTFeed() {
             <div className="st-right">
               <span className="st-count">{autoRefresh ? `refresh ${nextIn}s` : 'paused'}</span>
               <button type="button" className={`st-btn${autoRefresh ? ' on' : ''}`} aria-pressed={autoRefresh} onClick={() => setAutoRefresh((v) => !v)}>
-                {autoRefresh ? '⏸ Auto' : '▶ Auto'}
+                <span aria-hidden="true">{autoRefresh ? '⏸' : '▶'}</span> Auto-refresh
               </button>
-              <button type="button" className="st-btn" onClick={manualRefresh}>↺ Refresh</button>
+              <button type="button" className="st-btn" onClick={manualRefresh}><span aria-hidden="true">↺</span> Refresh</button>
             </div>
           </div>
 
-          {/* Screen-reader announcement for new items only (not the whole list) */}
+          {/* Screen-reader announcement for new items only (not the whole list).
+              Includes the timestamp so identical counts still re-announce. */}
           <div className="sr-only" role="status" aria-live="polite">
-            {newCount > 0 ? `${newCount} new ${newCount === 1 ? 'story' : 'stories'} received` : ''}
+            {newCount > 0 ? `${newCount} new ${newCount === 1 ? 'story' : 'stories'} received at ${lastUpdated}` : ''}
           </div>
 
           {loading ? (
@@ -393,7 +394,7 @@ export default function OSINTFeed() {
                 {/* ── Live stream ── */}
                 <section className="stream" aria-label="Live story stream">
                   <div className="stream-hd">
-                    <div className="stream-h">Live Stream</div>
+                    <h2 className="stream-h">Live Stream</h2>
                     <input
                       className="search"
                       type="search"
@@ -424,6 +425,13 @@ export default function OSINTFeed() {
                     </div>
                   )}
 
+                  {/* Announce filtered result counts to assistive tech */}
+                  <div className="sr-only" role="status" aria-live="polite">
+                    {streamItems.length === 0
+                      ? 'No stories match the current filters'
+                      : `${streamItems.length} ${streamItems.length === 1 ? 'story' : 'stories'} shown`}
+                  </div>
+
                   {streamItems.length === 0 ? (
                     <div className="empty">No stories match — clear a filter</div>
                   ) : (
@@ -445,6 +453,7 @@ export default function OSINTFeed() {
                               <div className="row-title">
                                 {item.title}
                                 {isNew && <span className="new-tag">NEW</span>}
+                                <span className="sr-only"> (opens source in new tab)</span>
                               </div>
                               <div className="row-sub">
                                 <span className="row-src">{item.source}</span>
@@ -520,7 +529,7 @@ export default function OSINTFeed() {
                     {sourceCounts.map((s) => (
                       <div className="src-row" key={s.source}>
                         <span className="src-dot" style={{ background: CAT_COLOR[s.category] || 'var(--accent)' }} aria-hidden="true" />
-                        <span className="src-name">{s.source}</span>
+                        <span className="src-name"><span className="sr-only">{s.category}: </span>{s.source}</span>
                         <span className="src-count">{s.count}</span>
                       </div>
                     ))}
@@ -531,12 +540,13 @@ export default function OSINTFeed() {
           )}
         </div>
 
-        <footer>
-          <div className="footer-bottom">
-            <div className="footer-copy">© 2026 The Rudd Report</div>
-          </div>
-        </footer>
       </main>
+
+      <footer>
+        <div className="footer-bottom">
+          <div className="footer-copy">© 2026 The Rudd Report</div>
+        </div>
+      </footer>
     </>
   );
 }
