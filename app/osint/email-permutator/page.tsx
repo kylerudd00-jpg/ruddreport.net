@@ -91,7 +91,6 @@ export default function EmailPermutator() {
   const [domain, setDomain]         = useState('');
   const [middleName, setMiddleName] = useState('');
   const [generated, setGenerated]   = useState(false);
-  const [menuOpen, setMenuOpen]     = useState(false);
   const [copiedIdx, setCopiedIdx]   = useState<string | null>(null);
   const [copiedAll, setCopiedAll]   = useState(false);
 
@@ -138,80 +137,63 @@ export default function EmailPermutator() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; max-width: 720px; }
         .form-wrap { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
         .form-field { display: flex; flex-direction: column; }
-        .form-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; padding: 10px 20px 0; background: #0a1520; border: 1px solid rgba(30,158,255,0.18); border-bottom: none; }
-        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.18); border-top: none; outline: none; padding: 10px 20px 14px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 1px; width: 100%; transition: border-color 0.3s; }
-        .form-input:focus { border-color: rgba(30,158,255,0.5); }
-        .form-input::placeholder { color: #5a7a94; }
+        .form-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; padding: 10px 20px 0; background: var(--bg-card); border: 1px solid var(--border-bright); border-bottom: none; }
+        .form-input { background: var(--bg-card); border: 1px solid var(--border-bright); border-top: none; padding: 10px 20px 14px; font-family: var(--font-mono); font-size: 14px; color: var(--text-primary); letter-spacing: 1px; width: 100%; transition: border-color 0.3s; }
+        .form-input:focus { border-color: var(--accent); }
+        .form-input::placeholder { color: var(--text-muted); }
         .domain-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 16px; }
         .btn-row { display: flex; gap: 12px; margin-top: 16px; }
-        .generate-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 14px 36px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
+        .generate-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #ffffff; background: var(--accent); border: none; padding: 14px 36px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; }
         .generate-btn:hover { background: #4db8ff; }
-        .generate-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .reset-btn { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
-        .reset-btn:hover { color: #7a9bb5; border-color: rgba(30,158,255,0.3); }
+        .generate-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
+        .reset-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); background: none; border: 1px solid var(--border-bright); padding: 14px 24px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .reset-btn:hover { color: var(--text-secondary); border-color: var(--accent); }
         .results-wrap { padding: 0 40px 80px; max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
-        .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; }
-        .count-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #1e9eff; background: rgba(30,158,255,0.1); border: 1px solid rgba(30,158,255,0.2); padding: 4px 12px; }
-        .copy-all-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
-        .copy-all-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
-        .copy-all-btn.copied { color: #1e9eff; border-color: #1e9eff; }
+        .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+        .section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; }
+        .count-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); background: rgba(30,158,255,0.1); border: 1px solid var(--border-bright); padding: 4px 12px; }
+        .copy-all-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); background: none; border: 1px solid var(--border-bright); padding: 8px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .copy-all-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .copy-all-btn.copied { color: var(--accent); border-color: var(--accent); }
         .email-list { display: flex; flex-direction: column; gap: 2px; }
-        .email-row { display: flex; align-items: center; justify-content: space-between; background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 14px 20px; transition: border-color 0.2s; }
-        .email-row:hover { border-color: rgba(30,158,255,0.2); }
-        .email-row.primary-row { border-left: 3px solid #1e9eff; background: rgba(10,25,40,0.9); }
-        .email-text { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; letter-spacing: 0.5px; }
-        .email-row.primary-row .email-text { color: #e8f4ff; }
-        .primary-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #1e9eff; text-transform: uppercase; border: 1px solid rgba(30,158,255,0.3); padding: 2px 8px; margin-left: 12px; white-space: nowrap; }
+        .email-row { display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); border: 1px solid var(--border); padding: 14px 20px; transition: border-color 0.2s; }
+        .email-row:hover { border-color: var(--border-bright); }
+        .email-row.primary-row { border-left: 3px solid var(--accent); background: var(--bg-card-hover); }
+        .email-text { font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.5px; }
+        .email-row.primary-row .email-text { color: var(--text-primary); }
+        .primary-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); text-transform: uppercase; border: 1px solid var(--border-bright); padding: 2px 8px; margin-left: 12px; white-space: nowrap; }
         .email-left { display: flex; align-items: center; min-width: 0; }
-        .copy-icon-btn { background: none; border: 1px solid rgba(30,158,255,0.1); color: #5a7a94; padding: 6px 10px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; transition: all 0.25s; white-space: nowrap; flex-shrink: 0; margin-left: 16px; }
-        .copy-icon-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.4); }
-        .copy-icon-btn.active { color: #1e9eff; border-color: #1e9eff; }
-        .tips-panel { background: #070d12; border: 1px solid rgba(30,158,255,0.15); padding: 24px 28px; }
-        .tips-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; margin-bottom: 10px; }
-        .tips-text { font-family: 'Barlow', sans-serif; font-size: 14px; color: #7a9bb5; line-height: 1.7; margin-bottom: 16px; }
+        .copy-icon-btn { background: none; border: 1px solid var(--border-bright); color: var(--text-muted); padding: 6px 10px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; transition: all 0.25s; white-space: nowrap; flex-shrink: 0; margin-left: 16px; }
+        .copy-icon-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .copy-icon-btn.active { color: var(--accent); border-color: var(--accent); }
+        .tips-panel { background: var(--bg-secondary); border: 1px solid var(--border); padding: 24px 28px; }
+        .tips-eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+        .tips-text { font-family: var(--font-display); font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
         .tips-links { display: flex; gap: 16px; flex-wrap: wrap; }
-        .tips-link { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1e9eff; text-decoration: none; border-bottom: 1px solid rgba(30,158,255,0.3); padding-bottom: 1px; transition: color 0.3s; }
+        .tips-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--border-bright); padding-bottom: 1px; transition: color 0.3s; }
         .tips-link:hover { color: #4db8ff; border-color: #4db8ff; }
-        .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1100px; margin: 0 auto 0; border: 1px solid rgba(30,158,255,0.08); background: rgba(10,21,32,0.6); }
-        .top-bar-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1100px; margin: 0 auto 0; border: 1px solid var(--border); background: var(--bg-card); }
+        .top-bar-count { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .form-wrap { padding: 24px 20px; }
@@ -229,32 +211,7 @@ export default function EmailPermutator() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report</div>
-          </a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <button className="hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Open menu">
-            <span /><span /><span />
-          </button>
-        </nav>
-
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>&#x2715; Close</button>
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/osint" onClick={() => setMenuOpen(false)}>OSINT Hub</a>
-          <a href="/cybersecurity" onClick={() => setMenuOpen(false)}>Cybersecurity</a>
-          <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">&#x2190; Back to OSINT Hub</a>
         </div>
@@ -262,10 +219,10 @@ export default function EmailPermutator() {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">Corporate Intelligence</div>
             </div>
-            <div className="tool-title">Email Permutator</div>
+            <h1 className="tool-title">Email Permutator</h1>
             <p className="tool-desc">Every company uses a standard email format — like firstname.lastname@company.com — but you often don't know which one. Enter a name and company domain to generate every possible format. Used by journalists, investigators, and recruiters to find the right address for anyone at any organization.</p>
           </div>
         </div>
@@ -276,6 +233,7 @@ export default function EmailPermutator() {
               <div className="form-label">First Name *</div>
               <input
                 className="form-input"
+                aria-label="First name"
                 placeholder="e.g. John"
                 value={firstName}
                 onChange={e => { setFirstName(e.target.value); setGenerated(false); }}
@@ -286,6 +244,7 @@ export default function EmailPermutator() {
               <div className="form-label">Last Name *</div>
               <input
                 className="form-input"
+                aria-label="Last name"
                 placeholder="e.g. Smith"
                 value={lastName}
                 onChange={e => { setLastName(e.target.value); setGenerated(false); }}
@@ -298,6 +257,7 @@ export default function EmailPermutator() {
               <div className="form-label">Company Domain *</div>
               <input
                 className="form-input"
+                aria-label="Company domain"
                 placeholder="e.g. tesla.com"
                 value={domain}
                 onChange={e => { setDomain(e.target.value); setGenerated(false); }}
@@ -308,6 +268,7 @@ export default function EmailPermutator() {
               <div className="form-label">Middle Name (optional)</div>
               <input
                 className="form-input"
+                aria-label="Middle name (optional)"
                 placeholder="e.g. David"
                 value={middleName}
                 onChange={e => { setMiddleName(e.target.value); setGenerated(false); }}
@@ -317,6 +278,7 @@ export default function EmailPermutator() {
           </div>
           <div className="btn-row">
             <button
+              type="button"
               className="generate-btn"
               onClick={handleGenerate}
               disabled={!firstName.trim() || !lastName.trim() || !domain.trim()}
@@ -324,16 +286,17 @@ export default function EmailPermutator() {
               Generate Permutations &#x2192;
             </button>
             {generated && (
-              <button className="reset-btn" onClick={handleReset}>Clear</button>
+              <button type="button" className="reset-btn" onClick={handleReset}>Clear</button>
             )}
           </div>
         </div>
 
+        <div aria-live="polite">
         {generated && totalCount > 0 && (
           <>
             <div className="top-bar" style={{maxWidth:'1100px', margin:'0 auto 0'}}>
               <div className="top-bar-count">{totalCount} variants generated</div>
-              <button className={`copy-all-btn${copiedAll ? ' copied' : ''}`} onClick={copyAll}>
+              <button type="button" className={`copy-all-btn${copiedAll ? ' copied' : ''}`} onClick={copyAll}>
                 {copiedAll ? '&#x2713; Copied All' : `Copy All ${totalCount} Emails`}
               </button>
             </div>
@@ -343,7 +306,7 @@ export default function EmailPermutator() {
               {/* Primary Formats */}
               <div>
                 <div className="result-header">
-                  <div className="section-label">Primary Formats — Most Likely</div>
+                  <h2 className="section-label">Primary Formats — Most Likely</h2>
                   <div className="count-badge">{results.primary.length} formats</div>
                 </div>
                 <div className="email-list">
@@ -354,6 +317,7 @@ export default function EmailPermutator() {
                         <div className="primary-badge">Top Pick</div>
                       </div>
                       <button
+                        type="button"
                         className={`copy-icon-btn${copiedIdx === `primary-${i}` ? ' active' : ''}`}
                         onClick={() => copyOne(entry.email, `primary-${i}`)}
                       >
@@ -367,7 +331,7 @@ export default function EmailPermutator() {
               {/* Extended Formats */}
               <div>
                 <div className="result-header">
-                  <div className="section-label">Extended Formats</div>
+                  <h2 className="section-label">Extended Formats</h2>
                   <div className="count-badge">{results.extended.length} formats</div>
                 </div>
                 <div className="email-list">
@@ -377,6 +341,7 @@ export default function EmailPermutator() {
                         <div className="email-text">{entry.email}</div>
                       </div>
                       <button
+                        type="button"
                         className={`copy-icon-btn${copiedIdx === `extended-${i}` ? ' active' : ''}`}
                         onClick={() => copyOne(entry.email, `extended-${i}`)}
                       >
@@ -403,13 +368,14 @@ export default function EmailPermutator() {
             </div>
           </>
         )}
+        </div>
 
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

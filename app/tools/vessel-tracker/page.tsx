@@ -353,94 +353,79 @@ export default function VesselTracker() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 1100; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .hero { padding: 48px 40px 36px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .hero { padding: 48px 40px 36px; border-bottom: 1px solid var(--border); }
         .hero-inner { max-width: 1200px; margin: 0 auto; }
         .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .hero-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .hero-title span { color: #1e9eff; }
-        .hero-sub { font-size: 14px; color: #7a9bb5; max-width: 600px; line-height: 1.7; }
+        .hero-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .hero-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .hero-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+        .hero-title span { color: var(--accent); }
+        .hero-sub { font-size: 14px; color: var(--text-secondary); max-width: 600px; line-height: 1.7; }
         .tool-section { padding: 24px 40px 40px; max-width: 1200px; margin: 0 auto; }
-        .live-map-wrap { position: relative; width: 100%; height: 520px; border: 1px solid rgba(30,158,255,0.15); background: #050d14; margin-bottom: 2px; overflow: hidden; }
-        .live-map-label { position: absolute; top: 12px; left: 12px; z-index: 10; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; background: rgba(3,6,8,0.85); padding: 5px 12px; border: 1px solid rgba(30,158,255,0.2); }
+        .live-map-wrap { position: relative; width: 100%; height: 520px; border: 1px solid var(--border); background: var(--bg-secondary); margin-bottom: 2px; overflow: hidden; }
+        .live-map-label { position: absolute; top: 12px; left: 12px; z-index: 10; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; background: rgba(8,8,10,0.85); padding: 5px 12px; border: 1px solid var(--border); }
         .live-map-inner { width: 100%; height: 100%; position: relative; isolation: isolate; }
-        .live-map-inner .leaflet-container { position: relative !important; width: 100% !important; height: 100% !important; background: #050d14; }
+        .live-map-inner .leaflet-container { position: relative !important; width: 100% !important; height: 100% !important; background: var(--bg-secondary); }
         .live-map-inner .leaflet-pane { position: absolute; }
         .live-map-inner .leaflet-tile { position: absolute; }
-        .ws-legend { position: absolute; bottom: 10px; left: 10px; z-index: 10; display: flex; gap: 10px; flex-wrap: wrap; background: rgba(3,6,8,0.82); padding: 5px 10px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; }
-        .vt-tooltip { background: rgba(5,13,20,0.95) !important; border: 1px solid rgba(30,158,255,0.3) !important; color: #1e9eff !important; font-family: 'Share Tech Mono', monospace !important; font-size: 10px !important; letter-spacing: 2px !important; padding: 4px 10px !important; border-radius: 0 !important; box-shadow: none !important; }
+        .ws-legend { position: absolute; bottom: 10px; left: 10px; z-index: 10; display: flex; gap: 10px; flex-wrap: wrap; background: rgba(8,8,10,0.82); padding: 5px 10px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; }
+        .vt-tooltip { background: rgba(13,13,16,0.95) !important; border: 1px solid var(--border) !important; color: var(--accent) !important; font-family: var(--font-mono) !important; font-size: 12px !important; letter-spacing: 0.05em !important; padding: 4px 10px !important; border-radius: 0 !important; box-shadow: none !important; }
         .vt-tooltip::before { display: none !important; }
         .mode-tabs { display: flex; gap: 2px; margin-bottom: 2px; }
-        .mode-tab { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 9px 20px; cursor: pointer; text-transform: uppercase; background: #0a1520; border: 1px solid rgba(30,158,255,0.15); color: #5a7a94; transition: all 0.2s; }
-        .mode-tab.active { color: #1e9eff; background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.35); }
+        .mode-tab { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; padding: 9px 20px; cursor: pointer; text-transform: uppercase; background: var(--bg-card); border: 1px solid var(--border-bright); color: var(--text-muted); transition: all 0.2s; }
+        .mode-tab.active { color: var(--accent); background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.35); }
         .search-row { display: flex; gap: 2px; margin-bottom: 16px; }
-        .search-input { flex: 1; background: #0a1520; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 13px 20px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 2px; }
-        .search-input::placeholder { color: #5a7a94; }
-        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 13px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-bright); padding: 13px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.05em; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-btn { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--bg-primary); background: var(--accent); border: none; padding: 13px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .result-panel { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); }
-        .panel-section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 12px 22px 8px; background: rgba(30,158,255,0.03); border-bottom: 1px solid rgba(30,158,255,0.06); }
+        .search-btn:disabled { background: #1a3a52; color: var(--text-muted); cursor: not-allowed; }
+        .result-panel { background: var(--bg-card); border: 1px solid var(--border); }
+        .panel-section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; padding: 12px 22px 8px; background: rgba(30,158,255,0.03); border-bottom: 1px solid var(--border); }
         .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
-        .detail-field { padding: 14px 22px; border-bottom: 1px solid rgba(30,158,255,0.05); border-right: 1px solid rgba(30,158,255,0.05); }
+        .detail-field { padding: 14px 22px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
         .detail-field:nth-child(3n) { border-right: none; }
         .detail-field.full { grid-column: 1/-1; border-right: none; }
         .detail-field.two { grid-column: span 2; }
-        .field-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 5px; }
-        .field-value { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; word-break: break-word; }
-        .field-value.cyan { color: #00ffff; } .field-value.green { color: #00ff88; }
-        .field-value.amber { color: #f59e0b; } .field-value.blue { color: #1e9eff; }
-        .field-value.red { color: #ff3a3a; } .field-value.purple { color: #a78bfa; }
-        .vessel-header { padding: 20px 22px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); }
-        .vessel-name-big { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; word-break: break-all; margin-bottom: 8px; }
+        .field-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+        .field-value { font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); word-break: break-word; }
+        .field-value.cyan { color: #00c9b0; } .field-value.green { color: #22cc66; }
+        .field-value.amber { color: #ffaa00; } .field-value.blue { color: var(--accent); }
+        .field-value.red { color: var(--red); } .field-value.purple { color: #b464ff; }
+        .vessel-header { padding: 20px 22px; border-bottom: 1px solid var(--border); background: rgba(30,158,255,0.04); }
+        .vessel-name-big { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; word-break: break-all; margin-bottom: 8px; }
         .vessel-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-        .vessel-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 3px 10px; border: 1px solid; text-transform: uppercase; }
-        .badge-mmsi { color: #5a7a94; border-color: rgba(30,158,255,0.2); }
-        .badge-type { color: #f59e0b; border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.05); }
-        .badge-flag { color: #00ff88; border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.05); }
+        .vessel-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; padding: 3px 10px; border: 1px solid; text-transform: uppercase; }
+        .badge-mmsi { color: var(--text-muted); border-color: var(--border); }
+        .badge-type { color: #ffaa00; border-color: rgba(255,170,0,0.3); background: rgba(255,170,0,0.05); }
+        .badge-flag { color: #22cc66; border-color: rgba(34,204,102,0.3); background: rgba(34,204,102,0.05); }
         .results-list { }
-        .result-item { padding: 12px 22px; border-bottom: 1px solid rgba(30,158,255,0.06); cursor: pointer; transition: background 0.2s; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .result-item { padding: 12px 22px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.2s; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
         .result-item:hover { background: rgba(30,158,255,0.06); }
-        .result-name { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #c0cfe0; }
-        .result-meta { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #5a7a94; }
+        .result-name { font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); }
+        .result-meta { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
         .mmsi-decode { padding: 22px; }
-        .mmsi-decode-title { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
-        .mmsi-raw { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #5a7a94; letter-spacing: 2px; margin-bottom: 16px; }
+        .mmsi-decode-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+        .mmsi-raw { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 16px; }
         .decode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 16px; }
-        .decode-field { background: #050d14; padding: 12px 14px; }
+        .decode-field { background: var(--bg-secondary); padding: 12px 14px; }
         .decode-field.full { grid-column: 1/-1; }
-        .ext-links-wrap { border-top: 1px solid rgba(30,158,255,0.08); padding-top: 16px; }
-        .ext-links-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; }
-        .ext-link { display: block; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; text-decoration: none; padding: 8px 0; border-bottom: 1px solid rgba(30,158,255,0.06); transition: color 0.2s; }
+        .ext-links-wrap { border-top: 1px solid var(--border); padding-top: 16px; }
+        .ext-links-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+        .ext-link { display: block; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--border); transition: color 0.2s; }
         .ext-link:last-child { border-bottom: none; }
         .ext-link:hover { color: #4db8ff; }
         .empty-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 20px; gap: 14px; text-align: center; }
         .empty-icon { font-size: 36px; opacity: 0.15; }
-        .empty-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; line-height: 1.9; }
-        .error-bar { background: rgba(255,58,58,0.08); border: 1px solid rgba(255,58,58,0.2); padding: 10px 16px; margin-bottom: 12px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 32px 40px; background: #070d12; margin-top: 40px; }
+        .empty-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; line-height: 1.9; }
+        .error-bar { background: rgba(255,77,77,0.08); border: 1px solid rgba(255,77,77,0.3); padding: 10px 16px; margin-bottom: 12px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--red); }
+        footer { border-top: 1px solid var(--border); padding: 32px 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--text-muted); }
         @keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.4;} }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
           .hero { padding: 32px 20px; } .tool-section { padding: 16px 20px 32px; }
           .live-map-wrap { height: 320px; }
           .detail-grid { grid-template-columns: 1fr 1fr; }
@@ -448,32 +433,11 @@ export default function VesselTracker() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => document.getElementById('vtMenu')?.classList.toggle('open')}>
-            <span /><span /><span />
-          </div>
-        </nav>
-        <div className="mobile-menu" id="vtMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('vtMenu')?.classList.remove('open')}>✕ Close</button>
-          <a href="/">Home</a><a href="/cybersecurity">Cybersecurity</a><a href="/intelligence">Intelligence</a>
-          <a href="/geopolitics">Geopolitics</a><a href="/national-security">National Security</a>
-          <a href="/osint">OSINT Hub</a><a href="/about">About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="hero">
           <div className="hero-inner">
-            <div className="hero-eyebrow"><div className="hero-eyebrow-line" /><div className="hero-eyebrow-text">Maritime Intelligence</div></div>
-            <div className="hero-title">Vessel <span>Tracker</span></div>
+            <div className="hero-eyebrow"><div className="hero-eyebrow-line" aria-hidden="true" /><div className="hero-eyebrow-text">Maritime Intelligence</div></div>
+            <h1 className="hero-title">Vessel <span>Tracker</span></h1>
             <p className="hero-sub">Every large vessel at sea is legally required to broadcast its position, speed, and identity via AIS — and it's all public. Watch live ship traffic on the map, click any vessel to decode its MMSI registration, or search by name to track a specific ship's flag state, cargo type, and current location.</p>
           </div>
         </div>
@@ -506,22 +470,24 @@ export default function VesselTracker() {
 
           {/* Search */}
           <div className="mode-tabs">
-            <button className={`mode-tab${mode === 'mmsi' ? ' active' : ''}`} onClick={() => setMode('mmsi')}>MMSI Decode</button>
-            <button className={`mode-tab${mode === 'name' ? ' active' : ''}`} onClick={() => setMode('name')}>Vessel Name Search</button>
+            <button type="button" className={`mode-tab${mode === 'mmsi' ? ' active' : ''}`} onClick={() => setMode('mmsi')}>MMSI Decode</button>
+            <button type="button" className={`mode-tab${mode === 'name' ? ' active' : ''}`} onClick={() => setMode('name')}>Vessel Name Search</button>
           </div>
           <div className="search-row">
             <input
               className="search-input"
+              aria-label="Search vessel by MMSI or name"
               placeholder={mode === 'mmsi' ? 'Enter 9-digit MMSI (e.g. 338123456)...' : 'Enter vessel name (e.g. EVER GIVEN)...'}
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSearch()}
             />
-            <button className="search-btn" onClick={handleSearch} disabled={loading || !input.trim()}>
+            <button type="button" className="search-btn" onClick={handleSearch} disabled={loading || !input.trim()}>
               {loading ? 'Searching...' : 'Search'}
             </button>
           </div>
-          {error && <div className="error-bar">{error}</div>}
+          <div aria-live="polite">
+          {error && <div className="error-bar" role="alert">{error}</div>}
 
           <div className="result-panel">
             {mmsiInfo && (
@@ -556,7 +522,7 @@ export default function VesselTracker() {
 
             {results && results.length > 1 && !selected && (
               <div className="results-list">
-                <div className="panel-section-label">Search Results — {results.length} vessels found</div>
+                <h2 className="panel-section-label">Search Results — {results.length} vessels found</h2>
                 {results.map((v, i) => (
                   <div key={i} className="result-item" onClick={() => setSelected(v)}>
                     <div>
@@ -582,7 +548,7 @@ export default function VesselTracker() {
 
                 {(selected.imo || selected.callsign || selected.flag || selected.year_built) && (
                   <>
-                    <div className="panel-section-label">Identity & Registration</div>
+                    <h2 className="panel-section-label">Identity & Registration</h2>
                     <div className="detail-grid">
                       {selected.imo && <div className="detail-field"><div className="field-label">IMO Number</div><div className="field-value blue">{selected.imo}</div></div>}
                       {selected.callsign && <div className="detail-field"><div className="field-label">Call Sign</div><div className="field-value">{selected.callsign}</div></div>}
@@ -592,7 +558,7 @@ export default function VesselTracker() {
                   </>
                 )}
 
-                <div className="panel-section-label">Current Position & Voyage</div>
+                <h2 className="panel-section-label">Current Position & Voyage</h2>
                 <div className="detail-grid">
                   {selected.speed != null && <div className="detail-field"><div className="field-label">Speed</div><div className="field-value green">{selected.speed} kts</div></div>}
                   {selected.course != null && <div className="detail-field"><div className="field-label">Course</div><div className="field-value">{selected.course}°</div></div>}
@@ -603,7 +569,7 @@ export default function VesselTracker() {
                   {selected.eta && <div className="detail-field"><div className="field-label">ETA</div><div className="field-value">{selected.eta}</div></div>}
                 </div>
 
-                <div className="panel-section-label">Live Tracking</div>
+                <h2 className="panel-section-label">Live Tracking</h2>
                 <div style={{padding:'14px 22px', display:'flex', gap:'12px', flexWrap:'wrap'}}>
                   <a className="ext-link" style={{padding:'8px 16px', border:'1px solid rgba(30,158,255,0.25)', display:'inline-block'}} href={`https://www.marinetraffic.com/en/ais/details/ships/mmsi:${selected.mmsi}`} target="_blank" rel="noopener noreferrer">MarineTraffic →</a>
                   <a className="ext-link" style={{padding:'8px 16px', border:'1px solid rgba(30,158,255,0.25)', display:'inline-block'}} href={`https://www.vesselfinder.com/?mmsi=${selected.mmsi}`} target="_blank" rel="noopener noreferrer">VesselFinder →</a>
@@ -619,6 +585,7 @@ export default function VesselTracker() {
               </div>
             )}
           </div>
+          </div>
         </div>
 
         <footer>
@@ -626,7 +593,7 @@ export default function VesselTracker() {
             <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

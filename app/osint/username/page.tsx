@@ -69,124 +69,107 @@ type Result = {
 };
 
 const STYLE = `
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #030608; color: #c0cfe0; font-family: 'Barlow', sans-serif; }
-
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-  .nav-logo-text { font-family: 'Barlow Condensed', sans-serif; font-size: 21px; font-weight: 700; color: #fff; }
-  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-  .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: #1e9eff; }
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-  .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-  .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 3px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-  .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; letter-spacing: 1px; }
-
   .page-wrap { padding-top: 70px; min-height: 100vh; }
-  .back-bar { padding: 14px 40px; border-bottom: 1px solid rgba(30,158,255,0.07); }
-  .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
-  .back-link:hover { color: #1e9eff; }
+  .back-bar { padding: 14px 40px; border-bottom: 1px solid var(--border); }
+  .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
 
-  .hero { padding: 56px 40px 36px; border-bottom: 1px solid rgba(30,158,255,0.1); }
+  .hero { padding: 56px 40px 36px; border-bottom: 1px solid var(--border); }
   .hero-inner { max-width: 1100px; margin: 0 auto; }
   .hero-eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
-  .hero-eyebrow-line { width: 32px; height: 1px; background: #1e9eff; }
-  .hero-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-  .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(22px, 3.5vw, 42px); font-weight: 900; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
-  .hero-title span { color: #1e9eff; }
-  .hero-desc { font-size: 14px; color: #7a9bb5; line-height: 1.7; max-width: 700px; }
+  .hero-eyebrow-line { width: 32px; height: 1px; background: var(--accent); }
+  .hero-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; }
+  .hero-title { font-family: var(--font-display); font-size: clamp(22px, 3.5vw, 42px); font-weight: 900; color: #fff; letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 10px; }
+  .hero-title span { color: var(--accent); }
+  .hero-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 700px; }
 
   .search-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 40px 0; }
-  .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: rgba(10,21,32,0.8); }
-  .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #c0cfe0; letter-spacing: 2px; }
-  .search-input::placeholder { color: #3d5870; letter-spacing: 1px; }
-  .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #000; background: #1e9eff; border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; white-space: nowrap; }
+  .search-box { display: flex; border: 1px solid var(--border-bright); background: var(--bg-secondary); }
+  .search-input { flex: 1; background: none; border: none; padding: 16px 20px; font-family: var(--font-mono); font-size: 14px; color: var(--text-primary); letter-spacing: 0.04em; }
+  .search-input::placeholder { color: var(--text-muted); letter-spacing: 0.02em; }
+  .search-box:focus-within { border-color: var(--accent); }
+  .search-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #000; background: var(--accent); border: none; padding: 16px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; white-space: nowrap; }
   .search-btn:hover { background: #4db3ff; }
-  .search-btn:disabled { background: #0d2233; color: #5a7a94; cursor: not-allowed; }
+  .search-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
 
   .history-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-  .history-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-transform: uppercase; }
-  .history-chip { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #5a7a94; background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.1); padding: 3px 10px; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; }
-  .history-chip:hover { color: #1e9eff; border-color: rgba(30,158,255,0.35); }
+  .history-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; }
+  .history-chip { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border-bright); padding: 4px 11px; cursor: pointer; letter-spacing: 0.02em; }
+  .history-chip:hover { color: #fff; border-color: var(--accent); }
 
   .ex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-  .ex-row-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #3d5870; }
-  .ex-row button { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #5a7a94; background: rgba(30,158,255,0.04); border: 1px solid rgba(30,158,255,0.1); padding: 3px 10px; cursor: pointer; }
-  .ex-row button:hover, .ex-row button:focus-visible { color: #1e9eff; border-color: rgba(30,158,255,0.35); }
+  .ex-row-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+  .ex-row button { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border-bright); padding: 6px 12px; cursor: pointer; }
+  .ex-row button:hover, .ex-row button:focus-visible { color: #fff; border-color: var(--accent); }
 
   .scan-status { max-width: 1100px; margin: 24px auto 0; padding: 0 40px; }
   .scan-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
-  .scan-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
+  .scan-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; }
   .scan-text.pulse { animation: blink 1.2s infinite; }
-  .scan-meta { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+  .scan-meta { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
   .scan-actions { display: flex; align-items: center; gap: 10px; }
-  .action-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; background: none; border: 1px solid rgba(30,158,255,0.2); color: #5a7a94; padding: 6px 14px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
-  .action-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.5); }
-  .action-btn.copied { color: #00ff88; border-color: rgba(0,255,136,0.4); }
-  .progress-track { height: 2px; background: rgba(30,158,255,0.08); width: 100%; }
-  .progress-fill { height: 2px; background: linear-gradient(90deg, #1e9eff, #00ff88); transition: width 0.5s ease; }
+  .action-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; background: none; border: 1px solid var(--border-bright); color: var(--text-secondary); padding: 6px 14px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+  .action-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .action-btn.copied { color: #22cc66; border-color: rgba(34,204,102,0.5); }
+  .progress-track { height: 2px; background: var(--border); width: 100%; }
+  .progress-fill { height: 2px; background: linear-gradient(90deg, var(--accent), #22cc66); transition: width 0.5s ease; }
 
   .main-wrap { max-width: 1100px; margin: 0 auto; padding: 28px 40px 80px; display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
 
   /* Checked results panel */
   .checked-panel { }
-  .panel-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 12px; }
+  .panel-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
   .results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px; }
-  .r-card { background: #060d15; border: 1px solid rgba(30,158,255,0.07); padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; position: relative; overflow: hidden; transition: border-color 0.25s, opacity 0.25s; }
-  .r-card.found { background: #050f0a; border-color: rgba(0,255,136,0.25); }
-  .r-card.found::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #00ff88, rgba(0,255,136,0.3)); }
+  .r-card { background: var(--bg-card); border: 1px solid var(--border); padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; position: relative; overflow: hidden; transition: border-color 0.25s, opacity 0.25s; }
+  .r-card.found { background: var(--bg-card-hover); border-color: rgba(34,204,102,0.4); }
+  .r-card.found::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #22cc66, rgba(34,204,102,0.3)); }
   .r-card.not_found { opacity: 0.18; }
   .r-card.checking { opacity: 0.45; }
-  .r-card.error { border-color: rgba(255,170,0,0.18); }
+  .r-card.error { border-color: rgba(255,170,0,0.35); }
   .r-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-  .r-name { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #9ab0c4; letter-spacing: 0.3px; }
-  .r-card.found .r-name { color: #c8e8d0; font-size: 16px; }
-  .r-cat { font-family: 'Share Tech Mono', monospace; font-size: 7px; letter-spacing: 1px; color: #1e3550; text-transform: uppercase; flex-shrink: 0; }
-  .r-status { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; }
-  .r-status.found { color: #00ff88; }
-  .r-status.not_found { color: #1e3550; }
-  .r-status.checking { color: #1e5080; animation: blink 1.4s infinite; }
-  .r-status.error { color: #7a5a00; }
-  .r-link { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #00ff88; text-decoration: none; text-transform: uppercase; margin-top: 2px; display: inline-block; transition: opacity 0.2s; }
+  .r-name { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.3px; }
+  .r-card.found .r-name { color: var(--text-primary); font-size: 16px; }
+  .r-cat { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; color: var(--text-muted); text-transform: uppercase; flex-shrink: 0; }
+  .r-status { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .r-status.found { color: #22cc66; }
+  .r-status.not_found { color: var(--text-muted); }
+  .r-status.checking { color: var(--accent); animation: blink 1.4s infinite; }
+  .r-status.error { color: #ffaa00; }
+  .r-link { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; color: #22cc66; text-decoration: none; text-transform: uppercase; margin-top: 2px; display: inline-block; transition: opacity 0.2s; }
   .r-link:hover { opacity: 0.7; }
-  .r-err-link { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 1px; color: #7a5a00; text-decoration: none; text-transform: uppercase; margin-top: 2px; display: inline-block; }
+  .r-err-link { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; color: #ffaa00; text-decoration: none; text-transform: uppercase; margin-top: 2px; display: inline-block; }
   .r-err-link:hover { color: #ffaa00; }
-  .r-url { font-family: 'Share Tech Mono', monospace; font-size: 8px; color: #1a4428; letter-spacing: 0.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .r-url { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   /* Manual links panel */
-  .manual-panel { background: #050c18; border: 1px solid rgba(30,158,255,0.1); padding: 20px; }
+  .manual-panel { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; }
   .manual-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-  .manual-title { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-  .manual-note { font-family: 'Barlow', sans-serif; font-size: 11px; color: #3d5870; line-height: 1.5; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.07); }
-  .open-all-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; color: #1e9eff; background: rgba(30,158,255,0.06); border: 1px solid rgba(30,158,255,0.2); padding: 5px 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
-  .open-all-btn:hover { background: rgba(30,158,255,0.12); }
+  .manual-title { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+  .manual-note { font-family: var(--font-display); font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .open-all-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; color: var(--accent); background: var(--bg-card-hover); border: 1px solid var(--border-bright); padding: 5px 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
+  .open-all-btn:hover { background: var(--bg-card-hover); }
   .manual-list { display: flex; flex-direction: column; gap: 1px; }
-  .manual-link { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(3,6,8,0.6); text-decoration: none; transition: all 0.2s; }
-  .manual-link:hover { background: rgba(30,158,255,0.05); }
-  .manual-link-name { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: #5a7a94; }
-  .manual-link:hover .manual-link-name { color: #1e9eff; }
-  .manual-link-cat { font-family: 'Share Tech Mono', monospace; font-size: 7px; letter-spacing: 1px; color: #1e3550; text-transform: uppercase; }
-  .manual-link-arrow { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #1e3550; }
-  .manual-link:hover .manual-link-arrow { color: #1e9eff; }
+  .manual-link { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: var(--bg-secondary); text-decoration: none; transition: all 0.2s; }
+  .manual-link:hover { background: var(--bg-card-hover); }
+  .manual-link-name { font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-secondary); }
+  .manual-link:hover .manual-link-name { color: var(--accent); }
+  .manual-link-cat { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; color: var(--text-muted); text-transform: uppercase; }
+  .manual-link-arrow { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+  .manual-link:hover .manual-link-arrow { color: var(--accent); }
 
   .empty-state { padding: 48px 40px; max-width: 1100px; margin: 0 auto; }
   .empty-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-  .empty-card { background: #040b14; border: 1px solid rgba(30,158,255,0.04); padding: 14px 16px; }
-  .empty-name { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; color: #1e3550; letter-spacing: 0.3px; }
-  .empty-cat { font-family: 'Share Tech Mono', monospace; font-size: 7px; letter-spacing: 1px; color: #0d1e2e; text-transform: uppercase; margin-top: 4px; }
+  .empty-card { background: var(--bg-card); border: 1px solid var(--border); padding: 14px 16px; }
+  .empty-name { font-family: var(--font-display); font-size: 13px; color: var(--text-muted); letter-spacing: 0.3px; }
+  .empty-cat { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
 
-  footer { border-top: 1px solid rgba(30,158,255,0.08); padding: 28px 40px; background: #040810; }
+  footer { border-top: 1px solid var(--border); padding: 28px 40px; background: var(--bg-secondary); }
   .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-  .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
+  .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
 
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
   @media (max-width: 960px) { .main-wrap { grid-template-columns: 1fr; } .manual-panel { order: -1; } }
   @media (max-width: 768px) {
-    nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
     .back-bar, .hero { padding-left: 20px; padding-right: 20px; }
     .search-wrap, .scan-status, .main-wrap, .empty-state, footer { padding-left: 20px; padding-right: 20px; }
     .hero { padding-top: 40px; padding-bottom: 28px; }
@@ -206,7 +189,6 @@ export default function UsernameHunter() {
   const [done, setDone] = useState(0);
   const [copied, setCopied] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [target, setTarget] = useState('');
   const abortRef = useRef<AbortController | null>(null);
 
@@ -302,27 +284,7 @@ export default function UsernameHunter() {
   return (
     <>
       <style>{STYLE}</style>
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-          <ul className="nav-links">
-            <li><a href="/osint">OSINT Hub</a></li>
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => setMenuOpen(o => !o)}>
-            <span /><span /><span />
-          </div>
-        </nav>
-
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>✕ Close</button>
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/osint" onClick={() => setMenuOpen(false)}>OSINT Hub</a>
-          <a href="/cybersecurity" onClick={() => setMenuOpen(false)}>Cybersecurity</a>
-          <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
         </div>
@@ -330,10 +292,10 @@ export default function UsernameHunter() {
         <div className="hero">
           <div className="hero-inner">
             <div className="hero-eyebrow">
-              <div className="hero-eyebrow-line" />
+              <div className="hero-eyebrow-line" aria-hidden="true" />
               <div className="hero-eyebrow-text">OSINT Hub · Identity Intelligence</div>
             </div>
-            <div className="hero-title">Account <span>Finder</span></div>
+            <h1 className="hero-title">Account <span>Finder</span></h1>
             <p className="hero-desc">
               Check {CHECKED.length} platforms for a username, plus quick links to {MANUAL.length} more.
             </p>
@@ -344,12 +306,13 @@ export default function UsernameHunter() {
           <div className="search-box">
             <input
               className="search-input"
+              aria-label="Username to search"
               placeholder="Enter username — e.g. johndoe"
               value={username}
               onChange={e => setUsername(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !scanning && scan()}
             />
-            <button className="search-btn" onClick={() => scan()} disabled={scanning || !username.trim()}>
+            <button type="button" className="search-btn" onClick={() => scan()} disabled={scanning || !username.trim()}>
               {scanning ? 'Scanning...' : 'Hunt →'}
             </button>
           </div>
@@ -363,7 +326,7 @@ export default function UsernameHunter() {
             <div className="history-row">
               <span className="history-label">Recent:</span>
               {history.map(h => (
-                <button key={h} className="history-chip" onClick={() => { setUsername(h); scan(h); }}>{h}</button>
+                <button type="button" key={h} className="history-chip" onClick={() => { setUsername(h); scan(h); }}>{h}</button>
               ))}
             </div>
           )}
@@ -371,7 +334,7 @@ export default function UsernameHunter() {
 
         {results.length > 0 ? (
           <>
-            <div className="scan-status">
+            <div className="scan-status" aria-live="polite">
               <div className="scan-top">
                 <div className={`scan-text${scanning ? ' pulse' : ''}`}>
                   {scanning
@@ -381,7 +344,7 @@ export default function UsernameHunter() {
                 <div className="scan-actions">
                   <div className="scan-meta">{done}/{total}</div>
                   {!scanning && foundCount > 0 && (
-                    <button className={`action-btn${copied ? ' copied' : ''}`} onClick={copyFound}>
+                    <button type="button" className={`action-btn${copied ? ' copied' : ''}`} onClick={copyFound}>
                       {copied ? '✓ Copied' : `Copy ${foundCount} Found`}
                     </button>
                   )}
@@ -426,7 +389,7 @@ export default function UsernameHunter() {
                 <div className="manual-header">
                   <div className="manual-title">Quick Links ({MANUAL.length})</div>
                   {target && (
-                    <button className="open-all-btn" onClick={openAllManual}>Open All</button>
+                    <button type="button" className="open-all-btn" onClick={openAllManual}>Open All</button>
                   )}
                 </div>
                 <div className="manual-note">
@@ -468,7 +431,7 @@ export default function UsernameHunter() {
             <div className="footer-copy">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -19,56 +19,39 @@ export default function AccountTrackerPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
-        .page-wrap { padding-top: 70px; min-height: 100vh; background: #030608; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
-        .tool-hero { padding: 60px 40px 50px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .page-wrap { padding-top: 70px; min-height: 100vh; background: var(--bg-primary); }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
+        .tool-hero { padding: 60px 40px 50px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 700px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent);  }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; max-width: 700px; }
         .search-wrap { padding: 60px 40px; max-width: 1100px; margin: 0 auto; }
-        .search-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; }
-        .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
-        .search-box:focus-within { border-color: rgba(30,158,255,0.5); }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 20px 24px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 2px; }
-        .search-input::placeholder { color: #5a7a94; }
-        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 20px 40px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
-        .search-btn:hover { background: #4dffaa; }
-        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
+        .search-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px; }
+        .search-box { display: flex; border: 1px solid var(--border-bright); background: var(--bg-card); }
+        .search-box:focus-within { border-color: var(--accent); }
+        .search-input { flex: 1; background: none; border: none; padding: 20px 24px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.05em; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #000; background: var(--accent); border: none; padding: 20px 40px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-btn:hover { background: #4db3ff; }
+        .search-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
         .hint-section { padding: 0 40px 60px; max-width: 1100px; margin: 0 auto; }
-        .hint-title { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; }
+        .hint-title { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px; }
         .hint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .hint-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px; }
-        .hint-card-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-bottom: 8px; }
-        .hint-card-text { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.6; }
-        .hint-card-example { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #5a7a94; margin-top: 10px; word-break: break-all; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; }
+        .hint-card { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; }
+        .hint-card-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+        .hint-card-text { font-size: 13px; font-weight: 400; color: var(--text-secondary); line-height: 1.6; }
+        .hint-card-example { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-top: 10px; word-break: break-all; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .tool-hero, .search-wrap, .hint-section { padding-left: 20px; padding-right: 20px; }
           .search-box { flex-direction: column; }
           .hint-grid { grid-template-columns: 1fr; }
@@ -77,33 +60,7 @@ export default function AccountTrackerPage() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report</div>
-          </a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => document.getElementById('acctMenu')?.classList.toggle('open')}>
-            <span /><span /><span />
-          </div>
-        </nav>
-
-        <div className="mobile-menu" id="acctMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('acctMenu')?.classList.remove('open')}>✕ Close</button>
-          <a href="/">Home</a>
-          <a href="/osint">OSINT Hub</a>
-          <a href="/osint/polymarket">Polymarket</a>
-          <a href="/cybersecurity">Cybersecurity</a>
-          <a href="/about">About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint/polymarket" className="back-link">← Back to Polymarket Tracker</a>
         </div>
@@ -111,10 +68,10 @@ export default function AccountTrackerPage() {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">Polymarket — Wallet Intelligence</div>
             </div>
-            <div className="tool-title">Account Tracker</div>
+            <h1 className="tool-title">Account Tracker</h1>
             <p className="tool-desc">
               Enter any Polymarket wallet address to surface open positions, trade history, and portfolio concentration.
               Identify conviction bets, track smart money, and flag unusual activity. OSINT leads — not proof.
@@ -127,6 +84,7 @@ export default function AccountTrackerPage() {
           <div className="search-box">
             <input
               className="search-input"
+              aria-label="Wallet address or Polymarket profile URL"
               placeholder="0x... or https://polymarket.com/profile/0x..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -134,6 +92,7 @@ export default function AccountTrackerPage() {
               autoFocus
             />
             <button
+              type="button"
               className="search-btn"
               onClick={handleTrack}
               disabled={!input.trim()}
@@ -144,7 +103,7 @@ export default function AccountTrackerPage() {
         </div>
 
         <div className="hint-section">
-          <div className="hint-title">How to find a wallet address</div>
+          <h2 className="hint-title">How to find a wallet address</h2>
           <div className="hint-grid">
             <div className="hint-card">
               <div className="hint-card-label">Raw Wallet Address</div>
@@ -167,10 +126,10 @@ export default function AccountTrackerPage() {
         <footer>
           <div className="footer-bottom">
             <div className="footer-copy">© 2026 The Rudd Report</div>
-            
+
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

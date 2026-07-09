@@ -149,7 +149,7 @@ function drawSkyPlot(
     ctx.stroke();
     ctx.setLineDash([]);
     ctx.fillStyle = '#5a7a94';
-    ctx.font = '9px Share Tech Mono';
+    ctx.font = "9px 'IBM Plex Mono', monospace";
     ctx.fillText(`${el}°`, cx + 4, cy - r + 11);
   }
   // Center dot (zenith)
@@ -175,7 +175,7 @@ function drawSkyPlot(
     ctx.stroke();
     const isMain = d.az % 90 === 0;
     ctx.fillStyle = isMain ? '#7a9bb5' : '#5a7a94';
-    ctx.font = isMain ? 'bold 11px Share Tech Mono' : '9px Share Tech Mono';
+    ctx.font = isMain ? "bold 11px 'IBM Plex Mono', monospace" : "9px 'IBM Plex Mono', monospace";
     const lx = cx + (R + 18) * Math.cos(rad) - (d.label.length * 3);
     const ly = cy + (R + 18) * Math.sin(rad) + 4;
     ctx.fillText(d.label, lx, ly);
@@ -210,7 +210,7 @@ function drawSkyPlot(
     ctx.fillStyle = '#00ff88';
     ctx.fill();
     ctx.fillStyle = '#00ff88';
-    ctx.font = '9px Share Tech Mono';
+    ctx.font = "9px 'IBM Plex Mono', monospace";
     ctx.fillText('AOS', cx + aR * Math.cos(aRad) + 8, cy + aR * Math.sin(aRad) - 6);
 
     // LOS marker (red)
@@ -222,7 +222,7 @@ function drawSkyPlot(
     ctx.fillStyle = '#ff3a3a';
     ctx.fill();
     ctx.fillStyle = '#ff3a3a';
-    ctx.font = '9px Share Tech Mono';
+    ctx.font = "9px 'IBM Plex Mono', monospace";
     ctx.fillText('LOS', cx + lR * Math.cos(lRad) + 8, cy + lR * Math.sin(lRad) + 12);
   }
 
@@ -247,7 +247,7 @@ function drawSkyPlot(
 
   // Title
   ctx.fillStyle = 'rgba(30,158,255,0.5)';
-  ctx.font = '9px Share Tech Mono';
+  ctx.font = "9px 'IBM Plex Mono', monospace";
   ctx.fillText('SKY PLOT — NEXT PASS', 12, 20);
   if (satName) {
     ctx.fillStyle = '#7a9bb5';
@@ -795,202 +795,187 @@ export default function SatelliteTracker() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
         @keyframes satPulse { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(2.2);opacity:0} }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 12px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; align-items: center; justify-content: space-between; }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #00ff88; }
-        .utc-clock { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1e9eff; }
-        .tool-hero { padding: 48px 40px 36px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .back-bar { padding: 12px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: #22cc66; }
+        .utc-clock { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); }
+        .tool-hero { padding: 48px 40px 36px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1300px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
         .tool-hero-text { flex: 1; min-width: 260px; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff;  }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(26px, 3.5vw, 48px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .tool-desc { font-size: 14px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 560px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent);  }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 48px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+        .tool-desc { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; max-width: 560px; }
         .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
         .hero-stat { display: flex; flex-direction: column; gap: 4px; }
-        .hero-stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #00ff88; }
-        .hero-stat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
+        .hero-stat-num { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #22cc66; }
+        .hero-stat-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
         .main-wrap { max-width: 1300px; margin: 0 auto; padding: 32px 40px 80px; }
-        .search-row { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; margin-bottom: 14px; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 13px 20px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
-        .search-input::placeholder { color: #5a7a94; }
-        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 13px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-row { display: flex; border: 1px solid var(--border-bright); background: var(--bg-card); margin-bottom: 14px; }
+        .search-input { flex: 1; background: none; border: none; padding: 13px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.05em; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-btn { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--bg-primary); background: var(--accent); border: none; padding: 13px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
+        .search-btn:disabled { background: #1a3a52; color: var(--text-muted); cursor: not-allowed; }
         .presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; align-items: center; }
-        .preset-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .preset-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #00ff88; background: none; border: 1px solid rgba(0,255,136,0.22); padding: 6px 13px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
-        .preset-btn:hover { background: rgba(0,255,136,0.08); border-color: #00ff88; }
-        .search-results { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); margin-bottom: 20px; }
-        .search-result-item { padding: 11px 20px; border-bottom: 1px solid rgba(30,158,255,0.06); cursor: pointer; transition: background 0.2s; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .preset-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+        .preset-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #22cc66; background: none; border: 1px solid rgba(34,204,102,0.22); padding: 6px 13px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+        .preset-btn:hover { background: rgba(34,204,102,0.08); border-color: #22cc66; }
+        .search-results { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 20px; }
+        .search-result-item { padding: 11px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.2s; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
         .search-result-item:last-child { border-bottom: none; }
         .search-result-item:hover { background: rgba(30,158,255,0.06); }
-        .sat-name { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #c0cfe0; }
-        .sat-norad { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; white-space: nowrap; }
-        .content-grid { display: grid; grid-template-columns: 1fr 380px; gap: 0; margin-bottom: 2px; border: 1px solid rgba(30,158,255,0.18); }
-        .viz-panel { background: #050d14; border-right: 1px solid rgba(30,158,255,0.18); position: relative; display: flex; flex-direction: column; align-self: stretch; }
-        .passes-preview { flex: 1; border-top: 1px solid rgba(30,158,255,0.15); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-        .passes-preview-header { padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(30,158,255,0.08); flex-shrink: 0; }
-        .passes-preview-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .passes-preview-hint { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #5a7a94; }
+        .sat-name { font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); }
+        .sat-norad { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); white-space: nowrap; }
+        .content-grid { display: grid; grid-template-columns: 1fr 380px; gap: 0; margin-bottom: 2px; border: 1px solid var(--border); }
+        .viz-panel { background: var(--bg-secondary); border-right: 1px solid var(--border); position: relative; display: flex; flex-direction: column; align-self: stretch; }
+        .passes-preview { flex: 1; border-top: 1px solid var(--border); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+        .passes-preview-header { padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+        .passes-preview-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; }
+        .passes-preview-hint { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
         .passes-preview-list { display: flex; flex-direction: column; overflow-y: auto; flex: 1; }
-        .pass-preview-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; border-bottom: 1px solid rgba(30,158,255,0.05); padding: 10px 20px; align-items: center; }
+        .pass-preview-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); padding: 10px 20px; align-items: center; }
         .pass-preview-row:last-child { border-bottom: none; }
-        .pass-preview-time { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; letter-spacing: 0.5px; }
-        .pass-preview-sub { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #5a7a94; margin-top: 2px; }
-        .pass-preview-el { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #00ff88; }
-        .pass-preview-el-label { font-family: 'Share Tech Mono', monospace; font-size: 8px; color: #5a7a94; letter-spacing: 2px; }
-        .pass-preview-dir { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #7a9bb5; }
-        .pass-preview-vis { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; }
-        .passes-preview-empty { flex: 1; display: flex; align-items: center; justify-content: center; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; text-align: center; padding: 20px; line-height: 2; }
-        .viz-tabs { display: flex; border-bottom: 1px solid rgba(30,158,255,0.18); flex-shrink: 0; background: #070e16; }
-        .viz-tab { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; padding: 12px 24px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #5a7a94; border-right: 1px solid rgba(30,158,255,0.1); transition: all 0.2s; position: relative; }
-        .viz-tab.active { color: #00ffff; background: rgba(0,255,255,0.04); }
-        .viz-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #00ffff; }
-        .viz-tab:hover:not(.active) { color: #7a9bb5; background: rgba(30,158,255,0.03); }
+        .pass-preview-time { font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); letter-spacing: 0.02em; }
+        .pass-preview-sub { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+        .pass-preview-el { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: #22cc66; }
+        .pass-preview-el-label { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; }
+        .pass-preview-dir { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); }
+        .pass-preview-vis { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
+        .passes-preview-empty { flex: 1; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; text-align: center; padding: 20px; line-height: 2; }
+        .viz-tabs { display: flex; border-bottom: 1px solid var(--border); flex-shrink: 0; background: var(--bg-secondary); }
+        .viz-tab { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; padding: 12px 24px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: var(--text-muted); border-right: 1px solid var(--border); transition: all 0.2s; position: relative; }
+        .viz-tab.active { color: #00c9b0; background: rgba(0,201,176,0.04); }
+        .viz-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #00c9b0; }
+        .viz-tab:hover:not(.active) { color: var(--text-secondary); background: rgba(30,158,255,0.03); }
         .map-inner { width: 100%; height: 520px; display: block; position: relative; isolation: isolate; }
         .map-hud { position: absolute; bottom: 12px; left: 12px; z-index: 500; pointer-events: none; display: flex; flex-direction: column; gap: 6px; }
-        .map-hud-sat { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #00ffff; background: rgba(3,6,8,0.82); border: 1px solid rgba(0,255,255,0.25); padding: 6px 12px; backdrop-filter: blur(8px); white-space: nowrap; }
-        .map-hud-coords { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #7a9bb5; background: rgba(3,6,8,0.75); border: 1px solid rgba(30,158,255,0.2); padding: 5px 12px; backdrop-filter: blur(8px); white-space: nowrap; }
-        .map-hud-allsats { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #00ffff; background: rgba(3,6,8,0.82); border: 1px solid rgba(0,255,255,0.3); padding: 6px 12px; backdrop-filter: blur(8px); }
+        .map-hud-sat { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #00c9b0; background: rgba(8,8,10,0.82); border: 1px solid rgba(0,201,176,0.25); padding: 6px 12px; backdrop-filter: blur(8px); white-space: nowrap; }
+        .map-hud-coords { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); background: rgba(8,8,10,0.75); border: 1px solid var(--border); padding: 5px 12px; backdrop-filter: blur(8px); white-space: nowrap; }
+        .map-hud-allsats { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #00c9b0; background: rgba(8,8,10,0.82); border: 1px solid rgba(0,201,176,0.3); padding: 6px 12px; backdrop-filter: blur(8px); }
         .leaflet-container { position: relative !important; }
         .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; }
         .leaflet-tile { filter: none; visibility: hidden; }
         .leaflet-tile-loaded { visibility: inherit; }
-        .leaflet-control-zoom { border: 1px solid rgba(30,158,255,0.25) !important; border-radius: 0 !important; overflow: hidden; }
-        .leaflet-control-zoom a { background: rgba(7,14,22,0.92) !important; color: #1e9eff !important; border-bottom: 1px solid rgba(30,158,255,0.15) !important; font-size: 16px !important; font-weight: 400 !important; width: 28px !important; height: 28px !important; line-height: 28px !important; transition: background 0.2s; }
+        .leaflet-control-zoom { border: 1px solid var(--border-bright) !important; border-radius: 0 !important; overflow: hidden; }
+        .leaflet-control-zoom a { background: rgba(13,13,16,0.92) !important; color: var(--accent) !important; border-bottom: 1px solid var(--border) !important; font-size: 16px !important; font-weight: 400 !important; width: 28px !important; height: 28px !important; line-height: 28px !important; transition: background 0.2s; }
         .leaflet-control-zoom a:hover { background: rgba(30,158,255,0.15) !important; color: #fff !important; }
-        .leaflet-control-attribution { background: rgba(3,6,8,0.7) !important; color: #5a7a94 !important; font-size: 9px !important; backdrop-filter: blur(8px); border: none !important; padding: 3px 8px !important; }
-        .leaflet-control-attribution a { color: #1e9eff !important; }
-        .sky-canvas-wrap { display: flex; align-items: center; justify-content: center; padding: 12px; height: 520px; background: #030608; }
-        .info-panel { background: #070e16; display: flex; flex-direction: column; overflow-y: auto; }
-        .info-sat-header { padding: 18px 22px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); }
-        .info-sat-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; word-break: break-all; line-height: 1.3; }
+        .leaflet-control-attribution { background: rgba(8,8,10,0.7) !important; color: var(--text-muted) !important; font-size: 12px !important; backdrop-filter: blur(8px); border: none !important; padding: 3px 8px !important; }
+        .leaflet-control-attribution a { color: var(--accent) !important; }
+        .sky-canvas-wrap { display: flex; align-items: center; justify-content: center; padding: 12px; height: 520px; background: var(--bg-primary); }
+        .info-panel { background: var(--bg-secondary); display: flex; flex-direction: column; overflow-y: auto; }
+        .info-sat-header { padding: 18px 22px; border-bottom: 1px solid var(--border); background: rgba(30,158,255,0.04); }
+        .info-sat-name { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; word-break: break-all; line-height: 1.3; }
         .info-sat-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
-        .info-sat-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 3px 9px; text-transform: uppercase; }
-        .badge-norad { color: #5a7a94; border: 1px solid rgba(30,158,255,0.15); }
-        .badge-orbit { color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); background: rgba(245,158,11,0.05); }
-        .badge-live { color: #00ff88; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.05); }
-        .info-section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; padding: 12px 22px 8px; background: rgba(30,158,255,0.03); border-bottom: 1px solid rgba(30,158,255,0.06); border-top: 1px solid rgba(30,158,255,0.06); }
+        .info-sat-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; padding: 3px 9px; text-transform: uppercase; }
+        .badge-norad { color: var(--text-muted); border: 1px solid var(--border); }
+        .badge-orbit { color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); background: rgba(255,170,0,0.05); }
+        .badge-live { color: #22cc66; border: 1px solid rgba(34,204,102,0.3); background: rgba(34,204,102,0.05); }
+        .info-section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; padding: 12px 22px 8px; background: rgba(30,158,255,0.03); border-bottom: 1px solid var(--border); border-top: 1px solid var(--border); }
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; }
-        .info-field { padding: 12px 22px; border-bottom: 1px solid rgba(30,158,255,0.05); border-right: 1px solid rgba(30,158,255,0.05); }
+        .info-field { padding: 12px 22px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
         .info-field:nth-child(even) { border-right: none; }
         .info-field.full { grid-column: 1 / -1; border-right: none; }
-        .field-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 5px; }
-        .field-value { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; letter-spacing: 1px; }
-        .field-value.cyan { color: #00ffff; }
-        .field-value.green { color: #00ff88; }
-        .field-value.amber { color: #f59e0b; }
-        .field-value.red { color: #ff3a3a; }
-        .field-value.purple { color: #a78bfa; }
-        .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; margin-right: 8px; animation: pulse 2s infinite; vertical-align: middle; }
-        .countdown-box { padding: 14px 22px; border-bottom: 1px solid rgba(30,158,255,0.08); background: rgba(0,255,136,0.03); }
-        .countdown-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 4px; }
-        .countdown-value { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #00ff88; letter-spacing: 2px; }
-        .telem-cell { padding: 14px 20px; border-right: 1px solid rgba(30,158,255,0.08); border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; flex-direction: column; gap: 5px; }
-        .telem-label { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .telem-value { font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 1px; color: #c0cfe0; }
-        .observer-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); margin-bottom: 2px; }
+        .field-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+        .field-value { font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.05em; }
+        .field-value.cyan { color: #00c9b0; }
+        .field-value.green { color: #22cc66; }
+        .field-value.amber { color: #ffaa00; }
+        .field-value.red { color: var(--red); }
+        .field-value.purple { color: #b464ff; }
+        .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #22cc66; box-shadow: 0 0 8px #22cc66; margin-right: 8px; animation: pulse 2s infinite; vertical-align: middle; }
+        .countdown-box { padding: 14px 22px; border-bottom: 1px solid var(--border); background: rgba(34,204,102,0.03); }
+        .countdown-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .countdown-value { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: #22cc66; letter-spacing: 0.05em; }
+        .telem-cell { padding: 14px 20px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 5px; }
+        .telem-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+        .telem-value { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: var(--text-primary); }
+        .observer-section { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 2px; }
         .observer-main { padding: 24px 28px; }
-        .observer-modify-bar { border-top: 1px solid rgba(30,158,255,0.08); padding: 12px 28px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; }
+        .observer-modify-bar { border-top: 1px solid var(--border); padding: 12px 28px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; }
         .observer-modify-bar:hover { background: rgba(30,158,255,0.03); }
-        .observer-modify-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; }
-        .observer-modify-toggle { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
-        .observer-postal-form { border-top: 1px solid rgba(30,158,255,0.1); padding: 20px 28px; background: rgba(30,158,255,0.02); }
-        .postal-form-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #7a9bb5; text-transform: uppercase; margin-bottom: 14px; }
+        .observer-modify-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; }
+        .observer-modify-toggle { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .observer-postal-form { border-top: 1px solid var(--border); padding: 20px 28px; background: rgba(30,158,255,0.02); }
+        .postal-form-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 14px; }
         .postal-inputs { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
-        .postal-select { background: #050d14; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 9px 14px; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #d8e8f5; letter-spacing: 1px; appearance: none; cursor: pointer; min-width: 200px; }
-        .postal-select:focus { border-color: rgba(30,158,255,0.5); }
-        .postal-input { background: #050d14; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 9px 14px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 2px; width: 160px; }
-        .postal-input:focus { border-color: rgba(30,158,255,0.5); }
-        .postal-input::placeholder { color: #5a7a94; }
-        .postal-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.3); padding: 9px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
-        .postal-btn:hover { background: rgba(30,158,255,0.08); border-color: rgba(30,158,255,0.6); }
-        .postal-btn:disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; }
-        .postal-result { margin-top: 10px; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #00ff88; letter-spacing: 1px; }
-        .section-header-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #00ff88; text-transform: uppercase; margin-bottom: 5px; }
-        .section-header-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px; }
+        .postal-select { background: var(--bg-secondary); border: 1px solid var(--border-bright); padding: 9px 14px; font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); letter-spacing: 0.05em; appearance: none; cursor: pointer; min-width: 200px; }
+        .postal-select:focus { border-color: var(--accent); }
+        .postal-input { background: var(--bg-secondary); border: 1px solid var(--border-bright); padding: 9px 14px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.05em; width: 160px; }
+        .postal-input:focus { border-color: var(--accent); }
+        .postal-input::placeholder { color: var(--text-muted); }
+        .postal-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); background: none; border: 1px solid var(--border-bright); padding: 9px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
+        .postal-btn:hover { background: rgba(30,158,255,0.08); border-color: var(--accent); }
+        .postal-btn:disabled { color: var(--text-muted); border-color: var(--border); cursor: not-allowed; }
+        .postal-result { margin-top: 10px; font-family: var(--font-mono); font-size: 12px; color: #22cc66; letter-spacing: 0.05em; }
+        .section-header-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: #22cc66; text-transform: uppercase; margin-bottom: 5px; }
+        .section-header-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 18px; }
         .obs-inputs { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
         .obs-field { display: flex; flex-direction: column; gap: 5px; }
-        .obs-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .obs-input { background: #050d14; border: 1px solid rgba(30,158,255,0.2); outline: none; padding: 9px 14px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; width: 136px; }
-        .obs-input:focus { border-color: rgba(30,158,255,0.5); }
+        .obs-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+        .obs-input { background: var(--bg-secondary); border: 1px solid var(--border-bright); padding: 9px 14px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.05em; width: 136px; }
+        .obs-input:focus { border-color: var(--accent); }
         .obs-input.narrow { width: 80px; }
-        .geo-btn { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #7a9bb5; background: none; border: 1px solid rgba(30,158,255,0.15); padding: 9px 14px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
-        .geo-btn:hover { border-color: rgba(30,158,255,0.4); color: #1e9eff; }
-        .predict-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #00ff88; border: none; padding: 10px 22px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .geo-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); background: none; border: 1px solid var(--border-bright); padding: 9px 14px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
+        .geo-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .predict-btn { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--bg-primary); background: #22cc66; border: none; padding: 10px 22px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .predict-btn:hover { background: #33ffaa; }
-        .predict-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .passes-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); margin-bottom: 2px; }
-        .passes-header { padding: 18px 28px; border-bottom: 1px solid rgba(30,158,255,0.1); background: rgba(30,158,255,0.04); }
-        .pass-card { border-bottom: 1px solid rgba(30,158,255,0.06); padding: 18px 28px; transition: background 0.2s; }
+        .predict-btn:disabled { background: #1a3a52; color: var(--text-muted); cursor: not-allowed; }
+        .passes-section { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 2px; }
+        .passes-header { padding: 18px 28px; border-bottom: 1px solid var(--border); background: rgba(30,158,255,0.04); }
+        .pass-card { border-bottom: 1px solid var(--border); padding: 18px 28px; transition: background 0.2s; }
         .pass-card:last-child { border-bottom: none; }
         .pass-card:hover { background: rgba(30,158,255,0.025); }
         .pass-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; flex-wrap: wrap; }
-        .pass-num { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; color: #5a7a94; }
+        .pass-num { font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--text-muted); }
         .pass-badges { display: flex; gap: 6px; flex-wrap: wrap; }
-        .pass-vis { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 3px 10px; text-transform: uppercase; }
-        .pass-vis.night { color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); background: rgba(30,158,255,0.06); }
-        .pass-vis.daylight { color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); background: rgba(245,158,11,0.06); }
-        .pass-vis.twilight { color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); background: rgba(167,139,250,0.06); }
+        .pass-vis { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; padding: 3px 10px; text-transform: uppercase; }
+        .pass-vis.night { color: var(--accent); border: 1px solid rgba(30,158,255,0.3); background: rgba(30,158,255,0.06); }
+        .pass-vis.daylight { color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); background: rgba(255,170,0,0.06); }
+        .pass-vis.twilight { color: #b464ff; border: 1px solid rgba(180,100,255,0.3); background: rgba(180,100,255,0.06); }
         .pass-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-        .pass-field-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; margin-bottom: 5px; }
-        .pass-field-value { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; }
-        .pass-field-value.accent { font-size: 20px; color: #00ff88; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; }
-        .show-more-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #1e9eff; background: none; border: none; cursor: pointer; padding: 14px 28px; text-transform: uppercase; width: 100%; text-align: left; border-top: 1px solid rgba(30,158,255,0.08); transition: color 0.2s; }
+        .pass-field-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+        .pass-field-value { font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); }
+        .pass-field-value.accent { font-size: 20px; color: #22cc66; font-family: var(--font-display); font-weight: 700; }
+        .show-more-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); background: none; border: none; cursor: pointer; padding: 14px 28px; text-transform: uppercase; width: 100%; text-align: left; border-top: 1px solid var(--border); transition: color 0.2s; }
         .show-more-btn:hover { color: #4db8ff; }
-        .tle-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); margin-bottom: 2px; }
-        .tle-header { padding: 16px 28px; border-bottom: 1px solid rgba(30,158,255,0.08); display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
+        .tle-section { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 2px; }
+        .tle-header { padding: 16px 28px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
         .tle-header:hover { background: rgba(30,158,255,0.03); }
-        .tle-toggle { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .tle-toggle { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
         .tle-body { padding: 20px 28px; }
-        .tle-line { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #7a9bb5; letter-spacing: 1px; margin-bottom: 8px; line-height: 1.8; word-break: break-all; }
-        .tle-line span { color: #1e9eff; margin-right: 12px; }
-        .credit-section { background: #0a1520; border: 1px solid rgba(0,255,136,0.12); padding: 24px 28px; margin-bottom: 2px; display: flex; align-items: flex-start; gap: 20px; }
+        .tle-line { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); letter-spacing: 0.05em; margin-bottom: 8px; line-height: 1.8; word-break: break-all; }
+        .tle-line span { color: var(--accent); margin-right: 12px; }
+        .credit-section { background: var(--bg-card); border: 1px solid rgba(34,204,102,0.12); padding: 24px 28px; margin-bottom: 2px; display: flex; align-items: flex-start; gap: 20px; }
         .credit-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
-        .credit-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #00ff88; text-transform: uppercase; margin-bottom: 6px; }
-        .credit-text { font-size: 14px; font-weight: 400; color: #9ab0c4; line-height: 1.8; }
-        .credit-text a { color: #1e9eff; text-decoration: none; transition: color 0.2s; }
+        .credit-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: #22cc66; text-transform: uppercase; margin-bottom: 6px; }
+        .credit-text { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; }
+        .credit-text a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
         .credit-text a:hover { color: #4db8ff; }
-        .osint-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.15); padding: 28px; margin-bottom: 2px; }
+        .osint-section { background: var(--bg-card); border: 1px solid var(--border); padding: 28px; margin-bottom: 2px; }
         .osint-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-top: 18px; }
-        .osint-card { border-left: 2px solid #1e9eff; padding: 14px 18px; background: rgba(30,158,255,0.04); }
-        .osint-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #d8e8f5; margin-bottom: 7px; }
-        .osint-card-desc { font-size: 13px; font-weight: 400; color: #9ab0c4; line-height: 1.7; }
-        .error-msg { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #ff3a3a; padding: 14px 0; text-transform: uppercase; }
+        .osint-card { border-left: 2px solid var(--accent); padding: 14px 18px; background: rgba(30,158,255,0.04); }
+        .osint-card-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 7px; }
+        .osint-card-desc { font-size: 13px; font-weight: 400; color: var(--text-secondary); line-height: 1.7; }
+        .error-msg { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--red); padding: 14px 0; text-transform: uppercase; }
         .loading-wrap { display: flex; align-items: center; gap: 16px; padding: 20px 0; }
         .loading-bars { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
-        .loading-bars span { width: 3px; background: #1e9eff; border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
+        .loading-bars span { width: 3px; background: var(--accent); border-radius: 2px; animation: loadBar 1s ease-in-out infinite; }
         .loading-bars span:nth-child(1){animation-delay:0s} .loading-bars span:nth-child(2){animation-delay:.15s} .loading-bars span:nth-child(3){animation-delay:.3s} .loading-bars span:nth-child(4){animation-delay:.45s} .loading-bars span:nth-child(5){animation-delay:.6s}
-        .loading-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; animation: blink 1.5s infinite; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        .loading-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; animation: blink 1.5s infinite; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-bottom { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
         @keyframes loadBar { 0%,100%{height:4px} 50%{height:20px} }
         @media (max-width: 1000px) { .content-grid { grid-template-columns: 1fr; } .pass-grid { grid-template-columns: repeat(3,1fr); } }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; } .nav-links { display: none; } .hamburger { display: flex; }
           .back-bar { padding: 10px 16px; } .tool-hero { padding: 32px 20px; }
           .main-wrap { padding: 20px 16px 60px; }
           .pass-grid { grid-template-columns: repeat(2,1fr); }
@@ -1005,34 +990,13 @@ export default function SatelliteTracker() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo"><div className="nav-logo-text">The Rudd Report</div></a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#00ff88' }}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => document.getElementById('satMenu')?.classList.toggle('open')}>
-            <span /><span /><span />
-          </div>
-        </nav>
-
-        <div className="mobile-menu" id="satMenu">
-          <button className="mobile-menu-close" onClick={() => document.getElementById('satMenu')?.classList.remove('open')}>✕ Close</button>
-          <a href="/">Home</a><a href="/osint">OSINT Hub</a>
-          <a href="/cybersecurity">Cybersecurity</a><a href="/about">About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <span style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '9px', letterSpacing: '2px', color: '#5a7a94' }}>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: '12px', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>
               Inspired by{' '}
-              <a href="https://github.com/sgoudelis/ground-station" target="_blank" rel="noopener noreferrer" style={{ color: '#1e9eff', textDecoration: 'none' }}>Ground Station</a>
+              <a href="https://github.com/sgoudelis/ground-station" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>Ground Station</a>
               {' '}by Efstratios Goudelis
             </span>
             <div className="utc-clock">UTC {utcClock}</div>
@@ -1043,10 +1007,10 @@ export default function SatelliteTracker() {
           <div className="tool-hero-inner">
             <div className="tool-hero-text">
               <div className="tool-eyebrow">
-                <div className="tool-eyebrow-line" />
+                <div className="tool-eyebrow-line" aria-hidden="true" />
                 <div className="tool-eyebrow-text">OSINT Hub — Geospatial Intelligence</div>
               </div>
-              <div className="tool-title">Satellite Tracker</div>
+              <h1 className="tool-title">Satellite Tracker</h1>
               <p className="tool-desc">Governments and militaries use satellites for communications, surveillance, and intelligence — and their orbits are publicly tracked. Enter any satellite name or NORAD ID to see its live position on the map, trace its ground track, and predict exactly when it will pass over any location on Earth.</p>
             </div>
             <div className="hero-stats">
@@ -1070,10 +1034,11 @@ export default function SatelliteTracker() {
 
           <div className="search-row">
             <input className="search-input"
+              aria-label="Search satellite by name or NORAD ID"
               placeholder="Search satellite name or NORAD ID (e.g. ISS, NOAA 18, 25544)"
               value={query} onChange={e => setQuery(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && doSearch()} />
-            <button className="search-btn" onClick={doSearch} disabled={searchLoading}>
+            <button type="button" className="search-btn" onClick={doSearch} disabled={searchLoading}>
               {searchLoading ? 'Searching...' : 'Search →'}
             </button>
           </div>
@@ -1087,6 +1052,7 @@ export default function SatelliteTracker() {
               return (
                 <button
                   key={p.label}
+                  type="button"
                   className="preset-btn"
                   onClick={() => loadPreset(p)}
                   style={isGroupPreset ? {
@@ -1113,14 +1079,14 @@ export default function SatelliteTracker() {
             </div>
           )}
 
-          {error && <div className="error-msg">{error}</div>}
+          <div aria-live="polite">{error && <div className="error-msg" role="alert">{error}</div>}</div>
 
           <div className="content-grid">
             {/* Visualization panel with tabs */}
             <div className="viz-panel">
               <div className="viz-tabs">
-                <button className={`viz-tab${activeView === 'map' ? ' active' : ''}`} onClick={() => setActiveView('map')}>Ground Track</button>
-                <button className={`viz-tab${activeView === 'skyplot' ? ' active' : ''}`} onClick={() => setActiveView('skyplot')}>Sky Plot</button>
+                <button type="button" className={`viz-tab${activeView === 'map' ? ' active' : ''}`} onClick={() => setActiveView('map')}>Ground Track</button>
+                <button type="button" className={`viz-tab${activeView === 'skyplot' ? ' active' : ''}`} onClick={() => setActiveView('skyplot')}>Sky Plot</button>
               </div>
               <div style={{ position: 'relative', display: activeView === 'map' ? 'block' : 'none' }}>
                 <div ref={mapRef} className="map-inner" />
@@ -1145,7 +1111,7 @@ export default function SatelliteTracker() {
                 <canvas ref={skyCanvasRef} width={420} height={420} style={{ maxWidth: '100%', maxHeight: '420px' }} />
               </div>
               {activeView === 'skyplot' && passes.length === 0 && (
-                <div style={{ position: 'absolute', bottom: '16px', left: 0, right: 0, textAlign: 'center', fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '2px', color: '#5a7a94', pointerEvents: 'none' }}>
+                <div style={{ position: 'absolute', bottom: '16px', left: 0, right: 0, textAlign: 'center', fontFamily: "var(--font-mono)", fontSize: '12px', letterSpacing: '0.05em', color: 'var(--text-muted)', pointerEvents: 'none' }}>
                   Run Pass Predictor to populate sky track
                 </div>
               )}
@@ -1338,18 +1304,18 @@ export default function SatelliteTracker() {
                 </>
               ) : allSatsMode ? (
                 <div style={{ padding: '28px 22px' }}>
-                  <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '3px', color: GROUP_COLORS[PRESETS.find(p => p.label === allSatsMode)?.group || ''] || '#1e9eff', textTransform: 'uppercase', marginBottom: '16px' }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: '12px', letterSpacing: '0.06em', color: GROUP_COLORS[PRESETS.find(p => p.label === allSatsMode)?.group || ''] || 'var(--accent)', textTransform: 'uppercase', marginBottom: '16px' }}>
                     {allSatsMode}
                   </div>
                   {allSatsCount > 0 ? (
                     <>
-                      <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '28px', fontWeight: 700, color: GROUP_COLORS[PRESETS.find(p => p.label === allSatsMode)?.group || ''] || '#00ffff', marginBottom: '8px' }}>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: '28px', fontWeight: 700, color: GROUP_COLORS[PRESETS.find(p => p.label === allSatsMode)?.group || ''] || '#00c9b0', marginBottom: '8px' }}>
                         {allSatsCount.toLocaleString()}
                       </div>
-                      <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '2px', color: '#5a7a94', marginBottom: '20px' }}>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: '12px', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '20px' }}>
                         satellites plotted · updates every 60s
                       </div>
-                      <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '10px', letterSpacing: '1.5px', color: '#7a9bb5', lineHeight: 2 }}>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: '12px', letterSpacing: '0.05em', color: 'var(--text-secondary)', lineHeight: 2 }}>
                         Click any dot on the map to select a satellite for full tracking.
                       </div>
                     </>
@@ -1361,7 +1327,7 @@ export default function SatelliteTracker() {
                   )}
                 </div>
               ) : (
-                <div style={{ padding: '32px 22px', color: '#5a7a94', fontFamily: "'Share Tech Mono',monospace", fontSize: '11px', letterSpacing: '2px', lineHeight: 2 }}>
+                <div style={{ padding: '32px 22px', color: 'var(--text-muted)', fontFamily: "var(--font-mono)", fontSize: '12px', letterSpacing: '0.05em', lineHeight: 2 }}>
                   Select a satellite above to begin tracking
                 </div>
               )}
@@ -1377,7 +1343,7 @@ export default function SatelliteTracker() {
                   <div className="section-header-title">Observer Location</div>
                 </div>
                 {postalResult && (
-                  <div style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: '11px', color: '#00ff88', letterSpacing: '1px' }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: '12px', color: '#22cc66', letterSpacing: '0.05em' }}>
                     ⊕ {postalResult.replace('Located: ', '')}
                   </div>
                 )}
@@ -1385,7 +1351,7 @@ export default function SatelliteTracker() {
               <div className="obs-inputs">
                 <div className="obs-field">
                   <div className="obs-label">Country</div>
-                  <select className="postal-select" value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)}>
+                  <select className="postal-select" aria-label="Country" value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)}>
                     <option value="us">🇺🇸 United States</option>
                     <option value="gb">🇬🇧 United Kingdom</option>
                     <option value="ca">🇨🇦 Canada</option>
@@ -1427,6 +1393,7 @@ export default function SatelliteTracker() {
                   <div className="obs-label">ZIP / Postal Code</div>
                   <input
                     className="postal-input"
+                    aria-label="ZIP or postal code"
                     placeholder={selectedCountry === 'us' ? '90210' : selectedCountry === 'gb' ? 'SW1A 1AA' : selectedCountry === 'ca' ? 'K1A 0A9' : 'Postal code'}
                     value={postalCode}
                     onChange={e => setPostalCode(e.target.value)}
@@ -1434,21 +1401,21 @@ export default function SatelliteTracker() {
                   />
                 </div>
                 <div className="obs-field" style={{ justifyContent: 'flex-end' }}>
-                  <button className="postal-btn" onClick={lookupPostal} disabled={postalLoading || !postalCode.trim()}>
+                  <button type="button" className="postal-btn" onClick={lookupPostal} disabled={postalLoading || !postalCode.trim()}>
                     {postalLoading ? 'Looking up...' : 'Look Up →'}
                   </button>
                 </div>
                 <div className="obs-field" style={{ justifyContent: 'flex-end' }}>
-                  <button className="geo-btn" onClick={useMyLocation} disabled={geoLoading}>
+                  <button type="button" className="geo-btn" onClick={useMyLocation} disabled={geoLoading}>
                     {geoLoading ? 'Locating...' : '⊕ Use My Location'}
                   </button>
                 </div>
                 <div className="obs-field">
                   <div className="obs-label">Min Elevation (°)</div>
-                  <input className="obs-input narrow" type="number" min={0} max={89} value={minElevation} onChange={e => setMinElevation(Number(e.target.value))} />
+                  <input className="obs-input narrow" aria-label="Minimum elevation in degrees" type="number" min={0} max={89} value={minElevation} onChange={e => setMinElevation(Number(e.target.value))} />
                 </div>
                 <div className="obs-field" style={{ justifyContent: 'flex-end' }}>
-                  <button className="predict-btn" onClick={predictPasses} disabled={!selectedSat || passLoading || (!observerLat || !observerLon)}>
+                  <button type="button" className="predict-btn" onClick={predictPasses} disabled={!selectedSat || passLoading || (!observerLat || !observerLon)}>
                     {passLoading ? 'Calculating...' : 'Predict Passes →'}
                   </button>
                 </div>
@@ -1503,7 +1470,7 @@ export default function SatelliteTracker() {
                     </div>
                     <div>
                       <div className="pass-field-label">Sky Track</div>
-                      <button className="pass-field-value" style={{ fontSize: '10px', color: '#1e9eff', background: 'none', border: 'none', cursor: 'pointer', padding: 0, letterSpacing: '1px', fontFamily: "'Share Tech Mono',monospace", textDecoration: 'underline' }}
+                      <button type="button" className="pass-field-value" style={{ fontSize: '12px', color: 'var(--accent)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, letterSpacing: '0.05em', fontFamily: "var(--font-mono)", textDecoration: 'underline' }}
                         onClick={() => { setPasses(ps => { const updated = [...ps]; const tmp = updated[i]; updated.splice(i, 1); updated.unshift(tmp); return updated; }); setActiveView('skyplot'); }}>
                         View Plot →
                       </button>
@@ -1512,7 +1479,7 @@ export default function SatelliteTracker() {
                 </div>
               ))}
               {passes.length > showPasses && (
-                <button className="show-more-btn" onClick={() => setShowPasses(s => s + 5)}>
+                <button type="button" className="show-more-btn" onClick={() => setShowPasses(s => s + 5)}>
                   + Show {Math.min(5, passes.length - showPasses)} more passes ({passes.length - showPasses} remaining) →
                 </button>
               )}
@@ -1555,7 +1522,7 @@ export default function SatelliteTracker() {
             
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

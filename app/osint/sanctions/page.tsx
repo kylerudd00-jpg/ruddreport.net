@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useMemo } from 'react';
 
@@ -104,7 +104,6 @@ function getListStyle(list: string) {
 export default function SanctionsScreener() {
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterType>('All');
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -132,105 +131,89 @@ export default function SanctionsScreener() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-
-        /* ── Nav ── */
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
 
         /* ── Hero ── */
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #ff3a3a; box-shadow: 0 0 8px rgba(255,58,58,0.5); }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #ff3a3a; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 56px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; line-height: 1; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 700px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--red); }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--red); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 56px); font-weight: 900; color: var(--text-primary); text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 12px; line-height: 1; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; max-width: 700px; }
 
         /* ── Main content ── */
         .content-wrap { max-width: 1100px; margin: 0 auto; padding: 40px 40px 80px; }
 
         /* ── Search ── */
         .search-section { margin-bottom: 28px; }
-        .search-box { display: flex; border: 1px solid rgba(255,58,58,0.3); background: #0a1520; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 16px 20px; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #d8e8f5; letter-spacing: 1px; }
-        .search-input::placeholder { color: #5a7a94; }
-        .search-clear { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #5a7a94; background: none; border: none; border-left: 1px solid rgba(255,58,58,0.15); padding: 0 20px; cursor: pointer; transition: color 0.2s; white-space: nowrap; }
-        .search-clear:hover { color: #ff3a3a; }
-        .search-hint { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-top: 10px; }
+        .search-box { display: flex; border: 1px solid rgba(255,58,58,0.3); background: var(--bg-card); }
+        .search-input { flex: 1; background: none; border: none; padding: 16px 20px; font-family: var(--font-mono); font-size: 14px; color: var(--text-primary); letter-spacing: 0.02em; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-clear { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; color: var(--text-muted); background: none; border: none; border-left: 1px solid rgba(255,58,58,0.15); padding: 0 20px; cursor: pointer; transition: color 0.2s; white-space: nowrap; }
+        .search-clear:hover { color: var(--red); }
+        .search-hint { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-top: 10px; }
 
         /* ── Filters ── */
         .filters-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
-        .filter-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 7px 16px; border: 1px solid rgba(30,158,255,0.2); background: none; color: #7a9bb5; cursor: pointer; transition: all 0.2s; }
-        .filter-btn:hover { border-color: rgba(30,158,255,0.5); color: #1e9eff; }
-        .filter-btn.active { background: rgba(255,58,58,0.1); border-color: rgba(255,58,58,0.5); color: #ff3a3a; }
+        .filter-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 7px 16px; border: 1px solid var(--border-bright); background: none; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+        .filter-btn:hover { border-color: var(--border-bright); color: var(--accent); }
+        .filter-btn.active { background: rgba(255,58,58,0.1); border-color: rgba(255,58,58,0.5); color: var(--red); }
 
         /* ── Results count ── */
-        .results-count { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; margin-bottom: 16px; }
-        .results-count span { color: #ff3a3a; }
+        .results-count { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px; }
+        .results-count span { color: var(--red); }
 
         /* ── Cards grid ── */
         .cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-bottom: 48px; }
-        .sanction-card { background: #0a1520; border: 1px solid rgba(255,58,58,0.15); position: relative; overflow: hidden; transition: border-color 0.2s; }
+        .sanction-card { background: var(--bg-card); border: 1px solid rgba(255,58,58,0.15); position: relative; overflow: hidden; transition: border-color 0.2s; }
         .sanction-card:hover { border-color: rgba(255,58,58,0.35); }
-        .sanction-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: #ff3a3a; }
+        .sanction-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--red); }
         .card-inner { padding: 20px 20px 20px 24px; }
         .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
-        .card-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #d8e8f5; letter-spacing: 0.5px; line-height: 1.2; }
-        .card-type-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; padding: 3px 9px; text-transform: uppercase; border: 1px solid; flex-shrink: 0; margin-top: 2px; }
-        .card-type-individual { color: #1e9eff; border-color: rgba(30,158,255,0.4); background: rgba(30,158,255,0.07); }
-        .card-type-entity { color: #c084fc; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.07); }
+        .card-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.5px; line-height: 1.2; }
+        .card-type-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; padding: 3px 9px; text-transform: uppercase; border: 1px solid; flex-shrink: 0; margin-top: 2px; }
+        .card-type-individual { color: var(--accent); border-color: rgba(30,158,255,0.4); background: rgba(30,158,255,0.07); }
+        .card-type-entity { color: #b464ff; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.07); }
         .card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-        .card-country { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #9ab0c4; }
-        .card-year { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
-        .card-list-badge { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; padding: 2px 8px; text-transform: uppercase; border: 1px solid; }
-        .card-notes { font-family: 'Barlow', sans-serif; font-size: 13px; color: #7a9bb5; line-height: 1.6; margin-bottom: 10px; }
+        .card-country { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); }
+        .card-year { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; }
+        .card-list-badge { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; padding: 2px 8px; text-transform: uppercase; border: 1px solid; }
+        .card-notes { font-family: var(--font-display); font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px; }
         .card-programs { display: flex; flex-wrap: wrap; gap: 5px; }
-        .program-tag { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 1px; color: #5a7a94; border: 1px solid rgba(61,88,112,0.3); padding: 2px 7px; text-transform: uppercase; background: rgba(61,88,112,0.05); }
+        .program-tag { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); border: 1px solid var(--border); padding: 2px 7px; text-transform: uppercase; background: rgba(61,88,112,0.05); }
 
         /* ── No results ── */
-        .no-results { grid-column: 1 / -1; padding: 48px; text-align: center; border: 1px solid rgba(30,158,255,0.1); background: #0a1520; }
-        .no-results-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #1e9eff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-        .no-results-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
+        .no-results { grid-column: 1 / -1; padding: 48px; text-align: center; border: 1px solid var(--border); background: var(--bg-card); }
+        .no-results-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+        .no-results-sub { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
 
         /* ── Official sources ── */
         .sources-section { margin-bottom: 40px; }
-        .sources-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.08); }
+        .sources-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
         .sources-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .source-btn { display: block; background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 18px 20px; text-decoration: none; transition: all 0.2s; }
-        .source-btn:hover { background: #0f1e2e; border-color: rgba(30,158,255,0.35); }
-        .source-btn-label { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; color: #c0cfe0; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-        .source-btn-label span { color: #5a7a94; font-size: 12px; }
-        .source-btn-desc { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
+        .source-btn { display: block; background: var(--bg-card); border: 1px solid var(--border); padding: 18px 20px; text-decoration: none; transition: all 0.2s; }
+        .source-btn:hover { background: var(--bg-card-hover); border-color: var(--border-bright); }
+        .source-btn-label { font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.05em; color: var(--text-primary); text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .source-btn-label span { color: var(--text-muted); font-size: 12px; }
+        .source-btn-desc { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; }
 
         /* ── Disclaimer ── */
         .disclaimer { background: rgba(255,170,0,0.04); border: 1px solid rgba(255,170,0,0.2); padding: 16px 20px; margin-bottom: 0; }
-        .disclaimer-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a6a3a; line-height: 1.7; }
+        .disclaimer-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); line-height: 1.7; }
         .disclaimer-text strong { color: #ffaa00; }
 
         /* ── Footer ── */
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
 
         /* ── Responsive ── */
         @media (max-width: 900px) {
@@ -238,9 +221,6 @@ export default function SanctionsScreener() {
           .sources-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .tool-hero { padding: 40px 20px; }
           .back-bar { padding: 16px 20px; }
           .content-wrap { padding: 24px 20px 60px; }
@@ -250,39 +230,7 @@ export default function SanctionsScreener() {
         }
       `}</style>
 
-      <div className="page-wrap">
-
-        {/* ── Nav ── */}
-        <nav>
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report</div>
-          </a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <button
-            className="hamburger"
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            <span /><span /><span />
-          </button>
-        </nav>
-
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>✕ Close</button>
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/osint" onClick={() => setMenuOpen(false)}>OSINT Hub</a>
-          <a href="/cybersecurity" onClick={() => setMenuOpen(false)}>Cybersecurity</a>
-          <a href="/geopolitics" onClick={() => setMenuOpen(false)}>Geopolitics</a>
-          <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
-        </div>
+      <main id="main" className="page-wrap">
 
         {/* ── Back bar ── */}
         <div className="back-bar">
@@ -293,10 +241,10 @@ export default function SanctionsScreener() {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">Economic Intelligence</div>
             </div>
-            <div className="tool-title">Sanctions Screener</div>
+            <h1 className="tool-title">Sanctions Screener</h1>
             <p className="tool-desc">
               Before doing business with anyone, compliance teams check global sanctions lists. Search OFAC, EU, UN, and BIS databases simultaneously to find out if a person or company is sanctioned — and why. Used by banks, law firms, and investigators to screen targets for financial crime and state connections.
             </p>
@@ -317,7 +265,7 @@ export default function SanctionsScreener() {
                 aria-label="Search sanctions list"
               />
               {query && (
-                <button className="search-clear" onClick={() => setQuery('')} aria-label="Clear search">
+                <button type="button" className="search-clear" onClick={() => setQuery('')} aria-label="Clear search">
                   ✕ Clear
                 </button>
               )}
@@ -329,6 +277,7 @@ export default function SanctionsScreener() {
           <div className="filters-row">
             {FILTERS.map((f) => (
               <button
+                type="button"
                 key={f}
                 className={`filter-btn${activeFilter === f ? ' active' : ''}`}
                 onClick={() => setActiveFilter(f)}
@@ -346,7 +295,7 @@ export default function SanctionsScreener() {
           </div>
 
           {/* Cards */}
-          <div className="cards-grid">
+          <div className="cards-grid" aria-live="polite">
             {filtered.length === 0 && (
               <div className="no-results">
                 <div className="no-results-title">No Matches</div>
@@ -429,7 +378,7 @@ export default function SanctionsScreener() {
           </div>
         </footer>
 
-      </div>
+      </main>
     </>
   );
 }

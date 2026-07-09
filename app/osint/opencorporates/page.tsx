@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState } from 'react';
 
 const JURISDICTIONS = [
@@ -152,85 +152,83 @@ export default function OpenCorporatesPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #c0cfe0; font-family: 'Barlow', sans-serif; }
         .page-wrap { padding-top: 70px; }
 
-        .back-bar { padding: 14px 40px; border-bottom: 1px solid rgba(30,158,255,0.07); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
-        .back-link:hover { color: #1e9eff; }
+        .back-bar { padding: 14px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+        .back-link:hover { color: var(--accent); }
 
         .hero { padding: 32px 40px 22px; border-bottom: 1px solid rgba(255,170,0,0.1); }
         .hero-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
         .eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
-        .eyebrow-line { width: 36px; height: 1px; background: #ffaa00; box-shadow: 0 0 8px #ffaa00; }
-        .eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #ffaa00; text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(18px, 2.4vw, 30px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 3px; }
-        .hero-desc { font-family: 'Barlow', sans-serif; font-size: 14px; color: #7a9bb5; margin-top: 6px; line-height: 1.55; max-width: 580px; }
+        .eyebrow-line { width: 36px; height: 1px; background: #ffaa00; }
+        .eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: #ffaa00; text-transform: uppercase; }
+        .hero-title { font-family: var(--font-display); font-size: clamp(18px, 2.4vw, 30px); font-weight: 900; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.06em; }
+        .hero-desc { font-family: var(--font-display); font-size: 14px; color: var(--text-secondary); margin-top: 6px; line-height: 1.55; max-width: 580px; }
         .source-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-        .stag { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.28); padding: 3px 10px; background: rgba(255,170,0,0.05); }
+        .stag { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #ffaa00; border: 1px solid rgba(255,170,0,0.28); padding: 3px 10px; background: rgba(255,170,0,0.05); }
 
         .search-section { padding: 16px 40px; max-width: 1400px; margin: 0 auto; }
         .mode-toggle { display: flex; gap: 2px; margin-bottom: 10px; }
-        .mode-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; border: 1px solid rgba(255,170,0,0.12); padding: 7px 20px; cursor: pointer; text-transform: uppercase; background: none; transition: all 0.2s; }
+        .mode-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); border: 1px solid rgba(255,170,0,0.12); padding: 7px 20px; cursor: pointer; text-transform: uppercase; background: none; transition: all 0.2s; }
         .mode-btn.active { color: #ffaa00; border-color: #ffaa00; background: rgba(255,170,0,0.07); }
-        .mode-btn:hover:not(.active) { color: #c0cfe0; border-color: rgba(255,170,0,0.3); }
+        .mode-btn:hover:not(.active) { color: var(--text-primary); border-color: rgba(255,170,0,0.3); }
         .search-row { display: flex; gap: 8px; }
-        .search-input { flex: 1; background: #0a1520; border: 1px solid rgba(255,170,0,0.22); outline: none; padding: 12px 18px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #c0cfe0; letter-spacing: 1px; transition: border-color 0.2s; }
+        .search-input { flex: 1; background: var(--bg-card); border: 1px solid rgba(255,170,0,0.22); padding: 12px 18px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.02em; transition: border-color 0.2s; }
         .search-input:focus { border-color: rgba(255,170,0,0.55); }
-        .search-input::placeholder { color: #3d5870; }
-        .jur-select { background: #0a1520; border: 1px solid rgba(255,170,0,0.22); outline: none; padding: 12px 14px; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #7a9bb5; min-width: 190px; }
-        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #ffaa00; border: none; padding: 12px 26px; cursor: pointer; text-transform: uppercase; white-space: nowrap; transition: background 0.2s; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .jur-select { background: var(--bg-card); border: 1px solid rgba(255,170,0,0.22); padding: 12px 14px; font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); min-width: 190px; }
+        .search-btn { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--bg-primary); background: #ffaa00; border: none; padding: 12px 26px; cursor: pointer; text-transform: uppercase; white-space: nowrap; transition: background 0.2s; }
         .search-btn:hover { background: #ffc233; }
-        .search-btn:disabled { background: #1a3a52; color: #3d5870; cursor: not-allowed; }
+        .search-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
 
-        .error-bar { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #ff3a3a; padding: 8px 40px; }
+        .error-bar { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--red); padding: 8px 40px; }
 
         .main-layout { display: grid; grid-template-columns: 310px 1fr; gap: 2px; padding: 0 40px 40px; max-width: 1400px; margin: 0 auto; }
-        .results-panel { background: #070d12; border: 1px solid rgba(255,170,0,0.07); overflow-y: auto; max-height: 700px; }
-        .panel-hdr { padding: 10px 14px; border-bottom: 1px solid rgba(255,170,0,0.06); font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; position: sticky; top: 0; background: #070d12; z-index: 1; }
+        .results-panel { background: var(--bg-secondary); border: 1px solid rgba(255,170,0,0.07); overflow-y: auto; max-height: 700px; }
+        .panel-hdr { padding: 10px 14px; border-bottom: 1px solid rgba(255,170,0,0.06); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; position: sticky; top: 0; background: var(--bg-secondary); z-index: 1; }
         .result-item { padding: 12px 14px; border-bottom: 1px solid rgba(255,170,0,0.04); cursor: pointer; transition: background 0.15s; }
         .result-item:hover { background: rgba(255,170,0,0.04); }
         .result-item.active { background: rgba(255,170,0,0.07); border-left: 3px solid #ffaa00; padding-left: 11px; }
-        .ri-name { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: #c0cfe0; line-height: 1.3; margin-bottom: 3px; }
-        .ri-meta { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #3d5870; margin-bottom: 3px; }
+        .ri-name { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.3; margin-bottom: 3px; }
+        .ri-meta { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 3px; }
         .ri-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
-        .ri-tag { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 1px; padding: 2px 6px; border: 1px solid; text-transform: uppercase; }
-        .no-results { padding: 36px 16px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; text-align: center; text-transform: uppercase; }
+        .ri-tag { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; padding: 2px 6px; border: 1px solid; text-transform: uppercase; }
+        .no-results { padding: 36px 16px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); text-align: center; text-transform: uppercase; }
 
-        .detail-panel { background: #070d12; border: 1px solid rgba(30,158,255,0.06); overflow-y: auto; max-height: 700px; }
-        .detail-empty { padding: 80px 24px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #3d5870; text-align: center; line-height: 2.8; text-transform: uppercase; }
+        .detail-panel { background: var(--bg-secondary); border: 1px solid var(--border); overflow-y: auto; max-height: 700px; }
+        .detail-empty { padding: 80px 24px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-align: center; line-height: 2.8; text-transform: uppercase; }
         .detail-hdr { padding: 18px 20px; border-bottom: 1px solid rgba(255,170,0,0.1); }
-        .detail-name { font-family: 'Barlow Condensed', sans-serif; font-size: 21px; font-weight: 700; color: #ffaa00; line-height: 1.2; margin-bottom: 5px; }
-        .detail-sub { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #3d5870; }
-        .shell-warn { margin: 12px 16px; background: rgba(255,170,0,0.05); border: 1px solid rgba(255,170,0,0.28); padding: 10px 14px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; text-transform: uppercase; line-height: 2; }
-        .detail-field { padding: 10px 20px; border-bottom: 1px solid rgba(30,158,255,0.03); }
-        .df-label { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; margin-bottom: 4px; }
-        .df-value { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #c0cfe0; letter-spacing: 1px; line-height: 1.6; word-break: break-all; }
+        .detail-name { font-family: var(--font-display); font-size: 21px; font-weight: 700; color: #ffaa00; line-height: 1.2; margin-bottom: 5px; }
+        .detail-sub { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .shell-warn { margin: 12px 16px; background: rgba(255,170,0,0.05); border: 1px solid rgba(255,170,0,0.28); padding: 10px 14px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #ffaa00; text-transform: uppercase; line-height: 2; }
+        .detail-field { padding: 10px 20px; border-bottom: 1px solid var(--border); }
+        .df-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .df-value { font-family: var(--font-mono); font-size: 11px; color: var(--text-primary); letter-spacing: 0.05em; line-height: 1.6; word-break: break-all; }
 
         .officers-block { padding: 0 16px 16px; }
-        .officers-hdr { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #3d5870; text-transform: uppercase; padding: 14px 4px 8px; border-bottom: 1px solid rgba(255,170,0,0.07); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
-        .officer-row { padding: 9px 8px; border-bottom: 1px solid rgba(30,158,255,0.03); display: flex; flex-direction: column; gap: 3px; }
+        .officers-hdr { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; padding: 14px 4px 8px; border-bottom: 1px solid rgba(255,170,0,0.07); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .officer-row { padding: 9px 8px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 3px; }
         .officer-row.faded { opacity: 0.45; }
-        .off-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; color: #c0cfe0; }
-        .off-role { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; text-transform: uppercase; }
-        .off-dates { font-family: 'Share Tech Mono', monospace; font-size: 8px; color: #3d5870; letter-spacing: 1px; }
+        .off-name { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .off-role { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #ffaa00; text-transform: uppercase; }
+        .off-dates { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; }
 
-        .company-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; color: #1e9eff; background: none; border: none; padding: 0; cursor: pointer; text-align: left; transition: color 0.2s; }
+        .company-btn { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--accent); background: none; border: none; padding: 0; cursor: pointer; text-align: left; transition: color 0.2s; }
         .company-btn:hover { color: #5bc0ff; text-decoration: underline; }
-        .company-btn:disabled { color: #3d5870; cursor: default; text-decoration: none; }
+        .company-btn:disabled { color: var(--text-muted); cursor: default; text-decoration: none; }
 
-        .oc-btn { display: block; margin: 14px 16px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #ffaa00; text-decoration: none; border: 1px solid rgba(255,170,0,0.28); padding: 10px 14px; text-transform: uppercase; text-align: center; transition: all 0.2s; }
+        .oc-btn { display: block; margin: 14px 16px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: #ffaa00; text-decoration: none; border: 1px solid rgba(255,170,0,0.28); padding: 10px 14px; text-transform: uppercase; text-align: center; transition: all 0.2s; }
         .oc-btn:hover { background: rgba(255,170,0,0.07); }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-        .spinner { display: inline-block; width: 11px; height: 11px; border: 1.5px solid #3d5870; border-top-color: #ffaa00; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
+        .spinner { display: inline-block; width: 11px; height: 11px; border: 1.5px solid var(--text-muted); border-top-color: #ffaa00; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
 
-        footer { border-top: 1px solid rgba(30,158,255,0.08); padding: 28px 40px; background: #030608; margin-top: 2px; }
+        footer { border-top: 1px solid var(--border); padding: 28px 40px; background: var(--bg-primary); margin-top: 2px; }
         .footer-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #3d5870; }
-        .footer-class { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1a3a24; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-class { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); }
 
         @media (max-width: 900px) {
           .main-layout, .search-section, .back-bar, .hero, footer { padding-left: 16px; padding-right: 16px; }
@@ -240,7 +238,7 @@ export default function OpenCorporatesPage() {
         }
       `}</style>
 
-      <div className="page-wrap">
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
         </div>
@@ -249,10 +247,10 @@ export default function OpenCorporatesPage() {
           <div className="hero-inner">
             <div>
               <div className="eyebrow">
-                <div className="eyebrow-line" />
+                <div className="eyebrow-line" aria-hidden="true" />
                 <div className="eyebrow-text">OSINT Hub — Corporate Intelligence</div>
               </div>
-              <div className="hero-title">OpenCorporates</div>
+              <h1 className="hero-title">OpenCorporates</h1>
               <div className="hero-desc">
                 200M+ companies across all 50 US states and 140 jurisdictions. Officers, registered agents, historical records, and dissolved entities that have vanished from government sources.
               </div>
@@ -268,12 +266,14 @@ export default function OpenCorporatesPage() {
         <div className="search-section">
           <div className="mode-toggle">
             <button
+              type="button"
               className={`mode-btn ${mode === 'companies' ? 'active' : ''}`}
               onClick={() => { setMode('companies'); setResults([]); setSearched(false); setSelected(null); setDetail(null); }}
             >
               Companies
             </button>
             <button
+              type="button"
               className={`mode-btn ${mode === 'officers' ? 'active' : ''}`}
               onClick={() => { setMode('officers'); setResults([]); setSearched(false); setSelected(null); setDetail(null); setJurisdiction(''); }}
             >
@@ -283,6 +283,7 @@ export default function OpenCorporatesPage() {
           <div className="search-row">
             <input
               className="search-input"
+              aria-label="Search companies or officers"
               placeholder={mode === 'companies'
                 ? 'Company name — e.g. Acme Holdings, Blackwater, Pacific Ventures LLC'
                 : 'Person name — e.g. John Smith, Viktor Bout, Paul Manafort'}
@@ -291,21 +292,21 @@ export default function OpenCorporatesPage() {
               onKeyDown={e => e.key === 'Enter' && search()}
             />
             {mode === 'companies' && (
-              <select className="jur-select" value={jurisdiction} onChange={e => setJurisdiction(e.target.value)}>
+              <select className="jur-select" aria-label="Jurisdiction" value={jurisdiction} onChange={e => setJurisdiction(e.target.value)}>
                 {JURISDICTIONS.map(j => (
                   <option key={j.code} value={j.code}>{j.label}</option>
                 ))}
               </select>
             )}
-            <button className="search-btn" onClick={search} disabled={loading}>
+            <button type="button" className="search-btn" onClick={search} disabled={loading}>
               {loading ? <><span className="spinner" />Searching...</> : 'Search →'}
             </button>
           </div>
         </div>
 
-        {error && <div className="error-bar">⚠ {error}</div>}
+        {error && <div className="error-bar" role="alert">⚠ {error}</div>}
 
-        <div className="main-layout">
+        <div className="main-layout" aria-live="polite">
           {/* Results list */}
           <div className="results-panel">
             <div className="panel-hdr">
@@ -543,6 +544,7 @@ export default function OpenCorporatesPage() {
                       </div>
                       <div className="officer-row">
                         <button
+                          type="button"
                           className="company-btn"
                           onClick={() => co.jurisdiction_code && co.company_number && drillIntoCompany(co.jurisdiction_code, co.company_number)}
                           disabled={!co.jurisdiction_code || !co.company_number}
@@ -633,7 +635,7 @@ export default function OpenCorporatesPage() {
             <div className="footer-class">UNCLASSIFIED // FOR PUBLIC RELEASE</div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

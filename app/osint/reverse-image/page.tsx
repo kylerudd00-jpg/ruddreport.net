@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState } from 'react';
 
 const ENGINES = [
@@ -57,7 +57,6 @@ export default function ReverseImageSearch() {
   const [imageUrl, setImageUrl] = useState('');
   const [submitted, setSubmitted] = useState('');
   const [openingAll, setOpeningAll] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const isValid = (url: string) => url.trim().startsWith('http');
 
@@ -84,75 +83,58 @@ export default function ReverseImageSearch() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: var(--text-primary); text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; max-width: 720px; }
         .main-wrap { max-width: 1100px; margin: 0 auto; padding: 40px; }
-        .search-box { display: flex; border: 1px solid rgba(30,158,255,0.3); background: #0a1520; }
-        .search-input { flex: 1; background: none; border: none; outline: none; padding: 18px 20px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
-        .search-input::placeholder { color: #5a7a94; }
-        .search-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #fff; background: #1e9eff; border: none; padding: 18px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .search-box { display: flex; border: 1px solid var(--border-bright); background: var(--bg-card); }
+        .search-input { flex: 1; background: none; border: none; padding: 18px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.02em; }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-btn { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: #fff; background: var(--accent); border: none; padding: 18px 32px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .search-btn:hover { background: #4db8ff; }
-        .search-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .open-all-btn { margin-top: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #030608; background: #1e9eff; border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; display: inline-block; }
+        .search-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
+        .open-all-btn { margin-top: 16px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--bg-primary); background: var(--accent); border: none; padding: 14px 32px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; display: inline-block; }
         .open-all-btn:hover { background: #4db8ff; }
-        .open-all-btn:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .section-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,158,255,0.1); }
+        .open-all-btn:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
+        .section-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
         .engines-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 60px; }
-        .engine-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 28px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.3s; position: relative; overflow: hidden; }
-        .engine-card:hover { border-color: rgba(30,158,255,0.35); }
+        .engine-card { background: var(--bg-card); border: 1px solid var(--border); padding: 28px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.3s; position: relative; overflow: hidden; }
+        .engine-card:hover { border-color: var(--border-bright); }
         .engine-card.manual-card { border-color: rgba(255,170,0,0.15); background: #0e0c08; }
         .engine-card.manual-card:hover { border-color: rgba(255,170,0,0.35); }
         .engine-card-top { display: flex; align-items: center; gap: 12px; }
         .engine-icon { font-size: 22px; line-height: 1; }
-        .engine-name { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; letter-spacing: 1px; }
-        .engine-best { font-family: 'Barlow', sans-serif; font-size: 12px; color: #7a9bb5; line-height: 1.6; flex: 1; }
-        .engine-note { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #ffaa00; text-transform: uppercase; }
-        .engine-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1e9eff; border: 1px solid rgba(30,158,255,0.3); background: none; padding: 10px 20px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
-        .engine-btn:hover { background: rgba(30,158,255,0.1); border-color: #1e9eff; }
+        .engine-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.02em; }
+        .engine-best { font-family: var(--font-display); font-size: 12px; color: var(--text-secondary); line-height: 1.6; flex: 1; }
+        .engine-note { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #ffaa00; text-transform: uppercase; }
+        .engine-btn { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--border-bright); background: none; padding: 10px 20px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; margin-top: 4px; }
+        .engine-btn:hover { background: rgba(30,158,255,0.1); border-color: var(--accent); }
         .engine-btn.manual-btn { color: #ffaa00; border-color: rgba(255,170,0,0.3); }
         .engine-btn.manual-btn:hover { background: rgba(255,170,0,0.08); border-color: #ffaa00; }
-        .engine-btn.disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; pointer-events: none; }
-        .tips-section { background: #0a1520; border: 1px solid rgba(30,158,255,0.12); padding: 32px; }
-        .tips-header { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+        .engine-btn.disabled { color: var(--text-muted); border-color: var(--border); cursor: not-allowed; pointer-events: none; }
+        .tips-section { background: var(--bg-card); border: 1px solid var(--border); padding: 32px; }
+        .tips-header { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 20px; }
         .tips-list { display: flex; flex-direction: column; gap: 12px; }
         .tip-item { display: flex; align-items: flex-start; gap: 16px; }
-        .tip-num { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #1e9eff; letter-spacing: 2px; min-width: 24px; padding-top: 2px; }
-        .tip-text { font-family: 'Barlow', sans-serif; font-size: 13px; color: #9ab0c4; line-height: 1.7; }
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        .tip-num { font-family: var(--font-mono); font-size: 12px; color: var(--accent); letter-spacing: 0.05em; min-width: 24px; padding-top: 2px; }
+        .tip-text { font-family: var(--font-display); font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
         @media (max-width: 900px) {
           .engines-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .main-wrap { padding: 24px 20px; }
@@ -163,32 +145,7 @@ export default function ReverseImageSearch() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        <nav>
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report</div>
-          </a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{color:'#1e9eff'}}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => setMenuOpen(o => !o)}>
-            <span /><span /><span />
-          </div>
-        </nav>
-
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>✕ Close</button>
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/osint" onClick={() => setMenuOpen(false)}>OSINT Hub</a>
-          <a href="/cybersecurity" onClick={() => setMenuOpen(false)}>Cybersecurity</a>
-          <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
         </div>
@@ -196,10 +153,10 @@ export default function ReverseImageSearch() {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">Visual Intelligence</div>
             </div>
-            <div className="tool-title">Reverse Image Search</div>
+            <h1 className="tool-title">Reverse Image Search</h1>
             <p className="tool-desc">Upload or link any image to search Google, TinEye, Yandex, and Bing simultaneously — finding every place that photo appears online. Used to expose fake profiles using stolen photos, trace the true origin of a viral image, and debunk disinformation using recycled or out-of-context media.</p>
           </div>
         </div>
@@ -210,25 +167,27 @@ export default function ReverseImageSearch() {
             <div className="search-box">
               <input
                 className="search-input"
+                aria-label="Image URL to search"
                 placeholder="Paste image URL — e.g. https://example.com/photo.jpg"
                 value={imageUrl}
                 onChange={e => setImageUrl(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSubmit()}
               />
-              <button className="search-btn" onClick={handleSubmit} disabled={!isValid(imageUrl)}>
+              <button type="button" className="search-btn" onClick={handleSubmit} disabled={!isValid(imageUrl)}>
                 Load Engines →
               </button>
             </div>
             {submitted && (
               <div style={{marginTop: '12px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap'}}>
                 <button
+                  type="button"
                   className="open-all-btn"
                   onClick={openAll}
                   disabled={openingAll}
                 >
                   {openingAll ? 'Opening...' : 'Search All Engines →'}
                 </button>
-                <span style={{fontFamily: "'Share Tech Mono', monospace", fontSize: '9px', letterSpacing: '2px', color: '#5a7a94', textTransform: 'uppercase'}}>
+                <span style={{fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.05em', color: 'var(--text-muted)', textTransform: 'uppercase'}}>
                   Opens all in new tabs with 300ms delay
                 </span>
               </div>
@@ -289,7 +248,7 @@ export default function ReverseImageSearch() {
             <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

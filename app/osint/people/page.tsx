@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState } from 'react';
 
 const US_STATES = [
@@ -220,7 +220,6 @@ export default function PeopleSearch() {
   const [results, setResults] = useState<ServiceResult[]>([]);
   const [filter, setFilter] = useState<Category>('All');
   const [checklist, setChecklist] = useState<boolean[]>(CHECKLIST_ITEMS.map(() => false));
-  const [menuOpen, setMenuOpen] = useState(false);
   const [generated, setGenerated] = useState(false);
 
   const generate = () => {
@@ -259,111 +258,93 @@ export default function PeopleSearch() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         .page-wrap { padding-top: 70px; }
 
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
 
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 740px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: var(--text-primary); text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; max-width: 740px; }
 
         .form-section { padding: 40px; max-width: 1100px; margin: 0 auto; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
         .form-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
         .form-field { display: flex; flex-direction: column; gap: 8px; }
-        .form-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-transform: uppercase; }
-        .form-input { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); padding: 12px 16px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; outline: none; transition: border-color 0.3s; width: 100%; }
-        .form-input:focus { border-color: rgba(30,158,255,0.5); }
-        .form-input::placeholder { color: #5a7a94; }
-        .form-select { background: #0a1520; border: 1px solid rgba(30,158,255,0.2); padding: 12px 16px; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; outline: none; transition: border-color 0.3s; width: 100%; cursor: pointer; appearance: none; -webkit-appearance: none; }
-        .form-select:focus { border-color: rgba(30,158,255,0.5); }
-        .form-select option { background: #0a1520; }
+        .form-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; }
+        .form-input { background: var(--bg-card); border: 1px solid var(--border-bright); padding: 12px 16px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.02em; transition: border-color 0.3s; width: 100%; }
+        .form-input:focus { border-color: var(--accent); }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-select { background: var(--bg-card); border: 1px solid var(--border-bright); padding: 12px 16px; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 0.02em; transition: border-color 0.3s; width: 100%; cursor: pointer; appearance: none; -webkit-appearance: none; }
+        .form-select:focus { border-color: var(--accent); }
+        .form-select option { background: var(--bg-card); }
         .form-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .btn-primary { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #ffffff; background: #1e9eff; border: none; padding: 14px 36px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
+        .btn-primary { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: #ffffff; background: var(--accent); border: none; padding: 14px 36px; cursor: pointer; text-transform: uppercase; transition: background 0.3s; white-space: nowrap; }
         .btn-primary:hover { background: #4db8ff; }
-        .btn-primary:disabled { background: #1a3a52; color: #5a7a94; cursor: not-allowed; }
-        .btn-secondary { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.4); padding: 14px 28px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
-        .btn-secondary:hover { background: rgba(30,158,255,0.08); border-color: #1e9eff; }
-        .btn-secondary:disabled { color: #5a7a94; border-color: rgba(30,158,255,0.1); cursor: not-allowed; }
-        .privacy-note { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; border: 1px solid rgba(30,158,255,0.08); padding: 10px 16px; background: rgba(30,158,255,0.03); }
+        .btn-primary:disabled { background: var(--bg-card); color: var(--text-muted); cursor: not-allowed; }
+        .btn-secondary { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--accent); background: none; border: 1px solid var(--border-bright); padding: 14px 28px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; white-space: nowrap; }
+        .btn-secondary:hover { background: rgba(30,158,255,0.08); border-color: var(--accent); }
+        .btn-secondary:disabled { color: var(--text-muted); border-color: var(--border); cursor: not-allowed; }
+        .privacy-note { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); border: 1px solid var(--border); padding: 10px 16px; background: rgba(30,158,255,0.03); }
 
         .results-section { padding: 0 40px 40px; max-width: 1100px; margin: 0 auto; }
-        .results-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 12px; border-bottom: 1px solid rgba(30,158,255,0.08); margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .results-subject { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; }
-        .results-meta { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; }
-        .results-meta span { color: #1e9eff; }
+        .results-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .results-subject { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em; }
+        .results-meta { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .results-meta span { color: var(--accent); }
 
         .filters { display: flex; gap: 2px; margin-bottom: 20px; flex-wrap: wrap; }
-        .filter-btn { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; background: none; border: 1px solid rgba(30,158,255,0.1); padding: 8px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
-        .filter-btn:hover { color: #1e9eff; border-color: rgba(30,158,255,0.3); }
-        .filter-btn.active { color: #1e9eff; border-color: #1e9eff; background: rgba(30,158,255,0.08); }
+        .filter-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); background: none; border: 1px solid var(--border); padding: 8px 18px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }
+        .filter-btn:hover { color: var(--accent); border-color: var(--border-bright); }
+        .filter-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(30,158,255,0.08); }
 
-        .cat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; padding: 8px 0 10px; border-bottom: 1px solid rgba(30,158,255,0.06); margin-bottom: 10px; margin-top: 28px; }
+        .cat-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; padding: 8px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px; margin-top: 28px; }
         .cat-label:first-of-type { margin-top: 0; }
 
         .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .service-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.08); padding: 20px; display: flex; flex-direction: column; gap: 12px; position: relative; overflow: hidden; transition: border-color 0.3s; }
-        .service-card:hover { border-color: rgba(30,158,255,0.2); }
-        .service-card.autofilled { border-top: 2px solid rgba(30,158,255,0.4); }
+        .service-card { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 12px; position: relative; overflow: hidden; transition: border-color 0.3s; }
+        .service-card:hover { border-color: var(--border-bright); }
+        .service-card.autofilled { border-top: 2px solid var(--border-bright); }
         .service-card.manual-card { border-top: 2px solid rgba(255,170,0,0.35); background: #0e0d08; }
         .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-        .card-name { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; color: #c0cfe0; letter-spacing: 0.5px; }
-        .badge-auto { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #22c55e; border: 1px solid rgba(34,197,94,0.3); padding: 3px 8px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
-        .badge-manual { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 3px 8px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
-        .card-desc { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #7a9bb5; }
-        .card-note { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: #ffaa00; opacity: 0.8; }
-        .open-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; color: #1e9eff; background: none; border: 1px solid rgba(30,158,255,0.25); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; }
-        .open-btn:hover { background: rgba(30,158,255,0.08); border-color: #1e9eff; }
-        .open-btn-manual { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 3px; color: #ffaa00; background: none; border: 1px solid rgba(255,170,0,0.25); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; }
+        .card-name { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.5px; }
+        .badge-auto { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #22cc66; border: 1px solid rgba(34,197,94,0.3); padding: 3px 8px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+        .badge-manual { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 3px 8px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+        .card-desc { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); }
+        .card-note { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #ffaa00; opacity: 0.8; }
+        .open-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: var(--accent); background: none; border: 1px solid var(--border-bright); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; }
+        .open-btn:hover { background: rgba(30,158,255,0.08); border-color: var(--accent); }
+        .open-btn-manual { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; color: #ffaa00; background: none; border: 1px solid rgba(255,170,0,0.25); padding: 8px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; align-self: flex-start; }
         .open-btn-manual:hover { background: rgba(255,170,0,0.06); border-color: rgba(255,170,0,0.5); }
 
         .checklist-section { padding: 0 40px 40px; max-width: 1100px; margin: 0 auto; }
-        .section-header { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
-        .section-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; margin-bottom: 20px; }
+        .section-header { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .section-sub { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 20px; }
         .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-        .checklist-item { display: flex; align-items: center; gap: 14px; background: #0a1520; border: 1px solid rgba(30,158,255,0.06); padding: 16px 20px; cursor: pointer; transition: all 0.2s; user-select: none; }
-        .checklist-item:hover { border-color: rgba(30,158,255,0.15); background: #0d1d2e; }
-        .checklist-item.checked { border-color: rgba(30,158,255,0.2); background: #091620; }
-        .check-box { width: 18px; height: 18px; border: 1px solid rgba(30,158,255,0.3); background: none; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-        .check-box.checked { background: #1e9eff; border-color: #1e9eff; }
+        .checklist-item { display: flex; align-items: center; gap: 14px; background: var(--bg-card); border: 1px solid var(--border); padding: 16px 20px; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .checklist-item:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
+        .checklist-item.checked { border-color: var(--border-bright); background: var(--bg-card); }
+        .check-box { width: 18px; height: 18px; border: 1px solid var(--border-bright); background: none; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .check-box.checked { background: var(--accent); border-color: var(--accent); }
         .check-icon { color: #fff; font-size: 11px; font-weight: 700; line-height: 1; }
-        .check-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #9ab0c4; line-height: 1.5; }
-        .check-text.checked { color: #5a7a94; text-decoration: line-through; }
-        .checklist-progress { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; margin-top: 14px; text-transform: uppercase; }
-        .checklist-progress span { color: #1e9eff; }
+        .check-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); line-height: 1.5; }
+        .check-text.checked { color: var(--text-muted); text-decoration: line-through; }
+        .checklist-progress { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); margin-top: 14px; text-transform: uppercase; }
+        .checklist-progress span { color: var(--accent); }
 
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 40px; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 40px; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
 
         @media (max-width: 768px) {
-          nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .back-bar { padding: 16px 20px; }
           .tool-hero { padding: 40px 20px; }
           .form-section { padding: 24px 20px; }
@@ -381,34 +362,7 @@ export default function PeopleSearch() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        {/* NAV */}
-        <nav>
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report</div>
-          </a>
-          <ul className="nav-links">
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" style={{ color: '#1e9eff' }}>OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <div className="hamburger" onClick={() => setMenuOpen(v => !v)}>
-            <span /><span /><span />
-          </div>
-        </nav>
-
-        {/* MOBILE MENU */}
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>Close</button>
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/osint" onClick={() => setMenuOpen(false)}>OSINT Hub</a>
-          <a href="/cybersecurity" onClick={() => setMenuOpen(false)}>Cybersecurity</a>
-          <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         {/* BACK BAR */}
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
@@ -418,10 +372,10 @@ export default function PeopleSearch() {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">Human Intelligence</div>
             </div>
-            <div className="tool-title">People Search</div>
+            <h1 className="tool-title">People Search</h1>
             <p className="tool-desc">Public records, property filings, voter registrations, and social profiles contain more information about people than most realize. Search by name to pull aggregated results across people-search databases — addresses, known relatives, and linked social profiles — all in one place.</p>
           </div>
         </div>
@@ -433,6 +387,7 @@ export default function PeopleSearch() {
               <label className="form-label">First Name *</label>
               <input
                 className="form-input"
+                aria-label="First Name"
                 placeholder="John"
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
@@ -443,6 +398,7 @@ export default function PeopleSearch() {
               <label className="form-label">Last Name *</label>
               <input
                 className="form-input"
+                aria-label="Last Name"
                 placeholder="Doe"
                 value={lastName}
                 onChange={e => setLastName(e.target.value)}
@@ -456,6 +412,7 @@ export default function PeopleSearch() {
               <label className="form-label">City</label>
               <input
                 className="form-input"
+                aria-label="City"
                 placeholder="Chicago"
                 value={city}
                 onChange={e => setCity(e.target.value)}
@@ -465,6 +422,7 @@ export default function PeopleSearch() {
               <label className="form-label">State</label>
               <select
                 className="form-select"
+                aria-label="State"
                 value={state}
                 onChange={e => setState(e.target.value)}
               >
@@ -477,6 +435,7 @@ export default function PeopleSearch() {
               <label className="form-label">Age / Birth Year</label>
               <input
                 className="form-input"
+                aria-label="Age or Birth Year"
                 placeholder="45 or 1979"
                 value={age}
                 onChange={e => setAge(e.target.value)}
@@ -486,6 +445,7 @@ export default function PeopleSearch() {
               <label className="form-label">Username (optional)</label>
               <input
                 className="form-input"
+                aria-label="Username"
                 placeholder="johndoe99"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
@@ -495,6 +455,7 @@ export default function PeopleSearch() {
 
           <div className="form-actions" style={{ marginBottom: '20px' }}>
             <button
+              type="button"
               className="btn-primary"
               onClick={generate}
               disabled={!firstName.trim() || !lastName.trim()}
@@ -503,6 +464,7 @@ export default function PeopleSearch() {
             </button>
             {generated && (
               <button
+                type="button"
                 className="btn-secondary"
                 onClick={openTop5}
                 disabled={results.length === 0}
@@ -519,7 +481,7 @@ export default function PeopleSearch() {
 
         {/* RESULTS */}
         {generated && results.length > 0 && (
-          <div className="results-section">
+          <div className="results-section" aria-live="polite">
             <div className="results-header">
               <div className="results-subject">{fullName}</div>
               <div className="results-meta">
@@ -531,6 +493,7 @@ export default function PeopleSearch() {
             <div className="filters">
               {CATEGORIES.map(c => (
                 <button
+                  type="button"
                   key={c}
                   className={`filter-btn${filter === c ? ' active' : ''}`}
                   onClick={() => setFilter(c)}
@@ -588,7 +551,7 @@ export default function PeopleSearch() {
 
         {/* CHECKLIST */}
         <div className="checklist-section" style={{ marginTop: generated ? '20px' : '0' }}>
-          <div style={{ borderTop: generated ? '1px solid rgba(30,158,255,0.08)' : 'none', paddingTop: generated ? '32px' : '0' }}>
+          <div style={{ borderTop: generated ? '1px solid var(--border)' : 'none', paddingTop: generated ? '32px' : '0' }}>
             <div className="section-header">OSINT Investigation Checklist</div>
             <div className="section-sub">Track your research steps</div>
             <div className="checklist-grid">
@@ -619,7 +582,7 @@ export default function PeopleSearch() {
             </div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }

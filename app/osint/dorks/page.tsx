@@ -158,7 +158,6 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export default function DorkBuilder() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [target, setTarget] = useState('');
   const [fields, setFields] = useState<DorkFields>(EMPTY_FIELDS);
   const [copied, setCopied] = useState(false);
@@ -194,110 +193,89 @@ export default function DorkBuilder() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { background: #030608; color: #d8e8f5; font-family: 'Barlow', sans-serif; }
-
-        /* ── Nav ── */
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 40px; height: 70px; display: flex; align-items: center; justify-content: space-between; background: rgba(3,6,8,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(30,158,255,0.12); }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.5px; color: #fff; }
-        .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
-        .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c0cfe0; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #1e9eff; }
-        .nav-links a.active-nav { color: #1e9eff; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
-        .hamburger span { display: block; width: 24px; height: 2px; background: #1e9eff; }
-        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(3,6,8,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #c0cfe0; text-decoration: none; text-transform: uppercase; }
-        .mobile-menu a:hover { color: #1e9eff; }
-        .mobile-menu-close { position: absolute; top: 24px; right: 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; background: none; border: none; color: #7a9bb5; }
 
         /* ── Layout ── */
         .page-wrap { padding-top: 70px; }
-        .back-bar { padding: 16px 40px; border-bottom: 1px solid rgba(30,158,255,0.08); }
-        .back-link { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
-        .back-link:hover { color: #1e9eff; }
+        .back-bar { padding: 16px 40px; border-bottom: 1px solid var(--border); }
+        .back-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+        .back-link:hover { color: var(--accent); }
 
         /* ── Hero ── */
-        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid rgba(30,158,255,0.12); }
+        .tool-hero { padding: 60px 40px 40px; border-bottom: 1px solid var(--border); }
         .tool-hero-inner { max-width: 1100px; margin: 0 auto; }
         .tool-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-        .tool-eyebrow-line { width: 40px; height: 1px; background: #1e9eff; }
-        .tool-eyebrow-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; }
-        .tool-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #c0cfe0; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .tool-desc { font-size: 15px; font-weight: 400; color: #9ab0c4; line-height: 1.8; max-width: 720px; }
+        .tool-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .tool-eyebrow-text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+        .tool-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .tool-desc { font-size: 15px; font-weight: 400; color: var(--text-secondary); line-height: 1.8; max-width: 720px; }
 
         /* ── Builder ── */
         .builder-wrap { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
-        .target-row { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; padding: 20px 24px; background: rgba(30,158,255,0.05); border: 1px solid rgba(30,158,255,0.25); }
-        .target-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 4px; color: #1e9eff; text-transform: uppercase; white-space: nowrap; }
-        .target-input { flex: 1; background: none; border: none; outline: none; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; }
-        .target-input::placeholder { color: #5a7a94; }
-        .target-hint { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; white-space: nowrap; }
+        .target-row { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; padding: 20px 24px; background: rgba(30,158,255,0.05); border: 1px solid var(--border-bright); }
+        .target-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; white-space: nowrap; }
+        .target-input { flex: 1; background: none; border: none; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 1px; }
+        .target-input::placeholder { color: var(--text-muted); }
+        .target-hint { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); white-space: nowrap; }
 
         .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
-        .field-block { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 20px 24px; }
+        .field-block { background: var(--bg-card); border: 1px solid var(--border); padding: 20px 24px; }
         .field-block.full { grid-column: 1 / -1; }
-        .field-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 4px; color: #5a7a94; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-        .field-label-op { color: #1e9eff; font-size: 10px; }
-        .field-input { width: 100%; background: none; border: none; border-bottom: 1px solid rgba(30,158,255,0.15); outline: none; padding: 8px 0; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; transition: border-color 0.3s; }
-        .field-input:focus { border-bottom-color: #1e9eff; }
-        .field-input::placeholder { color: #5a7a94; font-size: 11px; }
-        .field-select { width: 100%; background: #0a1520; border: none; border-bottom: 1px solid rgba(30,158,255,0.15); outline: none; padding: 8px 0; font-family: 'Share Tech Mono', monospace; font-size: 13px; color: #d8e8f5; letter-spacing: 1px; cursor: pointer; transition: border-color 0.3s; appearance: none; }
-        .field-select:focus { border-bottom-color: #1e9eff; }
-        .field-select option { background: #0a1520; }
+        .field-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .field-label-op { color: var(--accent); font-size: 12px; }
+        .field-input { width: 100%; background: none; border: none; border-bottom: 1px solid var(--border-bright); padding: 8px 0; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 1px; transition: border-color 0.3s; }
+        .field-input:focus { border-bottom-color: var(--accent); }
+        .field-input::placeholder { color: var(--text-muted); font-size: 12px; }
+        .field-select { width: 100%; background: var(--bg-card); border: none; border-bottom: 1px solid var(--border-bright); padding: 8px 0; font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); letter-spacing: 1px; cursor: pointer; transition: border-color 0.3s; appearance: none; }
+        .field-select:focus { border-bottom-color: var(--accent); }
+        .field-select option { background: var(--bg-card); }
 
         /* ── Preview ── */
-        .preview-block { background: #060e16; border: 1px solid rgba(30,158,255,0.2); padding: 24px; margin-bottom: 2px; }
-        .preview-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 5px; color: #1e9eff; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-        .preview-label::after { content: ''; flex: 1; height: 1px; background: rgba(30,158,255,0.15); }
-        .preview-query { font-family: 'Share Tech Mono', monospace; font-size: clamp(13px, 1.5vw, 16px); color: #c0cfe0; line-height: 1.7; word-break: break-all; min-height: 52px; user-select: all; cursor: text; }
-        .preview-query.empty { color: #5a7a94; font-size: 12px; letter-spacing: 1px; }
+        .preview-block { background: var(--bg-secondary); border: 1px solid var(--border-bright); padding: 24px; margin-bottom: 2px; }
+        .preview-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+        .preview-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .preview-query { font-family: var(--font-mono); font-size: clamp(13px, 1.5vw, 16px); color: var(--text-primary); line-height: 1.7; word-break: break-all; min-height: 52px; user-select: all; cursor: text; }
+        .preview-query.empty { color: var(--text-muted); font-size: 12px; letter-spacing: 1px; }
 
         /* ── Actions ── */
         .actions-row { display: flex; gap: 2px; }
-        .action-btn { flex: 1; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 18px 24px; cursor: pointer; border: none; transition: all 0.3s; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .action-btn.primary { background: #1e9eff; color: #fff; }
+        .action-btn { flex: 1; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 18px 24px; cursor: pointer; border: none; transition: all 0.3s; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .action-btn.primary { background: var(--accent); color: #fff; }
         .action-btn.primary:hover { background: #4db8ff; }
-        .action-btn.secondary { background: #0a1520; color: #7a9bb5; border: 1px solid rgba(30,158,255,0.2); }
-        .action-btn.secondary:hover { color: #1e9eff; border-color: rgba(30,158,255,0.5); }
-        .action-btn.tertiary { background: #0a1520; color: #7a9bb5; border: 1px solid rgba(30,158,255,0.1); }
+        .action-btn.secondary { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-bright); }
+        .action-btn.secondary:hover { color: var(--accent); border-color: var(--accent); }
+        .action-btn.tertiary { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-bright); }
         .action-btn.tertiary:hover { color: #ff6b35; border-color: rgba(255,107,53,0.3); }
         .action-btn:disabled, .action-btn.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
 
         /* ── Templates ── */
         .templates-section { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
         .section-header { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; padding-top: 8px; }
-        .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 5px; color: #7a9bb5; text-transform: uppercase; }
-        .section-line { flex: 1; height: 1px; background: rgba(30,158,255,0.1); }
+        .section-title { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-secondary); text-transform: uppercase; }
+        .section-line { flex: 1; height: 1px; background: var(--border); }
         .templates-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .template-card { background: #0a1520; border: 1px solid rgba(30,158,255,0.1); padding: 24px; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden; }
-        .template-card:hover { border-color: rgba(30,158,255,0.3); background: #0d1d2e; }
+        .template-card { background: var(--bg-card); border: 1px solid var(--border); padding: 24px; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden; }
+        .template-card:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
         .template-card-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.25s; }
         .template-card:hover .template-card-bar { opacity: 1; }
-        .template-cat { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
-        .template-name { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #c0cfe0; letter-spacing: 1px; margin-bottom: 8px; }
-        .template-desc { font-family: 'Barlow', sans-serif; font-size: 12px; color: #5a7a94; line-height: 1.6; margin-bottom: 14px; }
-        .template-preview { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #5a7a94; letter-spacing: 0.5px; word-break: break-all; line-height: 1.6; }
-        .template-apply { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #1e9eff; text-transform: uppercase; margin-top: 14px; opacity: 0; transition: opacity 0.25s; }
+        .template-cat { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
+        .template-name { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.05em; margin-bottom: 8px; }
+        .template-desc { font-family: var(--font-display); font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
+        .template-preview { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; word-break: break-all; line-height: 1.6; }
+        .template-apply { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; margin-top: 14px; opacity: 0; transition: opacity 0.25s; }
         .template-card:hover .template-apply { opacity: 1; }
 
         /* ── Footer ── */
-        footer { border-top: 1px solid rgba(30,158,255,0.12); padding: 40px; background: #070d12; margin-top: 0; }
+        footer { border-top: 1px solid var(--border); padding: 40px; background: var(--bg-secondary); margin-top: 0; }
         .footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .footer-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #5a7a94; }
-        .footer-copy span { color: #1e9eff; }
+        .footer-copy { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
+        .footer-copy span { color: var(--accent); }
 
         /* ── Mobile ── */
         @media (max-width: 900px) {
           .templates-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-          nav { padding: 0 16px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
           .tool-hero { padding: 40px 20px 30px; }
           .builder-wrap { padding: 32px 20px; }
           .target-row { flex-wrap: wrap; gap: 8px; }
@@ -314,39 +292,7 @@ export default function DorkBuilder() {
         }
       `}</style>
 
-      <div className="page-wrap">
-        {/* ── Nav ── */}
-        <nav>
-          <a href="/" className="nav-logo">
-            <div className="nav-logo-text">The Rudd Report</div>
-          </a>
-          <ul className="nav-links">
-            <li><a href="/reports">All Reports</a></li>
-            <li><a href="/cybersecurity">Cybersecurity</a></li>
-            <li><a href="/intelligence">Intelligence</a></li>
-            <li><a href="/geopolitics">Geopolitics</a></li>
-            <li><a href="/national-security">National Security</a></li>
-            <li><a href="/osint" className="active-nav">OSINT Hub</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-          <button className="hamburger" onClick={() => setMenuOpen(true)} aria-label="Open menu">
-            <span /><span /><span />
-          </button>
-        </nav>
-
-        {/* ── Mobile Menu ── */}
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>✕ Close</button>
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/reports" onClick={() => setMenuOpen(false)}>All Reports</a>
-          <a href="/cybersecurity" onClick={() => setMenuOpen(false)}>Cybersecurity</a>
-          <a href="/intelligence" onClick={() => setMenuOpen(false)}>Intelligence</a>
-          <a href="/geopolitics" onClick={() => setMenuOpen(false)}>Geopolitics</a>
-          <a href="/national-security" onClick={() => setMenuOpen(false)}>National Security</a>
-          <a href="/osint" onClick={() => setMenuOpen(false)} style={{color:'#1e9eff'}}>OSINT Hub</a>
-          <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
-        </div>
-
+      <main id="main" className="page-wrap">
         {/* ── Back Bar ── */}
         <div className="back-bar">
           <a href="/osint" className="back-link">← Back to OSINT Hub</a>
@@ -356,10 +302,10 @@ export default function DorkBuilder() {
         <div className="tool-hero">
           <div className="tool-hero-inner">
             <div className="tool-eyebrow">
-              <div className="tool-eyebrow-line" />
+              <div className="tool-eyebrow-line" aria-hidden="true" />
               <div className="tool-eyebrow-text">Search Intelligence</div>
             </div>
-            <div className="tool-title">Google Dork Builder</div>
+            <h1 className="tool-title">Google Dork Builder</h1>
             <p className="tool-desc">Google indexes far more than most people realize — exposed files, login portals, internal documents, and employee directories are all findable with the right search syntax. Build advanced Google search operators here to surface sensitive information about any domain without writing a single line of code.</p>
           </div>
         </div>
@@ -372,6 +318,7 @@ export default function DorkBuilder() {
             <div className="target-label">Target</div>
             <input
               className="target-input"
+              aria-label="Target domain or company name"
               placeholder="tesla.com  or  Tesla Inc  — auto-fills templates below"
               value={target}
               onChange={e => setTarget(e.target.value)}
@@ -386,6 +333,7 @@ export default function DorkBuilder() {
               <div className="field-label"><span className="field-label-op">site:</span> Restrict to domain</div>
               <input
                 className="field-input"
+                aria-label="site: restrict to domain"
                 placeholder="e.g. tesla.com"
                 value={fields.site}
                 onChange={e => setField('site', e.target.value)}
@@ -396,6 +344,7 @@ export default function DorkBuilder() {
               <div className="field-label"><span className="field-label-op">filetype:</span> File extension</div>
               <select
                 className="field-select"
+                aria-label="filetype: file extension"
                 value={fields.filetype}
                 onChange={e => setField('filetype', e.target.value)}
               >
@@ -409,6 +358,7 @@ export default function DorkBuilder() {
               <div className="field-label"><span className="field-label-op">inurl:</span> URL contains</div>
               <input
                 className="field-input"
+                aria-label="inurl: URL contains"
                 placeholder="e.g. login OR admin"
                 value={fields.inurl}
                 onChange={e => setField('inurl', e.target.value)}
@@ -419,6 +369,7 @@ export default function DorkBuilder() {
               <div className="field-label"><span className="field-label-op">intitle:</span> Page title contains</div>
               <input
                 className="field-input"
+                aria-label="intitle: page title contains"
                 placeholder='e.g. "index of"'
                 value={fields.intitle}
                 onChange={e => setField('intitle', e.target.value)}
@@ -429,6 +380,7 @@ export default function DorkBuilder() {
               <div className="field-label"><span className="field-label-op">intext:</span> Page body contains</div>
               <input
                 className="field-input"
+                aria-label="intext: page body contains"
                 placeholder='e.g. "sql syntax"'
                 value={fields.intext}
                 onChange={e => setField('intext', e.target.value)}
@@ -439,6 +391,7 @@ export default function DorkBuilder() {
               <div className="field-label"><span className="field-label-op">" "</span> Exact phrase</div>
               <input
                 className="field-input"
+                aria-label="Exact phrase"
                 placeholder="e.g. confidential internal use only"
                 value={fields.exact}
                 onChange={e => setField('exact', e.target.value)}
@@ -449,6 +402,7 @@ export default function DorkBuilder() {
               <div className="field-label"><span className="field-label-op">-</span> Exclude term</div>
               <input
                 className="field-input"
+                aria-label="Exclude term"
                 placeholder="e.g. careers"
                 value={fields.exclude}
                 onChange={e => setField('exclude', e.target.value)}
@@ -459,6 +413,7 @@ export default function DorkBuilder() {
               <div className="field-label"><span className="field-label-op">OR</span> Alternative terms</div>
               <input
                 className="field-input"
+                aria-label="OR alternative terms"
                 placeholder="e.g. password secret key token"
                 value={fields.orTerms}
                 onChange={e => setField('orTerms', e.target.value)}
@@ -469,6 +424,7 @@ export default function DorkBuilder() {
               <div className="field-label"><span className="field-label-op">tbs:</span> Date range</div>
               <select
                 className="field-select"
+                aria-label="tbs: date range"
                 value={fields.dateRange}
                 onChange={e => setField('dateRange', e.target.value)}
               >
@@ -502,13 +458,14 @@ export default function DorkBuilder() {
               Search Google →
             </a>
             <button
+              type="button"
               className={`action-btn secondary${!query ? ' disabled' : ''}`}
               onClick={handleCopy}
               disabled={!query}
             >
               {copied ? 'Copied ✓' : 'Copy Query'}
             </button>
-            <button className="action-btn tertiary" onClick={handleReset}>
+            <button type="button" className="action-btn tertiary" onClick={handleReset}>
               Reset
             </button>
           </div>
@@ -548,7 +505,7 @@ export default function DorkBuilder() {
             <div className="footer-copy">© 2026 The Rudd Report</div>
           </div>
         </footer>
-      </div>
+      </main>
     </>
   );
 }
