@@ -220,8 +220,16 @@ export default function OSINTHub() {
         .oz-search-row button:hover { background: #4db3ff; }
         .oz-hint {
           font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.03em;
-          color: var(--text-muted); margin-top: 10px;
+          color: var(--text-muted); margin-top: 12px;
         }
+        .oz-ex { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+        .oz-ex-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+        .oz-ex button {
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em;
+          color: var(--text-secondary); background: var(--bg-card);
+          border: 1px solid var(--border-bright); padding: 6px 12px; cursor: pointer;
+        }
+        .oz-ex button:hover, .oz-ex button:focus-visible { color: #fff; border-color: var(--accent); }
 
         /* ── QUICK STARTS ── */
         .oz-qs-h {
@@ -365,19 +373,24 @@ export default function OSINTHub() {
           <p className="oz-sub">{TOOLS.length} free investigation tools. No account required.</p>
 
           <div className="oz-search">
-            <label htmlFor="oz-q">Search tools, or paste something to investigate</label>
+            <label htmlFor="oz-q">Paste anything — we&apos;ll pick the right tool</label>
             <div className="oz-search-row">
               <input
                 id="oz-q"
                 ref={inputRef}
-                placeholder="IP, domain, hash, URL, email, or username..."
+                placeholder="An IP, domain, hash, email, or username…"
                 value={query}
                 onChange={e => { setQuery(e.target.value); setCategory('All'); }}
                 onKeyDown={e => e.key === 'Enter' && !filtered.length && detectAndRoute(query)}
               />
-              <button onClick={() => detectAndRoute(query)}>Investigate →</button>
+              <button type="button" onClick={() => detectAndRoute(query)}>Go →</button>
             </div>
-            <p className="oz-hint">Detects IPs, domains, hashes, emails, and usernames automatically.</p>
+            <div className="oz-ex" role="group" aria-label="Example inputs to try">
+              <span className="oz-ex-label" aria-hidden="true">Try</span>
+              {['8.8.8.8', 'google.com', '5d41402abc4b2a76b9719d911017c592', 'torvalds'].map(v => (
+                <button key={v} type="button" onClick={() => { setQuery(v); detectAndRoute(v); }}>{v}</button>
+              ))}
+            </div>
           </div>
 
           {showQuickStarts && (
