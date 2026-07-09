@@ -3,24 +3,42 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import FlagUS from './FlagUS';
 
-const LINKS = [
+type NavLink = { href: string; label: string; live?: boolean };
+
+// Lean top bar — the essentials. Newswire = the live Intel Watch Floor.
+const PRIMARY: NavLink[] = [
   { href: '/articles', label: 'Reports' },
+  { href: '/osint/feed', label: 'Newswire', live: true },
+  { href: '/osint', label: 'OSINT Hub' },
+  { href: '/about', label: 'About' },
+];
+
+// Secondary destinations — off the desktop bar (they live in the footer), but
+// kept in the mobile menu so nothing is more than a tap away on a phone.
+const SECONDARY: NavLink[] = [
   { href: '/cybersecurity', label: 'Cyber' },
   { href: '/intelligence', label: 'Intelligence' },
   { href: '/geopolitics', label: 'Geopolitics' },
   { href: '/national-security', label: 'Nat-Sec' },
-  { href: '/osint', label: 'OSINT Tools' },
   { href: '/brief', label: 'Daily Brief' },
-  { href: '/about', label: 'About' },
 ];
 
-function isActive(href: string, pathname: string): boolean {
-  if (href === '/') return pathname === '/';
-  return pathname === href || pathname.startsWith(href + '/');
+const ALL_HREFS = ['/', ...PRIMARY.map((l) => l.href), ...SECONDARY.map((l) => l.href)];
+
+// The active link is the *longest* href that matches the current path, so
+// /osint/feed lights up Newswire — not OSINT Hub (/osint), which is a prefix.
+function bestMatch(pathname: string): string {
+  let best = '';
+  for (const href of ALL_HREFS) {
+    const match = href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/');
+    if (match && href.length > best.length) best = href;
+  }
+  return best;
 }
 
 export default function Nav() {
   const pathname = usePathname();
+  const active = bestMatch(pathname);
   const [mobileOpen, setMobileOpen] = useState(false);
   const burgerRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -121,8 +139,15 @@ export default function Nav() {
           color: var(--accent); font-style: normal;
         }
         #site-nav .sn-links {
-          display: flex; align-items: center; gap: 24px; list-style: none;
+          display: flex; align-items: center; gap: 30px; list-style: none;
         }
+        .sn-live-dot {
+          display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+          background: var(--red); margin-right: 7px; vertical-align: 1px;
+          animation: snPulse 1.6s infinite;
+        }
+        @keyframes snPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        @media (prefers-reduced-motion: reduce) { .sn-live-dot { animation: none; } }
         #site-nav .sn-links a {
           font-family: var(--font-mono);
           font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
@@ -183,10 +208,20 @@ export default function Nav() {
         }
         #site-mobile-menu a:hover,
         #site-mobile-menu a.sn-active { color: var(--accent); }
+        #site-mobile-menu .smm-sec {
+          margin-top: 28px; padding-top: 20px; width: 100%;
+          border-top: 1px solid var(--border);
+          display: flex; flex-direction: column; gap: 6px;
+        }
+        #site-mobile-menu .smm-sec-label {
+          font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em;
+          text-transform: uppercase; color: #8f8f8a; margin-bottom: 6px;
+        }
+        #site-mobile-menu .smm-sec a { font-size: 18px; font-weight: 600; padding: 5px 0; }
         #site-mobile-menu .smm-notice {
           font-family: var(--font-mono);
           font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
-          color: #8f8f8a; margin-top: 32px;
+          color: #8f8f8a; margin-top: 28px;
           border-top: 1px solid var(--border); padding-top: 16px;
         }
 
@@ -223,13 +258,14 @@ export default function Nav() {
           </a>
           <div className="sn-cluster">
             <ul className="sn-links">
-              {LINKS.map(({ href, label }) => (
+              {PRIMARY.map(({ href, label, live }) => (
                 <li key={href}>
                   <a
                     href={href}
-                    className={isActive(href, pathname) ? 'sn-active' : ''}
-                    aria-current={isActive(href, pathname) ? 'page' : undefined}
+                    className={href === active ? 'sn-active' : ''}
+                    aria-current={href === active ? 'page' : undefined}
                   >
+                    {live && <span className="sn-live-dot" aria-hidden="true" />}
                     {label}
                   </a>
                 </li>
@@ -263,17 +299,32 @@ export default function Nav() {
         <a href="/" onClick={() => setMobileOpen(false)}>
           <span className="smm-idx" aria-hidden="true">00</span> Home
         </a>
-        {LINKS.map(({ href, label }, i) => (
+        {PRIMARY.map(({ href, label, live }, i) => (
           <a
             key={href}
             href={href}
-            className={isActive(href, pathname) ? 'sn-active' : ''}
-            aria-current={isActive(href, pathname) ? 'page' : undefined}
+            className={href === active ? 'sn-active' : ''}
+            aria-current={href === active ? 'page' : undefined}
             onClick={() => setMobileOpen(false)}
           >
             <span className="smm-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span> {label}
+            {live && <span className="sn-live-dot" aria-hidden="true" />}
           </a>
         ))}
+        <div className="smm-sec">
+          <p className="smm-sec-label">Coverage</p>
+          {SECONDARY.map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              className={href === active ? 'sn-active' : ''}
+              aria-current={href === active ? 'page' : undefined}
+              onClick={() => setMobileOpen(false)}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
         <p className="smm-notice">Independent publication · Est. 2026</p>
       </div>
     </>

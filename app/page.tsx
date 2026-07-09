@@ -714,6 +714,9 @@ export default function Home() {
               <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/articles">All Reports</a></li>
+                <li><a href="/osint/feed">Newswire</a></li>
+                <li><a href="/osint">OSINT Hub</a></li>
+                <li><a href="/brief">Daily Brief</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/contact">Contact</a></li>
               </ul>
