@@ -887,7 +887,7 @@ export default function SatelliteTracker() {
         .field-value.amber { color: #ffaa00; }
         .field-value.red { color: var(--red); }
         .field-value.purple { color: #b464ff; }
-        .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #22cc66; box-shadow: 0 0 8px #22cc66; margin-right: 8px; animation: pulse 2s infinite; vertical-align: middle; }
+        .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #22cc66; margin-right: 8px; vertical-align: middle; }
         .countdown-box { padding: 14px 22px; border-bottom: 1px solid var(--border); background: rgba(34,204,102,0.03); }
         .countdown-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
         .countdown-value { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: #22cc66; letter-spacing: 0.05em; }

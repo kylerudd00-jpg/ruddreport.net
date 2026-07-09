@@ -212,7 +212,7 @@ export default function OSINTFeed() {
         .rail { display: flex; align-items: stretch; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 0 40px; margin-top: 20px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-secondary); }
         .rail-metrics { display: flex; align-items: stretch; flex-wrap: wrap; }
         .rail-live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; color: var(--red); text-transform: uppercase; padding: 14px 20px 14px 0; }
-        .rail-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); animation: pulse 1.6s infinite; }
+        .rail-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); }
         .rail-seg { display: inline-flex; align-items: baseline; gap: 7px; padding: 14px 20px; border-left: 1px solid var(--border); }
         .rail-v { font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
         .rail-of { font-size: 12px; font-weight: 400; color: var(--text-muted); }

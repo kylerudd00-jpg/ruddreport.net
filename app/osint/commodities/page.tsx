@@ -252,7 +252,7 @@ export default function CommodityMonitor() {
         .section-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
         .section-subtitle { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 24px; }
         .reference-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); padding: 5px 14px; text-transform: uppercase; background: rgba(255,170,0,0.04); margin-bottom: 24px; }
-        .reference-badge::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ffaa00; animation: blink 2s infinite; }
+        .reference-badge::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ffaa00; }
 
         /* ── Commodity grid ── */
         .commodity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px; }

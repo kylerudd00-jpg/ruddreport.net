@@ -342,7 +342,7 @@ export default function OSINTHub() {
           color: #22cc66; text-transform: uppercase;
         }
         /* finite (4s) — keeps the pulse out of WCAG 2.2.2 scope entirely */
-        .oz-live-dot { width: 5px; height: 5px; border-radius: 50%; background: #22cc66; animation: pulse 2s 2; }
+        .oz-live-dot { width: 5px; height: 5px; border-radius: 50%; background: #22cc66; }
         .oz-tool-cat {
           font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
           text-transform: uppercase;

@@ -47,7 +47,7 @@ export default function CountryPage({ params }: { params: { country: string } })
         .header-name { font-family: var(--font-display); font-size: clamp(24px, 5vw, 44px); font-weight: 900; color: #fff; letter-spacing: -0.02em; }
         .header-region { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 4px; }
         .threat-badge-lg { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 16px; border: 1px solid; display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; }
-        .threat-dot { width: 8px; height: 8px; border-radius: 50%; animation: pulse 2s ease-in-out 2; }
+        .threat-dot { width: 8px; height: 8px; border-radius: 50%; }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
         .header-meta { display: flex; gap: 32px; margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; }
         .meta-item { display: flex; flex-direction: column; gap: 6px; }
