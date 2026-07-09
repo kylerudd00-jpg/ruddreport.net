@@ -68,7 +68,7 @@ export default function CurrencyTracker() {
     try {
       // Frankfurter doesn't support RUB/SAR as base; fetch USD and cross-rate
       if (FRANKFURTER_UNSUPPORTED_BASE.includes(base)) {
-        const res = await fetch(`https://api.frankfurter.app/latest?from=USD`);
+        const res = await fetch(`https://api.frankfurter.dev/v1/latest?from=USD`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         const usdRates: Rates = { USD: 1, ...data.rates };
@@ -79,7 +79,7 @@ export default function CurrencyTracker() {
         setLoading(false);
         return;
       }
-      const res = await fetch(`https://api.frankfurter.app/latest?from=${base}`);
+      const res = await fetch(`https://api.frankfurter.dev/v1/latest?from=${base}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setRates({ [base]: 1, ...data.rates });
@@ -124,7 +124,7 @@ export default function CurrencyTracker() {
         setActiveCompare({ from, to, rate: 'N/A (currency not in ECB dataset)', context });
         return;
       }
-      const res = await fetch(`https://api.frankfurter.app/latest?from=${from}&to=${to}`);
+      const res = await fetch(`https://api.frankfurter.dev/v1/latest?from=${from}&to=${to}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const rate = data.rates?.[to];

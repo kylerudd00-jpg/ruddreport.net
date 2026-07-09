@@ -12,12 +12,18 @@ function apiUrl(path: string, params: Record<string, string> = {}): string {
   return u.toString();
 }
 
+const KEY_MSG = 'OpenCorporates now requires a paid API key. Set OPENCORPORATES_API_KEY to enable this tool — or use the Corporate (GLEIF) and SEC EDGAR tools for free company data.';
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get('type') || 'companies';
   const q = searchParams.get('q') || '';
   const jurisdiction = searchParams.get('jurisdiction') || '';
   const number = searchParams.get('number') || '';
+
+  // OpenCorporates rejects every unauthenticated request (401). Fail clearly
+  // instead of surfacing a raw "returned 401" to the user.
+  if (!API_KEY) return NextResponse.json({ error: KEY_MSG });
 
   try {
     // Company detail
@@ -121,6 +127,7 @@ export async function GET(request: Request) {
       total: data.results?.total_count || companies.length,
     });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || 'Lookup failed' }, { status: 500 });
+    const msg = /401|403/.test(e?.message || '') ? KEY_MSG : (e.message || 'Lookup failed');
+    return NextResponse.json({ error: msg }, { status: 200 });
   }
 }
