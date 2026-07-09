@@ -1,5 +1,5 @@
 ﻿'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const STYLE = `
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap');
@@ -79,8 +79,13 @@ export default function SSLInspector() {
   const [error, setError] = useState('');
   const [searched, setSearched] = useState('');
 
-  async function lookup() {
-    const domain = query.trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setQuery(q); lookup(q); }
+  }, []);
+
+  async function lookup(override?: string) {
+    const domain = (override ?? query).trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
     if (!domain) return;
     setLoading(true);
     setError('');
@@ -146,7 +151,7 @@ export default function SSLInspector() {
               onChange={e => setQuery(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && lookup()}
             />
-            <button className="lookup-btn" onClick={lookup} disabled={loading}>
+            <button className="lookup-btn" onClick={() => lookup()} disabled={loading}>
               {loading ? 'Searching...' : 'Search Certs →'}
             </button>
           </div>

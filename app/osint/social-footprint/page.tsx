@@ -1,5 +1,5 @@
 ﻿'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 interface GdeltArticle {
   title?: string;
@@ -36,12 +36,18 @@ export default function SocialFootprint() {
     setNewsLoading(false);
   }, []);
 
-  const handleSubmit = () => {
-    if (!fullName.trim()) return;
-    const s = { fullName: fullName.trim(), username: username.trim(), email: email.trim() };
+  const handleSubmit = (override?: string) => {
+    const name = (override ?? fullName).trim();
+    if (!name) return;
+    const s = { fullName: name, username: username.trim(), email: email.trim() };
     setSubmitted(s);
     fetchNews(s.fullName);
   };
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setFullName(q); handleSubmit(q); }
+  }, []);
 
   const name = submitted?.fullName || '';
   const nameParts = name.split(' ');
@@ -229,7 +235,7 @@ export default function SocialFootprint() {
               <input className="form-input" placeholder="john@example.com" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSubmit()} />
             </div>
           </div>
-          <button className="run-btn" onClick={handleSubmit} disabled={!fullName.trim()} style={{marginBottom: '32px'}}>
+          <button className="run-btn" onClick={() => handleSubmit()} disabled={!fullName.trim()} style={{marginBottom: '32px'}}>
             Map Digital Footprint →
           </button>
 

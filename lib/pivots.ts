@@ -22,7 +22,6 @@ export const PIVOTS: Record<Indicator, Pivot[]> = {
   ],
   email: [
     { name: 'Breach Lookup', href: '/osint/breach', hint: 'Exposure across breach databases' },
-    { name: 'Email Headers', href: '/osint/email-headers', hint: 'Trace routing and auth results' },
   ],
   hash: [
     { name: 'Hash Analyzer', href: '/osint/hash', hint: 'Identify the algorithm' },

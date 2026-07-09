@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type IoCType = 'ip' | 'hash_md5' | 'hash_sha1' | 'hash_sha256' | 'url' | 'domain' | 'unknown';
 
@@ -120,8 +120,8 @@ export default function IoCPage() {
   const [result, setResult] = useState<IoCResult | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  async function analyze() {
-    const q = input.trim();
+  async function runAnalyze(val: string) {
+    const q = val.trim();
     if (!q) return;
     setLoading(true);
     setResult(null);
@@ -134,6 +134,12 @@ export default function IoCPage() {
       setLoading(false);
     }
   }
+  const analyze = () => runAnalyze(input);
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setInput(q); runAnalyze(q); }
+  }, []);
 
   const color = result ? typeColor(result.type) : '#1e9eff';
 

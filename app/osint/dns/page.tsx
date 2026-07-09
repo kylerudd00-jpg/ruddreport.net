@@ -1,5 +1,5 @@
 ﻿'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function DNSIntel() {
   const [domain, setDomain] = useState('');
@@ -7,6 +7,11 @@ export default function DNSIntel() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('intel');
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setDomain(q); runLookup(q); }
+  }, []);
 
   const runLookup = async (override?: string) => {
     const target = (override ?? domain).trim();

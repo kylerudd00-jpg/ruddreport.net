@@ -480,17 +480,17 @@ export default function OSINTHub() {
         {/* CONTENT */}
         <div className="oz-content">
           <p aria-live="polite" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' }}>
-            {filtered.length} tools shown
+            {pivotType ? '' : `${filtered.length} tools shown`}
           </p>
-          {query.trim() && (
+          {query.trim() && !pivotType && (
             <p className="oz-note">
               <em>{filtered.length}</em> result{filtered.length !== 1 ? 's' : ''} for &ldquo;{query.trim()}&rdquo;
               {liveCount > 0 && <span> · {liveCount} live</span>}
             </p>
           )}
 
-          {/* FILTERED / SINGLE-CATEGORY FLAT GRID */}
-          {(query.trim() || category !== 'All') && (
+          {/* FILTERED / SINGLE-CATEGORY FLAT GRID (hidden when an indicator pivot is showing) */}
+          {(query.trim() || category !== 'All') && !pivotType && (
             filtered.length === 0 ? (
               <p className="oz-empty">No tools match &ldquo;{query}&rdquo;</p>
             ) : (

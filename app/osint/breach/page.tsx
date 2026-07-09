@@ -1,5 +1,5 @@
 ﻿'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const SERVICES = [
   {
@@ -97,10 +97,17 @@ export default function BreachLookup() {
 
   const isValidEmail = (e: string) => e.trim().length > 3 && e.includes('@');
 
-  const handleSubmit = () => {
-    if (!isValidEmail(email)) return;
-    setSubmitted(email.trim());
+  const runEmail = (val: string) => {
+    const e = val.trim();
+    if (!isValidEmail(e)) return;
+    setSubmitted(e);
   };
+  const handleSubmit = () => runEmail(email);
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setEmail(q); runEmail(q); }
+  }, []);
 
   const checkPassword = async () => {
     if (!password.trim()) return;

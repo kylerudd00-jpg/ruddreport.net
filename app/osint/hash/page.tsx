@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const HASH_PATTERNS: { name: string; regex: RegExp; bits: number; desc: string }[] = [
   { name: 'MD5', regex: /^[a-f0-9]{32}$/i, bits: 128, desc: 'Message Digest 5 — broken, common in legacy systems' },
@@ -49,6 +49,11 @@ export default function HashAnalyzer() {
   };
   const analyze = () => runAnalyze(input);
   const runExample = (v: string) => { setInput(v); runAnalyze(v); };
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setInput(q); runAnalyze(q); }
+  }, []);
 
   return (
     <>

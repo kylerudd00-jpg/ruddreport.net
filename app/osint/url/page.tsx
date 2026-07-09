@@ -1,5 +1,5 @@
 ﻿'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type Hop = { url: string; status: number; kind: 'redirect' | 'final' | 'error' };
 
@@ -27,14 +27,15 @@ export default function UrlTracer() {
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
 
-  const trace = async () => {
-    if (!url.trim()) return;
+  const runTrace = async (val: string) => {
+    const target = val.trim();
+    if (!target) return;
     setLoading(true);
     setError('');
     setHops([]);
     setDone(false);
     try {
-      const res = await fetch(`/api/osint/url?url=${encodeURIComponent(url.trim())}`);
+      const res = await fetch(`/api/osint/url?url=${encodeURIComponent(target)}`);
       const data = await res.json();
       if (data.error) { setError(data.error); }
       else { setHops(data.hops || []); }
@@ -46,6 +47,12 @@ export default function UrlTracer() {
       setLoading(false);
     }
   };
+  const trace = () => runTrace(url);
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setUrl(q); runTrace(q); }
+  }, []);
 
   const final = hops[hops.length - 1];
 

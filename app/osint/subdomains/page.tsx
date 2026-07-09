@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function SubdomainScanner() {
   const [domain, setDomain] = useState('');
@@ -17,13 +17,19 @@ export default function SubdomainScanner() {
     });
   };
 
-  const scan = async () => {
-    if (!domain.trim()) return;
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setDomain(q); scan(q); }
+  }, []);
+
+  const scan = async (override?: string) => {
+    const target = (override ?? domain).trim();
+    if (!target) return;
     setLoading(true);
     setError('');
     setResult(null);
     try {
-      const res = await fetch(`/api/osint/subdomains?domain=${encodeURIComponent(domain.trim())}`);
+      const res = await fetch(`/api/osint/subdomains?domain=${encodeURIComponent(target)}`);
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setResult(data);
@@ -136,7 +142,7 @@ export default function SubdomainScanner() {
               onChange={e => setDomain(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && scan()}
             />
-            <button type="button" className="search-btn" onClick={scan} disabled={loading || !domain.trim()}>
+            <button type="button" className="search-btn" onClick={() => scan()} disabled={loading || !domain.trim()}>
               {loading ? 'Scanning...' : 'Scan →'}
             </button>
           </div>
