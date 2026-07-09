@@ -37,7 +37,7 @@ function getCategoryColor(cat: string): string {
 
 const OSINT_CATS = [
   { name: 'Corporate', count: 10, desc: 'Company filings, SEC records, government contracts, court records, and exec research.', href: '/osint?cat=Corporate' },
-  { name: 'Network', count: 7, desc: 'WHOIS, DNS, IP geolocation, subdomains, SSL certs, and URL redirect tracing.', href: '/osint?cat=Network' },
+  { name: 'Network', count: 4, desc: 'Domain lookup (WHOIS, DNS, SSL, subdomains), IP geolocation, URL tracing, and MAC lookup.', href: '/osint?cat=Network' },
   { name: 'Cyber', count: 14, desc: 'Hashes, CVEs, email headers, breach lookup, username search, and Google dorks.', href: '/osint?cat=Cyber' },
   { name: 'Live & Tracking', count: 7, desc: 'Satellites, flights, vessels, conflict zones, prediction markets, and news feeds.', href: '/osint?cat=Live' },
   { name: 'Economic', count: 4, desc: 'Currency rates, commodity prices, country economic profiles, and sanctions screening.', href: '/osint?cat=Economic' },
@@ -49,7 +49,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [osintQuery, setOsintQuery] = useState('');
   // SSR/no-JS render the final values; JS animates 0 -> N on first sight
-  const [stat, setStat] = useState({ tools: 47, cats: 6 });
+  const [stat, setStat] = useState({ tools: 44, cats: 6 });
   const statsRef = useRef<HTMLDivElement>(null);
 
   // Scroll reveals (shared hook) — re-runs on filter/search so newly
@@ -70,7 +70,7 @@ export default function Home() {
       const tick = (now: number) => {
         const p = Math.min(1, (now - t0) / dur);
         const ease = 1 - Math.pow(1 - p, 4);
-        setStat({ tools: Math.round(47 * ease), cats: Math.round(6 * ease) });
+        setStat({ tools: Math.round(44 * ease), cats: Math.round(6 * ease) });
         if (p < 1) requestAnimationFrame(tick);
       };
       setStat({ tools: 0, cats: 0 });
@@ -462,7 +462,7 @@ export default function Home() {
                 <span className="rr-dir-idx" aria-hidden="true">02</span>
                 <span className="rr-dir-name">OSINT Toolkit</span>
                 <span className="rr-dir-desc">Free investigation tools — no account needed.</span>
-                <span className="rr-dir-meta">47 tools</span>
+                <span className="rr-dir-meta">44 tools</span>
                 <span className="rr-dir-arrow" aria-hidden="true">→</span>
               </a>
               <a className="rr-dir-row" href="/brief" style={{ borderBottom: '1px solid var(--border)' }}>
@@ -550,12 +550,12 @@ export default function Home() {
             <div className="rr-osint-head rv">
               <div>
                 <p className="rr-osint-blurb">
-                  47 free tools covering companies, networks, live tracking, and more.
+                  44 free tools covering companies, networks, live tracking, and more.
                   Everything runs in the browser with no account required.
                 </p>
                 <div className="rr-stats" ref={statsRef}>
                   <div>
-                    <div className="rr-stat-num"><span aria-hidden="true">{stat.tools}</span><span className="rr-sr">47</span></div>
+                    <div className="rr-stat-num"><span aria-hidden="true">{stat.tools}</span><span className="rr-sr">44</span></div>
                     <div className="rr-stat-label">Live tools</div>
                   </div>
                   <div>
@@ -596,7 +596,7 @@ export default function Home() {
                 </a>
               ))}
             </div>
-            <a href="/osint" className="rr-osint-all rv">View all 47 tools in the OSINT hub →</a>
+            <a href="/osint" className="rr-osint-all rv">View all 44 tools in the OSINT hub →</a>
           </div>
         </section>
 
