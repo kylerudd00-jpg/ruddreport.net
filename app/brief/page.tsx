@@ -95,7 +95,7 @@ export default function BriefPage() {
 
         .today-label { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: #ffaa00; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
         .today-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,170,0,0.2); }
-        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #ffaa00; display: inline-block; animation: pulse-dot 1.5s ease-in-out infinite; flex-shrink: 0; }
+        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #ffaa00; display: inline-block; flex-shrink: 0; }
         @keyframes pulse-dot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
 
         .message-block { border: 1px solid rgba(255,170,0,0.15); background: var(--bg-secondary); padding: 28px 32px; margin-bottom: 2px; position: relative; }

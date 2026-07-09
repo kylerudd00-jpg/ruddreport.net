@@ -54,7 +54,7 @@ export default function OSINTFeed() {
         .osint-statusbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; max-width: 1400px; margin: 20px auto 0; border: 1px solid var(--border); background: var(--bg-card); }
         .status-left { display: flex; align-items: center; gap: 24px; }
         .status-live { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: #1e9eff; text-transform: uppercase; }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #1e9eff;  animation: pulse 2s infinite; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #1e9eff; }
         .status-count { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
         .status-updated { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--text-muted); }
         .refresh-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: #1e9eff; background: none; border: 1px solid var(--border-bright); padding: 6px 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; }

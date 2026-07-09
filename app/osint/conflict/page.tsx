@@ -1722,7 +1722,7 @@ useEffect(() => {
         .back-link { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: #5a7a94; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
         .back-link:hover { color: #1e9eff; }
         .live-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
-        .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #1e9eff; box-shadow: 0 0 6px #1e9eff; animation: blink 2s infinite; }
+        .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #1e9eff; box-shadow: 0 0 6px #1e9eff; }
 
         /* HERO */
         .tool-hero { padding: 28px 40px 22px; border-bottom: 1px solid rgba(30,158,255,0.08); }
@@ -1889,7 +1889,7 @@ useEffect(() => {
         .diplo-row { max-width: 1500px; margin: 0 auto; padding: 0 40px 40px; width: 100%; }
         .diplo-row-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 0 10px; border-top: 1px solid rgba(0,255,136,0.12); margin-bottom: 8px; }
         .diplo-row-title { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; color: #c0cfe0; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
-        .diplo-row-dot { width: 7px; height: 7px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; animation: blink 2s infinite; flex-shrink: 0; }
+        .diplo-row-dot { width: 7px; height: 7px; border-radius: 50%; background: #00ff88; box-shadow: 0 0 8px #00ff88; flex-shrink: 0; }
         .diplo-row-sub { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #5a7a94; text-transform: uppercase; }
         .diplo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .diplo-card { border: 1px solid rgba(0,255,136,0.09); border-top: 2px solid rgba(0,255,136,0.25); background: #070d12; padding: 14px 16px; transition: background 0.15s; display: flex; flex-direction: column; gap: 8px; }
