@@ -146,9 +146,7 @@ export default function Nav() {
         .sn-live-dot {
           display: inline-block; width: 6px; height: 6px; border-radius: 50%;
           background: var(--red); margin-right: 7px; vertical-align: 1px;
-          animation: snPulse 1.6s infinite;
         }
-        @keyframes snPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
         #site-nav a:focus-visible, #site-nav button:focus-visible,
         #site-mobile-menu a:focus-visible, #site-mobile-menu button:focus-visible {
