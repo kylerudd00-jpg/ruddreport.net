@@ -269,13 +269,15 @@ export default function OSINTFeed() {
         .panel-h { display: flex; align-items: center; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 16px; }
         .panel-h .tag { color: var(--text-muted); font-weight: 400; }
 
-        .trend-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; width: 100%; background: none; border: none; cursor: pointer; padding: 5px 0; text-align: left; }
-        .trend-name { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.02em; color: var(--text-secondary); text-transform: capitalize; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .trend-row:hover .trend-name { color: var(--accent); }
-        .trend-row.active .trend-name { color: var(--accent); }
-        .trend-count { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
-        .trend-track { grid-column: 1 / -1; height: 3px; background: var(--border); overflow: hidden; }
-        .trend-fill { height: 100%; background: var(--accent); }
+        .trend-row { position: relative; display: flex; align-items: center; gap: 10px; width: 100%; background: var(--bg-primary); border: 1px solid var(--border); cursor: pointer; padding: 8px 12px; margin-bottom: 4px; text-align: left; overflow: hidden; transition: border-color 0.2s; }
+        .trend-row:hover { border-color: var(--border-bright); }
+        .trend-row.active { border-color: var(--accent); }
+        .trend-fill { position: absolute; left: 0; top: 0; height: 100%; background: rgba(30,158,255,0.16); border-right: 2px solid var(--accent); transition: width 0.6s var(--ease-expo, ease); }
+        .trend-row.active .trend-fill { background: rgba(30,158,255,0.28); }
+        .trend-rank { position: relative; z-index: 1; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); min-width: 16px; }
+        .trend-name { position: relative; z-index: 1; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.02em; color: var(--text-secondary); text-transform: capitalize; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .trend-row:hover .trend-name, .trend-row.active .trend-name { color: var(--text-primary); }
+        .trend-count { position: relative; z-index: 1; margin-left: auto; font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--accent); }
 
         .cat-row { display: grid; grid-template-columns: 96px 1fr 34px; gap: 10px; align-items: center; margin-bottom: 10px; }
         .cat-name { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -476,7 +478,7 @@ export default function OSINTFeed() {
                     {trending.length === 0 ? (
                       <div className="src-name">Not enough signal yet</div>
                     ) : (
-                      trending.map((t) => (
+                      trending.map((t, i) => (
                         <button
                           type="button"
                           key={t.surface}
@@ -484,9 +486,10 @@ export default function OSINTFeed() {
                           aria-pressed={topic === t.surface}
                           onClick={() => setTopic(topic === t.surface ? '' : t.surface)}
                         >
+                          <span className="trend-fill" style={{ width: `${(t.count / maxTrend) * 100}%` }} aria-hidden="true" />
+                          <span className="trend-rank" aria-hidden="true">{i + 1}</span>
                           <span className="trend-name">{t.surface}</span>
-                          <span className="trend-count">{t.count} {t.count === 1 ? 'story' : 'stories'}</span>
-                          <span className="trend-track"><span className="trend-fill" style={{ width: `${(t.count / maxTrend) * 100}%` }} /></span>
+                          <span className="trend-count">{t.count}<span className="sr-only"> {t.count === 1 ? 'story' : 'stories'}</span></span>
                         </button>
                       ))
                     )}
