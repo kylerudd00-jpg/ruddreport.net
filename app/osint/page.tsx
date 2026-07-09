@@ -1,23 +1,14 @@
 'use client';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useReveal } from '../components/useReveal';
+import { detectType, INDICATOR_LABEL, routeFor, type Indicator } from '@/lib/detect';
+import { PIVOTS } from '@/lib/pivots';
 import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, Footprints, Car, Network, Bug, Crosshair, Flag, Database, type LucideIcon } from 'lucide-react';
 
-// Smart detection — paste anything and route to the right tool
+// Paste anything → route to the primary tool (shared detector in lib/detect)
 function detectAndRoute(raw: string) {
-  const q = raw.trim();
-  if (!q) return;
-  const ipRx     = /^(\d{1,3}\.){3}\d{1,3}$/;
-  const hashRx   = /^[0-9a-fA-F]{32}$|^[0-9a-fA-F]{40}$|^[0-9a-fA-F]{64}$/;
-  const domainRx = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/i;
-  const emailRx  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const urlRx    = /^https?:\/\//i;
-  if (urlRx.test(q))    { window.location.href = `/osint/url?q=${encodeURIComponent(q)}`; return; }
-  if (emailRx.test(q))  { window.location.href = `/osint/email-headers?q=${encodeURIComponent(q)}`; return; }
-  if (ipRx.test(q))     { window.location.href = `/osint/ip?q=${encodeURIComponent(q)}`; return; }
-  if (hashRx.test(q))   { window.location.href = `/osint/hash?q=${encodeURIComponent(q)}`; return; }
-  if (domainRx.test(q)) { window.location.href = `/osint/domain?q=${encodeURIComponent(q)}`; return; }
-  window.location.href = `/osint/username?q=${encodeURIComponent(q)}`;
+  const r = routeFor(raw);
+  if (r) window.location.href = r;
 }
 
 type Category = 'All' | 'Corporate' | 'Network' | 'Cyber' | 'Live' | 'Economic' | 'Utilities';
@@ -136,6 +127,27 @@ export default function OSINTHub() {
 
   useReveal([query, category]);
 
+  // Pivot board: for a confident indicator match (not the username catch-all),
+  // surface every tool that accepts it. Visible panel renders synchronously;
+  // the SR announcement is debounced + fires only when the type changes.
+  const detected = detectType(query);
+  const pivotType: Indicator | null =
+    detected && detected !== 'username' && query.trim().length > 2 ? detected : null;
+  const [pivotAnnounce, setPivotAnnounce] = useState('');
+  const lastPivotType = useRef<Indicator | null>(null);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (pivotType && pivotType !== lastPivotType.current) {
+        lastPivotType.current = pivotType;
+        setPivotAnnounce(`${INDICATOR_LABEL[pivotType]} detected. ${PIVOTS[pivotType].length} tools available.`);
+      } else if (!pivotType && lastPivotType.current) {
+        lastPivotType.current = null;
+        setPivotAnnounce('');
+      }
+    }, 400);
+    return () => clearTimeout(t);
+  }, [pivotType]);
+
   const counts = useMemo(() => {
     const m: Record<string, number> = { All: TOOLS.length };
     CATEGORIES.slice(1).forEach(c => { m[c] = TOOLS.filter(t => t.category === c).length; });
@@ -227,6 +239,16 @@ export default function OSINTHub() {
           border: 1px solid var(--border-bright); padding: 6px 12px; cursor: pointer;
         }
         .oz-ex button:hover, .oz-ex button:focus-visible { color: #fff; border-color: var(--accent); }
+
+        /* ── PIVOT BOARD ── */
+        .oz-pivot { margin-top: 28px; border: 1px solid var(--border-bright); background: var(--bg-secondary); }
+        .oz-pivot-h { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); padding: 14px 18px; border-bottom: 1px solid var(--border); }
+        .oz-pivot-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--border); }
+        .oz-pivot-card { display: flex; flex-direction: column; gap: 4px; background: var(--bg-secondary); padding: 16px 18px; text-decoration: none; height: 100%; }
+        .oz-pivot-card:hover, .oz-pivot-card:focus-visible { background: var(--bg-card); }
+        .oz-pivot-name { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); }
+        .oz-pivot-card:hover .oz-pivot-name { color: var(--accent); }
+        .oz-pivot-hint { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.01em; color: var(--text-secondary); line-height: 1.4; }
 
         /* ── QUICK STARTS ── */
         .oz-qs-h {
@@ -388,6 +410,25 @@ export default function OSINTHub() {
                 <button key={v} type="button" onClick={() => { setQuery(v); detectAndRoute(v); }}>{v}</button>
               ))}
             </div>
+          </div>
+
+          {pivotType && (
+            <nav className="oz-pivot" aria-labelledby="oz-pivot-h">
+              <h2 id="oz-pivot-h" className="oz-pivot-h">Run on this {INDICATOR_LABEL[pivotType]}</h2>
+              <ul className="oz-pivot-list">
+                {PIVOTS[pivotType].map(t => (
+                  <li key={t.href}>
+                    <a href={`${t.href}?q=${encodeURIComponent(query.trim())}`} className="oz-pivot-card">
+                      <span className="oz-pivot-name">{t.name}</span>
+                      <span className="oz-pivot-hint">{t.hint}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+          <div aria-live="polite" aria-atomic="true" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' }}>
+            {pivotAnnounce}
           </div>
 
           {showQuickStarts && (
