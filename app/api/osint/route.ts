@@ -10,8 +10,9 @@ const parser = new Parser({
   headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RuddReport/1.0)' },
 });
 
-// All free, keyless RSS/Atom sources, grouped into the three categories the
-// feed page filters on: Global, Cyber, Geopolitics.
+// Free, keyless RSS/Atom sources — deliberately curated to hard-news, event-
+// driven wires (things actively happening), NOT analysis/essay publications.
+// Grouped into the three categories the feed page filters on.
 const FEEDS = [
   // ── Global / World ──
   { url: 'https://feeds.bbci.co.uk/news/world/rss.xml', source: 'BBC World', category: 'Global' },
@@ -20,6 +21,7 @@ const FEEDS = [
   { url: 'https://www.theguardian.com/world/rss', source: 'The Guardian', category: 'Global' },
   { url: 'https://rss.dw.com/rdf/rss-en-world', source: 'Deutsche Welle', category: 'Global' },
   { url: 'https://www.france24.com/en/rss', source: 'France 24', category: 'Global' },
+  { url: 'https://www.cbsnews.com/latest/rss/world', source: 'CBS News', category: 'Global' },
 
   // ── Cyber ──
   { url: 'https://krebsonsecurity.com/feed/', source: 'Krebs on Security', category: 'Cyber' },
@@ -28,16 +30,12 @@ const FEEDS = [
   { url: 'https://www.bleepingcomputer.com/feed/', source: 'BleepingComputer', category: 'Cyber' },
   { url: 'https://feeds.feedburner.com/TheHackersNews', source: 'The Hacker News', category: 'Cyber' },
   { url: 'https://www.darkreading.com/rss.xml', source: 'Dark Reading', category: 'Cyber' },
-  { url: 'https://www.schneier.com/feed/atom/', source: 'Schneier on Security', category: 'Cyber' },
   { url: 'https://www.cisa.gov/cybersecurity-advisories/all.xml', source: 'CISA Advisories', category: 'Cyber' },
   { url: 'https://feeds.feedburner.com/securityweek', source: 'SecurityWeek', category: 'Cyber' },
 
   // ── Geopolitics / Defense ──
-  { url: 'https://foreignpolicy.com/feed/', source: 'Foreign Policy', category: 'Geopolitics' },
   { url: 'https://rss.politico.com/politics-news.xml', source: 'Politico', category: 'Geopolitics' },
-  { url: 'https://thediplomat.com/feed/', source: 'The Diplomat', category: 'Geopolitics' },
-  { url: 'https://www.bellingcat.com/feed/', source: 'Bellingcat', category: 'Geopolitics' },
-  { url: 'https://warontherocks.com/feed/', source: 'War on the Rocks', category: 'Geopolitics' },
+  { url: 'https://www.timesofisrael.com/feed/', source: 'Times of Israel', category: 'Geopolitics' },
   { url: 'https://www.defenseone.com/rss/all/', source: 'Defense One', category: 'Geopolitics' },
 ];
 
@@ -48,11 +46,15 @@ const PER_FEED = 20;
 // "Is this France's best chance?" / "Will NATO get involved?" are out;
 // "Ex-Olympian pleads not guilty to vandalism charges" stays.
 const OPINION_TITLE = /^(opinion|analysis|comment|commentary|editorial|explainer|perspective|viewpoint|essay|review|profile|interview|q\s*&\s*a|photos?|in pictures|watch|listen|podcast|video)\s*[:\-|–—]/i;
-const OPINION_PATH = /\/(opinion|opinions|commentisfree|comment|analysis|commentary|perspective|perspectives|viewpoint|editorial|column|columns|blog|blogs|podcast|podcasts|video|videos|gallery|in-pictures)(\/|$|[?#])/i;
+const OPINION_PATH = /\/(opinion|opinions|commentisfree|comment|analysis|commentary|perspective|perspectives|viewpoint|editorial|column|columns|blog|blogs|magazine|features?|ideas|essay|essays|long-reads|longreads|interactives?|podcast|podcasts|video|videos|gallery|in-pictures)(\/|$|[?#])/i;
 // Leading wh-openers that signal an explainer/opinion piece even without a
 // trailing "?" (e.g. "Why X is happening", "How the attack unfolded"). Word
 // boundaries keep real words safe — "WhatsApp", "Howard", "Whyalla" pass.
 const RHETORICAL_START = /^(why|how|what|which)\b/i;
+// Feature/essay framing — evocative openers that describe rather than report an
+// event ("The great … reconciliation faces a test", "The rise of …"). Only the
+// classic feature nouns, so hard news like "The Pentagon confirms …" passes.
+const FEATURE_TITLE = /^the (great|rise|fall|future|end|age|era|making|unmaking|price|cost|problem|paradox|myth|return|reckoning|legacy|untold|secret|hidden|quiet|strange|surprising|unlikely|improbable|curious|remarkable|extraordinary)\b/i;
 
 function isNonFactual(title: string, link: string): boolean {
   const t = title.trim();
@@ -60,6 +62,7 @@ function isNonFactual(title: string, link: string): boolean {
   if (t.endsWith('?')) return true;                 // any question headline
   if (OPINION_TITLE.test(t)) return true;           // labelled opinion/analysis/media
   if (RHETORICAL_START.test(t)) return true;        // rhetorical/explainer framing
+  if (FEATURE_TITLE.test(t)) return true;           // feature/essay framing
   if (OPINION_PATH.test(link)) return true;         // opinion/analysis section URLs
   return false;
 }
