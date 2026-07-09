@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type WikidataFacts = {
   qid: string;
@@ -84,14 +84,15 @@ export default function EntitySearch() {
   const [error, setError] = useState('');
   const [searched, setSearched] = useState('');
 
-  const search = async () => {
-    if (!query.trim()) return;
+  const runSearch = async (val: string) => {
+    const q = val.trim();
+    if (!q) return;
     setLoading(true);
     setError('');
     setResult(null);
-    setSearched(query.trim());
+    setSearched(q);
     try {
-      const res = await fetch(`/api/osint/entity?q=${encodeURIComponent(query.trim())}`);
+      const res = await fetch(`/api/osint/entity?q=${encodeURIComponent(q)}`);
       const data = await res.json();
       setResult(data);
     } catch {
@@ -100,6 +101,12 @@ export default function EntitySearch() {
       setLoading(false);
     }
   };
+  const search = () => runSearch(query);
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setQuery(q); runSearch(q); }
+  }, []);
 
   const factOrder = result?.wikidata?.isPerson ? PERSON_FACT_ORDER : ORG_FACT_ORDER;
   const facts = result?.wikidata?.facts || {};

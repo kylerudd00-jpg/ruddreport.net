@@ -21,8 +21,9 @@ export default function CorporateInvestigator() {
   const svgRef = useRef<SVGSVGElement>(null);
   const simRef = useRef<any>(null);
 
-  const search = async () => {
-    if (!query.trim()) return;
+  const runSearch = async (val: string) => {
+    const q = val.trim();
+    if (!q) return;
     setLoading(true);
     setError('');
     setSearchResults([]);
@@ -31,7 +32,7 @@ export default function CorporateInvestigator() {
     setDetailPanel(null);
     setSelectedLei('');
     try {
-      const res = await fetch(`/api/corporate?q=${encodeURIComponent(query.trim())}`);
+      const res = await fetch(`/api/corporate?q=${encodeURIComponent(q)}`);
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setSearchResults(data.data || []);
@@ -39,6 +40,12 @@ export default function CorporateInvestigator() {
     } catch (e: any) { setError(`${e.message}`); }
     setLoading(false);
   };
+  const search = () => runSearch(query);
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setQuery(q); runSearch(q); }
+  }, []);
 
   const investigate = async (entity: any) => {
     const lei = entity.attributes?.lei || entity.id;

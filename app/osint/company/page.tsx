@@ -68,6 +68,8 @@ function buildSections(company: string) {
       name: 'Corporate Registry',
       color: '#22cc66',
       links: [
+        { name: 'OpenCorporates (Internal)', desc: '200M+ companies — officers, agents, dissolved', url: `/osint/opencorporates?q=${enc(company)}`, internal: true },
+        { name: 'Corporate Investigator (Internal)', desc: 'GLEIF ownership graph — parents, subsidiaries', url: `/osint/corporate?q=${enc(company)}`, internal: true },
         { name: 'OpenCorporates Search', desc: '200M+ companies, 140 jurisdictions', url: `https://opencorporates.com/companies?q=${enc(company)}&utf8=✓`, internal: false },
         { name: 'EDGAR Company Search', desc: 'Official SEC company lookup', url: `https://www.sec.gov/cgi-bin/browse-edgar?company=${enc(company)}&action=getcompany`, internal: false },
         { name: 'D&B Hoovers', desc: 'Corporate structure and subsidiaries', url: `https://www.dnb.com/business-directory/company-search.html#!#q=${enc(company)}`, internal: false },

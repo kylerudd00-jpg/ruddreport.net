@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const STYLE = `
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -113,6 +113,11 @@ export default function ContractsTracker() {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { setQuery(q); search(q); }
+  }, []);
 
   function handleQuick(q: string) { setQuery(q); search(q, awardTypeIdx); }
   function handleType(idx: number) { setAwardTypeIdx(idx); if (searched) search(searched, idx); }

@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { useReveal } from '../components/useReveal';
 import { detectType, INDICATOR_LABEL, routeFor, type Indicator } from '@/lib/detect';
 import { PIVOTS } from '@/lib/pivots';
-import { Radio, Globe, Server, MapPin, User, FileImage, Building2, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, FileText, Landmark, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Home, Footprints, Car, Network, Bug, Crosshair, Flag, Database, type LucideIcon } from 'lucide-react';
+import { Radio, Globe, Server, MapPin, User, FileImage, Map, Scale, TrendingUp, ScanSearch, History, KeyRound, Search, AlertTriangle, Link, Mail, Satellite, PlaneTakeoff, Ship, Phone, Lock, Calculator, Shield, Binary, LayoutDashboard, DollarSign, BarChart2, Package, Image, AtSign, Users, ShieldAlert, Footprints, Car, Bug, Crosshair, Flag, Database, type LucideIcon } from 'lucide-react';
 
 // Paste anything → route to the primary tool (shared detector in lib/detect)
 function detectAndRoute(raw: string) {
@@ -25,16 +25,9 @@ interface Tool {
 
 const TOOLS: Tool[] = [
   // Corporate
-  { icon: LayoutDashboard, name: 'Corporate Intel',       desc: 'Full company package — filings, patents, contracts, exec dossier',      href: '/osint/company',          category: 'Corporate', tags: ['company', 'business', 'exec'] },
-  { icon: Network,         name: 'OpenCorporates',        desc: '200M+ companies — officers, agents, dissolved entities',                href: '/osint/opencorporates',   category: 'Corporate', tags: ['company', 'officers', 'incorporation'] },
-  { icon: FileText,        name: 'SEC EDGAR',             desc: '10-Ks, 8-Ks, proxies, insider transactions full-text search',          href: '/osint/edgar',            category: 'Corporate', tags: ['sec', 'filings', 'public company'] },
-  { icon: Landmark,        name: 'Gov Contracts',         desc: 'Federal awards via USASpending — contracts, grants, IDVs',             href: '/osint/contracts',        category: 'Corporate', tags: ['government', 'spending', 'federal'] },
-  { icon: Building2,       name: 'Corporate Investigator',desc: 'GLEIF ownership graph — parents, subsidiaries, offshore structures',   href: '/osint/corporate',        category: 'Corporate', tags: ['lei', 'ownership', 'subsidiaries'] },
-  { icon: Search,          name: 'Entity Search',         desc: 'Wikipedia profile + cross-registry research links',                    href: '/osint/entity',           category: 'Corporate', tags: ['entity', 'wikipedia', 'research'] },
+  { icon: LayoutDashboard, name: 'Company Investigator',  desc: 'One dashboard for any company — SEC filings, registries, contracts, patents, execs & infra', href: '/osint/company', category: 'Corporate', tags: ['company', 'business', 'exec', 'edgar', 'sec', 'filings', 'opencorporates', 'officers', 'contracts', 'usaspending', 'patents', 'gleif', 'ownership', 'subsidiaries', 'entity'] },
+  { icon: Users,           name: 'Person Search',         desc: 'One search for a person — identity, court & criminal records, address & property',           href: '/osint/people',  category: 'Corporate', tags: ['people', 'person', 'public records', 'background', 'criminal', 'court', 'address', 'property', 'real estate'] },
   { icon: AtSign,          name: 'Email Permutator',      desc: 'Generate every email format from a name and domain',                   href: '/osint/email-permutator', category: 'Corporate', tags: ['email', 'permutations', 'format'] },
-  { icon: Users,           name: 'People Search',         desc: 'Public records, court data, and social profiles by name',              href: '/osint/people',           category: 'Corporate', tags: ['people', 'person', 'public records'] },
-  { icon: User,            name: 'Background Check',      desc: 'Federal courts, criminal history, voter records, sex offender reg',    href: '/osint/background',       category: 'Corporate', tags: ['background', 'criminal', 'court'] },
-  { icon: Home,            name: 'Address & Property',    desc: 'Reverse address — ownership, assessor data, aerial imagery',           href: '/osint/address',          category: 'Corporate', tags: ['address', 'property', 'real estate'] },
   // Network
   { icon: Globe,           name: 'Domain Lookup',         desc: 'WHOIS, DNS, SSL certs & subdomains for a domain — all in one',        href: '/osint/domain',           category: 'Network', tags: ['domain', 'whois', 'dns', 'ssl', 'subdomains', 'registration', 'nameservers'] },
   { icon: MapPin,          name: 'IP Geolocation',        desc: 'Geographic location, ISP, ASN, and network block for any IP',          href: '/osint/ip',               category: 'Network', tags: ['ip', 'location', 'asn', 'isp'] },
@@ -67,7 +60,7 @@ const TOOLS: Tool[] = [
   { icon: DollarSign,      name: 'Currency Tracker',      desc: 'Live exchange rates — sanction pressure, capital flight signals',     href: '/osint/currency',         category: 'Economic', live: true, tags: ['currency', 'exchange rate', 'forex'] },
   { icon: BarChart2,       name: 'Economic Profiles',     desc: 'World Bank data — GDP, inflation, debt, trade for 200+ countries',   href: '/osint/economics',        category: 'Economic', tags: ['gdp', 'economics', 'world bank'] },
   { icon: Package,         name: 'Commodity Monitor',     desc: 'Strategic commodities — oil, gold, palladium, Monero',               href: '/osint/commodities',      category: 'Economic', live: true, tags: ['commodity', 'oil', 'gold', 'crypto'] },
-  { icon: Scale,           name: 'Sanctions Screener',    desc: 'OFAC SDN, EU, UN, and BIS lists — search by name',                  href: '/osint/sanctions',        category: 'Economic', tags: ['sanctions', 'ofac', 'sdn', 'eu'] },
+  { icon: Scale,           name: 'Sanctions Screener',    desc: 'Live OFAC SDN list — search sanctioned people, companies & vessels by name or alias', href: '/osint/sanctions', category: 'Economic', tags: ['sanctions', 'ofac', 'sdn', 'treasury', 'aka'] },
   // Utilities
   { icon: Calculator,      name: 'Subnet Calculator',     desc: 'CIDR math — network address, broadcast, host range, mask',           href: '/osint/subnet',           category: 'Utilities', tags: ['subnet', 'cidr', 'network'] },
   { icon: KeyRound,        name: 'JWT Decoder',           desc: 'Decode and inspect JWT tokens entirely client-side',                 href: '/osint/jwt',              category: 'Utilities', tags: ['jwt', 'token', 'decode'] },
@@ -80,17 +73,17 @@ const TOOLS: Tool[] = [
 const QUICK_STARTS = [
   {
     label: 'Investigate a company',
-    tools: ['Corporate Intel', 'SEC EDGAR', 'Gov Contracts', 'OpenCorporates'],
+    tools: ['SEC filings', 'Registries', 'Gov contracts', 'Patents & execs'],
     href: '/osint/company',
   },
   {
     label: 'Trace a domain or IP',
-    tools: ['WHOIS', 'DNS Intelligence', 'IP Geolocation', 'SSL Certificates'],
-    href: '/osint/whois',
+    tools: ['WHOIS', 'DNS', 'SSL certs', 'Subdomains'],
+    href: '/osint/domain',
   },
   {
     label: 'Profile a person or account',
-    tools: ['People Search', 'Account Finder', 'Digital Footprint', 'Breach Lookup'],
+    tools: ['Identity', 'Court records', 'Account Finder', 'Breach Lookup'],
     href: '/osint/people',
   },
   {

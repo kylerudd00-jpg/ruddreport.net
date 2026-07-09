@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const JURISDICTIONS = [
   { code: '', label: 'All Jurisdictions' },
@@ -96,8 +96,9 @@ export default function OpenCorporatesPage() {
   const [searched, setSearched] = useState(false);
   const [total, setTotal] = useState(0);
 
-  const search = async () => {
-    if (!query.trim()) return;
+  const runSearch = async (val: string, modeVal: 'companies' | 'officers' = mode) => {
+    const q = val.trim();
+    if (!q) return;
     setLoading(true);
     setError('');
     setResults([]);
@@ -105,8 +106,8 @@ export default function OpenCorporatesPage() {
     setDetail(null);
     setSearched(false);
     try {
-      const params = new URLSearchParams({ q: query.trim(), type: mode });
-      if (mode === 'companies' && jurisdiction) params.set('jurisdiction', jurisdiction);
+      const params = new URLSearchParams({ q, type: modeVal });
+      if (modeVal === 'companies' && jurisdiction) params.set('jurisdiction', jurisdiction);
       const res = await fetch(`/api/opencorporates?${params}`);
       const data = await res.json();
       if (data.error) throw new Error(data.error);
@@ -118,6 +119,18 @@ export default function OpenCorporatesPage() {
     }
     setLoading(false);
   };
+  const search = () => runSearch(query);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q');
+    if (q) {
+      const modeVal = params.get('type') === 'officers' ? 'officers' : 'companies';
+      setQuery(q);
+      setMode(modeVal);
+      runSearch(q, modeVal);
+    }
+  }, []);
 
   const selectCompany = async (item: any) => {
     setSelected(item);
