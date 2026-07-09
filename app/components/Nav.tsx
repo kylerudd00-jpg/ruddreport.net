@@ -47,6 +47,7 @@ export default function Nav() {
   useEffect(() => {
     if (!mobileOpen) return;
     closeRef.current?.focus();
+    document.body.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setMobileOpen(false);
       // Trap Tab inside the dialog while it is open
@@ -67,6 +68,7 @@ export default function Nav() {
     document.addEventListener('keydown', onKey);
     return () => {
       document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
       burgerRef.current?.focus();
     };
   }, [mobileOpen]);
@@ -147,7 +149,15 @@ export default function Nav() {
           animation: snPulse 1.6s infinite;
         }
         @keyframes snPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-        @media (prefers-reduced-motion: reduce) { .sn-live-dot { animation: none; } }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        #site-nav a:focus-visible, #site-nav button:focus-visible,
+        #site-mobile-menu a:focus-visible, #site-mobile-menu button:focus-visible {
+          outline: 2px solid var(--accent); outline-offset: 3px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .sn-live-dot { animation: none; }
+          html.rr-intro-active #site-header { animation: none; }
+        }
         #site-nav .sn-links a {
           font-family: var(--font-mono);
           font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
@@ -267,6 +277,7 @@ export default function Nav() {
                   >
                     {live && <span className="sn-live-dot" aria-hidden="true" />}
                     {label}
+                    {live && <span className="sr-only"> (live)</span>}
                   </a>
                 </li>
               ))}
@@ -282,6 +293,7 @@ export default function Nav() {
             </button>
             <button
               ref={burgerRef}
+              type="button"
               className="sn-burger"
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
@@ -295,8 +307,13 @@ export default function Nav() {
       </header>
 
       <div ref={menuRef} id="site-mobile-menu" className={mobileOpen ? 'open' : ''} role="dialog" aria-modal="true" aria-label="Site menu">
-        <button ref={closeRef} className="smm-close" onClick={() => setMobileOpen(false)}><span aria-hidden="true">✕</span> Close</button>
-        <a href="/" onClick={() => setMobileOpen(false)}>
+        <button ref={closeRef} type="button" className="smm-close" onClick={() => setMobileOpen(false)}><span aria-hidden="true">✕</span> Close</button>
+        <a
+          href="/"
+          className={active === '/' ? 'sn-active' : ''}
+          aria-current={active === '/' ? 'page' : undefined}
+          onClick={() => setMobileOpen(false)}
+        >
           <span className="smm-idx" aria-hidden="true">00</span> Home
         </a>
         {PRIMARY.map(({ href, label, live }, i) => (
@@ -309,10 +326,11 @@ export default function Nav() {
           >
             <span className="smm-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span> {label}
             {live && <span className="sn-live-dot" aria-hidden="true" />}
+            {live && <span className="sr-only"> (live)</span>}
           </a>
         ))}
-        <div className="smm-sec">
-          <p className="smm-sec-label">Coverage</p>
+        <div className="smm-sec" role="group" aria-labelledby="smm-cov-label">
+          <p className="smm-sec-label" id="smm-cov-label">Coverage</p>
           {SECONDARY.map(({ href, label }) => (
             <a
               key={href}
