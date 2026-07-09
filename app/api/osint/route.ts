@@ -41,7 +41,28 @@ const FEEDS = [
   { url: 'https://www.defenseone.com/rss/all/', source: 'Defense One', category: 'Geopolitics' },
 ];
 
-const PER_FEED = 15;
+const PER_FEED = 20;
+
+// Keep the feed to declarative, factual reporting — drop rhetorical/question
+// headlines and opinion/analysis pieces (what the watch floor is NOT for).
+// "Is this France's best chance?" / "Will NATO get involved?" are out;
+// "Ex-Olympian pleads not guilty to vandalism charges" stays.
+const OPINION_TITLE = /^(opinion|analysis|comment|commentary|editorial|explainer|perspective|viewpoint|essay|review|profile|interview|q\s*&\s*a|photos?|in pictures|watch|listen|podcast|video)\s*[:\-|–—]/i;
+const OPINION_PATH = /\/(opinion|opinions|commentisfree|comment|analysis|commentary|perspective|perspectives|viewpoint|editorial|column|columns|blog|blogs|podcast|podcasts|video|videos|gallery|in-pictures)(\/|$|[?#])/i;
+// Leading wh-openers that signal an explainer/opinion piece even without a
+// trailing "?" (e.g. "Why X is happening", "How the attack unfolded"). Word
+// boundaries keep real words safe — "WhatsApp", "Howard", "Whyalla" pass.
+const RHETORICAL_START = /^(why|how|what|which)\b/i;
+
+function isNonFactual(title: string, link: string): boolean {
+  const t = title.trim();
+  if (!t || t === 'Untitled') return true;
+  if (t.endsWith('?')) return true;                 // any question headline
+  if (OPINION_TITLE.test(t)) return true;           // labelled opinion/analysis/media
+  if (RHETORICAL_START.test(t)) return true;        // rhetorical/explainer framing
+  if (OPINION_PATH.test(link)) return true;         // opinion/analysis section URLs
+  return false;
+}
 
 type FeedItem = {
   title: string;
@@ -59,7 +80,10 @@ export async function GET() {
     FEEDS.map(async (feed) => {
       try {
         const parsed = await parser.parseURL(feed.url);
-        const items = (parsed.items || []).slice(0, PER_FEED).map((item) => {
+        const factual = (parsed.items || []).filter(
+          (item) => !isNonFactual(item.title || '', item.link || ''),
+        );
+        const items = factual.slice(0, PER_FEED).map((item) => {
           const raw = item.isoDate || item.pubDate;
           const d = raw ? new Date(raw) : null;
           const ts = d && !isNaN(d.getTime()) ? d.getTime() : 0;
