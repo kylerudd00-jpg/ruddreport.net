@@ -176,14 +176,16 @@ export default function PhoneLookup() {
   const [result, setResult] = useState<PhoneResult | null>(null);
   const [error, setError] = useState('');
 
-  const handleAnalyze = () => {
+  const runAnalyze = (val: string) => {
     setError(''); setResult(null);
-    const val = input.trim();
-    if (!val) { setError('Enter a phone number to analyze.'); return; }
-    const r = analyze(val);
+    const v = val.trim();
+    if (!v) { setError('Enter a phone number to analyze.'); return; }
+    const r = analyze(v);
     if (!r) { setError('Could not parse this number. Include the country code — e.g. +1 for US, +44 for UK.'); return; }
     setResult(r);
   };
+  const handleAnalyze = () => runAnalyze(input);
+  const runExample = (v: string) => { setInput(v); runAnalyze(v); };
 
   const typeColor = result ? (TYPE_COLORS[result.type] || '#5a7a94') : '#5a7a94';
   const use = result ? getLikelyUse(result.type) : null;
@@ -209,8 +211,12 @@ export default function PhoneLookup() {
         .search-input:focus { border-color: var(--accent); }
         .search-btn { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: #000; background: var(--accent); border: 1px solid var(--accent); padding: 15px 28px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; white-space: nowrap; }
         .search-btn:hover { background: #4db3ff; }
-        .hint { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.03em; color: var(--text-muted); margin-bottom: 28px; }
+        .hint { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.03em; color: var(--text-muted); margin-bottom: 14px; }
         .hint span { color: var(--text-secondary); }
+        .ex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+        .ex-row-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+        .ex-row button { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); background: var(--bg-card); border: 1px solid var(--border-bright); padding: 6px 12px; cursor: pointer; }
+        .ex-row button:hover, .ex-row button:focus-visible { color: #fff; border-color: var(--accent); }
         .error-bar { background: rgba(255,77,77,0.08); border: 1px solid rgba(255,77,77,0.3); padding: 12px 16px; margin-bottom: 20px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.03em; color: var(--red); }
         .result-card { border: 1px solid var(--border); background: var(--bg-secondary); }
         .result-header { padding: 24px 28px; border-bottom: 1px solid var(--border); }
@@ -260,7 +266,7 @@ export default function PhoneLookup() {
           <div className="hero-inner">
             <div className="hero-eyebrow"><div className="hero-eyebrow-line" aria-hidden="true" /><div className="hero-eyebrow-text">Identity Intelligence</div></div>
             <h1 className="hero-title">Phone Number <span>OSINT</span></h1>
-            <p className="hero-sub">A phone number reveals more than most people think — the country it's registered in, whether it's a mobile, landline, or VoIP number, and the carrier that issued it. Enter any number to identify its origin and type, then launch directly into carrier lookups and open-source databases for deeper investigation.</p>
+            <p className="hero-sub">Find a number&apos;s country, line type, and carrier — then jump into deeper lookups.</p>
           </div>
         </div>
 
@@ -270,7 +276,13 @@ export default function PhoneLookup() {
               onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleAnalyze()} />
             <button type="button" className="search-btn" onClick={handleAnalyze}>Analyze</button>
           </div>
-          <div className="hint">Include country code — <span>+1</span> US, <span>+44</span> UK, <span>+7</span> Russia, <span>+86</span> China</div>
+          <div className="hint">Include the country code — <span>+1</span> US, <span>+44</span> UK, <span>+7</span> Russia, <span>+86</span> China</div>
+          <div className="ex-row" role="group" aria-label="Example numbers to try">
+            <span className="ex-row-label" aria-hidden="true">Try</span>
+            {['+1 202 456 1111', '+44 20 7946 0958'].map(v => (
+              <button key={v} type="button" onClick={() => runExample(v)}>{v}</button>
+            ))}
+          </div>
           <div aria-live="polite">
           {error && <div className="error-bar" role="alert">{error}</div>}
 
